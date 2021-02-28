@@ -2,8 +2,8 @@
 
 /**
  * @brief Base abstract template class for all filter classes
- * 
- * @tparam T 
+ *
+ * @tparam T
  */
 template <typename T>
 class IFilter
@@ -15,9 +15,9 @@ public:
 
 /**
  * @brief Template class for combining IFilters with logical AND
- * 
- * @tparam A 
- * @tparam B 
+ *
+ * @tparam A
+ * @tparam B
  */
 template <class A, class B>
 class FilterAnd : public IFilter<typename A::type>
@@ -31,9 +31,9 @@ public:
 
 /**
  * @brief Template class for combining IFilters with logical OR
- * 
- * @tparam A 
- * @tparam B 
+ *
+ * @tparam A
+ * @tparam B
  */
 template <class A, class B>
 class FilterOr : public IFilter<typename A::type>
@@ -47,8 +47,8 @@ public:
 
 /**
  * @brief Template class for logical NOT
- * 
- * @tparam A 
+ *
+ * @tparam A
  */
 template <typename A>
 class FilterNot : public IFilter<typename A::type>

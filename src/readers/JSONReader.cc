@@ -2,6 +2,5 @@
 
 nlohmann::json JSONReader::parseJSON(const std::string &content)
 {
-    nlohmann::json j(content);
-    return j;
+    return nlohmann::json::parse(content);
 }
