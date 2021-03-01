@@ -54,6 +54,7 @@ static void writeGnuplot(std::ostream &os, std::vector<ECALHardware::RunData> &r
 {
     // filter barrel
     for (int i = 0; i < rd.size(); ++i) {
+        //TODO: proper numbering for Endcap with i (must continuous increase)
         auto r = rd.at(i);
         writeBarrel(os, r, i);
     };
