@@ -3,12 +3,15 @@
 #include <vector>
 #include "../plugins/TestPlugin.hh"
 #include "../readers/JSONReader.hh"
+#include "../dataclasses//ecalchannels.hh"
 
 using namespace std;
 
 int main()
 {
     std::cout << "At the moment it is just dummy file " << std::endl;
+    ECALChannels *channels = &(ECALChannels::Instance());
+    /*
     auto plugin = new TestPlugin();
     auto reader = new JSONReader();
     auto runnumber = 315257;
@@ -28,4 +31,5 @@ int main()
     rd.run.dataset = "";
     vector<ECALHardware::RunData> rundata = {rd};
     rundata = plugin->analyze(rundata);
+    */
 }
