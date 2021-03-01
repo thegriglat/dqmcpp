@@ -2,8 +2,13 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
 #include "../logging/logging.hh"
 using namespace std;
+
+// symbols from dumped ecalchannels.o
+extern "C" char _binary_ecalchannels_dat_start;
+extern "C" char _binary_ecalchannels_dat_end;
 
 static int *getPtr(const ChannelInfo &info, const int n)
 {
@@ -13,10 +18,12 @@ static int *getPtr(const ChannelInfo &info, const int n)
 void ECALChannels::Init()
 {
     _channels.reserve(75848);
-    ifstream in("ecalchannels.dat");
-    if (!in.good()) {
-        ERROR("Cannot open ecalchannels.dat");
-        return;
+    // read text from ecalchannels.o to stringstream
+    std::stringstream in;
+    char *p = &_binary_ecalchannels_dat_start;
+    while (p != &_binary_ecalchannels_dat_end) {
+        // just insert byte-per-byte
+        in << *p++;
     }
     string line;
     while (!in.eof()) {
@@ -44,4 +51,3 @@ void ECALChannels::Init()
         _channels.push_back(info);
     }
 }
-
