@@ -1,21 +1,31 @@
 #include <iostream>
-
-#include "../readers/JSONReader.hh"
 #include <fstream>
+#include <vector>
+#include "../plugins/TestPlugin.hh"
+#include "../readers/JSONReader.hh"
+
+using namespace std;
 
 int main()
 {
     std::cout << "At the moment it is just dummy file " << std::endl;
-    JSONReader reader;
-    for (int i = -18; i < 18; i++) {
-        if (i == 0)
-            continue;
-        char *s = new char[512];
-        sprintf(s, "https://cmsweb.cern.ch/dqm/offline/jsonfairy/archive/315257/EGamma/Run2018A-12Nov2019_UL2018-v2/DQMIO/EcalBarrel/EBPedestalOnlineClient/EBPOT%%20pedestal%%20rms%%20map%%20G12%%20EB%+03d", i);
-        std::string url(s);
-        std::cout << url << std::endl;
-        const auto j = JSONReader::parseJSON(reader.get(url));
-        std::cout << j["hist"]["title"].get<std::string>() << std::endl;
-        delete[] s;
+    auto plugin = new TestPlugin();
+    auto reader = new JSONReader();
+    auto runnumber = 315257;
+
+    int i = 0;
+    vector<ECALHardware::ChannelData> data;
+    data.reserve(ECALHardware::NTotalChannels);
+    for (auto &url : plugin->urls(runnumber, "")) {
+        cout << url << endl;
+        auto data_tt = reader->parse(reader->get(url));
+        for (auto &e : data_tt)
+            data.push_back(e);
     }
+    ECALHardware::RunData rd;
+    rd.channeldata = data;
+    rd.run.runnumber = runnumber;
+    rd.run.dataset = "";
+    vector<ECALHardware::RunData> rundata = {rd};
+    rundata = plugin->analyze(rundata);
 }

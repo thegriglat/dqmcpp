@@ -18,7 +18,7 @@ enum DETECTORS {
 *
 */
 struct Channel {
-    unsigned long channel_id;
+    // unsigned long channel_id;
     DETECTORS iz;
     int ix_iphi;
     int iy_ieta;

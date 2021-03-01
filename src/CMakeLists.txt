@@ -7,7 +7,7 @@ set(CURL_LIBRARY "-lcurl")
 find_package(CURL REQUIRED) 
 include_directories(${CURL_INCLUDE_DIR})
 
-#libsqmcpp
+#libdqmcpp
 file(GLOB_RECURSE SRC_FILES ${PROJECT_SOURCE_DIR}/*.cc EXCLUDE cli)
 include_directories(${PROJECT_SOURCE_DIR})
 add_library(dqmcpp SHARED ${SRC_FILES})

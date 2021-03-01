@@ -16,7 +16,7 @@ std::string URLCache::hash(const std::string &text) const
 }
 std::string URLCache::cFileName(const std::string &url) const
 {
-    return _cachedir + "/" + hash(url);
+    return _cachedir + "/" + hash(url) + ".dqmcache";
 }
 std::string URLCache::getFromCache(const std::string &url) const
 {
