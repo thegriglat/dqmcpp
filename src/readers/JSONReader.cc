@@ -53,6 +53,7 @@ std::vector<ECALHardware::ChannelData> JSONReader::parse(nlohmann::json &j)
     const auto ybinfirst = yaxis["first"]["value"].get<int>();
     // bin increment always == 1 as it is channel
     const auto content = j["hist"]["bins"]["content"].get<BinContentList>();
+    const char sign = (xtitle.find('-') != xtitle.npos) ? -1 : 1;
     std::vector<ECALHardware::ChannelData> channel_data;
     channel_data.reserve(ECALHardware::NEBChannels); // as max of EB and EE+- n channels
     for (int ybin = 0; ybin < ynbins; ++ybin) {
@@ -61,8 +62,8 @@ std::vector<ECALHardware::ChannelData> JSONReader::parse(nlohmann::json &j)
             const auto ix = xbinfirst + xbin;
             const auto value = content.at(ybin).at(xbin);
             ECALHardware::Channel c;
-            c.ix_iphi = ix;
-            c.iy_ieta = iy;
+            c.ix_iphi = std::abs(iy);
+            c.iy_ieta = ix * sign;
             c.iz = iz;
             ECALHardware::ChannelData cd;
             cd.channel = c;
