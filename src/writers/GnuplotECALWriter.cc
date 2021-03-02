@@ -54,8 +54,8 @@ static void writeBarrel(std::ostream &os, ECALHardware::RunData &rd, const int n
     }
     os << "$map" << numdata << " << EOD" << std::endl;
     //TODO: optimize gnuplot plotting
-    for (int x = 0; x < 361; x++) {
-        for (int y = -85; y < 86; y++) {
+    for (int x = 0; x < 360; x++) {
+        for (int y = -84; y < 85; y++) {
             auto it = std::find_if(barrel.begin(), barrel.end(), [x, y](ECALHardware::ChannelData &c) {
                 return c.channel.ix_iphi == x && c.channel.iy_ieta == y;
             });
