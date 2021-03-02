@@ -35,8 +35,9 @@ static void writeBarrel(std::ostream &os, ECALHardware::RunData &rd, const int n
     auto barrel = ECALFilters::barrel(rd.channeldata);
     // sorting for gnuplot
     std::sort(barrel.begin(), barrel.end(), BarrelSort);
-    os << "set xrange [0:360]" << std::endl
+    os << "set xrange [0.5:360]" << std::endl
        << "set yrange [-84: 85]" << std::endl
+       << "set size ratio 0.472" << std::endl
        << "set xlabel \"iphi\"" << std::endl
        << "set ylabel \"ieta\"" << std::endl
        << "set title \"ECAL Barrel\"" << std::endl
@@ -47,7 +48,7 @@ static void writeBarrel(std::ostream &os, ECALHardware::RunData &rd, const int n
         if (i == 0)
             continue;
         const std::string sign = (i > 0) ? "+" : "-";
-        const int xpos = 360 * (std::abs(i) - 1) / 18 + 1;
+        const int xpos = 360 * (std::abs(i) - 1) / 18 + 3;
         const int ypos = (i > 0) ? 44 : -44;
         os << "set label front \"" << sign << std::setw(2) << std::setfill('0') << std::abs(i) << "\" at " << xpos << "," << ypos << std::endl;
     }
@@ -57,7 +58,7 @@ static void writeBarrel(std::ostream &os, ECALHardware::RunData &rd, const int n
     }
     os << "EOD" << std::endl;
     os << "set output \"eb_" << rd.run.runnumber << ".png\"" << std::endl;
-    os << "plot '$map" << numdata << "' using 1:2:3 w image" << std::endl;
+    os << "plot '$map" << numdata << "' using 1:2:3 w image notitle" << std::endl;
 }
 
 static void writeEndcap(std::ostream &os, ECALHardware::RunData &rd, const int numdata, const int iz)
@@ -74,6 +75,7 @@ static void writeEndcap(std::ostream &os, ECALHardware::RunData &rd, const int n
        << "set title \"" << title << "\"" << std::endl
        << "set size square" << std::endl;
     drawEELines(os);
+    drawEESM(os, iz);
     os << "$map" << numdata << " << EOD" << std::endl;
     for (int x = 100; x >= 0; x--)
         for (int y = 0; y < 101; ++y) {
@@ -91,18 +93,18 @@ static void writeEndcap(std::ostream &os, ECALHardware::RunData &rd, const int n
     os << "EOD" << std::endl;
     const std::string filename = (iz == 1) ? "eeplus" : "eeminus";
     os << "set output \"" << filename << "_" << rd.run.runnumber << ".png\"" << std::endl;
-    os << "plot '$map" << numdata << "' using 1:2:3 w image" << std::endl;
+    os << "plot '$map" << numdata << "' using 1:2:3 w image notitle" << std::endl;
 }
 
-static void writeGnuplot(std::ostream &os, std::vector<ECALHardware::RunData> &rd)
+static void writeGnuplot(std::ostream &os, const GnuplotECALWriter &gw, std::vector<ECALHardware::RunData> &rd)
 {
     // filter barrel
     os << "set term png size 1024,768" << std::endl;
     os << "set xtics rotate 90" << std::endl
        << "set view map" << std::endl
        << "set grid front" << std::endl
-       << "set cbrange [0:40]" << std::endl
-       << "set palette defined (-1 \"white\", 0 \"yellow\", 40.0 \"red\")" << std::endl;
+       << "set cbrange [" << gw.zrange().min << ":" << gw.zrange().max << "]" << std::endl
+       << "set palette defined " << gw.palette_str() << std::endl;
     for (int i = 0; i < rd.size(); ++i) {
         auto r = rd.at(i);
         writeBarrel(os, r, 3 * i);
@@ -118,6 +120,6 @@ static void writeGnuplot(std::ostream &os, std::vector<ECALHardware::RunData> &r
 
 std::ostream &operator<<(std::ostream &os, const GnuplotECALWriter &gw)
 {
-    writeGnuplot(os, *(gw.rd));
+    writeGnuplot(os, gw, *(gw.rd));
     return os;
 }
