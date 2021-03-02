@@ -62,13 +62,23 @@ std::vector<ECALHardware::ChannelData> JSONReader::parse(nlohmann::json &j)
             const auto ix = xbinfirst + xbin;
             const auto value = content.at(ybin).at(xbin);
             ECALHardware::Channel c;
-            c.ix_iphi = std::abs(iy);
-            c.iy_ieta = ix * sign;
+            if (xtitle != "ix") {
+                // in case of barrel we have to swap x and y values
+                // horrible....
+                c.ix_iphi = std::abs(iy);
+                c.iy_ieta = ix * sign;
+            } else {
+                c.ix_iphi = ix;
+                c.iy_ieta = iy;
+            }
             c.iz = iz;
             ECALHardware::ChannelData cd;
             cd.channel = c;
             cd.value = value;
-            channel_data.push_back(cd);
+            if (value != 0) {
+                // to avoid overlapping DQM output for different SM
+                channel_data.push_back(cd);
+            }
         }
     };
     return channel_data;
