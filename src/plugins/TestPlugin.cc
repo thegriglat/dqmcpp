@@ -11,7 +11,7 @@ std::vector<std::string> TestPlugin::urls(const unsigned int runnumber, const st
         if (i == 0)
             continue;
         char *s = new char[1024];
-        sprintf(s, "https://cmsweb.cern.ch/dqm/offline/jsonfairy/archive/%d/EGamma/Run2018A-12Nov2019_UL2018-v2/DQMIO/EcalBarrel/EBPedestalOnlineClient/EBPOT%%20pedestal%%20rms%%20map%%20G12%%20EB%+03d", runnumber, i);
+        sprintf(s, "https://cmsweb.cern.ch/dqm/offline/jsonfairy/archive/%d/%s/EcalBarrel/EBPedestalOnlineClient/EBPOT%%20pedestal%%20rms%%20map%%20G12%%20EB%+03d", runnumber, dataset.c_str(), i);
         urls.push_back(s);
         delete[] s;
     }
@@ -19,7 +19,7 @@ std::vector<std::string> TestPlugin::urls(const unsigned int runnumber, const st
         if (i == 0)
             continue;
         char *s = new char[1024];
-        sprintf(s, "https://cmsweb.cern.ch/dqm/offline/jsonfairy/archive/%d/EGamma/Run2018A-12Nov2019_UL2018-v2/DQMIO/EcalEndcap/EEPedestalOnlineClient/EEPOT%%20pedestal%%20rms%%20map%%20G12%%20EE%+03d", runnumber, i);
+        sprintf(s, "https://cmsweb.cern.ch/dqm/offline/jsonfairy/archive/%d/%s/EcalEndcap/EEPedestalOnlineClient/EEPOT%%20pedestal%%20rms%%20map%%20G12%%20EE%+03d", runnumber, dataset.c_str(), i);
         urls.push_back(s);
         delete[] s;
     }
