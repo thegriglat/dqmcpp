@@ -6,18 +6,6 @@
 #include <iomanip>
 #include "../common/logging.hh"
 
-static bool BarrelSort(const ECALHardware::ChannelData &a, const ECALHardware::ChannelData &b)
-{
-    auto ax = a.channel.ix_iphi;
-    auto ay = a.channel.iy_ieta;
-    auto bx = b.channel.ix_iphi;
-    auto by = b.channel.iy_ieta;
-    if (ay == by) {
-        return ax < bx;
-    };
-    return ay < by;
-}
-
 static inline void drawLine(std::ostream &os, int x1, int y1, int x2, int y2, const std::string color = "black")
 {
     os << "set arrow front nohead from " << x1 << "," << y1 << " to " << x2 << "," << y2 << "lc rgb \"" << color << "\"" << std::endl;
@@ -39,8 +27,6 @@ struct Point {
 static void writeBarrel(std::ostream &os, ECALHardware::RunData &rd, const int numdata)
 {
     auto barrel = ECALFilters::barrel(rd.channeldata);
-    // sorting for gnuplot
-    std::sort(barrel.begin(), barrel.end(), BarrelSort);
     os << "set xrange [0.5:360]" << std::endl
        << "set yrange [-84: 85]" << std::endl
        << "set size ratio 0.472" << std::endl
@@ -97,7 +83,6 @@ static void writeEndcap(std::ostream &os, ECALHardware::RunData &rd, const int n
 {
     auto endcap = (iz == 1) ? ECALFilters::eeplus(rd.channeldata) : ECALFilters::eeminus(rd.channeldata);
     const std::string title = (iz == 1) ? "ECAL EE+" : "ECAL EE-";
-    std::sort(endcap.begin(), endcap.end(), BarrelSort);
     os << "set xrange [0:100]" << std::endl
        << "set yrange [0:100]" << std::endl
        << "set xtics 5" << std::endl
