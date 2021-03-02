@@ -53,9 +53,21 @@ static void writeBarrel(std::ostream &os, ECALHardware::RunData &rd, const int n
         os << "set label front \"" << sign << std::setw(2) << std::setfill('0') << std::abs(i) << "\" at " << xpos << "," << ypos << std::endl;
     }
     os << "$map" << numdata << " << EOD" << std::endl;
-    for (auto &ch : barrel) {
-        os << ch.channel.ix_iphi + 0.5 << " " << ch.channel.iy_ieta + 0.5 << " " << ch.value << std::endl;
-    }
+    //TODO: optimize gnuplot plotting
+    for (int x = 0; x < 361; x++) {
+        for (int y = -85; y < 86; y++) {
+            auto it = std::find_if(barrel.begin(), barrel.end(), [x, y](ECALHardware::ChannelData &c) {
+                return c.channel.ix_iphi == x && c.channel.iy_ieta == y;
+            });
+            if (it != barrel.end()) {
+                // found
+                os << it->channel.ix_iphi + 0.5 << " " << it->channel.iy_ieta + 0.5 << " " << it->value << std::endl;
+            } else {
+                // background. -1 is default value
+                os << x + 0.5 << " " << y + 0.5 << " " << -1 << std::endl;
+            }
+        }
+    };
     os << "EOD" << std::endl;
     os << "set output \"eb_" << rd.run.runnumber << ".png\"" << std::endl;
     os << "plot '$map" << numdata << "' using 1:2:3 w image notitle" << std::endl;
