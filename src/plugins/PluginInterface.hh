@@ -20,6 +20,7 @@ public:
      */
     virtual std::vector<std::string> urls(const unsigned int runnumber, const std::string &dataset) = 0;
     virtual std::vector<ECALHardware::RunData> analyze(const std::vector<ECALHardware::RunData> &rundata) = 0;
+    virtual void plot(const std::vector<ECALHardware::RunData> &rundata) = 0;
 };
 
 #define PLUGININTERFACE_HH
