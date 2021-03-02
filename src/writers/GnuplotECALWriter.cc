@@ -30,6 +30,12 @@ static void drawEELines(std::ostream &os)
     }
 }
 
+struct Point {
+    int x;
+    int y;
+    double value;
+};
+
 static void writeBarrel(std::ostream &os, ECALHardware::RunData &rd, const int numdata)
 {
     auto barrel = ECALFilters::barrel(rd.channeldata);
@@ -53,21 +59,35 @@ static void writeBarrel(std::ostream &os, ECALHardware::RunData &rd, const int n
         os << "set label front \"" << sign << std::setw(2) << std::setfill('0') << std::abs(i) << "\" at " << xpos << "," << ypos << std::endl;
     }
     os << "$map" << numdata << " << EOD" << std::endl;
-    //TODO: optimize gnuplot plotting
-    for (int x = 0; x < 360; x++) {
-        for (int y = -84; y < 85; y++) {
-            auto it = std::find_if(barrel.begin(), barrel.end(), [x, y](ECALHardware::ChannelData &c) {
-                return c.channel.ix_iphi == x && c.channel.iy_ieta == y;
-            });
-            if (it != barrel.end()) {
-                // found
-                os << it->channel.ix_iphi + 0.5 << " " << it->channel.iy_ieta + 0.5 << " " << it->value << std::endl;
-            } else {
-                // background. -1 is default value
-                os << x + 0.5 << " " << y + 0.5 << " " << -1 << std::endl;
-            }
-        }
+    /**
+     * The main idea that we allocate large array and pre-setup it with -1
+     * Then we just update needed values
+     * The same for endcap
+     */
+    Point *points = new Point[361 * 85 * 2];
+    auto index = [](int x, int y) {
+        return 85 * 2 * x + y + 84;
     };
+
+    for (int x = 0; x < 360; ++x) {
+        for (int y = -84; y < 85; ++y) {
+            points[index(x, y)].x = x;
+            points[index(x, y)].y = y;
+            points[index(x, y)].value = -1;
+        }
+    }
+    for (auto &e : barrel) {
+        auto x = e.channel.ix_iphi;
+        auto y = e.channel.iy_ieta;
+        auto val = e.value;
+        points[index(x, y)].value = val;
+    }
+    for (int x = 0; x < 360; ++x) {
+        for (int y = -84; y < 85; ++y) {
+            os << x + 0.5 << " " << y + 0.5 << " " << points[index(x, y)].value << std::endl;
+        }
+    }
+    delete[] points;
     os << "EOD" << std::endl;
     os << "set output \"eb_" << rd.run.runnumber << ".png\"" << std::endl;
     os << "plot '$map" << numdata << "' using 1:2:3 w image notitle" << std::endl;
@@ -89,19 +109,27 @@ static void writeEndcap(std::ostream &os, ECALHardware::RunData &rd, const int n
     drawEELines(os);
     drawEESM(os, iz);
     os << "$map" << numdata << " << EOD" << std::endl;
-    for (int x = 100; x >= 0; x--)
+    Point *points = new Point[101 * 101];
+    auto index = [](int x, int y) {
+        return 100 * x + y;
+    };
+    for (int x = 0; x < 101; ++x) {
         for (int y = 0; y < 101; ++y) {
-            auto it = std::find_if(endcap.begin(), endcap.end(), [x, y](ECALHardware::ChannelData &c) {
-                return c.channel.ix_iphi == x && c.channel.iy_ieta == y;
-            });
-            if (it != endcap.end()) {
-                // found
-                os << it->channel.ix_iphi + 0.5 << " " << it->channel.iy_ieta + 0.5 << " " << it->value << std::endl;
-            } else {
-                // background. -1 is default value
-                os << x + 0.5 << " " << y + 0.5 << " " << -1 << std::endl;
-            }
+            points[index(x, y)].x = x;
+            points[index(x, y)].y = y;
+            points[index(x, y)].value = -1;
         }
+    }
+    for (auto &e : endcap) {
+        auto x = e.channel.ix_iphi;
+        auto y = e.channel.iy_ieta;
+        auto val = e.value;
+        points[index(x, y)].value = val;
+    }
+    for (int x = 0; x < 101; ++x)
+        for (int y = 0; y < 101; ++y)
+            os << x + 0.5 << " " << y + 0.5 << " " << points[index(x, y)].value << std::endl;
+    delete[] points;
     os << "EOD" << std::endl;
     const std::string filename = (iz == 1) ? "eeplus" : "eeminus";
     os << "set output \"" << filename << "_" << rd.run.runnumber << ".png\"" << std::endl;
