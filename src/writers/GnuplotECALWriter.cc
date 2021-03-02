@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <iostream>
 #include <iomanip>
-#include "../logging/logging.hh"
+#include "../common/logging.hh"
 
 static bool BarrelSort(const ECALHardware::ChannelData &a, const ECALHardware::ChannelData &b)
 {

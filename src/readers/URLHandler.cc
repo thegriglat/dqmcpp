@@ -1,6 +1,6 @@
 
 #include "URLHandler.hh"
-#include "../logging/logging.hh"
+#include "../common/logging.hh"
 #include "curl/curl.h"
 
 /**

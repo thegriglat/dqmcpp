@@ -3,7 +3,8 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-#include "../logging/logging.hh"
+#include "../common/logging.hh"
+#include "../common/common.hh"
 using namespace std;
 
 // symbols from dumped ecalchannels.o
@@ -29,14 +30,9 @@ void ECALChannels::Init()
     while (!in.eof()) {
         std::getline(in, line);
         ChannelInfo info;
-        // now parse the line
-        std::string token;
-        size_t pos = 0;
-        int n = 0;
-        while ((pos = line.find(',')) != std::string::npos) {
-            token = line.substr(0, pos);
-            // std::cout << "token = " << token << std::endl;
-            line.erase(0, pos + 1);
+        const auto stringlist = split(line, ",");
+        for (int n = 0; n < stringlist.size(); n++) {
+            auto token = stringlist.at(n);
             if (n < 26) {
                 int *intptr = getPtr(info, n);
                 *(intptr) = atoi(token.c_str());
@@ -46,7 +42,6 @@ void ECALChannels::Init()
                 else
                     info.crate = token;
             };
-            ++n;
         }
         _channels.push_back(info);
     }

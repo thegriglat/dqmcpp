@@ -9,7 +9,7 @@
 #include "Reader.hh"
 #include "../dataclasses/ECALHardware.hh"
 
-#include "../json/json.hh"
+#include "../common/json.hh"
 
 class JSONReader : public Reader
 {

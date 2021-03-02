@@ -2,7 +2,6 @@
 
 #include <string>
 #include "curl/curl.h"
-#include "../logging/logging.hh"
 
 /**
  * @brief Helper class for curl operations

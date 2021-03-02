@@ -1,4 +1,5 @@
 #include "JSONReader.hh"
+#include "../common/logging.hh"
 
 #include <vector>
 nlohmann::json JSONReader::parseJSON(const std::string &content)
