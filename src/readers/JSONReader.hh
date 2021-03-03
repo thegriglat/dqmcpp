@@ -18,21 +18,21 @@ public:
     /**
      * @brief Parse string to nlohmann::json
      *
-     * @param content
+     * @param content HTTP response content
      * @return nlohmann::json
      */
     static nlohmann::json parseJSON(const std::string &content);
     /**
      * @brief Parses DQM json object to vector of channel data
      *
-     * @param j
+     * @param j Parsed HTTP response content
      * @return std::vector<ECALHardware::ChannelData>
      */
     static std::vector<ECALHardware::ChannelData> parse(nlohmann::json &j);
     /**
-     * @brief Parse json file to vector of channel data
+     * @brief Parse json file to vector of channel data, inline wrapper function
      *
-     * @param content
+     * @param contentHTTP response content
      * @return std::vector<ECALHardware::ChannelData>
      */
     static inline std::vector<ECALHardware::ChannelData> parse(const std::string &content)
@@ -41,9 +41,9 @@ public:
         return parse(q);
     }
     /**
-     * @brief Check that DQM json is valid
-     *
-     * @param j
+     * @brief Check that DQM json is valid. Just check that some data returned.
+     * No "smart" checks performed.
+     * @param j Parsed HTTP response content
      * @return true
      * @return false
      */

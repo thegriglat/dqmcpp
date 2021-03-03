@@ -9,6 +9,10 @@ namespace ECALHardware
 constexpr unsigned int NEBChannels = 61200;
 constexpr unsigned int NEEChannels = 14648;
 constexpr unsigned int NTotalChannels = NEBChannels + NEEChannels;
+/**
+ * @brief Explicit enum of ECAL parts
+ * Usually shouldn't be casted to int
+ */
 enum DETECTORS {
     EB = 0,
     EEPLUS = 1,
@@ -16,7 +20,7 @@ enum DETECTORS {
 };
 /**
 * @brief Basic channel struct
-*
+* Trivial constructor is disabled
 */
 struct Channel {
     // unsigned long channel_id;
@@ -37,7 +41,7 @@ struct Channel {
 };
 /**
 * @brief Basic channel data struct
-*
+* Trivial constructor is disabled
 */
 struct ChannelData {
     Channel channel;
@@ -51,13 +55,17 @@ struct ChannelData {
 };
 /**
 * @brief Basic run information
-*
+* Trivial constructor is disabled
 */
 struct Run {
     unsigned int runnumber;
     std::string dataset;
     Run(unsigned int _run, std::string _dataset) : runnumber(_run), dataset(_dataset) {};
 };
+/**
+ * @brief Run data struct.
+ * Trivial constructor is disabled
+ */
 struct RunData {
     Run run;
     std::vector<ChannelData> channeldata;

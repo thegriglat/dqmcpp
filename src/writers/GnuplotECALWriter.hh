@@ -7,7 +7,8 @@
 /**
  * @brief Wrapper class for plotting RunData to gnuplot
  * Don't own any resources but use pointer to constructor parameter
- * It's just overloads operator<<()
+ * It's just overloads operator<<(). Some methods can be chained like
+ * outfile << GnuplotECALWriter(...).setPalette(...).setZrange(...);
  */
 class GnuplotECALWriter
 {
@@ -31,10 +32,10 @@ private:
 public:
     GnuplotECALWriter(std::vector<ECALHardware::RunData> &rundata) : rd(&rundata) {};
     /**
-     * @brief Set the zrange values
+     * @brief Set the zrange values from `min` to `max`. Returns object itself so can be chained.
      *
-     * @param min
-     * @param max
+     * @param min Z axis lower bound
+     * @param max Z axis upper bound
      * @return GnuplotECALWriter&
      */
     inline GnuplotECALWriter &setZrange(const float min = 0, const float max = 5.0)
@@ -44,9 +45,9 @@ public:
         return *this;
     }
     /**
-     * @brief Set the Palette
+     * @brief Set the Palette. Returns object itself so can be chained.
      *
-     * @param palette
+     * @param palette Palette vector (straightforward to gnuplot)
      * @return GnuplotECALWriter&
      */
     inline GnuplotECALWriter &setPalette(Palette palette)
@@ -57,10 +58,20 @@ public:
         });
         return *this;
     }
+    /**
+     * @brief Returns Z axis range
+     *
+     * @return ZLimits
+     */
     inline ZLimits zrange() const
     {
         return _zrange;
     }
+    /**
+     * @brief Returns palette
+     *
+     * @return Palette
+     */
     inline Palette palette() const
     {
         return _palette;

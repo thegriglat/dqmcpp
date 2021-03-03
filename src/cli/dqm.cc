@@ -6,6 +6,8 @@
 #include "../readers/JSONReader.hh"
 #include "../readers/RunListReader.hh"
 
+#include "../dataclasses/ecalchannels.hh"
+
 using namespace std;
 
 int main(int argc, char **argv)

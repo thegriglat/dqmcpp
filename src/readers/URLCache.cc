@@ -48,12 +48,6 @@ bool URLCache::has(const std::string &url) const
     return exists;
 }
 
-void URLCache::clean(void)
-{
-    // TODO: NOT implemented yet
-    return;
-}
-
 std::string URLCache::get(const std::string &url)
 {
     if (has(url)) {

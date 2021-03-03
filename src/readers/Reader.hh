@@ -14,7 +14,13 @@ class Reader
 
 public:
     Reader(URLCache *cache = new URLCache()) : _cache(cache) {};
-    std::string url(const unsigned int runnumber, const std::string &dataset);
+    // std::string url(const unsigned int runnumber, const std::string &dataset);
+    /**
+     * @brief Returns HTTP content by url using cache.
+     *
+     * @param url URL
+     * @return std::string
+     */
     inline std::string get(const std::string &url)
     {
         return _cache->get(url);

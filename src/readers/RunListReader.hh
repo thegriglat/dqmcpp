@@ -11,6 +11,11 @@ private:
 
 public:
     RunListReader(const std::string filename);
+    /**
+     * @brief Returns (run, dataset) vector
+     *
+     * @return std::vector<ECALHardware::Run>
+     */
     inline std::vector<ECALHardware::Run> runs() const
     {
         return _runs;

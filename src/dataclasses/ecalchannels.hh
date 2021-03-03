@@ -2,6 +2,10 @@
 
 #include "ECALHardware.hh"
 
+/**
+ * @brief Static channel list structure
+ * Dumped from DQM a long long time ago ...
+ */
 struct ChannelInfo {
     int fed;
     int tcc;
@@ -35,6 +39,12 @@ struct ChannelInfo {
 
 namespace ECALChannels
 {
+/**
+ * @brief Find channel in static database. Returns nullptr if not found
+ *
+ * @param channel Channel to be matched
+ * @return const ChannelInfo* | nullptr
+ */
 const ChannelInfo *find(const ECALHardware::Channel &channel);
 };
 
