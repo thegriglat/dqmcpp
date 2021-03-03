@@ -1,7 +1,6 @@
 #ifndef ECALCHANNELS_HH
 
-#include <string>
-#include <vector>
+#include "ECALHardware.hh"
 
 struct ChannelInfo {
     int fed;
@@ -34,25 +33,9 @@ struct ChannelInfo {
     std::string crate;
 };
 
-class ECALChannels
+namespace ECALChannels
 {
-public:
-    static ECALChannels &Instance()
-    {
-        static ECALChannels s;
-        return s;
-    }
-
-private:
-    std::vector<ChannelInfo> _channels;
-    ECALChannels()
-    {
-        Init();
-    };
-    ~ECALChannels() {};
-    void Init();
-    ECALChannels(ECALChannels const &) = delete;
-    ECALChannels &operator=(ECALChannels const &) = delete;
+const ChannelInfo *find(const ECALHardware::Channel &channel);
 };
 
 #define ECALCHANNELS_HH

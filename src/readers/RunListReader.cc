@@ -21,9 +21,7 @@ RunListReader::RunListReader(const std::string filename)
             std::cout << "line '" << line << "' contains less than 2 fields. Skipping" << std::endl;
             continue;
         }
-        ECALHardware::Run r;
-        r.runnumber = atoi(tokens.at(0).c_str());
-        r.dataset = tokens.at(1);
+        ECALHardware::Run r(atoi(tokens.at(0).c_str()), tokens.at(1));
         _runs.push_back(r);
     };
     in.close();

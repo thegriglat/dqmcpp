@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include "../plugins/RMSChannels.hh"
 #include "../plugins/TestPlugin.hh"
 #include "../readers/JSONReader.hh"
 #include "../readers/RunListReader.hh"
@@ -14,7 +15,7 @@ int main(int argc, char **argv)
         return 0;
     }
     RunListReader rlr(argv[1]);
-    auto plugin = new TestPlugin();
+    auto plugin = new RMSPlugin();
     auto reader = new JSONReader();
     int i = 0;
     vector<ECALHardware::RunData> rundata;
@@ -27,9 +28,7 @@ int main(int argc, char **argv)
             for (auto &e : data_tt)
                 data.push_back(e);
         }
-        ECALHardware::RunData rd;
-        rd.channeldata = data;
-        rd.run = run;
+        ECALHardware::RunData rd (run, data);
         rundata.push_back(rd);
     }
     plugin->plot(plugin->analyze(rundata));
