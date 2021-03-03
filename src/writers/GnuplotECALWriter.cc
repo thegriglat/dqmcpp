@@ -125,8 +125,9 @@ static void writeEndcap(std::ostream &os, ECALHardware::RunData &rd, const int n
 static void writeGnuplot(std::ostream &os, const GnuplotECALWriter &gw, std::vector<ECALHardware::RunData> &rd)
 {
     // filter barrel
-    os << "set term pngcairo size 1024,768" << std::endl;
-    os << "set xtics rotate 90" << std::endl
+    os << "scale = 2" << std::endl
+       << "set term pngcairo size 1024*scale,768*scale fontscale scale linewidth scale pointscale scale" << std::endl
+       << "set xtics rotate 90" << std::endl
        << "set view map" << std::endl
        << "set grid front" << std::endl
        << "set cbrange [" << gw.zrange().min << ":" << gw.zrange().max << "]" << std::endl
