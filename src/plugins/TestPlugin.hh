@@ -1,6 +1,6 @@
 #ifndef TESTPLUGIN_HH
 
-#include "PluginInterface.hh"
+#include "Plugin.hh"
 
 class TestPlugin : public Plugin
 {

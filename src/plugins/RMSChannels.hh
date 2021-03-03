@@ -1,6 +1,6 @@
 #ifndef RMSCHANNELS_HH
 
-#include "PluginInterface.hh"
+#include "Plugin.hh"
 
 class RMSPlugin : public Plugin
 {

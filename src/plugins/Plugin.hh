@@ -1,4 +1,4 @@
-#ifndef PLUGININTERFACE_HH
+#ifndef PLUGIN_HH
 
 #include <vector>
 #include <string>
@@ -34,5 +34,5 @@ public:
     virtual void plot(const std::vector<ECALHardware::RunData> &rundata) = 0;
 };
 
-#define PLUGININTERFACE_HH
+#define PLUGIN_HH
 #endif
