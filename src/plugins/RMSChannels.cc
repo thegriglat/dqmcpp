@@ -6,7 +6,7 @@
 #include "../readers/DQMURLProvider.hh"
 #include "../dataclasses/ecalchannels.hh"
 
-#define RMSMAX (10)
+#define RMSMAX (5)
 
 static const auto rmslimit = [](const double rms)
 {

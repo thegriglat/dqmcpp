@@ -66,7 +66,7 @@ const ChannelInfo *find(const ECALHardware::Channel &channel)
             // barrel
             return channel.ix_iphi == info.iphi && channel.iy_ieta == info.ieta;
         }
-        auto iz = 1;
+        int iz = 1;
         if (channel.iz == ECALHardware::DETECTORS::EEMINUS) {
             iz = -1;
         }
@@ -76,6 +76,9 @@ const ChannelInfo *find(const ECALHardware::Channel &channel)
         return &(*it);
     }
     std::cerr << "channel not found!" << std::endl;
+    std::cerr << "====" << std::endl
+              << "ix_iphi = " << channel.ix_iphi << " iy_ieta = " << channel.iy_ieta << " iz = " << channel.iz << std::endl
+              << "====" << std::endl;
     return nullptr;
 }
 };
