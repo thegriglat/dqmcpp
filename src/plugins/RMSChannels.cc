@@ -49,16 +49,12 @@ std::vector<ECALHardware::RunData> RMSPlugin::analyze(const std::vector<ECALHard
     }
     std::vector<ECALHardware::RunData> rd;
     rd.reserve(rundata.size());
-    for (auto &e : badchannels) {
-        std::cout << "CH " << e.ix_iphi << " " << e.iy_ieta << std::endl;
-    }
     for (auto &e : rundata) {
         std::vector<ECALHardware::ChannelData> bd;
         std::copy_if(e.channeldata.begin(), e.channeldata.end(), std::back_inserter(bd),
         [badchannels](const ECALHardware::ChannelData &ecd) {
             return std::find(badchannels.begin(), badchannels.end(), ecd.channel) != badchannels.end();
         });
-
         rd.push_back(ECALHardware::RunData(e.run, bd));
     }
     return rd;
