@@ -2,6 +2,7 @@
 
 #include <string>
 #include <fstream>
+#include <cmath>
 #include "../writers/GnuplotECALWriter.hh"
 #include "../readers/DQMURLProvider.hh"
 #include "../dataclasses/ecalchannels.hh"
@@ -64,12 +65,19 @@ void RMSPlugin::plot(const std::vector<ECALHardware::RunData> &rundata)
     if (rundata.size() == 0)
         return;
     std::ofstream out("rms_channels.plt");
-    out << "set term pngcairo size 1024,768" << std::endl
-        << "set xtics rotate 90" << std::endl
+    out << "set xtics rotate 90" << std::endl
         << "set cbrange [0:100]" << std::endl
         << "set cbtics 5" << std::endl
-        << "set palette defined (0 \"white\", 3 \"green\", 3 \"yellow\", 5 \"yellow\", 100 \"red\")" << std::endl
-        << "$map1 << EOD" << std::endl;
+        << "set palette defined (0 \"white\", 3 \"green\", 3 \"yellow\", 5 \"yellow\", 100 \"red\")" << std::endl;
+
+    const auto scale = (double)rundata.at(0).channeldata.size() / rundata.size();
+    out << "scale = " << scale << std::endl
+        << "set size ratio scale" << std::endl
+        << "set term pngcairo size 1024,768*scale" << std::endl
+        << "set xlabel \"Run number\"" << std::endl
+        << "set ylabel \"Channel\"" << std::endl
+        << "set title \"Channels with RMS >" << RMSMAX << "\"" << std::endl;
+    out << "$map1 << EOD" << std::endl;
     out << rundata.size() << " ";
     for (auto &e : rundata) {
         // print runs
@@ -97,8 +105,10 @@ void RMSPlugin::plot(const std::vector<ECALHardware::RunData> &rundata)
                 });
                 channel_values.push_back(it->value);
             }
-            for (auto value : channel_values)
-                out << " " << value;
+            for (auto value : channel_values) {
+                const auto printed_value = (std::isnan(value)) ? -2 : value;
+                out << " " << printed_value;
+            }
             out << std::endl;
         }
     }
