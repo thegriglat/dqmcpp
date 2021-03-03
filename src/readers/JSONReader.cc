@@ -1,6 +1,11 @@
 #include "JSONReader.hh"
 #include "../common/logging.hh"
 
+// for debugging to be sure that all channels are valid
+#ifdef debug_channeltest
+#include "../dataclasses/ecalchannels.hh"
+#endif
+
 #include <vector>
 nlohmann::json JSONReader::parseJSON(const std::string &content)
 {
@@ -51,7 +56,7 @@ std::vector<ECALHardware::ChannelData> JSONReader::parse(nlohmann::json &j)
     const auto xfirst = xaxis["first"]["value"].get<int>();
     const auto xlast = xaxis["last"]["value"].get<int>();
     const char xsign = (xtitle.find('-') != xtitle.npos) ? -1 : 1;
-    const auto xstep = /*xsign **/ ((xlast > xfirst) ? 1 : -1);
+    const auto xstep = ((xlast > xfirst) ? 1 : -1);
 
     const auto ytitle = yaxis["title"].get<string>();
     const auto ynbins = yaxis["last"]["id"].get<int>() - yaxis["first"]["id"].get<int>() + 1;
@@ -74,15 +79,21 @@ std::vector<ECALHardware::ChannelData> JSONReader::parse(nlohmann::json &j)
                 // in case of barrel we have to swap x and y values
                 // horrible....
                 ix_iphi = std::abs(iy) - ((yfirst < 0) ? 1 : 0);
-                iy_ieta = ix * xsign;
+                iy_ieta = (ix)*xsign;
             } else {
                 ix_iphi = ix;
                 iy_ieta = iy;
             }
-            ECALHardware::Channel c(ix_iphi, iy_ieta, iz);
+            ECALHardware::Channel c(ix_iphi + 1, iy_ieta + xsign/*sign(iy_ieta)*/, iz);
             ECALHardware::ChannelData cd(c, value);
             if (value != 0) {
                 // to avoid overlapping DQM output for different SM
+#ifdef debug_channeltest
+                auto f = ECALChannels::find(cd.channel);
+                if (!f) {
+                    std::cout << "bad channel! " << cd.channel << std::endl;
+                }
+#endif
                 channel_data.push_back(cd);
             }
             xbin++;

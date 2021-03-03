@@ -2,7 +2,6 @@
 #include "GnuplotECALWriterLines.hh"
 #include "../filters/ECALFilters.hh"
 #include <algorithm>
-#include <iostream>
 #include <iomanip>
 #include "../common/logging.hh"
 
@@ -28,7 +27,7 @@ static void writeBarrel(std::ostream &os, ECALHardware::RunData &rd, const int n
 {
     auto barrel = ECALFilters::barrel(rd.channeldata);
     os << "set xrange [0:360]" << std::endl
-       << "set yrange [-85: 85]" << std::endl
+       << "set yrange [-85.5: 85.5]" << std::endl
        << "set size ratio 0.472" << std::endl
        << "set xlabel \"iphi\"" << std::endl
        << "set ylabel \"ieta\"" << std::endl
@@ -50,13 +49,13 @@ static void writeBarrel(std::ostream &os, ECALHardware::RunData &rd, const int n
      * Then we just update needed values
      * The same for endcap
      */
-    Point *points = new Point[361* 85 * 2];
+    Point *points = new Point[361* 86 * 2];
     auto index = [](int x, int y) {
-        return 85 * 2 * x + y + 84;
+        return 85 * 2 * x + y + 85;
     };
 
-    for (int x = 0; x < 360; ++x) {
-        for (int y = -84; y < 85; ++y) {
+    for (int x = 1; x < 361; ++x) {
+        for (int y = -85; y < 86; ++y) {
             points[index(x, y)].x = x;
             points[index(x, y)].y = y;
             points[index(x, y)].value = -1;
@@ -68,10 +67,9 @@ static void writeBarrel(std::ostream &os, ECALHardware::RunData &rd, const int n
         auto val = e.value;
         points[index(x, y)].value = val;
     }
-    for (int x = 0; x < 360; ++x) {
-        for (int y = -84; y < 85; ++y) {
-            const auto shift = (y != 0) ? (std::abs(y) / y * 0.5) : 0;
-            os << x + 0.5 << " " << y + shift << " " << points[index(x, y)].value << std::endl;
+    for (int x = 1; x < 361; ++x) {
+        for (int y = -85; y < 86; ++y) {
+            os << x - 0.5 << " " << y << " " << points[index(x, y)].value << std::endl;
         }
     }
     delete[] points;
@@ -112,9 +110,9 @@ static void writeEndcap(std::ostream &os, ECALHardware::RunData &rd, const int n
         auto val = e.value;
         points[index(x, y)].value = val;
     }
-    for (int x = 0; x < 101; ++x)
-        for (int y = 0; y < 101; ++y)
-            os << x + 0.5 << " " << y + 0.5 << " " << points[index(x, y)].value << std::endl;
+    for (int x = 1; x < 101; ++x)
+        for (int y = 1; y < 101; ++y)
+            os << x  - 0.5 << " " << y -0.5 << " " << points[index(x, y)].value << std::endl;
     delete[] points;
     os << "EOD" << std::endl;
     const std::string filename = (iz == 1) ? "eeplus" : "eeminus";
