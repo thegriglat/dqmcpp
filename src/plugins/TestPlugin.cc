@@ -3,26 +3,27 @@
 #include <string>
 #include <fstream>
 #include "../writers/GnuplotECALWriter.hh"
+#include "../readers/DQMURLProvider.hh"
 
 std::vector<std::string> TestPlugin::urls(const unsigned int runnumber, const std::string &dataset)
 {
     std::vector<std::string> urls;
+    char *plot = new char[72];
     for (int i = -18; i < 19; ++i) {
         if (i == 0)
             continue;
-        char *s = new char[1024];
-        sprintf(s, "https://cmsweb.cern.ch/dqm/offline/jsonfairy/archive/%d/%s/EcalBarrel/EBPedestalOnlineClient/EBPOT%%20pedestal%%20rms%%20map%%20G12%%20EB%+03d", runnumber, dataset.c_str(), i);
-        urls.push_back(s);
-        delete[] s;
+        sprintf(plot, "EcalBarrel/EBPedestalOnlineClient/EBPOT pedestal rms map G12 EB%+03d", i);
+        urls.push_back(
+            DQMURL::dqmurl(runnumber, dataset, plot));
     }
     for (int i = -9; i < 10; ++i) {
         if (i == 0)
             continue;
-        char *s = new char[1024];
-        sprintf(s, "https://cmsweb.cern.ch/dqm/offline/jsonfairy/archive/%d/%s/EcalEndcap/EEPedestalOnlineClient/EEPOT%%20pedestal%%20rms%%20map%%20G12%%20EE%+03d", runnumber, dataset.c_str(), i);
-        urls.push_back(s);
-        delete[] s;
+        sprintf(plot, "EcalEndcap/EEPedestalOnlineClient/EEPOT pedestal rms map G12 EE%+03d", i);
+        urls.push_back(
+            DQMURL::dqmurl(runnumber, dataset, plot));
     }
+    delete[] plot;
     return urls;
 }
 std::vector<ECALHardware::RunData> TestPlugin::analyze(const std::vector<ECALHardware::RunData> &rundata)
