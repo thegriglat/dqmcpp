@@ -9,5 +9,6 @@ public:
     std::vector<ECALHardware::RunData> analyze(const std::vector<ECALHardware::RunData> &rundata);
     void plot(const std::vector<ECALHardware::RunData> &rundata);
 };
+
 #define RMSCHANNELS_HH
 #endif

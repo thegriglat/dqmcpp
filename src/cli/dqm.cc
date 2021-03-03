@@ -1,23 +1,27 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "../plugins/RMSChannels.hh"
-#include "../plugins/TestPlugin.hh"
 #include "../readers/JSONReader.hh"
 #include "../readers/RunListReader.hh"
-
-#include "../dataclasses/ecalchannels.hh"
+#include "../plugins/Plugins.hh"
 
 using namespace std;
 
 int main(int argc, char **argv)
 {
-    if (argc != 2) {
+    if (argc != 3) {
         std::cout << "Usage: " << argv[0] << " runlist.txt" << std::endl;
+        std::cout << "Plugins: " << std::endl;
+        for (auto &name : Plugins::list()) {
+            std::cout << "  " << name << std::endl;
+        }
         return 0;
     }
-    RunListReader rlr(argv[1]);
-    auto plugin = new RMSPlugin();
+    auto plugin = Plugins::get(argv[1]);
+    if (!plugin) {
+        exit(1);
+    }
+    RunListReader rlr(argv[2]);
     auto reader = new JSONReader();
     int i = 0;
     vector<ECALHardware::RunData> rundata;
@@ -30,7 +34,7 @@ int main(int argc, char **argv)
             for (auto &e : data_tt)
                 data.push_back(e);
         }
-        ECALHardware::RunData rd (run, data);
+        ECALHardware::RunData rd(run, data);
         rundata.push_back(rd);
     }
     plugin->plot(plugin->analyze(rundata));
