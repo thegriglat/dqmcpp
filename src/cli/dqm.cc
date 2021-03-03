@@ -33,4 +33,5 @@ int main(int argc, char **argv)
         rundata.push_back(rd);
     }
     plugin->plot(plugin->analyze(rundata));
+    return 0;
 }
