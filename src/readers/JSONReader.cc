@@ -48,26 +48,32 @@ std::vector<ECALHardware::ChannelData> JSONReader::parse(nlohmann::json &j)
     const auto yaxis = j["hist"]["yaxis"];
     const auto xtitle = xaxis["title"].get<string>();
     const auto xnbins = xaxis["last"]["id"].get<int>() - xaxis["first"]["id"].get<int>() + 1;
-    const auto xbinfirst = xaxis["first"]["value"].get<int>();
+    const auto xfirst = xaxis["first"]["value"].get<int>();
+    const auto xlast = xaxis["last"]["value"].get<int>();
+    const char xsign = (xtitle.find('-') != xtitle.npos) ? -1 : 1;
+    const auto xstep = /*xsign **/ ((xlast > xfirst) ? 1 : -1);
+
     const auto ytitle = yaxis["title"].get<string>();
     const auto ynbins = yaxis["last"]["id"].get<int>() - yaxis["first"]["id"].get<int>() + 1;
-    const auto ybinfirst = yaxis["first"]["value"].get<int>();
+    const auto yfirst = yaxis["first"]["value"].get<int>();
+    const auto ylast = yaxis["last"]["value"].get<int>();
+    const auto ystep = (ylast > yfirst) ? 1 : -1;
+
     // bin increment always == 1 as it is channel
     const auto content = j["hist"]["bins"]["content"].get<BinContentList>();
-    const char sign = (xtitle.find('-') != xtitle.npos) ? -1 : 1;
     std::vector<ECALHardware::ChannelData> channel_data;
     channel_data.reserve(ECALHardware::NEBChannels); // as max of EB and EE+- n channels
-    for (int ybin = 0; ybin < ynbins; ++ybin) {
-        const auto iy = ybinfirst + ybin;
-        for (int xbin = 0; xbin < xnbins; ++xbin) {
-            const auto ix = xbinfirst + xbin;
+    int ybin = 0;
+    for (int iy = yfirst; iy != ylast; iy += ystep) {
+        int xbin = 0;
+        for (int ix = xfirst; ix != xlast; ix += xstep) {
             const auto value = content.at(ybin).at(xbin);
             ECALHardware::Channel c;
             if (xtitle != "ix") {
                 // in case of barrel we have to swap x and y values
                 // horrible....
-                c.ix_iphi = std::abs(iy);
-                c.iy_ieta = ix * sign;
+                c.ix_iphi = std::abs(iy) - ((yfirst < 0) ? 1 : 0);
+                c.iy_ieta = ix * xsign;
             } else {
                 c.ix_iphi = ix;
                 c.iy_ieta = iy;
@@ -80,7 +86,9 @@ std::vector<ECALHardware::ChannelData> JSONReader::parse(nlohmann::json &j)
                 // to avoid overlapping DQM output for different SM
                 channel_data.push_back(cd);
             }
+            xbin++;
         }
+        ybin++;
     };
     return channel_data;
 }

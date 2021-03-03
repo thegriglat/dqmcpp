@@ -27,8 +27,8 @@ struct Point {
 static void writeBarrel(std::ostream &os, ECALHardware::RunData &rd, const int numdata)
 {
     auto barrel = ECALFilters::barrel(rd.channeldata);
-    os << "set xrange [0.5:360]" << std::endl
-       << "set yrange [-84: 85]" << std::endl
+    os << "set xrange [0:360]" << std::endl
+       << "set yrange [-85: 85]" << std::endl
        << "set size ratio 0.472" << std::endl
        << "set xlabel \"iphi\"" << std::endl
        << "set ylabel \"ieta\"" << std::endl
@@ -50,7 +50,7 @@ static void writeBarrel(std::ostream &os, ECALHardware::RunData &rd, const int n
      * Then we just update needed values
      * The same for endcap
      */
-    Point *points = new Point[361 * 85 * 2];
+    Point *points = new Point[361* 85 * 2];
     auto index = [](int x, int y) {
         return 85 * 2 * x + y + 84;
     };
@@ -70,7 +70,8 @@ static void writeBarrel(std::ostream &os, ECALHardware::RunData &rd, const int n
     }
     for (int x = 0; x < 360; ++x) {
         for (int y = -84; y < 85; ++y) {
-            os << x + 0.5 << " " << y + 0.5 << " " << points[index(x, y)].value << std::endl;
+            const auto shift = (y != 0) ? (std::abs(y) / y * 0.5) : 0;
+            os << x + 0.5 << " " << y + shift << " " << points[index(x, y)].value << std::endl;
         }
     }
     delete[] points;
@@ -124,7 +125,7 @@ static void writeEndcap(std::ostream &os, ECALHardware::RunData &rd, const int n
 static void writeGnuplot(std::ostream &os, const GnuplotECALWriter &gw, std::vector<ECALHardware::RunData> &rd)
 {
     // filter barrel
-    os << "set term png size 1024,768" << std::endl;
+    os << "set term pngcairo size 1024,768" << std::endl;
     os << "set xtics rotate 90" << std::endl
        << "set view map" << std::endl
        << "set grid front" << std::endl
