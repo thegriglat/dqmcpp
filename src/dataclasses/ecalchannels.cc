@@ -81,4 +81,10 @@ const ChannelInfo *find(const ECAL::Channel &channel)
               << "====" << std::endl;
     return nullptr;
 }
+
+const std::vector<ChannelInfo> list()
+{
+    Init();
+    return _channels;
+}
 };

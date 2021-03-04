@@ -46,6 +46,7 @@ namespace ECALChannels
  * @return const ChannelInfo* | nullptr
  */
 const ChannelInfo *find(const ECAL::Channel &channel);
+const std::vector<ChannelInfo> list(void);
 };
 
 #define ECALCHANNELS_HH
