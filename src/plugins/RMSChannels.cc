@@ -86,7 +86,7 @@ void RMSPlugin::plot(const std::vector<ECAL::RunData> &rundata)
     out << std::endl;
     // print TT and data for all runs
     // all channels are equal
-    const auto &channels = rundata.at(1).channeldata;
+    const auto &channels = rundata.at(0).channeldata;
     std::cout << "Found " << channels.size() << " bad channels" << std::endl;
     for (auto channel : channels) {
         std::cout << ".";
