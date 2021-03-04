@@ -41,3 +41,22 @@ void TestPlugin::plot(const std::vector<ECAL::RunData> &rundata)
         out.close();
     }
 }
+
+void TestPlugin::Process()
+{
+    using namespace std;
+    vector<ECAL::RunData> rundata;
+    for (auto &run : runListReader->runs()) {
+        vector<ECAL::ChannelData> data;
+        data.reserve(ECAL::NTotalChannels);
+        for (auto &url : urls(run.runnumber, run.dataset)) {
+            cout << url << endl;
+            auto data_tt = reader->parse(reader->get(url));
+            for (auto &e : data_tt)
+                data.push_back(e);
+        }
+        ECAL::RunData rd(run, data);
+        rundata.push_back(rd);
+    }
+    plot(analyze(rundata));
+}

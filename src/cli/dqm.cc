@@ -17,26 +17,14 @@ int main(int argc, char **argv)
         }
         return 0;
     }
+    auto reader = new JSONReader();
     auto plugin = Plugins::get(argv[1]);
     if (!plugin) {
         exit(1);
     }
+    plugin->setReader(reader);
     RunListReader rlr(argv[2]);
-    auto reader = new JSONReader();
-    int i = 0;
-    vector<ECAL::RunData> rundata;
-    for (auto &run : rlr.runs()) {
-        vector<ECAL::ChannelData> data;
-        data.reserve(ECAL::NTotalChannels);
-        for (auto &url : plugin->urls(run.runnumber, run.dataset)) {
-            cout << url << endl;
-            auto data_tt = reader->parse(reader->get(url));
-            for (auto &e : data_tt)
-                data.push_back(e);
-        }
-        ECAL::RunData rd(run, data);
-        rundata.push_back(rd);
-    }
-    plugin->plot(plugin->analyze(rundata));
+    plugin->setRunListReader(&rlr);
+    plugin->Process();
     return 0;
 }

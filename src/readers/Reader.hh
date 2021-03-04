@@ -6,6 +6,7 @@
 
 #include <string>
 #include "URLCache.hh"
+#include "../dataclasses/ECAL.hh"
 
 class Reader
 {
@@ -25,6 +26,13 @@ public:
     {
         return _cache->get(url);
     }
+    /**
+     * @brief Virtual function for parsing
+     *
+     * @param content Some std::string parameter, usually HTTP response content
+     * @return std::vector<ECAL::ChannelData>
+     */
+    virtual std::vector<ECAL::ChannelData> parse(const std::string &content) = 0;
 };
 
 #define READER_HH

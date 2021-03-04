@@ -28,14 +28,14 @@ public:
      * @param j Parsed HTTP response content
      * @return std::vector<ECAL::ChannelData>
      */
-    static std::vector<ECAL::ChannelData> parse(nlohmann::json &j);
+    std::vector<ECAL::ChannelData> parse(nlohmann::json &j);
     /**
      * @brief Parse json file to vector of channel data, inline wrapper function
      *
      * @param contentHTTP response content
      * @return std::vector<ECAL::ChannelData>
      */
-    static inline std::vector<ECAL::ChannelData> parse(const std::string &content)
+    inline std::vector<ECAL::ChannelData> parse(const std::string &content)
     {
         auto q = parseJSON(content);
         return parse(q);
