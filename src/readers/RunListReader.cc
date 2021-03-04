@@ -19,6 +19,8 @@ RunListReader::RunListReader(const std::string filename)
         auto tokens = split(line);
         if (tokens.size() < 2) {
             std::cout << "line '" << line << "' contains less than 2 fields. Skipping" << std::endl;
+            for (auto &e: tokens)
+                std::cout << "  " << e << std::endl;
             continue;
         }
         ECAL::Run r(atoi(tokens.at(0).c_str()), tokens.at(1));
