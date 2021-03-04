@@ -36,9 +36,9 @@ RMSPlugin::urls(const unsigned int runnumber, const std::string &dataset)
     delete[] plot;
     return urls;
 }
-std::vector<ECALHardware::RunData> RMSPlugin::analyze(const std::vector<ECALHardware::RunData> &rundata)
+std::vector<ECAL::RunData> RMSPlugin::analyze(const std::vector<ECAL::RunData> &rundata)
 {
-    std::vector<ECALHardware::Channel> badchannels;
+    std::vector<ECAL::Channel> badchannels;
     badchannels.reserve(100);
     for (auto &e : rundata) {
         for (auto &channeldata : e.channeldata) {
@@ -48,19 +48,19 @@ std::vector<ECALHardware::RunData> RMSPlugin::analyze(const std::vector<ECALHard
             }
         }
     }
-    std::vector<ECALHardware::RunData> rd;
+    std::vector<ECAL::RunData> rd;
     rd.reserve(rundata.size());
     for (auto &e : rundata) {
-        std::vector<ECALHardware::ChannelData> bd;
+        std::vector<ECAL::ChannelData> bd;
         std::copy_if(e.channeldata.begin(), e.channeldata.end(), std::back_inserter(bd),
-        [badchannels](const ECALHardware::ChannelData &ecd) {
+        [badchannels](const ECAL::ChannelData &ecd) {
             return std::find(badchannels.begin(), badchannels.end(), ecd.channel) != badchannels.end();
         });
-        rd.push_back(ECALHardware::RunData(e.run, bd));
+        rd.push_back(ECAL::RunData(e.run, bd));
     }
     return rd;
 }
-void RMSPlugin::plot(const std::vector<ECALHardware::RunData> &rundata)
+void RMSPlugin::plot(const std::vector<ECAL::RunData> &rundata)
 {
     if (rundata.size() == 0)
         return;
@@ -100,7 +100,7 @@ void RMSPlugin::plot(const std::vector<ECALHardware::RunData> &rundata)
             for (auto &rund : rundata) {
                 auto it = std::find_if(rund.channeldata.begin(),
                                        rund.channeldata.end(),
-                [channel](const ECALHardware::ChannelData &cd) {
+                [channel](const ECAL::ChannelData &cd) {
                     return cd.channel == channel.channel;
                 });
                 channel_values.push_back(it->value);

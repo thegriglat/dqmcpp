@@ -2,21 +2,21 @@
 
 #include <iostream>
 #include <vector>
-#include "../dataclasses/ECALHardware.hh"
+#include "../dataclasses/ECAL.hh"
 
 class RunListReader
 {
 private:
-    std::vector<ECALHardware::Run> _runs;
+    std::vector<ECAL::Run> _runs;
 
 public:
     RunListReader(const std::string filename);
     /**
      * @brief Returns (run, dataset) vector
      *
-     * @return std::vector<ECALHardware::Run>
+     * @return std::vector<ECAL::Run>
      */
-    inline std::vector<ECALHardware::Run> runs() const
+    inline std::vector<ECAL::Run> runs() const
     {
         return _runs;
     }

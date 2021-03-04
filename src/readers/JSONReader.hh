@@ -7,7 +7,7 @@
  *
  */
 #include "Reader.hh"
-#include "../dataclasses/ECALHardware.hh"
+#include "../dataclasses/ECAL.hh"
 
 #include "../common/json.hh"
 
@@ -26,16 +26,16 @@ public:
      * @brief Parses DQM json object to vector of channel data
      *
      * @param j Parsed HTTP response content
-     * @return std::vector<ECALHardware::ChannelData>
+     * @return std::vector<ECAL::ChannelData>
      */
-    static std::vector<ECALHardware::ChannelData> parse(nlohmann::json &j);
+    static std::vector<ECAL::ChannelData> parse(nlohmann::json &j);
     /**
      * @brief Parse json file to vector of channel data, inline wrapper function
      *
      * @param contentHTTP response content
-     * @return std::vector<ECALHardware::ChannelData>
+     * @return std::vector<ECAL::ChannelData>
      */
-    static inline std::vector<ECALHardware::ChannelData> parse(const std::string &content)
+    static inline std::vector<ECAL::ChannelData> parse(const std::string &content)
     {
         auto q = parseJSON(content);
         return parse(q);

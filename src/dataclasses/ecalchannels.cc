@@ -56,18 +56,18 @@ void Init()
 };
 namespace ECALChannels
 {
-const ChannelInfo *find(const ECALHardware::Channel &channel)
+const ChannelInfo *find(const ECAL::Channel &channel)
 {
     Init();
     auto it = std::find_if(_channels.begin(),
                            _channels.end(),
     [channel](const ChannelInfo &info) {
-        if (channel.iz == ECALHardware::DETECTORS::EB) {
+        if (channel.iz == ECAL::DETECTORS::EB) {
             // barrel
             return channel.ix_iphi == info.iphi && channel.iy_ieta == info.ieta;
         }
         int iz = 1;
-        if (channel.iz == ECALHardware::DETECTORS::EEMINUS) {
+        if (channel.iz == ECAL::DETECTORS::EEMINUS) {
             iz = -1;
         }
         return channel.ix_iphi == info.ix && channel.iy_ieta == info.iy && iz == info.iz;

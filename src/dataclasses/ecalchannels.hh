@@ -1,6 +1,6 @@
 #ifndef ECALCHANNELS_HH
 
-#include "ECALHardware.hh"
+#include "ECAL.hh"
 
 /**
  * @brief Static channel list structure
@@ -45,7 +45,7 @@ namespace ECALChannels
  * @param channel Channel to be matched
  * @return const ChannelInfo* | nullptr
  */
-const ChannelInfo *find(const ECALHardware::Channel &channel);
+const ChannelInfo *find(const ECAL::Channel &channel);
 };
 
 #define ECALCHANNELS_HH

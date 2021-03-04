@@ -24,17 +24,17 @@ int main(int argc, char **argv)
     RunListReader rlr(argv[2]);
     auto reader = new JSONReader();
     int i = 0;
-    vector<ECALHardware::RunData> rundata;
+    vector<ECAL::RunData> rundata;
     for (auto &run : rlr.runs()) {
-        vector<ECALHardware::ChannelData> data;
-        data.reserve(ECALHardware::NTotalChannels);
+        vector<ECAL::ChannelData> data;
+        data.reserve(ECAL::NTotalChannels);
         for (auto &url : plugin->urls(run.runnumber, run.dataset)) {
             cout << url << endl;
             auto data_tt = reader->parse(reader->get(url));
             for (auto &e : data_tt)
                 data.push_back(e);
         }
-        ECALHardware::RunData rd(run, data);
+        ECAL::RunData rd(run, data);
         rundata.push_back(rd);
     }
     plugin->plot(plugin->analyze(rundata));

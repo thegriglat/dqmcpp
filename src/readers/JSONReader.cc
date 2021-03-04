@@ -26,28 +26,28 @@ bool JSONReader::isValid(nlohmann::json &j)
  *
  * @param title
  */
-static ECALHardware::DETECTORS getECALDetector(const std::string &title)
+static ECAL::DETECTORS getECALDetector(const std::string &title)
 {
     if (title.find("EB") != title.npos) {
-        return ECALHardware::DETECTORS::EB;
+        return ECAL::DETECTORS::EB;
     }
     if (title.find("EE+") != title.npos) {
-        return ECALHardware::DETECTORS::EEPLUS;
+        return ECAL::DETECTORS::EEPLUS;
     }
     if (title.find("EE-") != title.npos) {
-        return ECALHardware::DETECTORS::EEMINUS;
+        return ECAL::DETECTORS::EEMINUS;
     }
     WARNING("Cannot determine ECAL iz from title");
-    return ECALHardware::DETECTORS::EB;
+    return ECAL::DETECTORS::EB;
 }
 
-std::vector<ECALHardware::ChannelData> JSONReader::parse(nlohmann::json &j)
+std::vector<ECAL::ChannelData> JSONReader::parse(nlohmann::json &j)
 {
     using namespace std;
     using BinContentList = vector<vector<double>>;
     // check validity of json
     if (!isValid(j))
-        return std::vector<ECALHardware::ChannelData>();
+        return std::vector<ECAL::ChannelData>();
     const auto iz = getECALDetector(j["hist"]["title"].get<string>());
     const auto xaxis = j["hist"]["xaxis"];
     const auto yaxis = j["hist"]["yaxis"];
@@ -66,8 +66,8 @@ std::vector<ECALHardware::ChannelData> JSONReader::parse(nlohmann::json &j)
 
     // bin increment always == 1 as it is channel
     const auto content = j["hist"]["bins"]["content"].get<BinContentList>();
-    std::vector<ECALHardware::ChannelData> channel_data;
-    channel_data.reserve(ECALHardware::NEBChannels); // as max of EB and EE+- n channels
+    std::vector<ECAL::ChannelData> channel_data;
+    channel_data.reserve(ECAL::NEBChannels); // as max of EB and EE+- n channels
     int ybin = 0;
     for (int iy = yfirst; iy != ylast; iy += ystep) {
         int xbin = 0;
@@ -84,8 +84,8 @@ std::vector<ECALHardware::ChannelData> JSONReader::parse(nlohmann::json &j)
                 ix_iphi = ix;
                 iy_ieta = iy;
             }
-            ECALHardware::Channel c(ix_iphi + 1, iy_ieta + xsign/*sign(iy_ieta)*/, iz);
-            ECALHardware::ChannelData cd(c, value);
+            ECAL::Channel c(ix_iphi + 1, iy_ieta + xsign/*sign(iy_ieta)*/, iz);
+            ECAL::ChannelData cd(c, value);
             if (value != 0) {
                 // to avoid overlapping DQM output for different SM
 #ifdef debug_channeltest

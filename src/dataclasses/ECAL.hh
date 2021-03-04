@@ -1,10 +1,10 @@
-#ifndef ECALHARDWARE_HH
+#ifndef ECAL_HH
 
 #include <string>
 #include <vector>
 #include <iostream>
 
-namespace ECALHardware
+namespace ECAL
 {
 constexpr unsigned int NEBChannels = 61200;
 constexpr unsigned int NEEChannels = 14648;
@@ -72,5 +72,5 @@ struct RunData {
     RunData(Run _run, std::vector<ChannelData> _cd) : run(_run), channeldata(_cd) {};
 };
 };
-#define ECALHARDWARE_HH
+#define ECAL_HH
 #endif

@@ -3,15 +3,15 @@
 
 namespace ECALFilters
 {
-std::vector<ECALHardware::ChannelData> filter_det(std::vector<ECALHardware::ChannelData> &channeldata, const ECALHardware::DETECTORS iz)
+std::vector<ECAL::ChannelData> filter_det(std::vector<ECAL::ChannelData> &channeldata, const ECAL::DETECTORS iz)
 {
-    std::vector<ECALHardware::ChannelData> result;
-    if (iz == ECALHardware::DETECTORS::EB)
-        result.reserve(ECALHardware::NEBChannels);
+    std::vector<ECAL::ChannelData> result;
+    if (iz == ECAL::DETECTORS::EB)
+        result.reserve(ECAL::NEBChannels);
     else
-        result.reserve(ECALHardware::NEEChannels);
+        result.reserve(ECAL::NEEChannels);
     std::copy_if(channeldata.begin(), channeldata.end(), std::back_inserter(result),
-    [iz](const ECALHardware::ChannelData &cd) {
+    [iz](const ECAL::ChannelData &cd) {
         return cd.channel.iz == iz;
     });
     return result;

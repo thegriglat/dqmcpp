@@ -26,17 +26,17 @@ std::vector<std::string> TestPlugin::urls(const unsigned int runnumber, const st
     delete[] plot;
     return urls;
 }
-std::vector<ECALHardware::RunData> TestPlugin::analyze(const std::vector<ECALHardware::RunData> &rundata)
+std::vector<ECAL::RunData> TestPlugin::analyze(const std::vector<ECAL::RunData> &rundata)
 {
     return rundata;
 }
-void TestPlugin::plot(const std::vector<ECALHardware::RunData> &rundata)
+void TestPlugin::plot(const std::vector<ECAL::RunData> &rundata)
 {
     for (auto &r : rundata) {
         auto run = r.run.runnumber;
         std::string outfile = std::to_string(run) + ".plt";
         std::ofstream out(outfile);
-        std::vector<ECALHardware::RunData> rd = {r};
+        std::vector<ECAL::RunData> rd = {r};
         out << GnuplotECALWriter(rd) << std::endl;
         out.close();
     }

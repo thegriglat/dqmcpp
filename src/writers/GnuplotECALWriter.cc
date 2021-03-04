@@ -23,7 +23,7 @@ struct Point {
     double value;
 };
 
-static void writeBarrel(std::ostream &os, ECALHardware::RunData &rd, const int numdata)
+static void writeBarrel(std::ostream &os, ECAL::RunData &rd, const int numdata)
 {
     auto barrel = ECALFilters::barrel(rd.channeldata);
     os << "set xrange [0:360]" << std::endl
@@ -78,7 +78,7 @@ static void writeBarrel(std::ostream &os, ECALHardware::RunData &rd, const int n
     os << "plot '$map" << numdata << "' using 1:2:3 w image notitle" << std::endl;
 }
 
-static void writeEndcap(std::ostream &os, ECALHardware::RunData &rd, const int numdata, const int iz)
+static void writeEndcap(std::ostream &os, ECAL::RunData &rd, const int numdata, const int iz)
 {
     auto endcap = (iz == 1) ? ECALFilters::eeplus(rd.channeldata) : ECALFilters::eeminus(rd.channeldata);
     const std::string title = (iz == 1) ? "ECAL EE+" : "ECAL EE-";
@@ -120,7 +120,7 @@ static void writeEndcap(std::ostream &os, ECALHardware::RunData &rd, const int n
     os << "plot '$map" << numdata << "' using 1:2:3 w image notitle" << std::endl;
 }
 
-static void writeGnuplot(std::ostream &os, const GnuplotECALWriter &gw, std::vector<ECALHardware::RunData> &rd)
+static void writeGnuplot(std::ostream &os, const GnuplotECALWriter &gw, std::vector<ECAL::RunData> &rd)
 {
     // filter barrel
     os << "scale = 2" << std::endl

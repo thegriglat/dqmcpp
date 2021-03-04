@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <algorithm>
-#include "../dataclasses/ECALHardware.hh"
+#include "../dataclasses/ECAL.hh"
 
 /**
  * @brief Wrapper class for plotting RunData to gnuplot
@@ -24,13 +24,13 @@ public:
     };
 
 private:
-    std::vector<ECALHardware::RunData> *rd = nullptr;
+    std::vector<ECAL::RunData> *rd = nullptr;
 
     ZLimits _zrange;
     Palette _palette = {{{-1, "white"}, {0.0, "yellow"}, {5.0, "red"}}};
 
 public:
-    GnuplotECALWriter(std::vector<ECALHardware::RunData> &rundata) : rd(&rundata) {};
+    GnuplotECALWriter(std::vector<ECAL::RunData> &rundata) : rd(&rundata) {};
     /**
      * @brief Set the zrange values from `min` to `max`. Returns object itself so can be chained.
      *

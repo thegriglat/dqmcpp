@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <string>
-#include "../dataclasses/ECALHardware.hh"
+#include "../dataclasses/ECAL.hh"
 
 /**
  * @brief Virtual class for plugins (tests)
@@ -23,15 +23,15 @@ public:
      * @brief Does really plugin analyze and transform channel data for plot() function
      *
      * @param rundata RunData struct with channels data. To be passed in plot() method.
-     * @return std::vector<ECALHardware::RunData>
+     * @return std::vector<ECAL::RunData>
      */
-    virtual std::vector<ECALHardware::RunData> analyze(const std::vector<ECALHardware::RunData> &rundata) = 0;
+    virtual std::vector<ECAL::RunData> analyze(const std::vector<ECAL::RunData> &rundata) = 0;
     /**
      * @brief Plot channels data as plugin wants
      *
      * @param rundata Channel data returned in analyze() method
      */
-    virtual void plot(const std::vector<ECALHardware::RunData> &rundata) = 0;
+    virtual void plot(const std::vector<ECAL::RunData> &rundata) = 0;
 };
 
 #define PLUGIN_HH
