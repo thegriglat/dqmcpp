@@ -10,7 +10,7 @@ using namespace std;
 int main(int argc, char **argv)
 {
     if (argc != 3) {
-        std::cout << "Usage: " << argv[0] << " runlist.txt" << std::endl;
+        std::cout << "Usage: " << argv[0] << " <plugin> <runlist file>" << std::endl;
         std::cout << "Plugins: " << std::endl;
         for (auto &name : Plugins::list()) {
             std::cout << "  " << name << std::endl;
