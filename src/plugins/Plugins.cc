@@ -2,13 +2,15 @@
 
 #include "RMSChannels.hh"
 #include "TestPlugin.hh"
+#include "TTF4Plugin.hh"
 
 namespace Plugins
 {
 
 static const std::map<std::string, Plugin *> _pluginmap = {
     {"RMS", new RMSPlugin()},
-    {"Test", new TestPlugin()}
+    {"Test", new TestPlugin()},
+    {"TTF4", new TTF4Plugin()}
 };
 
 Plugin *get(const std::string name)
