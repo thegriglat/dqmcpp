@@ -45,6 +45,8 @@ std::ostream &operator<<(std::ostream &os, const Gnuplot2DWriter &gw)
         }
     }
     // print x labels
+    os << "set xtics rotate 90" << std::endl;
+    os << "$map1 << EOD" << std::endl;
     os << "N ";
     for (auto &e: gw._xlabels)
         os << e << " ";
@@ -58,6 +60,8 @@ std::ostream &operator<<(std::ostream &os, const Gnuplot2DWriter &gw)
         os << std::endl;
     }
     os << std::endl;
+    os << "EOD" << std::endl;
+    os << "plot '$map1' matrix rowheaders columnheaders with image" << std::endl;
     delete[] all;
     return os;
 }

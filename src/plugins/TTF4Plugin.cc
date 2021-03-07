@@ -166,7 +166,7 @@ void plot(const vector<TTRunData> &rundata)
     for (auto &r: rundata) {
         std::string xlabel = std::to_string(r.run);
         for (auto &tt: r.ttdata) {
-            std::string det = ((tt.iz == 0) ? "EB" : ((tt.iz == 1) ? "EE+" : "EE-"));
+            std::string det = ((tt.iz == 0) ? "EB " : ((tt.iz == 1) ? "EE+ " : "EE- "));
             std::string ylabel = det + "TT" + std::to_string(tt.tt);
             data.insert({{xlabel, ylabel}, tt.value});
         }
