@@ -23,3 +23,8 @@ add_library(dqmcpp SHARED ${SRC_FILES} ecalchannels.o)
 file(GLOB cli_src_FILES ${PROJECT_SOURCE_DIR}/cli/*.cc)
 add_executable(dqm ${cli_src_FILES})
 target_link_libraries(dqm dqmcpp ${CURL_LIBRARIES})
+
+
+install(TARGETS dqm RUNTIME)
+install(TARGETS dqmcpp LIBRARY)
+install(DIRECTORY "." TYPE INCLUDE FILES_MATCHING PATTERN "*.hh")
