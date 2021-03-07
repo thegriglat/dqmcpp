@@ -14,8 +14,7 @@ std::vector<std::array<int, 4>> EndcapLines();
  * @param os std::ostream object
  * @param iz +1 for EE+, -1 for EE-
  */
-void drawEESM(std::ostream &os, const int iz);
-
+void drawEESM(std::ostream& os, const int iz);
 
 #define GNUPLOTECALWRITERLINES_HH
 #endif

@@ -2,8 +2,7 @@ all: style
 .PHONE: style docs docs-pdf
 
 style:
-	find src -name '*.cc' -o -name '*.hh' | grep -v 'json.hh' | xargs astyle --style=kr
-	find src -name '*.orig' | xargs rm -fv
+	find src -name '*.cc' -o -name '*.hh' | grep -v 'json.hh' | xargs -n 1 clang-format --style=Chromium -i
 
 docs:
 	cd src && doxygen Doxyfile

@@ -2,24 +2,25 @@
 
 #include "../dataclasses/ECAL.hh"
 
-namespace ECALFilters
-{
+namespace ECALFilters {
 /**
  * @brief Keep only barrel channels
  *
  * @param channeldata
  * @return std::vector<ChannelData>
  */
-std::vector<ECAL::ChannelData> filter_det(std::vector<ECAL::ChannelData> &channeldata, const ECAL::DETECTORS iz);
+std::vector<ECAL::ChannelData> filter_det(
+    std::vector<ECAL::ChannelData>& channeldata,
+    const ECAL::DETECTORS iz);
 /**
  * @brief Returns only barrel channels
  *
  * @param channeldata
  * @return std::vector<ECAL::ChannelData>
  */
-inline std::vector<ECAL::ChannelData> barrel(std::vector<ECAL::ChannelData> &channeldata)
-{
-    return filter_det(channeldata, ECAL::DETECTORS::EB);
+inline std::vector<ECAL::ChannelData> barrel(
+    std::vector<ECAL::ChannelData>& channeldata) {
+  return filter_det(channeldata, ECAL::DETECTORS::EB);
 }
 /**
  * @brief Returns only EE+ channels
@@ -27,9 +28,9 @@ inline std::vector<ECAL::ChannelData> barrel(std::vector<ECAL::ChannelData> &cha
  * @param channeldata
  * @return std::vector<ECAL::ChannelData>
  */
-inline std::vector<ECAL::ChannelData> eeplus(std::vector<ECAL::ChannelData> &channeldata)
-{
-    return filter_det(channeldata, ECAL::DETECTORS::EEPLUS);
+inline std::vector<ECAL::ChannelData> eeplus(
+    std::vector<ECAL::ChannelData>& channeldata) {
+  return filter_det(channeldata, ECAL::DETECTORS::EEPLUS);
 }
 /**
  * @brief Returns only EE- channels
@@ -37,11 +38,11 @@ inline std::vector<ECAL::ChannelData> eeplus(std::vector<ECAL::ChannelData> &cha
  * @param channeldata
  * @return std::vector<ECAL::ChannelData>
  */
-inline std::vector<ECAL::ChannelData> eeminus(std::vector<ECAL::ChannelData> &channeldata)
-{
-    return filter_det(channeldata, ECAL::DETECTORS::EEMINUS);
+inline std::vector<ECAL::ChannelData> eeminus(
+    std::vector<ECAL::ChannelData>& channeldata) {
+  return filter_det(channeldata, ECAL::DETECTORS::EEMINUS);
 }
-}
+}  // namespace ECALFilters
 
 #define ECALFILTERS_HH
 #endif

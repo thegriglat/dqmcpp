@@ -6,11 +6,10 @@
  * @tparam T
  */
 template <typename T>
-class IFilter
-{
-public:
-    using type = T;
-    virtual bool operator()(T i) = 0;
+class IFilter {
+ public:
+  using type = T;
+  virtual bool operator()(T i) = 0;
 };
 
 /**
@@ -20,13 +19,9 @@ public:
  * @tparam B
  */
 template <class A, class B>
-class FilterAnd : public IFilter<typename A::type>
-{
-public:
-    bool operator()(typename A::type i)
-    {
-        return A()(i) && B()(i);
-    }
+class FilterAnd : public IFilter<typename A::type> {
+ public:
+  bool operator()(typename A::type i) { return A()(i) && B()(i); }
 };
 
 /**
@@ -36,13 +31,9 @@ public:
  * @tparam B
  */
 template <class A, class B>
-class FilterOr : public IFilter<typename A::type>
-{
-public:
-    bool operator()(typename A::type i)
-    {
-        return A()(i) || B()(i);
-    }
+class FilterOr : public IFilter<typename A::type> {
+ public:
+  bool operator()(typename A::type i) { return A()(i) || B()(i); }
 };
 
 /**
@@ -51,13 +42,9 @@ public:
  * @tparam A
  */
 template <typename A>
-class FilterNot : public IFilter<typename A::type>
-{
-public:
-    bool operator()(typename A::type i)
-    {
-        return !A()(i);
-    }
+class FilterNot : public IFilter<typename A::type> {
+ public:
+  bool operator()(typename A::type i) { return !A()(i); }
 };
 
 #define IFILTER_HH
