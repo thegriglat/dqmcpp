@@ -102,3 +102,65 @@ std::vector<ECAL::ChannelData> JSONReader::parse(nlohmann::json &j)
     };
     return channel_data;
 }
+
+std::vector<ECAL::Data2D> JSONReader::parse2D(nlohmann::json&j)
+{
+    // TODO:: make it common with parse ..
+    using namespace std;
+    using BinContentList = vector<vector<double>>;
+    // check validity of json
+    if (!isValid(j))
+        return std::vector<ECAL::Data2D>();
+    const auto iz = getECALDetector(j["hist"]["title"].get<string>());
+    const auto xaxis = j["hist"]["xaxis"];
+    const auto yaxis = j["hist"]["yaxis"];
+    const auto xtitle = xaxis["title"].get<string>();
+    const auto xnbins = xaxis["last"]["id"].get<int>() - xaxis["first"]["id"].get<int>() + 1;
+    const auto xfirst = xaxis["first"]["value"].get<int>();
+    const auto xlast = xaxis["last"]["value"].get<int>();
+    const char xsign = (xtitle.find('-') != xtitle.npos) ? -1 : 1;
+    const auto xstep = (xlast - xfirst) / xnbins;
+
+    const auto ytitle = yaxis["title"].get<string>();
+    const auto ynbins = yaxis["last"]["id"].get<int>() - yaxis["first"]["id"].get<int>()  + 1;
+    const auto yfirst = yaxis["first"]["value"].get<int>();
+    const auto ylast = yaxis["last"]["value"].get<int>();
+    const auto ystep = (ylast - yfirst) / ynbins;
+
+    // bin increment always == 1 as it is channel
+    const auto content = j["hist"]["bins"]["content"].get<BinContentList>();
+    std::vector<ECAL::Data2D> channel_data;
+    channel_data.reserve(ECAL::NEBChannels); // as max of EB and EE+- n channels
+    int ybin = 0;
+    for (int iy = yfirst; iy != ylast; iy += ystep) {
+        int xbin = 0;
+        for (int ix = xfirst; ix != xlast; ix += xstep) {
+            const auto value = content.at(ybin).at(xbin);
+            int ix_iphi;
+            int iy_ieta;
+            // if (xtitle != "ix") {
+            //     // in case of barrel we have to swap x and y values
+            //     // horrible....
+            //     ix_iphi = std::abs(iy) - ((yfirst < 0) ? 1 : 0);
+            //     iy_ieta = (ix)*xsign;
+            // } else {
+            ix_iphi = ix;
+            iy_ieta = iy;
+            // }
+            ECAL::Data2D c (ix_iphi, iy_ieta, value);
+            if (value != 0) {
+                // to avoid overlapping DQM output for different SM
+#ifdef debug_channeltest
+                auto f = ECALChannels::find(cd.channel);
+                if (!f) {
+                    std::cout << "bad channel! " << cd.channel << std::endl;
+                }
+#endif
+                channel_data.push_back(c);
+            }
+            xbin++;
+        }
+        ybin++;
+    };
+    return channel_data;
+}

@@ -181,18 +181,35 @@ void plot(const vector<TTRunData> &rundata)
 void TTF4Plugin::Process()
 {
     vector<TTRunData> rundata;
+    const auto all_channels = ECALChannels::list();
     for (auto r: runListReader->runs()) {
         std::vector<TTData> data;
         data.reserve(2500); // approx ~3k
         for (auto url: urls(r.runnumber, r.dataset)) {
+            cout << url.url << endl;
             vector<TTData> data_tt;
             if (url.isEB) {
                 // parse as tt
                 /** .... uhh */
+                auto q = reader->parse2D(reader->get(url.url));
+
+                for (auto &e: q) {
+                    // find tt by channel coord
+                    const auto xch = e.x + 2;
+                    const auto ych = e.y + 2;
+                    auto f = std::find_if(all_channels.begin(), all_channels.end(),
+                    [xch, ych](const ChannelInfo &ch) {
+                        return ch.iphi == xch && ch.ieta == ych;
+                    });
+                    if (f == all_channels.end()) {
+                        std::cout << "Cannot find channel !" << std::endl;
+                        std::cout << "x: " << e.x << " y: " << e.y << std::endl;
+                    }
+                    data_tt.push_back(TTData(f->tower, 0, e.value));
+                }
             } else {
                 // EE+ or EE-
                 // parse as usual channel json
-                cout << url.url << endl;
                 auto data_det = reader->parse(reader->get(url.url));
                 data_tt = channel2TT(data_det);
             }

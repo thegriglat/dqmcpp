@@ -40,6 +40,13 @@ public:
         auto q = parseJSON(content);
         return parse(q);
     }
+    std::vector<ECAL::Data2D> parse2D(nlohmann::json&j);
+    inline std::vector<ECAL::Data2D> parse2D(const std::string &content)
+    {
+        auto q = parseJSON(content);
+        return parse2D(q);
+    }
+
     /**
      * @brief Check that DQM json is valid. Just check that some data returned.
      * No "smart" checks performed.

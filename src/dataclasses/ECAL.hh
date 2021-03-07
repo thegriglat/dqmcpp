@@ -19,6 +19,16 @@ enum DETECTORS {
     EEMINUS = -1
 };
 /**
+ * @brief Common 2D data structure
+ *
+ */
+struct Data2D {
+    int x;
+    int y;
+    double value;
+    Data2D(int x, int y, double value): x(x), y(y), value(value) {};
+};
+/**
 * @brief Basic channel struct
 * Trivial constructor is disabled
 */
