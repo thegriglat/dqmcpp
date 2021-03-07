@@ -83,7 +83,6 @@ std::vector<TTData> channel2TT(const std::vector<ECAL::ChannelData> &channelData
             iz = c_info->iz;
         }
         auto tt = TTData(c_info->tower, iz, channel.value);
-        std::cout << tt << std::endl;
         ttdata.push_back(tt);
     }
     // make TT unique
@@ -96,10 +95,6 @@ std::vector<TTData> channel2TT(const std::vector<ECAL::ChannelData> &channelData
     std::unique(ttdata.begin(), ttdata.end(), [](const TTData &a, const TTData &b) {
         return a.tt == b.tt && a.iz == b.iz;
     }), ttdata.end());
-    std::cout << "====" << std::endl;
-    for (auto &e: ttdata) {
-        std::cout << e << std::endl;
-    }
     return ttdata;
 }
 
@@ -158,8 +153,7 @@ vector<TTRunData> analyze( vector<TTRunData> &rundata)
     for (auto &e: rundata) {
         auto max = maxim(e.ttdata);
         for (auto &ee: e.ttdata) {
-            // ee.value /= max;
-            // std::cout << "ee.value = " << ee.value << "\tmax = " << max << std::endl;
+            ee.value /= max;
         }
     }
     return rundata;
@@ -170,10 +164,8 @@ void plot(const vector<TTRunData> &rundata)
     // output in Gnuplot
     std::map<std::pair<std::string, std::string>, double> data;
     for (auto &r: rundata) {
-        std::cout << "run " << r.run << std::endl;
         std::string xlabel = std::to_string(r.run);
         for (auto &tt: r.ttdata) {
-            std::cout << " tt " << tt.tt << " -> " << tt.value << std::endl;
             std::string det = ((tt.iz == 0) ? "EB" : ((tt.iz == 1) ? "EE+" : "EE-"));
             std::string ylabel = det + "TT" + std::to_string(tt.tt);
             data.insert({{xlabel, ylabel}, tt.value});
