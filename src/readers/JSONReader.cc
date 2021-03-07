@@ -31,10 +31,10 @@ static ECAL::DETECTORS getECALDetector(const std::string &title)
     if (title.find("EB") != title.npos) {
         return ECAL::DETECTORS::EB;
     }
-    if (title.find("EE+") != title.npos) {
+    if (title.find("EE") != title.npos) {
         return ECAL::DETECTORS::EEPLUS;
     }
-    if (title.find("EE-") != title.npos) {
+    if (title.find("EE") != title.npos) {
         return ECAL::DETECTORS::EEMINUS;
     }
     WARNING("Cannot determine ECAL iz from title");
