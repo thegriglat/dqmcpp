@@ -9,11 +9,12 @@ std::vector<std::string> split(const std::string str,
   std::string line = str;
   if (line.find(delimiter) == std::string::npos)
     return {line};
-  while ((pos = line.find(delimiter)) != std::string::npos) {
+  do {
+    pos = line.find(delimiter);
     std::string token = line.substr(0, pos);
     line.erase(0, pos + delimiter.length());
     tokens.push_back(token);
-  }
+  } while (pos != std::string::npos);
   return tokens;
 }
 
