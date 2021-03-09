@@ -25,8 +25,6 @@ struct URLType {
 std::vector<URLType> urls(const unsigned int runnumber,
                           const std::string& dataset) {
   std::vector<URLType> urls;
-  const std::string plot =
-      "EcalBarrel/EBTriggerTowerTask/EBTTT TT Masking Status";
   for (int i = -1; i < 2; ++i) {
     string det = "Barrel";
     string d = "EB";
@@ -96,8 +94,8 @@ std::vector<TTRunData> TTMaskingStatus::Init() {
 
         for (auto& e : q) {
           // find tt by channel coord
-          const auto xch = e.x + 2;
-          const auto ych = e.y + 2;
+          const auto xch = e.x + 1;
+          const auto ych = e.y + 1;
           auto f = std::find_if(all_channels.begin(), all_channels.end(),
                                 [xch, ych](const ChannelInfo& ch) {
                                   return ch.iphi == xch && ch.ieta == ych;
@@ -106,7 +104,7 @@ std::vector<TTRunData> TTMaskingStatus::Init() {
             std::cout << "Cannot find channel !" << std::endl;
             std::cout << "x: " << e.x << " y: " << e.y << std::endl;
           }
-          data_tt.push_back(TTData(f->tower, 0, e.value));
+          data_tt.push_back(TTData(f->tower, 0, f->tcc, e.value));
         }
       } else {
         // EE+ or EE-
