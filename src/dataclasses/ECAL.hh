@@ -83,13 +83,16 @@ struct TTData {
   int tt;
   // EB = 0 ; EE+ = 1; EE- = -1;
   int iz;
+  int tcc;
   double value;
-  TTData(int ttnum, int z, double val) : tt(ttnum), iz(z), value(val){};
+  TTData(int ttnum, int z, int tcc, double val)
+      : tt(ttnum), iz(z), tcc(tcc), value(val){};
   inline friend bool operator>(const TTData& a, const TTData& b) {
     return a.value > b.value;
   };
   inline friend std::ostream& operator<<(std::ostream& os, const TTData& elem) {
-    os << "tt[tt=" << elem.tt << ",iz=" << elem.iz << "] = " << elem.value;
+    os << "tt[tt=" << elem.tt << ",iz=" << elem.iz << ",tcc=" << elem.tcc
+       << "] = " << elem.value;
     return os;
   }
 };
