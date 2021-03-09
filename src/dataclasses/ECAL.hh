@@ -77,6 +77,33 @@ struct RunData {
   RunData(Run _run, std::vector<ChannelData> _cd)
       : run(_run), channeldata(_cd){};
 };
+
+struct TTData {
+  // TT number
+  int tt;
+  // EB = 0 ; EE+ = 1; EE- = -1;
+  int iz;
+  double value;
+  TTData(int ttnum, int z, double val) : tt(ttnum), iz(z), value(val){};
+  inline friend bool operator>(const TTData& a, const TTData& b) {
+    return a.value > b.value;
+  };
+  inline friend std::ostream& operator<<(std::ostream& os, const TTData& elem) {
+    os << "tt[tt=" << elem.tt << ",iz=" << elem.iz << "] = " << elem.value;
+    return os;
+  }
+};
+
+struct TTRunData {
+  int run;
+  std::vector<TTData> ttdata;
+  TTRunData(int _run, const std::vector<TTData>& ttd)
+      : run(_run), ttdata(ttd){};
+};
+
+std::vector<TTRunData> filterZeroTT(std::vector<TTRunData>& rundata);
+std::vector<TTData> channel2TT(
+    const std::vector<ECAL::ChannelData>& channelData);
 };  // namespace ECAL
 #define ECAL_HH
 #endif
