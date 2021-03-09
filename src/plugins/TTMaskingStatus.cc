@@ -71,7 +71,7 @@ void plot(const vector<TTRunData>& rundata) {
     }
   }
   Gnuplot2DWriter writer(data);
-  ofstream out("tt_masking.dat");
+  ofstream out("tt_masking_status.plt");
   out << writer.setZ(0, 1)
              .setPalette({{0, "white"}, {1, "red"}})
              .setZTick(0.1)

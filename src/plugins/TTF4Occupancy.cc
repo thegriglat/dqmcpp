@@ -144,7 +144,7 @@ void TTF4Occupancy::Process() {
     }
   }
   Gnuplot2DWriter writer(data);
-  ofstream out("ttf4_occupancy.dat");
+  ofstream out("ttf4_occupancy.plt");
   out << writer.setZ(0, 1)
              .setPalette({{0, "white"}, {0, "#fff497"}, {1, "#ff0201"}})
              .setZTick(0.1)
