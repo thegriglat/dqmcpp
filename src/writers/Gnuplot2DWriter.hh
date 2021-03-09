@@ -26,6 +26,7 @@ class Gnuplot2DWriter {
   std::vector<std::string> _ylabels;
 
   Axis _zaxis;
+  double _cbtick = 1;
   Palette _palette = {{{-1, "white"}, {0.0, "yellow"}, {5.0, "red"}}};
   inline unsigned int nrows() const { return _xlabels.size(); }
   inline unsigned int ncolumns() const { return _ylabels.size(); }
@@ -48,6 +49,22 @@ class Gnuplot2DWriter {
     _zaxis = {std::min(min, max), std::max(min, max)};
     return *this;
   }
+  /**
+   * @brief Set Z tick interval
+   *
+   * @param tick
+   * @return Gnuplot2DWriter&
+   */
+  inline Gnuplot2DWriter& setZTick(const double tick = 1.0) {
+    _cbtick = tick;
+    return *this;
+  }
+  /**
+   * @brief Return current z tick interval
+   *
+   * @return double
+   */
+  inline double getZTick(void) const { return _cbtick; }
   /**
    * @brief Set the Palette
    *
@@ -83,7 +100,7 @@ class Gnuplot2DWriter {
     std::string s = "(";
     for (int i = 0; i < _palette.size(); ++i) {
       auto& e = _palette.at(i);
-      s += std::to_string(e.zposition) + "\"" + e.color + "\"";
+      s += std::to_string(e.zposition) + " \"" + e.color + "\"";
       if (i != _palette.size() - 1)
         s += ", ";
     }

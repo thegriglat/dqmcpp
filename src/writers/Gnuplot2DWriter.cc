@@ -46,7 +46,9 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
      << std::endl;
   os << "set zrange [" << gw.getZ().min << ":" << gw.getZ().max << "]"
      << std::endl;
+  os << "set cbtics " << gw.getZTick() << std::endl;
   os << "set xtics rotate 90" << std::endl;
+  os << "set size ratio " << (double)gw.ncolumns() / gw.nrows() << std::endl;
   os << "$map1 << EOD" << std::endl;
   os << "N ";
   for (auto& e : gw._xlabels)
@@ -62,7 +64,8 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   }
   os << std::endl;
   os << "EOD" << std::endl;
-  os << "plot '$map1' matrix rowheaders columnheaders with image" << std::endl;
+  os << "plot '$map1' matrix rowheaders columnheaders with image notitle"
+     << std::endl;
   delete[] all;
   return os;
 }
