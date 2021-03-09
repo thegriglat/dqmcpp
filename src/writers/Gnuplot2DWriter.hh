@@ -87,7 +87,7 @@ class Gnuplot2DWriter {
    */
   inline double getZTick(void) const { return _cbtick; }
   /**
-   * @brief Set the Palette
+   * @brief Set the Palette. Position in PaletteColor are relative (in [0,1])
    *
    * @param palette
    * @return Gnuplot2DWriter&
@@ -137,7 +137,9 @@ class Gnuplot2DWriter {
     std::string s = "(";
     for (int i = 0; i < _palette.size(); ++i) {
       auto& e = _palette.at(i);
-      s += std::to_string(e.zposition) + " \"" + e.color + "\"";
+      const auto palette_pos =
+          _zaxis.min + e.zposition * (_zaxis.max - _zaxis.min);
+      s += std::to_string(palette_pos) + " \"" + e.color + "\"";
       if (i != _palette.size() - 1)
         s += ", ";
     }

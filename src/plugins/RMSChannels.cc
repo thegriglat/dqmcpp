@@ -88,9 +88,9 @@ void RMSPlugin::plot(const std::vector<ECAL::RunData>& rundata) {
   out << Gnuplot2DWriter(data)
              .title("G12 RMS channels")
              .setPalette({{0, "white"},
-                          {3, "#006400"},
-                          {3, "#fff497"},
-                          {100, "#ff0201"}})
+                          {0.03, "#006400"},
+                          {0.03, "#fff497"},
+                          {1.0, "#ff0201"}})
              .setZ(0, 100)
              .output("rms_channels.png")
       << std::endl;
