@@ -1,4 +1,4 @@
-#include "TTF4Plugin.hh"
+#include "TTMaskingStatus.hh"
 
 #include <algorithm>
 #include <fstream>
@@ -17,29 +17,6 @@ struct URLType {
   std::string url;
   bool isEB = false;
   URLType(const std::string _s, bool eb) : url(_s), isEB(eb){};
-};
-
-struct TTData {
-  // TT number
-  int tt;
-  // EB = 0 ; EE+ = 1; EE- = -1;
-  int iz;
-  double value;
-  TTData(int ttnum, int z, double val) : tt(ttnum), iz(z), value(val){};
-  inline friend bool operator>(const TTData& a, const TTData& b) {
-    return a.value > b.value;
-  };
-  inline friend std::ostream& operator<<(std::ostream& os, const TTData& elem) {
-    os << "tt[tt=" << elem.tt << ",iz=" << elem.iz << "] = " << elem.value;
-    return os;
-  }
-};
-
-struct TTRunData {
-  int run;
-  std::vector<TTData> ttdata;
-  TTRunData(int _run, const std::vector<TTData>& ttd)
-      : run(_run), ttdata(ttd){};
 };
 
 std::vector<URLType> urls(const unsigned int runnumber,
@@ -180,7 +157,7 @@ void plot(const vector<TTRunData>& rundata) {
 
 }  // namespace
 
-void TTF4Plugin::Process() {
+std::vector<TTRunData> TTMaskingStatus::Init() {
   vector<TTRunData> rundata;
   const auto all_channels = ECALChannels::list();
   for (auto r : runListReader->runs()) {
@@ -220,6 +197,15 @@ void TTF4Plugin::Process() {
     }
     rundata.push_back(TTRunData(r.runnumber, data));
   }
+  return rundata;
+}
 
+void TTMaskingStatus::Process() {
+  auto rundata = Init();
   plot(analyze(rundata));
+}
+
+std::vector<TTRunData> TTMaskingStatus::get() {
+  auto rundata = Init();
+  return rundata;
 }
