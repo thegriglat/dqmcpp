@@ -46,6 +46,7 @@ namespace ECALChannels {
  */
 const ChannelInfo* find(const ECAL::Channel& channel);
 const std::vector<ChannelInfo> list(void);
+const std::string detByTTTTC(const int tt, const int tcc);
 };  // namespace ECALChannels
 
 #define ECALCHANNELS_HH

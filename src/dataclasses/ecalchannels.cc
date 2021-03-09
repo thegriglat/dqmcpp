@@ -84,4 +84,15 @@ const std::vector<ChannelInfo> list() {
   Init();
   return _channels;
 }
+
+const std::string detByTTTTC(const int tt, const int tcc) {
+  Init();
+  auto it = std::find_if(_channels.begin(), _channels.end(),
+                         [tt, tcc](const ChannelInfo& c) {
+                           return c.tower == tt && c.tcc == tcc;
+                         });
+  if (it == _channels.end())
+    return "";
+  return it->det;
+}
 };  // namespace ECALChannels
