@@ -41,6 +41,11 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
     }
   }
   // print x labels
+  os << "set palette defined " << gw.palette_str() << std::endl;
+  os << "set cbrange [" << gw.getZ().min << ":" << gw.getZ().max << "]"
+     << std::endl;
+  os << "set zrange [" << gw.getZ().min << ":" << gw.getZ().max << "]"
+     << std::endl;
   os << "set xtics rotate 90" << std::endl;
   os << "$map1 << EOD" << std::endl;
   os << "N ";
