@@ -1,5 +1,9 @@
 #ifndef PLUGINFACTORY_HH
-
+/**
+ * @file Plugins.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Namespace to get Plugin* by name
+ */
 #include <map>
 #include <string>
 #include <vector>

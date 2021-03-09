@@ -1,5 +1,9 @@
 #ifndef RUNLISTREADER_HH
-
+/**
+ * @file RunListReader.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Parse input file
+ */
 #include <iostream>
 #include <vector>
 #include "../dataclasses/ECAL.hh"

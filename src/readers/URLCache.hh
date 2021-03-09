@@ -1,7 +1,8 @@
 #ifndef URLCACHE_HH
 /**
- * @brief Class to cache URL requests
- *
+ * @file URLCache.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Caches URL requests to filesystem
  */
 
 #include <string>

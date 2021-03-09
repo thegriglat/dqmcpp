@@ -1,5 +1,9 @@
 #ifndef RMSCHANNELS_HH
-
+/**
+ * @file RMSChannels.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief ECAL G12 RMS map
+ */
 #include "Plugin.hh"
 
 class RMSPlugin : public Plugin {

@@ -1,3 +1,8 @@
+/**
+ * @file ECAL.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Various functions to convert ECAL data
+ */
 #include "ECAL.hh"
 #include "ecalchannels.hh"
 

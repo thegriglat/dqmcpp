@@ -1,3 +1,8 @@
+/**
+ * @file dqm.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Main file for running plugins
+ */
 #include <fstream>
 #include <iostream>
 #include <vector>

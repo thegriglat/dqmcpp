@@ -1,5 +1,12 @@
 #ifndef LOGGING_HH
 
+/**
+ * @file logging.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Logging/debugging macro
+ * @todo Add -DNDEBUG handling
+ */
+
 #include <iostream>
 
 #define ERROR(X)                                                               \

@@ -1,3 +1,8 @@
+/**
+ * @file common.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Common pure functions
+ */
 #include "common.hh"
 #include <iostream>
 #include <string>

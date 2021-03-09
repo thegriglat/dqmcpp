@@ -1,5 +1,9 @@
 #ifndef TTF4OCCUPANCY_HH
-
+/**
+ * @file TTF4Occupancy.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief TTF4 Occupancy plot
+ */
 #include <vector>
 #include "../dataclasses/ECAL.hh"
 #include "Plugin.hh"

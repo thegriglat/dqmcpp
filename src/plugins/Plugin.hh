@@ -1,15 +1,15 @@
 #ifndef PLUGIN_HH
-
+/**
+ * @file Plugin.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Virtual class for Plugins
+ */
 #include <string>
 #include <vector>
 #include "../dataclasses/ECAL.hh"
 #include "../readers/Reader.hh"
 #include "../readers/RunListReader.hh"
 
-/**
- * @brief Virtual class for plugins (tests)
- *
- */
 class Plugin {
  protected:
   Reader* reader = nullptr;

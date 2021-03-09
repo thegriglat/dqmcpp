@@ -1,5 +1,12 @@
 #ifndef TTF4MASKINGSTATUS_HH
-
+/**
+ * @file TTMaskingStatus.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief TT Masking status
+ *
+ * Can be used in other plugins
+ *
+ */
 #include <vector>
 #include "../dataclasses/ECAL.hh"
 #include "Plugin.hh"

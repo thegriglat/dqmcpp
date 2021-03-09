@@ -1,12 +1,12 @@
 #ifndef URLHANDLER_HH
-
+/**
+ * @file URLHandler.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Helper class for cURL
+ */
 #include <string>
 #include "curl/curl.h"
 
-/**
- * @brief Helper class for curl operations
- *
- */
 class URLHandler {
  private:
   CURL* _curl = nullptr;

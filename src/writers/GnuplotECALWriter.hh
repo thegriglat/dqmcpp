@@ -1,15 +1,13 @@
 #ifndef GNUPLOTECALWRITER_HH
-
+/**
+ * @file GnuplotECALWriter.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Write ECAL plots in gnuplot format
+ */
 #include <algorithm>
 #include <iostream>
 #include "../dataclasses/ECAL.hh"
 
-/**
- * @brief Wrapper class for plotting RunData to gnuplot
- * Don't own any resources but use pointer to constructor parameter
- * It's just overloads operator<<(). Some methods can be chained like
- * outfile << GnuplotECALWriter(...).setPalette(...).setZrange(...);
- */
 class GnuplotECALWriter {
  public:
   struct PaletteColor {

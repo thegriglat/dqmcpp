@@ -1,5 +1,9 @@
 #ifndef COMMON_HH
-
+/**
+ * @file common.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Common pure functions
+ */
 #include <assert.h>
 #include <bits/stl_function.h>
 #include <algorithm>

@@ -1,5 +1,9 @@
 #ifndef GNUPLOTECALWRITERLINES_HH
-
+/**
+ * @file GnuplotECALWriterLines.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Helper class for drawing ECAL
+ */
 #include <array>
 #include <vector>
 /**

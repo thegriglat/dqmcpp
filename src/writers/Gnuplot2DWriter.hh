@@ -1,5 +1,9 @@
 #ifndef GNUPLOT2DWRITER_HH
-
+/**
+ * @file Gnuplot2DWriter.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Output 2D histograms
+ */
 #include <algorithm>
 #include <functional>
 #include <iostream>

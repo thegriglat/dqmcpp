@@ -1,5 +1,9 @@
 #ifndef DQMURLPROVIDER_HH
-
+/**
+ * @file DQMURLProvider.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Provide simple functions for DQM urls
+ */
 #include <string>
 
 namespace DQMURL {

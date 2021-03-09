@@ -1,5 +1,9 @@
 #ifndef ECAL_HH
-
+/**
+ * @file ECAL.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief ECAL data structure namespace
+ */
 #include <iostream>
 #include <string>
 #include <vector>

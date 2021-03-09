@@ -1,9 +1,9 @@
 #ifndef READER_HH
 /**
- * @brief Pure abstract class for readers
- *
+ * @file Reader.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Abstract class for all readers
  */
-
 #include <string>
 #include "../dataclasses/ECAL.hh"
 #include "URLCache.hh"
