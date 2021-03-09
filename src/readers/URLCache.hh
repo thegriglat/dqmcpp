@@ -49,6 +49,13 @@ class URLCache {
    */
   void setCacheDir(const std::string& dir);
   /**
+   * @brief Get the Cache Directory. if CACHEDIR environment variable set it
+   * will be used
+   *
+   * @return std::string
+   */
+  std::string getCacheDir(void) const;
+  /**
    * @brief Check if cache has entry
    *
    * @param url URL

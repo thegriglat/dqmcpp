@@ -1,19 +1,43 @@
 #include "URLCache.hh"
-// #include "md5.hh"
 #include <fstream>
 #include <functional>
+#include "../common/common.hh"
+
+namespace {
+/**
+ * @brief Removes http://, https:// etc.
+ *
+ * @param url
+ * @return std::string
+ */
+std::string removeProtocol(const std::string& url) {
+  static const std::string protodelimeter = "://";
+  auto pos = url.find(protodelimeter);
+  return url.substr(pos + protodelimeter.length());
+}
+
+}  // namespace
 
 void URLCache::setCacheDir(const std::string& dir) {
   _cachedir = dir;
 }
 
+std::string URLCache::getCacheDir(void) const {
+  auto env = std::getenv("CACHEDIR");
+  if (env)
+    return env;
+  return _cachedir;
+}
+
 std::string URLCache::hash(const std::string& text) const {
-  // return text;
-  const auto hash = std::hash<std::string>{}(text);
-  return std::to_string(hash);
+  // return basename
+  auto s = split(text, "/");
+  return s.back();
 }
 std::string URLCache::cFileName(const std::string& url) const {
-  return _cachedir + "/" + hash(url) + ".dqmcache";
+  auto dirpath = getCacheDir() + "/" + dirname(removeProtocol(url));
+  mkdir_p(dirpath);
+  return dirpath + "/" + hash(url);
 }
 std::string URLCache::getFromCache(const std::string& url) const {
   // assuming that file exists
@@ -36,10 +60,7 @@ void URLCache::add(const std::string& url, const std::string& content) {
 }
 
 bool URLCache::has(const std::string& url) const {
-  std::ifstream in(cFileName(url));
-  bool exists = in.good();
-  in.close();
-  return exists;
+  return file_exists(cFileName(url));
 }
 
 std::string URLCache::get(const std::string& url) {
