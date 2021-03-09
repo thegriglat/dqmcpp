@@ -173,8 +173,8 @@ void plot(const vector<TTRunData>& rundata) {
     }
   }
   Gnuplot2DWriter writer(data);
-  ofstream out("ttf4.dat");
-  out << writer << std::endl;
+  ofstream out("tt_masking.dat");
+  out << writer.setZ(0, 1).setPalette({{0, "white"}, {1, "red"}}) << std::endl;
   out.close();
 }
 
