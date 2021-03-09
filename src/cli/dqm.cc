@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include "../common/common.hh"
 #include "../plugins/Plugins.hh"
 #include "../readers/JSONReader.hh"
 #include "../readers/RunListReader.hh"
@@ -9,7 +10,7 @@ using namespace std;
 
 int main(int argc, char** argv) {
   if (argc != 3) {
-    std::cout << "Usage: " << argv[0] << " <plugin> <runlist file>"
+    std::cout << "Usage: " << argv[0] << " <plugin list | all> <runlist file>"
               << std::endl;
     std::cout << "Plugins: " << std::endl;
     for (auto& name : Plugins::list()) {
@@ -17,14 +18,24 @@ int main(int argc, char** argv) {
     }
     return 0;
   }
+  auto plugin_names = split(argv[1], ",");
+  std::cout << "@" << argv[1] << std::endl;
+  for (auto e : plugin_names)
+    std::cout << "!" << e << std::endl;
+  if (has(plugin_names, std::string("all")))
+    plugin_names = Plugins::list();
   auto reader = new JSONReader();
-  auto plugin = Plugins::get(argv[1]);
-  if (!plugin) {
-    exit(1);
+  for (auto plugin_name : plugin_names) {
+    std::cout << "##### RUN " << plugin_name << " #####" << std::endl;
+    auto plugin = Plugins::get(plugin_name);
+    if (!plugin) {
+      exit(1);
+    }
+    plugin->setReader(reader);
+    RunListReader rlr(argv[2]);
+    plugin->setRunListReader(&rlr);
+    plugin->Process();
+    std::cout << "##### END " << plugin_name << " #####" << std::endl;
   }
-  plugin->setReader(reader);
-  RunListReader rlr(argv[2]);
-  plugin->setRunListReader(&rlr);
-  plugin->Process();
   return 0;
 }
