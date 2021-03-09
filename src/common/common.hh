@@ -71,5 +71,30 @@ double maximum(std::vector<T>& list) {
   return maximum(list, [](const T& e) { return e; });
 }
 
+/**
+ * @brief Checks if dir exists
+ *
+ * @param path
+ * @return true
+ * @return false
+ */
+bool file_exists(const std::string& path);
+
+/**
+ * @brief Like mkdir -p. True if success
+ *
+ * @param path
+ * @return true
+ * @return false
+ */
+bool mkdir_p(const std::string& path);
+
+/**
+ * @brief Like dirname
+ *
+ * @param path
+ * @return std::string
+ */
+std::string dirname(const std::string& path);
 #define COMMON_HH
 #endif
