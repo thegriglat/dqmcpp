@@ -38,5 +38,38 @@ bool has(const std::vector<T>& data, const T& elem) {
   return std::find(data.begin(), data.end(), elem) != data.end();
 }
 
+/**
+ * @brief Returns maximum value from vector of T with getter
+ *
+ * @tparam T
+ * @param list
+ * @param getter
+ * @return double
+ */
+template <typename T>
+double maximum(std::vector<T>& list, double (*getter)(const T&)) {
+  if (list.size() == 0)
+    return -1;
+  double max = getter(list.at(0));
+  for (auto& e : list) {
+    auto _val = getter(e);
+    if (_val > max)
+      max = _val;
+  }
+  return max;
+}
+
+/**
+ * @brief Returns maximum value from vector of T
+ *
+ * @tparam T
+ * @param list
+ * @return double
+ */
+template <typename T>
+double maximum(std::vector<T>& list) {
+  return maximum(list, [](const T& e) { return e; });
+}
+
 #define COMMON_HH
 #endif

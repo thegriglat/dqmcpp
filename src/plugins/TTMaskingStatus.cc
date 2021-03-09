@@ -113,22 +113,13 @@ vector<TTRunData> filterTT(vector<TTRunData>& rundata) {
   return rundata;
 }
 
-double maxim(std::vector<TTData>& ttdata) {
-  if (ttdata.size() == 0)
-    return -1;
-  double max = ttdata.at(0).value;
-  for (auto& e : ttdata)
-    if (e.value > max)
-      max = e.value;
-  return max;
-}
-
 vector<TTRunData> analyze(vector<TTRunData>& rundata) {
   // filter tt which all have 0 in all runs
   rundata = filterTT(rundata);
   // normalize TT value
   for (auto& e : rundata) {
-    auto max = maxim(e.ttdata);
+    auto max =
+        maximum<TTData>(e.ttdata, [](const TTData& e) { return e.value; });
     for (auto& ee : e.ttdata) {
       ee.value /= max;
     }
