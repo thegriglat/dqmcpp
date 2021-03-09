@@ -1,11 +1,16 @@
 #include "RMSChannels.hh"
-
+/**
+ * @file RMSChannels.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Heatmap with noisy RMS channels
+ */
 #include <cmath>
 #include <fstream>
+#include <map>
 #include <string>
 #include "../dataclasses/ecalchannels.hh"
 #include "../readers/DQMURLProvider.hh"
-#include "../writers/GnuplotECALWriter.hh"
+#include "../writers/Gnuplot2DWriter.hh"
 
 #define RMSMAX (5)
 
@@ -66,59 +71,29 @@ std::vector<ECAL::RunData> RMSPlugin::analyze(
 void RMSPlugin::plot(const std::vector<ECAL::RunData>& rundata) {
   if (rundata.size() == 0)
     return;
-  std::ofstream out("rms_channels.plt");
-  out << "set xtics rotate 90" << std::endl
-      << "set cbrange [0:100]" << std::endl
-      << "set cbtics 5" << std::endl
-      << "set palette defined (0 \"white\", 3 \"green\", 3 \"yellow\", 5 "
-         "\"yellow\", 100 \"red\")"
-      << std::endl;
 
-  const auto scale = (double)rundata.at(0).channeldata.size() / rundata.size();
-  out << "scale = " << scale << std::endl
-      << "set size ratio scale" << std::endl
-      << "set term pngcairo size 1024,768*scale" << std::endl
-      << "set xlabel \"Run number\"" << std::endl
-      << "set ylabel \"Channel\"" << std::endl
-      << "set title \"Channels with RMS >" << RMSMAX << "\"" << std::endl;
-  out << "$map1 << EOD" << std::endl;
-  out << rundata.size() << " ";
-  for (auto& e : rundata) {
-    // print runs
-    out << e.run.runnumber << " ";
-  }
-  out << std::endl;
-  // print TT and data for all runs
-  // all channels are equal
-  const auto& channels = rundata.at(0).channeldata;
-  std::cout << "Found " << channels.size() << " bad channels" << std::endl;
-  for (auto channel : channels) {
-    std::cout << ".";
-    auto info = ECALChannels::find(channel.channel);
-    if (info) {
-      // channel found
-      out << "\"" << info->det << " TT" << info->ccu << " ["
-          << channel.channel.ix_iphi << "," << channel.channel.iy_ieta << "]\"";
-      std::vector<double> channel_values;
-      // get data from all runs for given channel
-      channel_values.reserve(rundata.size());
-      for (auto& rund : rundata) {
-        auto it = std::find_if(rund.channeldata.begin(), rund.channeldata.end(),
-                               [channel](const ECAL::ChannelData& cd) {
-                                 return cd.channel == channel.channel;
-                               });
-        channel_values.push_back(it->value);
-      }
-      for (auto value : channel_values) {
-        const auto printed_value = (std::isnan(value)) ? -2 : value;
-        out << " " << printed_value;
-      }
-      out << std::endl;
+  Gnuplot2DWriter::Data2D data;
+  for (auto& rd : rundata) {
+    const auto runstr = std::to_string(rd.run.runnumber);
+    for (auto& chd : rd.channeldata) {
+      auto channel_info = ECALChannels::find(chd.channel);
+      const std::string channelstr =
+          channel_info->det + " TT" + std::to_string(channel_info->tower) +
+          " [" + std::to_string(chd.channel.ix_iphi) + "," +
+          std::to_string(chd.channel.iy_ieta) + "]";
+      data.insert({{runstr, channelstr}, chd.value});
     }
   }
-  std::cout << std::endl;
-  out << "EOD" << std::endl << "set output \"rms_channels.png\"" << std::endl;
-  out << "plot '$map1' matrix rowheaders columnheaders with image" << std::endl;
+  std::ofstream out("rms_channels.plt");
+  out << Gnuplot2DWriter(data)
+             .title("G12 RMS channels")
+             .setPalette({{0, "white"},
+                          {3, "#006400"},
+                          {3, "#fff497"},
+                          {100, "#ff0201"}})
+             .setZ(0, 100)
+             .output("rms_channels.png")
+      << std::endl;
   out.close();
   return;
 }
