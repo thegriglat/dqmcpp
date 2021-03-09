@@ -43,8 +43,8 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   // print x labels
   auto scale = (double)gw.ncolumns() / gw.nrows();
   os << "scale = " << scale << std::endl
-     << "set term pngcairo size 1024*scale,768*scale "
-        "fontscale scale linewidth "
+     << "set term pngcairo size 1024*scale,768*scale*scale fontscale scale "
+        "linewidth "
         "scale pointscale scale"
      << std::endl
      << "set palette defined " << gw.palette_str() << std::endl;
@@ -54,7 +54,6 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
      << std::endl;
   os << "set cbtics " << gw.getZTick() << std::endl;
   os << "set xtics rotate 90" << std::endl;
-  os << "set size ratio " << scale << std::endl;
   // grid. use additional grid to draw lines
   os << "set x2tics 1 format '' scale 0,0.001" << std::endl
      << "set y2tics 1 format '' scale 0,0.001" << std::endl
