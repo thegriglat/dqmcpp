@@ -1,3 +1,9 @@
+/**
+ * @file TestPlugin.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief RMS G12 ECAL map
+ */
+
 #include "TestPlugin.hh"
 
 #include <fstream>

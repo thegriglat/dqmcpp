@@ -2,7 +2,7 @@
 /**
  * @file TTF4Occupancy.hh
  * @author Grigory Latyshev (thegriglat@gmail.com)
- * @brief TTF4 Occupancy plot
+ * @brief TTF4 Occupancy plugin
  */
 #include <vector>
 #include "../dataclasses/ECAL.hh"

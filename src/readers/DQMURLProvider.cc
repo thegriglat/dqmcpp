@@ -1,3 +1,8 @@
+/**
+ * @file DQMURLProvider.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief DQMURLProvider source
+ */
 #include "DQMURLProvider.hh"
 
 #include <iomanip>

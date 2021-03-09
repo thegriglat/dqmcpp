@@ -1,5 +1,9 @@
 #ifndef TESTPLUGIN_HH
-
+/**
+ * @file TestPlugin.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief ECAL RMS G12 map plugin
+ */
 #include "Plugin.hh"
 
 class TestPlugin : public Plugin {

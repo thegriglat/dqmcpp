@@ -1,3 +1,8 @@
+/**
+ * @file URLCache.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief URLCache implementation
+ */
 #include "URLCache.hh"
 #include <fstream>
 #include <functional>

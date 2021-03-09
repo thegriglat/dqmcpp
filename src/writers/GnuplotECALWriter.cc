@@ -1,3 +1,9 @@
+/**
+ * @file GnuplotECALWriter.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief GnuplotECALWriter implementation
+ * @todo Rewrite using Gnuplot2DWriter
+ */
 #include "GnuplotECALWriter.hh"
 #include <algorithm>
 #include <iomanip>

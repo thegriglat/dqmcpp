@@ -2,7 +2,7 @@
 /**
  * @file RMSChannels.hh
  * @author Grigory Latyshev (thegriglat@gmail.com)
- * @brief ECAL G12 RMS map
+ * @brief ECAL RMS G12 plugin
  */
 #include "Plugin.hh"
 

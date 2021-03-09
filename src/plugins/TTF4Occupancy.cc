@@ -1,3 +1,8 @@
+/**
+ * @file TTF4Occupancy.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief TTF4Occupancy implementation
+ */
 #include "TTF4Occupancy.hh"
 #include <algorithm>
 #include <fstream>

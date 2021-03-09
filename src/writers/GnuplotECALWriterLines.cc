@@ -1,3 +1,8 @@
+/**
+ * @file GnuplotECALWriterLines.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Array generation for ECAL EE +/- lines
+ */
 #include "GnuplotECALWriterLines.hh"
 
 #include <cmath>

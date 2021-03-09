@@ -1,3 +1,8 @@
+/**
+ * @file RunListReader.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief RunListReader code
+ */
 #include "RunListReader.hh"
 
 #include <fstream>

@@ -2,7 +2,7 @@
 /**
  * @file TTMaskingStatus.hh
  * @author Grigory Latyshev (thegriglat@gmail.com)
- * @brief TT Masking status
+ * @brief TT Masking status plugin
  *
  * Can be used in other plugins
  *

@@ -1,4 +1,8 @@
-
+/**
+ * @file URLHandler.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief URLHander implementation
+ */
 #include "URLHandler.hh"
 #include "../common/logging.hh"
 #include "curl/curl.h"

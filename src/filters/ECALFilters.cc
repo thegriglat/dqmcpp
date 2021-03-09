@@ -1,3 +1,8 @@
+/**
+ * @file ECALFilters.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Implementation of common ECAL filters
+ */
 #include "ECALFilters.hh"
 #include <algorithm>
 

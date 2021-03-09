@@ -1,3 +1,8 @@
+/**
+ * @file TTMaskingStatus.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief TTMaskingStatus implementation
+ */
 #include "TTMaskingStatus.hh"
 
 #include <algorithm>

@@ -1,3 +1,8 @@
+/**
+ * @file Plugins.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Functions to get Plugin* by name
+ */
 #include "Plugins.hh"
 
 #include "RMSChannels.hh"

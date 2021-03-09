@@ -1,3 +1,10 @@
+/**
+ * @file JSONReader.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief JSONReader code
+ * @todo join parse and parse2D functions
+ */
+
 #include "JSONReader.hh"
 #include "../common/logging.hh"
 

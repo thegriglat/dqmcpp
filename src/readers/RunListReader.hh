@@ -2,7 +2,7 @@
 /**
  * @file RunListReader.hh
  * @author Grigory Latyshev (thegriglat@gmail.com)
- * @brief Parse input file
+ * @brief Parsing input file
  */
 #include <iostream>
 #include <vector>

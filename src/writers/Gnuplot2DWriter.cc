@@ -1,3 +1,8 @@
+/**
+ * @file Gnuplot2DWriter.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Gnuplot2DWriter implementation
+ */
 #include "Gnuplot2DWriter.hh"
 
 #include <algorithm>
