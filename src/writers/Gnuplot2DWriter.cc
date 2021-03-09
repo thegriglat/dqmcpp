@@ -41,14 +41,33 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
     }
   }
   // print x labels
-  os << "set palette defined " << gw.palette_str() << std::endl;
+  auto scale = (double)gw.ncolumns() / gw.nrows();
+  os << "scale = " << scale << std::endl
+     << "set term pngcairo size 1024*scale,768*scale "
+        "fontscale scale linewidth "
+        "scale pointscale scale"
+     << std::endl
+     << "set palette defined " << gw.palette_str() << std::endl;
   os << "set cbrange [" << gw.getZ().min << ":" << gw.getZ().max << "]"
      << std::endl;
   os << "set zrange [" << gw.getZ().min << ":" << gw.getZ().max << "]"
      << std::endl;
   os << "set cbtics " << gw.getZTick() << std::endl;
   os << "set xtics rotate 90" << std::endl;
-  os << "set size ratio " << (double)gw.ncolumns() / gw.nrows() << std::endl;
+  os << "set size ratio " << scale << std::endl;
+  // grid. use additional grid to draw lines
+  os << "set x2tics 1 format '' scale 0,0.001" << std::endl
+     << "set y2tics 1 format '' scale 0,0.001" << std::endl
+     << "set mx2tics 2" << std::endl
+     << "set my2tics 2" << std::endl
+     << "set x2range[-0.5:" << gw.nrows() - 0.5 << "]" << std::endl
+     << "set y2range[-0.5:" << gw.ncolumns() - 0.5 << "]" << std::endl
+     << "set grid front mx2tics my2tics lw 1"
+     << std::endl
+     // remove x/y tics, keep labels
+     << "set xtics scale 0" << std::endl
+     << "set ytics scale 0" << std::endl
+     << "set title \"" << gw.getTitle() << "\"" << std::endl;
   os << "$map1 << EOD" << std::endl;
   os << "N ";
   for (auto& e : gw._xlabels)
@@ -64,6 +83,7 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   }
   os << std::endl;
   os << "EOD" << std::endl;
+  os << "set output \"" << gw.getOutput() << "\"" << std::endl;
   os << "plot '$map1' matrix rowheaders columnheaders with image notitle"
      << std::endl;
   delete[] all;

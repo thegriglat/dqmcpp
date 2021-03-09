@@ -27,6 +27,8 @@ class Gnuplot2DWriter {
 
   Axis _zaxis;
   double _cbtick = 1;
+  std::string _output = "out";
+  std::string _title = "title";
   Palette _palette = {{{-1, "white"}, {0.0, "yellow"}, {5.0, "red"}}};
   inline unsigned int nrows() const { return _xlabels.size(); }
   inline unsigned int ncolumns() const { return _ylabels.size(); }
@@ -60,6 +62,22 @@ class Gnuplot2DWriter {
     return *this;
   }
   /**
+   * @brief Set output file
+   *
+   * @param outfile
+   * @return Gnuplot2DWriter&
+   */
+  inline Gnuplot2DWriter& output(const std::string outfile = "out") {
+    _output = outfile;
+    return *this;
+  }
+  /**
+   * @brief Get the Output file
+   *
+   * @return std::string
+   */
+  inline std::string getOutput(void) const { return _output; }
+  /**
    * @brief Return current z tick interval
    *
    * @return double
@@ -79,6 +97,22 @@ class Gnuplot2DWriter {
               });
     return *this;
   }
+  /**
+   * @brief Set title
+   *
+   * @param title
+   * @return Gnuplot2DWriter&
+   */
+  inline Gnuplot2DWriter& title(const std::string title = "out") {
+    _title = title;
+    return *this;
+  }
+  /**
+   * @brief Get the Title
+   *
+   * @return std::string
+   */
+  inline std::string getTitle(void) const { return _title; }
   /**
    * @brief Returns z axis range
    *
