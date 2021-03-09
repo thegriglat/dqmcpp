@@ -11,9 +11,8 @@
 #include <vector>
 
 class Gnuplot2DWriter {
-  using Data2D = std::map<std::pair<std::string, std::string>, double>;
-
  public:
+  using Data2D = std::map<std::pair<std::string, std::string>, double>;
   struct PaletteColor {
     float zposition;
     std::string color;
