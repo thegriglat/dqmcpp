@@ -73,6 +73,8 @@ URLHandler::URLHandler() {
     curl_easy_setopt(_curl, CURLOPT_SSLCERTTYPE, "PEM");
     curl_easy_setopt(_curl, CURLOPT_SSLCERT, pCertFile.c_str());
     curl_easy_setopt(_curl, CURLOPT_SSLKEY, pKeyFile.c_str());
+    // TCP Keep Alive
+    curl_easy_setopt(_curl, CURLOPT_TCP_KEEPALIVE, 1UL);
     // curl_easy_setopt(curl, CURLOPT_CAINFO, pCACertFile);
   }
 }
