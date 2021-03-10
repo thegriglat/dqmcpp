@@ -25,21 +25,22 @@ string urls(const int run, const std::string& dataset) {
       "egamma_noniso_bx_ieta_firstbunch_ptmin10p0";
   return DQMURL::dqmurl(run, dataset, path);
 }
-vector<ECAL::Data2D> filter(vector<ECAL::Data2D>& data, double x) {
+vector<ECAL::Data2D> filter(const vector<ECAL::Data2D>& data, const double x) {
   vector<ECAL::Data2D> r;
-  std::copy_if(data.begin(), data.end(), std::back_inserter(r),
-               [x](const ECAL::Data2D& d) { return std::abs(d.x - x) < 0.1; });
+  for (auto& e : data)
+    if (std::abs(e.x - x) < 0.1)
+      r.push_back(e);
   return r;
 }
 
-double sum(vector<ECAL::Data2D>& d) {
+double sum(const vector<ECAL::Data2D>& d) {
   double s = 0;
   for (auto& e : d)
     s += e.value;
   return s;
 }
 
-vector<RunProb> calcProb(vector<ECAL::RunData2D>& rundata) {
+vector<RunProb> calcProb(const vector<ECAL::RunData2D>& rundata) {
   vector<RunProb> result;
   result.reserve(rundata.size());
   for (auto& rd : rundata) {
@@ -53,12 +54,12 @@ vector<RunProb> calcProb(vector<ECAL::RunData2D>& rundata) {
   return result;
 }
 
-vector<ECAL::Data2D> filter0m2(vector<ECAL::Data2D>& data) {
-  data.erase(std::remove_if(
-                 data.begin(), data.end(),
-                 [](const ECAL::Data2D& d) { return d.x < -1.5 || d.x > 0.5; }),
-             data.end());
-  return data;
+vector<ECAL::Data2D> filter0m2(const vector<ECAL::Data2D>& data) {
+  vector<ECAL::Data2D> r;
+  for (auto& e : data)
+    if (e.x > -1.5 && e.x < 0.5)
+      r.push_back(e);
+  return r;
 }
 
 }  // namespace
@@ -70,6 +71,8 @@ void L1TEGammaIsoPrePlugin::Process() {
     auto url = urls(run.runnumber, run.dataset);
     cout << run.dataset << " " << url << endl;
     auto content = reader->parse2D(reader->get(url));
+    if (content.size() == 0)
+      continue;
     content = filter0m2(content);
     rundata.push_back(ECAL::RunData2D(run.runnumber, content));
   }
