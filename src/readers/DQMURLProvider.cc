@@ -22,6 +22,8 @@
 using namespace std;
 
 namespace {
+URLCache* cache = nullptr;
+
 /**
  * @brief Replace specific symbols in url
  *
@@ -134,11 +136,12 @@ std::string dqmurl(const unsigned int run,
 std::vector<std::string> datasets(const unsigned int run,
                                   const std::string mask,
                                   const bool useLast) {
-  URLCache cache;
+  if (!cache)
+    cache = new URLCache();
   const std::string query =
       "https://cmsweb.cern.ch/dqm/offline/session/EsOFGH/modify?vary=any&pat=" +
       std::to_string(run);
-  auto content = cache.get(query);
+  auto content = cache->get(query);
 
   // erase first and last ( )
   content.erase(0, 1);
