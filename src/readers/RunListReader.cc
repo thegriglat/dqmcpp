@@ -20,6 +20,11 @@ RunListReader::RunListReader(const std::string filename) {
   string line;
   while (!in.eof()) {
     std::getline(in, line);
+    // strip # and everything after
+    auto pos = line.find("#");
+    if (pos != line.npos)
+      line.erase(pos);
+    line = trim(line);
     auto tokens = split(line);
     if (tokens.size() < 2) {
       std::cout << "line '" << line << "' contains less than 2 fields. Skipping"
