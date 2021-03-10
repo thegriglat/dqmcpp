@@ -55,16 +55,12 @@ std::vector<ECAL::ChannelData> JSONReader::parse(nlohmann::json& j) {
   const auto xaxis = j["hist"]["xaxis"];
   const auto yaxis = j["hist"]["yaxis"];
   const auto xtitle = xaxis["title"].get<string>();
-  const auto xnbins =
-      xaxis["last"]["id"].get<int>() - xaxis["first"]["id"].get<int>() + 1;
   const auto xfirst = xaxis["first"]["value"].get<int>();
   const auto xlast = xaxis["last"]["value"].get<int>();
   const char xsign = (xtitle.find('-') != xtitle.npos) ? -1 : 1;
   const auto xstep = ((xlast > xfirst) ? 1 : -1);
 
   const auto ytitle = yaxis["title"].get<string>();
-  const auto ynbins =
-      yaxis["last"]["id"].get<int>() - yaxis["first"]["id"].get<int>() + 1;
   const auto yfirst = yaxis["first"]["value"].get<int>();
   const auto ylast = yaxis["last"]["value"].get<int>();
   const auto ystep = (ylast > yfirst) ? 1 : -1;

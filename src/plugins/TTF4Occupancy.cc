@@ -45,12 +45,10 @@ std::vector<URLType> urls(const unsigned int runnumber,
 
 vector<ECAL::TTRunData> getMaskedChannels(Reader* reader,
                                           RunListReader* runlistreader) {
-  auto ttmasking = new TTMaskingStatus();
-  ttmasking->setReader(reader);
-  ttmasking->setRunListReader(runlistreader);
-  auto ttrundata = ttmasking->get();
-  delete ttmasking;
-  return ttrundata;
+  TTMaskingStatus ttmasking;
+  ttmasking.setReader(reader);
+  ttmasking.setRunListReader(runlistreader);
+  return ttmasking.get();
 };
 }  // namespace
 

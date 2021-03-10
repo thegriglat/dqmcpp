@@ -12,7 +12,7 @@
 static std::vector<std::array<int, 4>> generateLines(
     std::vector<std::array<int, 2>> points) {
   std::vector<std::array<int, 4>> r;
-  for (int i = 1; i < points.size(); ++i) {
+  for (unsigned int i = 1; i < points.size(); ++i) {
     r.push_back(
         {points[i - 1][0], points[i - 1][1], points[i][0], points[i][1]});
   }
@@ -21,7 +21,7 @@ static std::vector<std::array<int, 4>> generateLines(
 
 static void mirrorX(std::vector<std::array<int, 4>>& lines) {
   const auto size = lines.size();
-  for (int i = 0; i < size; i++) {
+  for (unsigned int i = 0; i < size; i++) {
     auto x1 = lines[i][0];
     auto y1 = lines[i][1];
     auto x2 = lines[i][2];

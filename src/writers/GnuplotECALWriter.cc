@@ -148,7 +148,7 @@ static void writeGnuplot(std::ostream& os,
      << "set cbrange [" << gw.zrange().min << ":" << gw.zrange().max << "]"
      << std::endl
      << "set palette defined " << gw.palette_str() << std::endl;
-  for (int i = 0; i < rd.size(); ++i) {
+  for (unsigned int i = 0; i < rd.size(); ++i) {
     auto r = rd.at(i);
     writeBarrel(os, r, 3 * i);
     os << "unset label" << std::endl;
@@ -177,7 +177,7 @@ GnuplotECALWriter& GnuplotECALWriter::setPalette(Palette palette) {
 
 std::string GnuplotECALWriter::palette_str() const {
   std::string s = "(";
-  for (int i = 0; i < _palette.size(); ++i) {
+  for (unsigned int i = 0; i < _palette.size(); ++i) {
     auto& e = _palette.at(i);
     s += std::to_string(e.zposition) + "\"" + e.color + "\"";
     if (i != _palette.size() - 1)

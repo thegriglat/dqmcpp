@@ -34,12 +34,12 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   auto index = [&gw](const int x, const int y) {
     return gw.ncolumns() * x + y;
   };
-  for (int i = 0; i < gw.ncolumns() * gw.nrows(); ++i) {
+  for (unsigned int i = 0; i < gw.ncolumns() * gw.nrows(); ++i) {
     all[i] = DEFAULT_VALUE;
   }
-  for (int iy = 0; iy < gw._ylabels.size(); ++iy) {
+  for (unsigned int iy = 0; iy < gw._ylabels.size(); ++iy) {
     const auto ylabel = gw._ylabels.at(iy);
-    for (int ix = 0; ix < gw._xlabels.size(); ++ix) {
+    for (unsigned int ix = 0; ix < gw._xlabels.size(); ++ix) {
       const auto xlabel = gw._xlabels.at(ix);
       if (gw._data.find({xlabel, ylabel}) != gw._data.end())
         all[index(ix, iy)] = gw.get(xlabel, ylabel);
@@ -77,10 +77,10 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   for (auto& e : gw._xlabels)
     os << e << " ";
   os << std::endl;
-  for (int iy = 0; iy < gw.ncolumns(); ++iy) {
+  for (unsigned int iy = 0; iy < gw.ncolumns(); ++iy) {
     const auto ylabel = gw._ylabels.at(iy);
     os << "\"" << ylabel << "\" ";
-    for (int ix = 0; ix < gw.nrows(); ++ix) {
+    for (unsigned int ix = 0; ix < gw.nrows(); ++ix) {
       os << all[index(ix, iy)] << " ";
     }
     os << std::endl;
@@ -105,7 +105,7 @@ Gnuplot2DWriter& Gnuplot2DWriter::setPalette(Palette palette) {
 
 std::string Gnuplot2DWriter::palette_str() const {
   std::string s = "(";
-  for (int i = 0; i < _palette.size(); ++i) {
+  for (unsigned int i = 0; i < _palette.size(); ++i) {
     auto& e = _palette.at(i);
     const auto palette_pos =
         _zaxis.min + e.zposition * (_zaxis.max - _zaxis.min);

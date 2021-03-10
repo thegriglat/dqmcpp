@@ -16,11 +16,16 @@ void help(const string& progname) {
 }
 
 int main(int argc, char** argv) {
-  if (argc == 2 && (argv[1] == "-h" || argv[1] == "--help")) {
-    help(argv[0]);
+  std::vector<std::string> args;
+  args.reserve(argc);
+  for (int i = 0; i < argc; ++i) {
+    args.push_back(argv[i]);
+  }
+  if (argc == 2 && (args.at(1) == "-h" || args.at(1) == "--help")) {
+    help(args.at(0));
     return 0;
   }
-  const string mask = (argc == 1) ? ".*" : argv[1];
+  const string mask = (argc == 1) ? ".*" : args.at(1);
   string line;
   while (std::getline(cin, line)) {
     int run = std::atoi(line.c_str());
@@ -29,7 +34,7 @@ int main(int argc, char** argv) {
       continue;
     }
     auto datasets = DQMURL::datasets(run, mask);
-    for (int i = 0; i < datasets.size(); ++i) {
+    for (unsigned int i = 0; i < datasets.size(); ++i) {
       if (i > 0)
         cout << "# ";
       cout << run << " " << datasets.at(i) << endl;

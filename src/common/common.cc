@@ -30,7 +30,7 @@ std::string join(const std::vector<std::string> list,
                  const std::string delimiter) {
   std::string result;
   const auto len = list.size();
-  for (int i = 0; i < len; ++i) {
+  for (unsigned int i = 0; i < len; ++i) {
     result += list.at(i);
     if (i != len - 1)
       result += delimiter;

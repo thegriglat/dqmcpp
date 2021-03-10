@@ -41,7 +41,7 @@ void Init() {
     std::getline(in, line);
     ChannelInfo info;
     const auto stringlist = split(line, ",");
-    for (int n = 0; n < stringlist.size(); n++) {
+    for (unsigned int n = 0; n < stringlist.size(); n++) {
       auto token = stringlist.at(n);
       if (n < 26) {
         int* intptr = getPtr(info, n);
