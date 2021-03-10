@@ -92,14 +92,7 @@ class Gnuplot2DWriter {
    * @param palette
    * @return Gnuplot2DWriter&
    */
-  inline Gnuplot2DWriter& setPalette(Palette palette) {
-    _palette = palette;
-    std::sort(_palette.begin(), _palette.end(),
-              [](PaletteColor& a, PaletteColor& b) {
-                return a.zposition < b.zposition;
-              });
-    return *this;
-  }
+  Gnuplot2DWriter& setPalette(Palette palette);
   /**
    * @brief Set title
    *
@@ -133,19 +126,7 @@ class Gnuplot2DWriter {
    *
    * @return std::string
    */
-  inline std::string palette_str() const {
-    std::string s = "(";
-    for (int i = 0; i < _palette.size(); ++i) {
-      auto& e = _palette.at(i);
-      const auto palette_pos =
-          _zaxis.min + e.zposition * (_zaxis.max - _zaxis.min);
-      s += std::to_string(palette_pos) + " \"" + e.color + "\"";
-      if (i != _palette.size() - 1)
-        s += ", ";
-    }
-    s += ")";
-    return s;
-  }
+  std::string palette_str() const;
 };
 
 #define GNUPLOT2DWRITER_HH

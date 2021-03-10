@@ -165,3 +165,24 @@ std::ostream& operator<<(std::ostream& os, const GnuplotECALWriter& gw) {
   writeGnuplot(os, gw, *(gw.rd));
   return os;
 }
+
+GnuplotECALWriter& GnuplotECALWriter::setPalette(Palette palette) {
+  _palette = palette;
+  std::sort(_palette.begin(), _palette.end(),
+            [](PaletteColor& a, PaletteColor& b) {
+              return a.zposition < b.zposition;
+            });
+  return *this;
+}
+
+std::string GnuplotECALWriter::palette_str() const {
+  std::string s = "(";
+  for (int i = 0; i < _palette.size(); ++i) {
+    auto& e = _palette.at(i);
+    s += std::to_string(e.zposition) + "\"" + e.color + "\"";
+    if (i != _palette.size() - 1)
+      s += ", ";
+  }
+  s += ")";
+  return s;
+}

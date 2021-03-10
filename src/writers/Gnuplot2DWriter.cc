@@ -93,3 +93,26 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   delete[] all;
   return os;
 }
+
+Gnuplot2DWriter& Gnuplot2DWriter::setPalette(Palette palette) {
+  _palette = palette;
+  std::sort(_palette.begin(), _palette.end(),
+            [](PaletteColor& a, PaletteColor& b) {
+              return a.zposition < b.zposition;
+            });
+  return *this;
+}
+
+std::string Gnuplot2DWriter::palette_str() const {
+  std::string s = "(";
+  for (int i = 0; i < _palette.size(); ++i) {
+    auto& e = _palette.at(i);
+    const auto palette_pos =
+        _zaxis.min + e.zposition * (_zaxis.max - _zaxis.min);
+    s += std::to_string(palette_pos) + " \"" + e.color + "\"";
+    if (i != _palette.size() - 1)
+      s += ", ";
+  }
+  s += ")";
+  return s;
+}

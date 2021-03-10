@@ -48,14 +48,7 @@ class GnuplotECALWriter {
    * @param palette Palette vector (straightforward to gnuplot)
    * @return GnuplotECALWriter&
    */
-  inline GnuplotECALWriter& setPalette(Palette palette) {
-    _palette = palette;
-    std::sort(_palette.begin(), _palette.end(),
-              [](PaletteColor& a, PaletteColor& b) {
-                return a.zposition < b.zposition;
-              });
-    return *this;
-  }
+  GnuplotECALWriter& setPalette(Palette palette);
   /**
    * @brief Returns Z axis range
    *
@@ -73,17 +66,7 @@ class GnuplotECALWriter {
    *
    * @return std::string
    */
-  inline std::string palette_str() const {
-    std::string s = "(";
-    for (int i = 0; i < _palette.size(); ++i) {
-      auto& e = _palette.at(i);
-      s += std::to_string(e.zposition) + "\"" + e.color + "\"";
-      if (i != _palette.size() - 1)
-        s += ", ";
-    }
-    s += ")";
-    return s;
-  }
+  std::string palette_str() const;
   /**
    * @brief Overload operator for std::ostream
    *
