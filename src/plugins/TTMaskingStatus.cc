@@ -104,15 +104,15 @@ std::vector<TTRunData> TTMaskingStatus::Init() {
 
         for (auto& e : q) {
           // find tt by channel coord
-          const auto xch = e.x + 1;
-          const auto ych = e.y + 1;
+          const int xch = e.x;
+          const int ych = e.y;
           auto f = std::find_if(all_channels.begin(), all_channels.end(),
                                 [xch, ych](const ChannelInfo& ch) {
                                   return ch.iphi == xch && ch.ieta == ych;
                                 });
           if (f == all_channels.end()) {
             std::cout << "Cannot find channel !" << std::endl;
-            std::cout << "x: " << e.x << " y: " << e.y << std::endl;
+            std::cout << "x: " << xch << " y: " << ych << std::endl;
           }
           data_tt.push_back(TTData(f->tower, 0, f->tcc, e.value));
         }

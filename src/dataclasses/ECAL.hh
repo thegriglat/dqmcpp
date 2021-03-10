@@ -22,10 +22,19 @@ enum DETECTORS { EB = 0, EEPLUS = 1, EEMINUS = -1 };
  *
  */
 struct Data2D {
-  int x;
-  int y;
+  double x;
+  double y;
   double value;
-  Data2D(int x, int y, double value) : x(x), y(y), value(value){};
+  Data2D(double x, double y, double value) : x(x), y(y), value(value){};
+};
+/**
+ * @brief Run Structure for Data2D
+ * @todo use Run struct for run field
+ */
+struct RunData2D {
+  int run;
+  std::vector<Data2D> data;
+  RunData2D(int run, std::vector<Data2D>& data) : run(run), data(data){};
 };
 /**
  * @brief Basic channel struct
@@ -73,6 +82,7 @@ struct Run {
 };
 /**
  * @brief Run data struct.
+ * @todo use Run struct for run field
  * Trivial constructor is disabled
  */
 struct RunData {
@@ -101,6 +111,10 @@ struct TTData {
   }
 };
 
+/**
+ * @brief Run struct for TT data
+ * @todo use Run struct for run field
+ */
 struct TTRunData {
   int run;
   std::vector<TTData> ttdata;
