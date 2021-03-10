@@ -99,6 +99,9 @@ vector<vector<string>> groups(const vector<string>& list, const int maxDiff) {
                                 return group.size() == 0;
                               }),
                groups.end());
+  // sort
+  for (auto& gr : groups)
+    std::sort(gr.begin(), gr.end());
   return groups;
 };
 
@@ -108,10 +111,9 @@ vector<vector<string>> groups(const vector<string>& list, const int maxDiff) {
  * @param groups vector of vector of strings
  * @return vector<string>
  */
-vector<string> getLast(vector<vector<string>>& groups) {
+vector<string> getLast(const vector<vector<string>>& groups) {
   vector<string> result;
   for (auto& grs : groups) {
-    std::sort(grs.begin(), grs.end());
     result.push_back(grs.back());
   }
   return result;
@@ -169,8 +171,7 @@ std::vector<std::string> datasets(const unsigned int run,
   // grouping
   if (useLast) {
     // 1 is max diff in symbols for dataset part, e.g v1, v2, v3, ...
-    auto grs = groups(filtered_datasets, 1);
-    filtered_datasets = getLast(grs);
+    filtered_datasets = getLast(groups(filtered_datasets, 1));
   }
 
   return filtered_datasets;
