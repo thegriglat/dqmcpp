@@ -71,3 +71,20 @@ std::string dirname(const std::string& path) {
   std::vector<std::string> q(l.begin(), l.end() - 1);
   return join(q, "/");
 }
+
+std::string rtrim(const std::string& str) {
+  auto s = str;
+  s.erase(std::find_if(s.rbegin(), s.rend(),
+                       [](unsigned char ch) { return !std::isspace(ch); })
+              .base(),
+          s.end());
+  return s;
+}
+
+std::string ltrim(const std::string& str) {
+  auto s = str;
+  s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+            return !std::isspace(ch);
+          }));
+  return s;
+}

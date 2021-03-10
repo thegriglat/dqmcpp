@@ -100,5 +100,31 @@ bool mkdir_p(const std::string& path);
  * @return std::string
  */
 std::string dirname(const std::string& path);
+
+/**
+ * @brief Remove trailing whitespaces
+ *
+ * @param text
+ * @return std::string
+ */
+std::string rtrim(const std::string& text);
+
+/**
+ * @brief Remove leading whitespaces
+ *
+ * @param text
+ * @return std::string
+ */
+std::string ltrim(const std::string& text);
+
+/**
+ * @brief Remove trailing and leading whitespaces
+ *
+ * @param text
+ * @return std::string
+ */
+inline std::string trim(const std::string& text) {
+  return rtrim(ltrim(text));
+};
 #define COMMON_HH
 #endif
