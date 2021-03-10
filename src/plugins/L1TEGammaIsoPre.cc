@@ -28,7 +28,7 @@ string urls(const int run, const std::string& dataset) {
 vector<ECAL::Data2D> filter(vector<ECAL::Data2D>& data, double x) {
   vector<ECAL::Data2D> r;
   std::copy_if(data.begin(), data.end(), std::back_inserter(r),
-               [x](const ECAL::Data2D& d) { return d.x == x; });
+               [x](const ECAL::Data2D& d) { return std::abs(d.x - x) < 0.1; });
   return r;
 }
 
@@ -54,11 +54,9 @@ vector<RunProb> calcProb(vector<ECAL::RunData2D>& rundata) {
 }
 
 vector<ECAL::Data2D> filter0m2(vector<ECAL::Data2D>& data) {
-  data.erase(std::remove_if(data.begin(), data.end(),
-                            [](const ECAL::Data2D& d) {
-                              return d.x < -1.5 || d.x > 0.5 ||
-                                     std::abs(d.y) > 40;
-                            }),
+  data.erase(std::remove_if(
+                 data.begin(), data.end(),
+                 [](const ECAL::Data2D& d) { return d.x < -1.5 || d.x > 0.5; }),
              data.end());
   return data;
 }
