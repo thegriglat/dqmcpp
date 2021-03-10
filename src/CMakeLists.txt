@@ -16,15 +16,34 @@ add_custom_command(
   VERBATIM)
 
 #libdqmcpp
-file(GLOB_RECURSE SRC_FILES ${PROJECT_SOURCE_DIR}/*.cc EXCLUDE cli)
+set (libdqmcpplibs
+  common
+  dataclasses
+  filters
+  plugins
+  readers
+  writers
+)
+set (ldqm_sources)
+foreach(d ${libdqmcpplibs})
+  file(GLOB_RECURSE SRC_FILES ${PROJECT_SOURCE_DIR}/${d}/*.cc)
+  foreach(f ${SRC_FILES})
+    list(APPEND ldqm_sources ${SRC_FILES})
+  endforeach()
+endforeach()
+
 include_directories(${PROJECT_SOURCE_DIR})
-add_library(dqmcpp SHARED ${SRC_FILES} ecalchannels.o)
-
-file(GLOB cli_src_FILES ${PROJECT_SOURCE_DIR}/cli/*.cc)
-add_executable(dqm ${cli_src_FILES})
-target_link_libraries(dqm dqmcpp ${CURL_LIBRARIES})
-
-
-install(TARGETS dqm RUNTIME)
+add_library(dqmcpp SHARED ${ldqm_sources} ecalchannels.o)
 install(TARGETS dqmcpp LIBRARY)
+
+# CLI programs
+file(GLOB CLI_FILES ${PROJECT_SOURCE_DIR}/cli/*.cc)
+foreach(cli ${CLI_FILES})
+  get_filename_component(name ${cli} NAME_WE)
+  add_executable(${name} ${cli})
+  target_link_libraries(${name} dqmcpp ${CURL_LIBRARIES})
+  install(TARGETS ${name} RUNTIME)
+endforeach(cli)
+
+# Install headers
 install(DIRECTORY "." TYPE INCLUDE FILES_MATCHING PATTERN "*.hh")
