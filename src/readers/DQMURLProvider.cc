@@ -11,7 +11,9 @@
 
 #include <iostream>
 
-#define DQMROOTURL "https://cmsweb.cern.ch/dqm/offline/jsonfairy/archive"
+#define DQMONLINEURL "https://cmsweb.cern.ch/dqm/online/jsonfairy/archive"
+#define DQMOFFLINEURL "https://cmsweb.cern.ch/dqm/offline/jsonfairy/archive"
+
 #define ONLINEDQMDS "Global/Online/ALL"
 
 using namespace std;
@@ -46,7 +48,7 @@ std::string dqmurl(const unsigned int run,
                    const std::string dataset,
                    const std::string plotname) {
   const std::string ds = (dataset == "online") ? "Global/Online/ALL" : dataset;
-  std::string s = DQMROOTURL;
+  std::string s = (dataset == "online") ? DQMONLINEURL : DQMOFFLINEURL;
   s += "/" + std::to_string(run) + "/" + ds + "/" + urlencode(plotname);
   return s;
 }
