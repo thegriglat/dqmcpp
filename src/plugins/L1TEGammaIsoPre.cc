@@ -86,6 +86,8 @@ void L1TEGammaIsoPrePlugin::Process() {
   }
   vector<RunProb> runprob = calcProb(rundata);
   ofstream out("l1.plt");
+  std::sort(runprob.begin(), runprob.end(),
+            [](const RunProb& a, const RunProb& b) { return a.run < b.run; });
   writers::Gnuplot1DWriter::Data1D data;
   for (auto& rp : runprob) {
     data.push_back({std::to_string(rp.run), rp.prob});
