@@ -9,7 +9,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "../readers/DQMURLProvider.hh"
+#include "../net/DQMURLProvider.hh"
 #include "../readers/JSONReader.hh"
 
 using namespace std;

@@ -6,7 +6,7 @@
  */
 #include <iostream>
 #include <vector>
-#include "../dataclasses/ECAL.hh"
+#include "../ECAL/ECAL.hh"
 
 class RunListReader {
  private:

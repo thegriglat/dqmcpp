@@ -5,7 +5,7 @@
  * @brief TTF4 Occupancy plugin
  */
 #include <vector>
-#include "../dataclasses/ECAL.hh"
+#include "../ECAL/ECAL.hh"
 #include "Plugin.hh"
 
 class TTF4Occupancy : public Plugin {

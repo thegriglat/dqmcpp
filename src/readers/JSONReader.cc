@@ -10,7 +10,7 @@
 
 // for debugging to be sure that all channels are valid
 #ifdef debug_channeltest
-#include "../dataclasses/ecalchannels.hh"
+#include "../ECAL/ECALChannels.hh"
 #endif
 
 #include <vector>

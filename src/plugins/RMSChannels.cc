@@ -8,8 +8,8 @@
 #include <fstream>
 #include <map>
 #include <string>
-#include "../dataclasses/ecalchannels.hh"
-#include "../readers/DQMURLProvider.hh"
+#include "../ECAL/ECALChannels.hh"
+#include "../net/DQMURLProvider.hh"
 #include "../writers/Gnuplot2DWriter.hh"
 
 #define RMSMAX (5)

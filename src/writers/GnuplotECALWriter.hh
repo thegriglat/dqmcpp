@@ -6,7 +6,7 @@
  */
 #include <algorithm>
 #include <iostream>
-#include "../dataclasses/ECAL.hh"
+#include "../ECAL/ECAL.hh"
 
 class GnuplotECALWriter {
  public:

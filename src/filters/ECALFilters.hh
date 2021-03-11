@@ -4,7 +4,7 @@
  * @author Grigory Latyshev (thegriglat@gmail.com)
  * @brief Common used filters for ECAL
  */
-#include "../dataclasses/ECAL.hh"
+#include "../ECAL/ECAL.hh"
 
 namespace ECALFilters {
 /**

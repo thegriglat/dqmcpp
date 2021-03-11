@@ -8,7 +8,7 @@
 
 #include <fstream>
 #include <string>
-#include "../readers/DQMURLProvider.hh"
+#include "../net/DQMURLProvider.hh"
 #include "../writers/GnuplotECALWriter.hh"
 
 std::vector<std::string> TestPlugin::urls(const unsigned int runnumber,

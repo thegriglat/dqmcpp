@@ -5,8 +5,8 @@
  * @brief Abstract class for all readers
  */
 #include <string>
-#include "../dataclasses/ECAL.hh"
-#include "URLCache.hh"
+#include "../ECAL/ECAL.hh"
+#include "../net/URLCache.hh"
 
 class Reader {
   static const std::string DQMURL;

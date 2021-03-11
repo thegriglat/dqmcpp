@@ -4,7 +4,7 @@
  * @brief Reading JSON data from DQM
  *
  */
-#include "../dataclasses/ECAL.hh"
+#include "../ECAL/ECAL.hh"
 #include "Reader.hh"
 
 #include "../common/json.hh"

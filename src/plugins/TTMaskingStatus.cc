@@ -11,10 +11,10 @@
 #include <map>
 #include <string>
 #include <vector>
+#include "../ECAL/ECAL.hh"
+#include "../ECAL/ECALChannels.hh"
 #include "../common/common.hh"
-#include "../dataclasses/ECAL.hh"
-#include "../dataclasses/ecalchannels.hh"
-#include "../readers/DQMURLProvider.hh"
+#include "../net/DQMURLProvider.hh"
 #include "../writers/Gnuplot2DWriter.hh"
 
 using namespace ECAL;

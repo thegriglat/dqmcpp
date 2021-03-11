@@ -10,15 +10,16 @@ include_directories(${CURL_INCLUDE_DIR})
 # ecalchannels
 add_custom_command(
   OUTPUT ecalchannels.o
-  COMMAND cp ${PROJECT_SOURCE_DIR}/data/ecalchannels.dat ecalchannels.dat
+  COMMAND cp ${PROJECT_SOURCE_DIR}/ECAL/ecalchannels.dat ecalchannels.dat
   COMMAND objcopy --input binary --output elf64-x86-64 ecalchannels.dat ecalchannels.o
-  DEPENDS ${PROJECT_SOURCE_DIR}/data/ecalchannels.dat
+  DEPENDS ${PROJECT_SOURCE_DIR}/ECAL/ecalchannels.dat
   VERBATIM)
 
 #libdqmcpp
 set (libdqmcpplibs
   common
-  dataclasses
+  ECAL
+  net
   filters
   plugins
   readers

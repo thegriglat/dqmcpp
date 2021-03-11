@@ -8,9 +8,9 @@
 #include <fstream>
 #include <map>
 #include <string>
+#include "../ECAL/ECALChannels.hh"
 #include "../common/common.hh"
-#include "../dataclasses/ecalchannels.hh"
-#include "../readers/DQMURLProvider.hh"
+#include "../net/DQMURLProvider.hh"
 #include "../writers/Gnuplot2DWriter.hh"
 #include "TTMaskingStatus.hh"
 

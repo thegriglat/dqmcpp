@@ -6,7 +6,7 @@
  */
 #include <string>
 #include <vector>
-#include "../dataclasses/ECAL.hh"
+#include "../ECAL/ECAL.hh"
 #include "../readers/Reader.hh"
 #include "../readers/RunListReader.hh"
 

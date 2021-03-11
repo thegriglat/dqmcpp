@@ -8,7 +8,7 @@
  *
  */
 #include <vector>
-#include "../dataclasses/ECAL.hh"
+#include "../ECAL/ECAL.hh"
 #include "Plugin.hh"
 
 class TTMaskingStatus : public Plugin {

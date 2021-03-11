@@ -6,7 +6,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
-#include "../readers/DQMURLProvider.hh"
+#include "../net/DQMURLProvider.hh"
 
 using namespace std;
 

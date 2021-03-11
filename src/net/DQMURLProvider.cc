@@ -11,8 +11,8 @@
 #include <sstream>
 #include <string>
 #include "../common/common.hh"
+#include "../net/URLCache.hh"
 #include "../readers/JSONReader.hh"
-#include "../readers/URLCache.hh"
 
 #define DQMONLINEURL "https://cmsweb.cern.ch/dqm/online/jsonfairy/archive"
 #define DQMOFFLINEURL "https://cmsweb.cern.ch/dqm/offline/jsonfairy/archive"

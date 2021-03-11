@@ -3,7 +3,7 @@
  * @author Grigory Latyshev (thegriglat@gmail.com)
  * @brief ECAL channels database functions
  */
-#include "ecalchannels.hh"
+#include "ECALChannels.hh"
 #include <algorithm>
 #include <fstream>
 #include <iostream>
