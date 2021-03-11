@@ -16,7 +16,7 @@ namespace writers {
 
 class Gnuplot2DWriter : public Gnuplot2D {
  private:
-  Data2D* _data = nullptr;
+  const Data2D* _data = nullptr;
   std::vector<std::string> _xlabels;
   std::vector<std::string> _ylabels;
 
@@ -28,7 +28,7 @@ class Gnuplot2DWriter : public Gnuplot2D {
   }
 
  public:
-  Gnuplot2DWriter(Data2D& data);
+  Gnuplot2DWriter(const Data2D& data);
   friend std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw);
 };
 

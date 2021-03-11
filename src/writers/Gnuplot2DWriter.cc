@@ -14,7 +14,7 @@
 namespace dqmcpp {
 namespace writers {
 
-Gnuplot2DWriter::Gnuplot2DWriter(Data2D& data) : _data(&data) {
+Gnuplot2DWriter::Gnuplot2DWriter(const Data2D& data) : _data(&data) {
   for (auto& elem : data) {
     const auto xlabel = elem.first.first;
     const auto ylabel = elem.first.second;
