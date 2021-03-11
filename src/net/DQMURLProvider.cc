@@ -11,8 +11,9 @@
 #include <sstream>
 #include <string>
 #include "../common/common.hh"
-#include "../net/URLCache.hh"
 #include "../readers/JSONReader.hh"
+#include "DQMSession.hh"
+#include "URLCache.hh"
 
 #define DQMONLINEURL "https://cmsweb.cern.ch/dqm/online/jsonfairy/archive"
 #define DQMOFFLINEURL "https://cmsweb.cern.ch/dqm/offline/jsonfairy/archive"
@@ -127,6 +128,7 @@ vector<string> getLast(const vector<vector<string>>& groups) {
 namespace dqmcpp {
 namespace net {
 namespace DQMURL {
+
 std::string dqmurl(const unsigned int run,
                    const std::string dataset,
                    const std::string plotname) {
@@ -136,15 +138,18 @@ std::string dqmurl(const unsigned int run,
   return s;
 }
 
-// TODO: check if DQM session can expire
 std::vector<std::string> datasets(const unsigned int run,
                                   const std::string mask,
                                   const bool useLast) {
   if (!cache)
     cache = new URLCache();
+  auto session = DQMSession::get();
+  // firstly we need to GET chooseSample to init ??? in DQM
+  cache->get("https://cmsweb.cern.ch/dqm/offline/session/" + session +
+             "/chooseSample?vary=run;order=dataset");
   const std::string query =
-      "https://cmsweb.cern.ch/dqm/offline/session/EsOFGH/modify?vary=any&pat=" +
-      std::to_string(run);
+      "https://cmsweb.cern.ch/dqm/offline/session/" + session +
+      "/modify?vary=any;order=dataset;pat=" + std::to_string(run);
   auto content = cache->get(query);
 
   // erase first and last ( )
