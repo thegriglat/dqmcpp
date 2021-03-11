@@ -1,6 +1,6 @@
 #ifndef ECALCHANNELS_HH
 /**
- * @file ecalchannels.hh
+ * @file ECALChannels.hh
  * @author Grigory Latyshev (thegriglat@gmail.com)
  * @brief Access to ECAL channels database
  */

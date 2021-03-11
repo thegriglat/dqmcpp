@@ -1,5 +1,5 @@
 /**
- * @file ecalchannels.cc
+ * @file ECALChannels.cc
  * @author Grigory Latyshev (thegriglat@gmail.com)
  * @brief ECAL channels database functions
  */
