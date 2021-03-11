@@ -81,12 +81,12 @@ void plot(const vector<TTRunData>& rundata) {
   }
   writers::Gnuplot2DWriter writer(data);
   ofstream out("tt_masking_status.plt");
-  out << writer.setZ(0, 1)
-             .setPalette({{0, "white"}, {1, "red"}})
-             .setZTick(0.1)
-             .output("MaskingStatus.png")
-             .title("TT Masking Status")
-      << std::endl;
+  writer.setZ(0, 1);
+  writer.setPalette({{0, "white"}, {1, "red"}});
+  writer.setZTick(0.1);
+  writer.setOutput("MaskingStatus.png");
+  writer.setTitle("TT Masking Status");
+  out << writer << std::endl;
   out.close();
 }
 

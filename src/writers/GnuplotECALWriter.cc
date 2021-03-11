@@ -147,7 +147,7 @@ static void writeGnuplot(std::ostream& os,
      << "set xtics rotate 90" << std::endl
      << "set view map" << std::endl
      << "set grid front" << std::endl
-     << "set cbrange [" << gw.zrange().min << ":" << gw.zrange().max << "]"
+     << "set cbrange [" << gw.getZ().min << ":" << gw.getZ().max << "]"
      << std::endl
      << "set palette defined " << gw.palette_str() << std::endl;
   for (unsigned int i = 0; i < rd.size(); ++i) {
@@ -171,27 +171,6 @@ namespace writers {
 std::ostream& operator<<(std::ostream& os, const GnuplotECALWriter& gw) {
   writeGnuplot(os, gw, *(gw.rd));
   return os;
-}
-
-GnuplotECALWriter& GnuplotECALWriter::setPalette(Palette palette) {
-  _palette = palette;
-  std::sort(_palette.begin(), _palette.end(),
-            [](PaletteColor& a, PaletteColor& b) {
-              return a.zposition < b.zposition;
-            });
-  return *this;
-}
-
-std::string GnuplotECALWriter::palette_str() const {
-  std::string s = "(";
-  for (unsigned int i = 0; i < _palette.size(); ++i) {
-    auto& e = _palette.at(i);
-    s += std::to_string(e.zposition) + "\"" + e.color + "\"";
-    if (i != _palette.size() - 1)
-      s += ", ";
-  }
-  s += ")";
-  return s;
 }
 
 }  // namespace writers

@@ -159,12 +159,12 @@ void TTF4Occupancy::Process() {
   }
   writers::Gnuplot2DWriter writer(data);
   ofstream out("ttf4_occupancy.plt");
-  out << writer.setZ(0, 1)
-             .setPalette({{0, "white"}, {0, "#fff497"}, {1, "#ff0201"}})
-             .setZTick(0.1)
-             .output("ttf4_occupancy.png")
-             .title("TTF4 Occupancy")
-      << std::endl;
+  writer.setZ(0, 1);
+  writer.setZTick(0.1);
+  writer.setOutput("ttf4_occupancy.png");
+  writer.setTitle("TTF4 Occupancy");
+  writer.setPalette({{0, "white"}, {0, "#fff497"}, {1, "#ff0201"}});
+  out << writer << std::endl;
   out.close();
 }
 
