@@ -5,6 +5,7 @@
  */
 #include "DQMURLProvider.hh"
 
+#include <functional>
 #include <iomanip>
 #include <iostream>
 #include <regex>
@@ -76,19 +77,25 @@ int maxDifference(const string& s1, const string& s2) {
  * @param list list of std::string
  * @return vector<vector<string>>
  */
-vector<vector<string>> groups(const vector<string>& list, const int maxDiff) {
-  vector<vector<string>> groups;
-  vector<string> skiplist;
+template <typename T>
+vector<vector<T>> groups(const vector<T>& list,
+                         const int maxDiff,
+                         std::function<std::string(const T&)> getter) {
+  vector<vector<T>> groups;
+  vector<T> skiplist;
   for (auto it = list.begin(); it != list.end(); ++it) {
-    vector<string> group;
+    const auto field_it = getter(*it);
+    const auto it_vlist = dqmcpp::common::split(field_it, "/");
+    const auto it_dataset_part = it_vlist.at(1);
+
+    vector<T> group;
     for (auto jit = it; jit != list.end(); ++jit) {
       if (dqmcpp::common::has(skiplist, *jit))
         continue;
-      const auto it_vlist = dqmcpp::common::split(*it, "/");
-      const auto jit_vlist = dqmcpp::common::split(*jit, "/");
-      const auto it_dataset_part = it_vlist.at(1);
+      const auto field_jit = getter(*jit);
+      const auto jit_vlist = dqmcpp::common::split(field_jit, "/");
       const auto jit_dataset_part = jit_vlist.at(1);
-      const auto diff = maxDifference(*it, *jit);
+      const auto diff = maxDifference(field_it, field_jit);
 
       if (diff <= maxDiff && it_dataset_part == jit_dataset_part) {
         group.push_back(*jit);
@@ -98,25 +105,27 @@ vector<vector<string>> groups(const vector<string>& list, const int maxDiff) {
     groups.push_back(group);
   }
   // remove empty groups
-  groups.erase(std::remove_if(groups.begin(), groups.end(),
-                              [](const vector<string>& group) {
-                                return group.size() == 0;
-                              }),
-               groups.end());
+  groups.erase(
+      std::remove_if(groups.begin(), groups.end(),
+                     [](const vector<T>& group) { return group.size() == 0; }),
+      groups.end());
   // sort
   for (auto& gr : groups)
-    std::sort(gr.begin(), gr.end());
+    std::sort(gr.begin(), gr.end(), [getter](const T& a, const T& b) {
+      return getter(a) < getter(b);
+    });
   return groups;
 };
 
 /**
- * @brief Get the last alphabetically sorted element
+ * @brief Get the last element of each vector
  *
  * @param groups vector of vector of strings
  * @return vector<string>
  */
-vector<string> getLast(const vector<vector<string>>& groups) {
-  vector<string> result;
+template <typename T>
+vector<T> getLast(const vector<vector<T>>& groups) {
+  vector<T> result;
   for (auto& grs : groups) {
     result.push_back(grs.back());
   }
@@ -138,9 +147,9 @@ std::string dqmurl(const unsigned int run,
   return s;
 }
 
-std::vector<std::string> datasets(const unsigned int run,
-                                  const std::string mask,
-                                  const bool useLast) {
+std::vector<ECAL::Run> runs(const unsigned int runnumber,
+                            const std::string mask,
+                            const bool useLast) {
   if (!cache)
     cache = new URLCache();
   auto session = DQMSession::get();
@@ -149,7 +158,7 @@ std::vector<std::string> datasets(const unsigned int run,
              "/chooseSample?vary=run;order=dataset");
   const std::string query =
       "https://cmsweb.cern.ch/dqm/offline/session/" + session +
-      "/modify?vary=any;order=dataset;pat=" + std::to_string(run);
+      "/modify?vary=any;order=dataset;pat=" + std::to_string(runnumber);
   auto content = cache->get(query);
 
   // erase first and last ( )
@@ -163,30 +172,32 @@ std::vector<std::string> datasets(const unsigned int run,
   auto json_content = dqmcpp::readers::JSONReader::parseJSON(content);
   auto j = json_content[1];
   auto j1 = j["items"][0]["items"];
-  vector<string> datasets;
+  vector<ECAL::Run> runs;
   for (auto& e : j1) {
     auto ds = e["dataset"].get<string>();
-    datasets.push_back(ds);
+    auto run = std::atoi(e["run"].get<string>().c_str());
+    runs.push_back(ECAL::Run(run, ds));
   }
 
   // filter datasets by mask
   std::regex self_regex(
       mask, std::regex_constants::ECMAScript | std::regex_constants::icase);
-  vector<string> filtered_datasets;
-  filtered_datasets.reserve(datasets.size());
-  for (auto& dataset : datasets) {
-    if (std::regex_search(dataset, self_regex)) {
-      filtered_datasets.push_back(dataset);
+  vector<ECAL::Run> filtered_runs;
+  filtered_runs.reserve(runs.size());
+  for (auto& run : runs) {
+    if (std::regex_search(run.dataset, self_regex)) {
+      filtered_runs.push_back(run);
     }
   }
 
   // grouping
   if (useLast) {
     // 1 is max diff in symbols for dataset part, e.g v1, v2, v3, ...
-    filtered_datasets = getLast(groups(filtered_datasets, 1));
+    filtered_runs = getLast(groups<ECAL::Run>(
+        filtered_runs, 1, [](const ECAL::Run& run) { return run.dataset; }));
   }
 
-  return filtered_datasets;
+  return filtered_runs;
 }
 
 }  // namespace DQMURL

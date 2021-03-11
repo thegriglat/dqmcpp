@@ -5,6 +5,7 @@
  */
 #include <cstdlib>
 #include <iostream>
+#include <set>
 #include <string>
 #include "../net/DQMURLProvider.hh"
 
@@ -34,11 +35,20 @@ int main(int argc, char** argv) {
       cerr << "Bad run '" << line << "'" << endl;
       continue;
     }
-    auto datasets = net::DQMURL::datasets(run, mask);
-    for (unsigned int i = 0; i < datasets.size(); ++i) {
-      if (i > 0)
-        cout << "# ";
-      cout << run << " " << datasets.at(i) << endl;
+    auto runs = net::DQMURL::runs(run, mask);
+    std::set<int> distinct_runs;
+    for (auto& r : runs)
+      distinct_runs.insert(r.runnumber);
+    for (const auto& runnumber : distinct_runs) {
+      int i = 0;
+      for (const auto& rund : runs) {
+        if (rund.runnumber == runnumber) {
+          if (i > 0)
+            cout << "# ";
+          cout << rund.runnumber << " " << rund.dataset << endl;
+          ++i;
+        }
+      }
     }
   }
   return 0;

@@ -81,6 +81,9 @@ struct Run {
   std::string dataset;
   Run(unsigned int _run, std::string _dataset)
       : runnumber(_run), dataset(_dataset){};
+  friend inline bool operator==(const Run& a, const Run& b) {
+    return a.dataset == b.dataset && a.runnumber == b.runnumber;
+  }
 };
 /**
  * @brief Run data struct.

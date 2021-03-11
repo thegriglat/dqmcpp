@@ -6,6 +6,7 @@
  */
 #include <string>
 #include <vector>
+#include "../ECAL/ECAL.hh"
 
 namespace dqmcpp {
 namespace net {
@@ -32,9 +33,9 @@ std::string dqmurl(const unsigned int run,
  * @param useLast if True will return only last version of simular datasets
  * @return std::vector<std::string>
  */
-std::vector<std::string> datasets(const unsigned int run,
-                                  const std::string mask,
-                                  const bool useLast = true);
+std::vector<dqmcpp::ECAL::Run> runs(const unsigned int run,
+                                    const std::string mask,
+                                    const bool useLast = true);
 
 }  // namespace DQMURL
 }  // namespace net
