@@ -11,6 +11,7 @@
 #include <vector>
 #include "../net/DQMURLProvider.hh"
 #include "../readers/JSONReader.hh"
+#include "../writers/Gnuplot1DWriter.hh"
 
 using namespace std;
 
@@ -84,9 +85,15 @@ void L1TEGammaIsoPrePlugin::Process() {
     rundata.push_back(ECAL::RunData2D(run.runnumber, content));
   }
   vector<RunProb> runprob = calcProb(rundata);
-  ofstream out("l1.dat");
-  for (auto& e : runprob)
-    out << e.run << " " << e.prob << endl;
+  ofstream out("l1.plt");
+  writers::Gnuplot1DWriter::Data1D data;
+  for (auto& rp : runprob) {
+    data.push_back({std::to_string(rp.run), rp.prob});
+  }
+  writers::Gnuplot1DWriter writer(data);
+  writer.setTitle("L1TEGammaIsoPre");
+  writer.setOutput("L1TEGammaIsoPre.png");
+  out << writer << std::endl;
   out.close();
 }
 
