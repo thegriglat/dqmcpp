@@ -1,6 +1,6 @@
 #ifndef TESTPLUGIN_HH
 /**
- * @file TestPlugin.hh
+ * @file RMSMap.hh
  * @author Grigory Latyshev (thegriglat@gmail.com)
  * @brief ECAL RMS G12 map plugin
  */
@@ -9,7 +9,7 @@
 namespace dqmcpp {
 namespace plugins {
 
-class TestPlugin : public Plugin {
+class RMSMap : public Plugin {
  private:
   std::vector<std::string> urls(const unsigned int runnumber,
                                 const std::string& dataset);

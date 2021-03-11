@@ -7,9 +7,9 @@
 
 #include "L1TEGammaIsoPre.hh"
 #include "RMSChannels.hh"
+#include "RMSMap.hh"
 #include "TTF4Occupancy.hh"
 #include "TTMaskingStatus.hh"
-#include "TestPlugin.hh"
 
 namespace {
 
@@ -17,7 +17,7 @@ using namespace dqmcpp::plugins;
 
 const std::map<std::string, Plugin*> _pluginmap = {
     {"RMS", new RMSPlugin()},
-    {"Test", new TestPlugin()},
+    {"RMSMap", new RMSMap()},
     {"TTMaskingStatus", new TTMaskingStatus()},
     {"TTF4Occupancy", new TTF4Occupancy()},
     {"L1TEGammaIsoPre", new L1TEGammaIsoPrePlugin()}

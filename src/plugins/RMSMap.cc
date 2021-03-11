@@ -1,10 +1,10 @@
 /**
- * @file TestPlugin.cc
+ * @file RMSMap.cc
  * @author Grigory Latyshev (thegriglat@gmail.com)
  * @brief RMS G12 ECAL map
  */
 
-#include "TestPlugin.hh"
+#include "RMSMap.hh"
 
 #include <fstream>
 #include <string>
@@ -16,8 +16,8 @@ using namespace dqmcpp;
 namespace dqmcpp {
 namespace plugins {
 
-std::vector<std::string> TestPlugin::urls(const unsigned int runnumber,
-                                          const std::string& dataset) {
+std::vector<std::string> RMSMap::urls(const unsigned int runnumber,
+                                      const std::string& dataset) {
   std::vector<std::string> urls;
   char* plot = new char[72];
   for (int i = -18; i < 19; ++i) {
@@ -41,11 +41,11 @@ std::vector<std::string> TestPlugin::urls(const unsigned int runnumber,
   delete[] plot;
   return urls;
 }
-std::vector<ECAL::RunData> TestPlugin::analyze(
+std::vector<ECAL::RunData> RMSMap::analyze(
     const std::vector<ECAL::RunData>& rundata) {
   return rundata;
 }
-void TestPlugin::plot(const std::vector<ECAL::RunData>& rundata) {
+void RMSMap::plot(const std::vector<ECAL::RunData>& rundata) {
   for (auto& r : rundata) {
     auto run = r.run.runnumber;
     std::string outfile = std::to_string(run) + ".plt";
@@ -56,7 +56,7 @@ void TestPlugin::plot(const std::vector<ECAL::RunData>& rundata) {
   }
 }
 
-void TestPlugin::Process() {
+void RMSMap::Process() {
   using namespace std;
   vector<ECAL::RunData> rundata;
   for (auto& run : runListReader->runs()) {
