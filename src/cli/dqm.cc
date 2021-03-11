@@ -24,9 +24,6 @@ int main(int argc, char** argv) {
     return 0;
   }
   auto plugin_names = split(argv[1], ",");
-  std::cout << "@" << argv[1] << std::endl;
-  for (auto e : plugin_names)
-    std::cout << "!" << e << std::endl;
   if (has(plugin_names, std::string("all")))
     plugin_names = Plugins::list();
   auto reader = new JSONReader();
