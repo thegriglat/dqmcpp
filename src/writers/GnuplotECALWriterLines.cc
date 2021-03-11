@@ -9,7 +9,8 @@
 #include <iomanip>
 #include <iostream>
 
-static std::vector<std::array<int, 4>> generateLines(
+namespace {
+std::vector<std::array<int, 4>> generateLines(
     std::vector<std::array<int, 2>> points) {
   std::vector<std::array<int, 4>> r;
   for (unsigned int i = 1; i < points.size(); ++i) {
@@ -19,7 +20,7 @@ static std::vector<std::array<int, 4>> generateLines(
   return r;
 }
 
-static void mirrorX(std::vector<std::array<int, 4>>& lines) {
+void mirrorX(std::vector<std::array<int, 4>>& lines) {
   const auto size = lines.size();
   for (unsigned int i = 0; i < size; i++) {
     auto x1 = lines[i][0];
@@ -29,6 +30,11 @@ static void mirrorX(std::vector<std::array<int, 4>>& lines) {
     lines.push_back({100 - x1, y1, 100 - x2, y2});
   }
 }
+
+}  // namespace
+
+namespace dqmcpp {
+namespace writers {
 
 std::vector<std::array<int, 4>> EndcapLines() {
   // contour
@@ -102,3 +108,6 @@ void drawEESM(std::ostream& os, const int iz) {
        << std::setfill('0') << i << "\" at " << x << "," << y << std::endl;
   }
 }
+
+}  // namespace writers
+}  // namespace dqmcpp

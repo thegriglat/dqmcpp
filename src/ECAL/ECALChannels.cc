@@ -11,17 +11,20 @@
 #include <string>
 #include "../common/common.hh"
 #include "../common/logging.hh"
+
 using namespace std;
 
+namespace {
+
+using namespace dqmcpp::ECAL::ECALChannels;
 // symbols from dumped ecalchannels.o
 extern "C" char _binary_ecalchannels_dat_start;
 extern "C" char _binary_ecalchannels_dat_end;
 
-static std::vector<ChannelInfo> _channels;
-static bool isInit = false;
-static void Init();
+std::vector<ChannelInfo> _channels;
+bool isInit = false;
 
-static int* getPtr(const ChannelInfo& info, const int n) {
+int* getPtr(const ChannelInfo& info, const int n) {
   return (int*)(&info) + n;
 };
 
@@ -40,7 +43,7 @@ void Init() {
   while (!in.eof()) {
     std::getline(in, line);
     ChannelInfo info;
-    const auto stringlist = split(line, ",");
+    const auto stringlist = dqmcpp::common::split(line, ",");
     for (unsigned int n = 0; n < stringlist.size(); n++) {
       auto token = stringlist.at(n);
       if (n < 26) {
@@ -57,6 +60,10 @@ void Init() {
   }
   isInit = true;
 };
+}  // namespace
+
+namespace dqmcpp {
+namespace ECAL {
 namespace ECALChannels {
 const ChannelInfo* find(const ECAL::Channel& channel) {
   Init();
@@ -100,4 +107,7 @@ const std::string detByTTTTC(const int tt, const int tcc) {
     return "";
   return it->det;
 }
-};  // namespace ECALChannels
+
+}  // namespace ECALChannels
+}  // namespace ECAL
+}  // namespace dqmcpp

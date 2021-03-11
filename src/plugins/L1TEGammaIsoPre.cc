@@ -13,17 +13,22 @@
 #include "../readers/JSONReader.hh"
 
 using namespace std;
+
+namespace {
+
+using namespace dqmcpp;
+
 struct RunProb {
   int run;
   double prob;
   RunProb(int run, double val) : run(run), prob(val){};
 };
-namespace {
+
 string urls(const int run, const std::string& dataset) {
   const std::string path =
       "L1T/L1TObjects/L1TEGamma/timing/First_bunch/ptmin_10p0_gev/"
       "egamma_noniso_bx_ieta_firstbunch_ptmin10p0";
-  return DQMURL::dqmurl(run, dataset, path);
+  return net::DQMURL::dqmurl(run, dataset, path);
 }
 vector<ECAL::Data2D> filter(const vector<ECAL::Data2D>& data, const double x) {
   vector<ECAL::Data2D> r;
@@ -63,6 +68,8 @@ vector<ECAL::Data2D> filter0m2(const vector<ECAL::Data2D>& data) {
 }
 
 }  // namespace
+namespace dqmcpp {
+namespace plugins {
 
 void L1TEGammaIsoPrePlugin::Process() {
   vector<ECAL::RunData2D> rundata;
@@ -82,3 +89,6 @@ void L1TEGammaIsoPrePlugin::Process() {
     out << e.run << " " << e.prob << endl;
   out.close();
 }
+
+}  // namespace plugins
+}  // namespace dqmcpp

@@ -7,7 +7,10 @@
 #include <string>
 #include <vector>
 
+namespace dqmcpp {
+namespace net {
 namespace DQMURL {
+
 /**
  * @brief Return URL for json file based on parameters
  * Use "online" as dataset for Online DQM
@@ -32,7 +35,9 @@ std::string dqmurl(const unsigned int run,
 std::vector<std::string> datasets(const unsigned int run,
                                   const std::string mask,
                                   const bool useLast = true);
-}  // namespace DQMURL
 
+}  // namespace DQMURL
+}  // namespace net
+}  // namespace dqmcpp
 #define DQMURLPROVIDER_HH
 #endif

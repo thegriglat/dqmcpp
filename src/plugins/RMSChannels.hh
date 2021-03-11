@@ -6,6 +6,9 @@
  */
 #include "Plugin.hh"
 
+namespace dqmcpp {
+namespace plugins {
+
 class RMSPlugin : public Plugin {
  private:
   std::vector<std::string> urls(const unsigned int runnumber,
@@ -17,5 +20,7 @@ class RMSPlugin : public Plugin {
   void Process(void);
 };
 
+}  // namespace plugins
+}  // namespace dqmcpp
 #define RMSCHANNELS_HH
 #endif

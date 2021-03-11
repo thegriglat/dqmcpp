@@ -9,6 +9,8 @@
 #include "../common/common.hh"
 
 namespace {
+
+using namespace dqmcpp::common;
 /**
  * @brief Removes http://, https:// etc.
  *
@@ -22,6 +24,9 @@ std::string removeProtocol(const std::string& url) {
 }
 
 }  // namespace
+
+namespace dqmcpp {
+namespace net {
 
 void URLCache::setCacheDir(const std::string& dir) {
   _cachedir = dir;
@@ -76,3 +81,6 @@ std::string URLCache::get(const std::string& url) {
   add(url, content);
   return content;
 }
+
+}  // namespace net
+}  // namespace dqmcpp

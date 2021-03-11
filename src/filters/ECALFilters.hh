@@ -6,7 +6,9 @@
  */
 #include "../ECAL/ECAL.hh"
 
-namespace ECALFilters {
+namespace dqmcpp {
+namespace filters {
+
 /**
  * @brief Keep only barrel channels
  *
@@ -46,7 +48,8 @@ inline std::vector<ECAL::ChannelData> eeminus(
     std::vector<ECAL::ChannelData>& channeldata) {
   return filter_det(channeldata, ECAL::DETECTORS::EEMINUS);
 }
-}  // namespace ECALFilters
 
+}  // namespace filters
+}  // namespace dqmcpp
 #define ECALFILTERS_HH
 #endif

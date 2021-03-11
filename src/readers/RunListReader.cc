@@ -11,6 +11,9 @@
 
 using namespace std;
 
+namespace dqmcpp {
+namespace readers {
+
 RunListReader::RunListReader(const std::string filename) {
   ifstream in(filename);
   if (!in.good()) {
@@ -24,8 +27,8 @@ RunListReader::RunListReader(const std::string filename) {
     auto pos = line.find("#");
     if (pos != line.npos)
       line.erase(pos);
-    line = trim(line);
-    auto tokens = split(line);
+    line = dqmcpp::common::trim(line);
+    auto tokens = dqmcpp::common::split(line);
     if (tokens.size() < 2) {
       std::cout << "line '" << line << "' contains less than 2 fields. Skipping"
                 << std::endl;
@@ -38,3 +41,6 @@ RunListReader::RunListReader(const std::string filename) {
   };
   in.close();
 }
+
+}  // namespace readers
+}  // namespace dqmcpp

@@ -8,7 +8,9 @@
 #include <string>
 #include <vector>
 
+namespace dqmcpp {
 namespace ECAL {
+
 constexpr unsigned int NEBChannels = 61200;
 constexpr unsigned int NEEChannels = 14648;
 constexpr unsigned int NTotalChannels = NEBChannels + NEEChannels;
@@ -125,6 +127,8 @@ struct TTRunData {
 std::vector<TTRunData> filterZeroTT(std::vector<TTRunData>& rundata);
 std::vector<TTData> channel2TT(
     const std::vector<ECAL::ChannelData>& channelData);
+
 };  // namespace ECAL
+}  // namespace dqmcpp
 #define ECAL_HH
 #endif

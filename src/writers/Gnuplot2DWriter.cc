@@ -11,14 +11,17 @@
 
 #define DEFAULT_VALUE (0)
 
+namespace dqmcpp {
+namespace writers {
+
 Gnuplot2DWriter::Gnuplot2DWriter(Data2D& data) : _data(data) {
   for (auto& elem : data) {
     const auto xlabel = elem.first.first;
     const auto ylabel = elem.first.second;
-    if (!has(_xlabels, xlabel)) {
+    if (!dqmcpp::common::has(_xlabels, xlabel)) {
       _xlabels.push_back(xlabel);
     }
-    if (!has(_ylabels, ylabel)) {
+    if (!dqmcpp::common::has(_ylabels, ylabel)) {
       _ylabels.push_back(ylabel);
     }
   }
@@ -116,3 +119,6 @@ std::string Gnuplot2DWriter::palette_str() const {
   s += ")";
   return s;
 }
+
+}  // namespace writers
+}  // namespace dqmcpp

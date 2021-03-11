@@ -8,6 +8,9 @@
 #include <vector>
 #include "../ECAL/ECAL.hh"
 
+namespace dqmcpp {
+namespace readers {
+
 class RunListReader {
  private:
   std::vector<ECAL::Run> _runs;
@@ -22,5 +25,7 @@ class RunListReader {
   inline std::vector<ECAL::Run> runs() const { return _runs; }
 };
 
+}  // namespace readers
+}  // namespace dqmcpp
 #define RUNLISTREADER_HH
 #endif

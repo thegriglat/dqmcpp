@@ -10,6 +10,9 @@
 #include <string>
 #include <vector>
 
+namespace dqmcpp {
+namespace common {
+
 /**
  * @brief Splits std::string by delimiter
  *
@@ -126,5 +129,8 @@ std::string ltrim(const std::string& text);
 inline std::string trim(const std::string& text) {
   return rtrim(ltrim(text));
 };
+
+}  // namespace common
+}  // namespace dqmcpp
 #define COMMON_HH
 #endif

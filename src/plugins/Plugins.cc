@@ -11,9 +11,11 @@
 #include "TTMaskingStatus.hh"
 #include "TestPlugin.hh"
 
-namespace Plugins {
+namespace {
 
-static const std::map<std::string, Plugin*> _pluginmap = {
+using namespace dqmcpp::plugins;
+
+const std::map<std::string, Plugin*> _pluginmap = {
     {"RMS", new RMSPlugin()},
     {"Test", new TestPlugin()},
     {"TTMaskingStatus", new TTMaskingStatus()},
@@ -21,6 +23,11 @@ static const std::map<std::string, Plugin*> _pluginmap = {
     {"L1TEGammaIsoPre", new L1TEGammaIsoPrePlugin()}
 
 };
+
+}  // namespace
+
+namespace dqmcpp {
+namespace plugins {
 
 Plugin* get(const std::string name) {
   auto it = _pluginmap.find(name);
@@ -36,5 +43,7 @@ std::vector<std::string> list() {
     list.push_back(e.first);
   }
   return list;
-}
-}  // namespace Plugins
+};
+
+}  // namespace plugins
+}  // namespace dqmcpp

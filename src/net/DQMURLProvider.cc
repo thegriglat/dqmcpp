@@ -22,7 +22,8 @@
 using namespace std;
 
 namespace {
-URLCache* cache = nullptr;
+
+dqmcpp::net::URLCache* cache = nullptr;
 
 /**
  * @brief Replace specific symbols in url
@@ -80,10 +81,10 @@ vector<vector<string>> groups(const vector<string>& list, const int maxDiff) {
   for (auto it = list.begin(); it != list.end(); ++it) {
     vector<string> group;
     for (auto jit = it; jit != list.end(); ++jit) {
-      if (has(skiplist, *jit))
+      if (dqmcpp::common::has(skiplist, *jit))
         continue;
-      const auto it_vlist = split(*it, "/");
-      const auto jit_vlist = split(*jit, "/");
+      const auto it_vlist = dqmcpp::common::split(*it, "/");
+      const auto jit_vlist = dqmcpp::common::split(*jit, "/");
       const auto it_dataset_part = it_vlist.at(1);
       const auto jit_dataset_part = jit_vlist.at(1);
       const auto diff = maxDifference(*it, *jit);
@@ -120,8 +121,11 @@ vector<string> getLast(const vector<vector<string>>& groups) {
   }
   return result;
 }
+
 }  // namespace
 
+namespace dqmcpp {
+namespace net {
 namespace DQMURL {
 std::string dqmurl(const unsigned int run,
                    const std::string dataset,
@@ -151,7 +155,7 @@ std::vector<std::string> datasets(const unsigned int run,
     if (c == '\'')
       c = '\"';
 
-  auto json_content = JSONReader::parseJSON(content);
+  auto json_content = dqmcpp::readers::JSONReader::parseJSON(content);
   auto j = json_content[1];
   auto j1 = j["items"][0]["items"];
   vector<string> datasets;
@@ -179,4 +183,7 @@ std::vector<std::string> datasets(const unsigned int run,
 
   return filtered_datasets;
 }
+
 }  // namespace DQMURL
+}  // namespace net
+}  // namespace dqmcpp

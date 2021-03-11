@@ -14,8 +14,11 @@
 #include "../writers/Gnuplot2DWriter.hh"
 #include "TTMaskingStatus.hh"
 
-namespace {
 using namespace std;
+using namespace dqmcpp;
+
+namespace {
+
 struct URLType {
   std::string url;
   bool isEB = false;
@@ -38,19 +41,25 @@ std::vector<URLType> urls(const unsigned int runnumber,
     string eeplot = "Ecal";
     eeplot +=
         det + "/" + d + "TriggerTowerTask/" + d + "TTT TTF4 Occupancy" + suf;
-    urls.push_back(URLType(DQMURL::dqmurl(runnumber, dataset, eeplot), i == 0));
+    urls.push_back(
+        URLType(net::DQMURL::dqmurl(runnumber, dataset, eeplot), i == 0));
   }
   return urls;
 };
 
-vector<ECAL::TTRunData> getMaskedChannels(Reader* reader,
-                                          RunListReader* runlistreader) {
-  TTMaskingStatus ttmasking;
+vector<ECAL::TTRunData> getMaskedChannels(
+    dqmcpp::readers::Reader* reader,
+    dqmcpp::readers::RunListReader* runlistreader) {
+  dqmcpp::plugins::TTMaskingStatus ttmasking;
   ttmasking.setReader(reader);
   ttmasking.setRunListReader(runlistreader);
   return ttmasking.get();
 };
+
 }  // namespace
+
+namespace dqmcpp {
+namespace plugins {
 
 std::vector<ECAL::TTRunData> TTF4Occupancy::readTT() {
   using namespace ECAL;
@@ -71,10 +80,11 @@ std::vector<ECAL::TTRunData> TTF4Occupancy::readTT() {
           // find tt by channel coord
           const int xch = (int)e.x;
           const int ych = (int)e.y;
-          auto f = std::find_if(all_channels.begin(), all_channels.end(),
-                                [xch, ych](const ChannelInfo& ch) {
-                                  return ch.iphi == xch && ch.ieta == ych;
-                                });
+          auto f = std::find_if(
+              all_channels.begin(), all_channels.end(),
+              [xch, ych](const ECAL::ECALChannels::ChannelInfo& ch) {
+                return ch.iphi == xch && ch.ieta == ych;
+              });
           if (f == all_channels.end()) {
             std::cout << "Cannot find channel !" << std::endl;
             std::cout << "x: " << xch << " y: " << ych << std::endl;
@@ -97,12 +107,13 @@ std::vector<ECAL::TTRunData> TTF4Occupancy::readTT() {
 };
 
 void TTF4Occupancy::Process() {
+  using namespace dqmcpp;
   auto maskedtt = getMaskedChannels(reader, runListReader);
   auto occupancy_tt = readTT();
   occupancy_tt = filterZeroTT(occupancy_tt);
   // scale to max
   for (auto& ttrun : occupancy_tt) {
-    auto max = maximum<ECAL::TTData>(
+    auto max = common::maximum<ECAL::TTData>(
         ttrun.ttdata, [](const ECAL::TTData& e) { return e.value; });
     for (auto& ee : ttrun.ttdata) {
       ee.value /= max;
@@ -140,13 +151,13 @@ void TTF4Occupancy::Process() {
   for (auto& r : occupancy_tt) {
     std::string xlabel = std::to_string(r.run);
     for (auto& tt : r.ttdata) {
-      std::string det = ECALChannels::detByTTTTC(tt.tt, tt.tcc);
+      std::string det = ECAL::ECALChannels::detByTTTTC(tt.tt, tt.tcc);
       std::string ylabel = det + " TCC" + std::to_string(tt.tcc) + " TT" +
                            (tt.tt < 10 ? "0" : "") + std::to_string(tt.tt);
       data.insert({{xlabel, ylabel}, tt.value});
     }
   }
-  Gnuplot2DWriter writer(data);
+  writers::Gnuplot2DWriter writer(data);
   ofstream out("ttf4_occupancy.plt");
   out << writer.setZ(0, 1)
              .setPalette({{0, "white"}, {0, "#fff497"}, {1, "#ff0201"}})
@@ -156,3 +167,6 @@ void TTF4Occupancy::Process() {
       << std::endl;
   out.close();
 }
+
+}  // namespace plugins
+}  // namespace dqmcpp

@@ -9,6 +9,7 @@
 #include "../net/DQMURLProvider.hh"
 
 using namespace std;
+using namespace dqmcpp;
 
 void help(const string& progname) {
   cout << "Usage: <runs> | " << progname << " <Dataset mask>" << endl
@@ -33,7 +34,7 @@ int main(int argc, char** argv) {
       cerr << "Bad run '" << line << "'" << endl;
       continue;
     }
-    auto datasets = DQMURL::datasets(run, mask);
+    auto datasets = net::DQMURL::datasets(run, mask);
     for (unsigned int i = 0; i < datasets.size(); ++i) {
       if (i > 0)
         cout << "# ";

@@ -11,6 +11,11 @@
 #include "../net/DQMURLProvider.hh"
 #include "../writers/GnuplotECALWriter.hh"
 
+using namespace dqmcpp;
+
+namespace dqmcpp {
+namespace plugins {
+
 std::vector<std::string> TestPlugin::urls(const unsigned int runnumber,
                                           const std::string& dataset) {
   std::vector<std::string> urls;
@@ -22,7 +27,7 @@ std::vector<std::string> TestPlugin::urls(const unsigned int runnumber,
         plot,
         "EcalBarrel/EBPedestalOnlineClient/EBPOT pedestal rms map G12 EB%+03d",
         i);
-    urls.push_back(DQMURL::dqmurl(runnumber, dataset, plot));
+    urls.push_back(net::DQMURL::dqmurl(runnumber, dataset, plot));
   }
   for (int i = -9; i < 10; ++i) {
     if (i == 0)
@@ -31,7 +36,7 @@ std::vector<std::string> TestPlugin::urls(const unsigned int runnumber,
         plot,
         "EcalEndcap/EEPedestalOnlineClient/EEPOT pedestal rms map G12 EE%+03d",
         i);
-    urls.push_back(DQMURL::dqmurl(runnumber, dataset, plot));
+    urls.push_back(net::DQMURL::dqmurl(runnumber, dataset, plot));
   }
   delete[] plot;
   return urls;
@@ -46,7 +51,7 @@ void TestPlugin::plot(const std::vector<ECAL::RunData>& rundata) {
     std::string outfile = std::to_string(run) + ".plt";
     std::ofstream out(outfile);
     std::vector<ECAL::RunData> rd = {r};
-    out << GnuplotECALWriter(rd) << std::endl;
+    out << writers::GnuplotECALWriter(rd) << std::endl;
     out.close();
   }
 }
@@ -68,3 +73,6 @@ void TestPlugin::Process() {
   }
   plot(analyze(rundata));
 }
+
+}  // namespace plugins
+}  // namespace dqmcpp

@@ -6,14 +6,12 @@
  */
 
 #include "JSONReader.hh"
+#include <vector>
 #include "../common/logging.hh"
 
-// for debugging to be sure that all channels are valid
-#ifdef debug_channeltest
-#include "../ECAL/ECALChannels.hh"
-#endif
+namespace dqmcpp {
+namespace readers {
 
-#include <vector>
 nlohmann::json JSONReader::parseJSON(const std::string& content) {
   auto j = nlohmann::json::parse(content);
   return j;
@@ -89,12 +87,6 @@ std::vector<ECAL::ChannelData> JSONReader::parse(nlohmann::json& j) {
       ECAL::ChannelData cd(c, value);
       if (value != 0) {
         // to avoid overlapping DQM output for different SM
-#ifdef debug_channeltest
-        auto f = ECALChannels::find(cd.channel);
-        if (!f) {
-          std::cout << "bad channel! " << cd.channel << std::endl;
-        }
-#endif
         channel_data.push_back(cd);
       }
       xbin++;
@@ -142,3 +134,6 @@ std::vector<ECAL::Data2D> JSONReader::parse2D(nlohmann::json& j) {
   };
   return channel_data;
 }
+
+}  // namespace readers
+}  // namespace dqmcpp

@@ -9,6 +9,8 @@
 #include <iostream>
 #include <map>
 #include <vector>
+namespace dqmcpp {
+namespace writers {
 
 class Gnuplot2DWriter {
  public:
@@ -129,5 +131,7 @@ class Gnuplot2DWriter {
   std::string palette_str() const;
 };
 
+}  // namespace writers
+}  // namespace dqmcpp
 #define GNUPLOT2DWRITER_HH
 #endif

@@ -12,9 +12,16 @@
 #include "../net/DQMURLProvider.hh"
 #include "../writers/Gnuplot2DWriter.hh"
 
-#define RMSMAX (5)
+using namespace dqmcpp;
 
-static const auto rmslimit = [](const double rms) { return rms > RMSMAX; };
+namespace {
+const double RMSMAX = 5.0;
+const auto rmslimit = [](const double rms) { return rms > RMSMAX; };
+
+}  // namespace
+
+namespace dqmcpp {
+namespace plugins {
 
 std::vector<std::string> RMSPlugin::urls(const unsigned int runnumber,
                                          const std::string& dataset) {
@@ -27,7 +34,7 @@ std::vector<std::string> RMSPlugin::urls(const unsigned int runnumber,
         plot,
         "EcalBarrel/EBPedestalOnlineClient/EBPOT pedestal rms map G12 EB%+03d",
         i);
-    urls.push_back(DQMURL::dqmurl(runnumber, dataset, plot));
+    urls.push_back(net::DQMURL::dqmurl(runnumber, dataset, plot));
   }
   for (int i = -9; i < 10; ++i) {
     if (i == 0)
@@ -36,7 +43,7 @@ std::vector<std::string> RMSPlugin::urls(const unsigned int runnumber,
         plot,
         "EcalEndcap/EEPedestalOnlineClient/EEPOT pedestal rms map G12 EE%+03d",
         i);
-    urls.push_back(DQMURL::dqmurl(runnumber, dataset, plot));
+    urls.push_back(net::DQMURL::dqmurl(runnumber, dataset, plot));
   }
   delete[] plot;
   return urls;
@@ -72,11 +79,11 @@ void RMSPlugin::plot(const std::vector<ECAL::RunData>& rundata) {
   if (rundata.size() == 0)
     return;
 
-  Gnuplot2DWriter::Data2D data;
+  writers::Gnuplot2DWriter::Data2D data;
   for (auto& rd : rundata) {
     const auto runstr = std::to_string(rd.run.runnumber);
     for (auto& chd : rd.channeldata) {
-      auto channel_info = ECALChannels::find(chd.channel);
+      auto channel_info = ECAL::ECALChannels::find(chd.channel);
       const std::string channelstr =
           channel_info->det + " TT" + std::to_string(channel_info->tower) +
           " [" + std::to_string(chd.channel.ix_iphi) + "," +
@@ -85,7 +92,7 @@ void RMSPlugin::plot(const std::vector<ECAL::RunData>& rundata) {
     }
   }
   std::ofstream out("rms_channels.plt");
-  out << Gnuplot2DWriter(data)
+  out << writers::Gnuplot2DWriter(data)
              .title("G12 RMS channels")
              .setPalette({{0, "white"},
                           {0.03, "#006400"},
@@ -115,3 +122,6 @@ void RMSPlugin::Process() {
   }
   plot(analyze(rundata));
 }
+
+}  // namespace plugins
+}  // namespace dqmcpp

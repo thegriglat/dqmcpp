@@ -8,6 +8,9 @@
 #include <iostream>
 #include "../ECAL/ECAL.hh"
 
+namespace dqmcpp {
+namespace writers {
+
 class GnuplotECALWriter {
  public:
   struct PaletteColor {
@@ -78,5 +81,7 @@ class GnuplotECALWriter {
                                   const GnuplotECALWriter& gw);
 };
 
+}  // namespace writers
+}  // namespace dqmcpp
 #define GNUPLOTECALWRITER_HH
 #endif

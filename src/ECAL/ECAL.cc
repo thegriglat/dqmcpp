@@ -9,10 +9,13 @@
 #include <algorithm>
 #include <array>
 #include <vector>
-using namespace ECAL;
+
+using namespace dqmcpp::ECAL;
 using namespace std;
 
+namespace dqmcpp {
 namespace ECAL {
+
 std::vector<TTData> channel2TT(
     const std::vector<ECAL::ChannelData>& channelData) {
   vector<TTData> ttdata;
@@ -102,4 +105,6 @@ vector<TTRunData> filterZeroTT(vector<TTRunData>& rundata) {
   }
   return rundata;
 };
+
 };  // namespace ECAL
+};  // namespace dqmcpp

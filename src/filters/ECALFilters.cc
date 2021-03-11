@@ -6,7 +6,9 @@
 #include "ECALFilters.hh"
 #include <algorithm>
 
-namespace ECALFilters {
+namespace dqmcpp {
+namespace filters {
+
 std::vector<ECAL::ChannelData> filter_det(
     std::vector<ECAL::ChannelData>& channeldata,
     const ECAL::DETECTORS iz) {
@@ -20,4 +22,6 @@ std::vector<ECAL::ChannelData> filter_det(
       [iz](const ECAL::ChannelData& cd) { return cd.channel.iz == iz; });
   return result;
 };
-}  // namespace ECALFilters
+
+}  // namespace filters
+}  // namespace dqmcpp

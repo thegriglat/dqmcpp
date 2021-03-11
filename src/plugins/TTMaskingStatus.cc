@@ -17,10 +17,13 @@
 #include "../net/DQMURLProvider.hh"
 #include "../writers/Gnuplot2DWriter.hh"
 
-using namespace ECAL;
+using namespace dqmcpp::ECAL;
+using namespace dqmcpp;
 
 using namespace std;
+
 namespace {
+
 struct URLType {
   std::string url;
   bool isEB = false;
@@ -43,7 +46,8 @@ std::vector<URLType> urls(const unsigned int runnumber,
     string eeplot = "Ecal";
     eeplot +=
         det + "/" + d + "TriggerTowerTask/" + d + "TTT TT Masking Status" + suf;
-    urls.push_back(URLType(DQMURL::dqmurl(runnumber, dataset, eeplot), i == 0));
+    urls.push_back(URLType(
+        dqmcpp::net::DQMURL::dqmurl(runnumber, dataset, eeplot), i == 0));
   }
   return urls;
 };
@@ -53,8 +57,8 @@ vector<TTRunData> analyze(vector<TTRunData>& rundata) {
   rundata = filterZeroTT(rundata);
   // normalize TT value
   for (auto& e : rundata) {
-    auto max =
-        maximum<TTData>(e.ttdata, [](const TTData& e) { return e.value; });
+    auto max = common::maximum<TTData>(e.ttdata,
+                                       [](const TTData& e) { return e.value; });
     for (auto& ee : e.ttdata) {
       ee.value /= max;
     }
@@ -75,7 +79,7 @@ void plot(const vector<TTRunData>& rundata) {
       data.insert({{xlabel, ylabel}, tt.value});
     }
   }
-  Gnuplot2DWriter writer(data);
+  writers::Gnuplot2DWriter writer(data);
   ofstream out("tt_masking_status.plt");
   out << writer.setZ(0, 1)
              .setPalette({{0, "white"}, {1, "red"}})
@@ -88,6 +92,10 @@ void plot(const vector<TTRunData>& rundata) {
 
 }  // namespace
 
+namespace dqmcpp {
+namespace plugins {
+
+using namespace dqmcpp;
 std::vector<TTRunData> TTMaskingStatus::Init() {
   vector<TTRunData> rundata;
   const auto all_channels = ECALChannels::list();
@@ -106,10 +114,11 @@ std::vector<TTRunData> TTMaskingStatus::Init() {
           // find tt by channel coord
           const int xch = e.x;
           const int ych = e.y;
-          auto f = std::find_if(all_channels.begin(), all_channels.end(),
-                                [xch, ych](const ChannelInfo& ch) {
-                                  return ch.iphi == xch && ch.ieta == ych;
-                                });
+          auto f = std::find_if(
+              all_channels.begin(), all_channels.end(),
+              [xch, ych](const ECAL::ECALChannels::ChannelInfo& ch) {
+                return ch.iphi == xch && ch.ieta == ych;
+              });
           if (f == all_channels.end()) {
             std::cout << "Cannot find channel !" << std::endl;
             std::cout << "x: " << xch << " y: " << ych << std::endl;
@@ -140,3 +149,6 @@ std::vector<TTRunData> TTMaskingStatus::get() {
   auto rundata = Init();
   return rundata;
 }
+
+}  // namespace plugins
+}  // namespace dqmcpp

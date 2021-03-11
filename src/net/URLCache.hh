@@ -7,6 +7,10 @@
 
 #include <string>
 #include "URLHandler.hh"
+
+namespace dqmcpp {
+namespace net {
+
 class URLCache {
  private:
   URLHandler* _urlhandler = new URLHandler();
@@ -74,6 +78,8 @@ class URLCache {
   std::string get(const std::string& url);
 };
 
+}  // namespace net
+}  // namespace dqmcpp
 #define URLCACHE_HH
 
 #endif

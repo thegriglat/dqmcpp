@@ -8,12 +8,15 @@
 #include "../ECAL/ECAL.hh"
 #include "../net/URLCache.hh"
 
+namespace dqmcpp {
+namespace readers {
+
 class Reader {
-  static const std::string DQMURL;
-  URLCache* _cache = nullptr;
+  dqmcpp::net::URLCache* _cache = nullptr;
 
  public:
-  Reader(URLCache* cache = new URLCache()) : _cache(cache){};
+  Reader(dqmcpp::net::URLCache* cache = new dqmcpp::net::URLCache())
+      : _cache(cache){};
   // std::string url(const unsigned int runnumber, const std::string &dataset);
   /**
    * @brief Returns HTTP content by url using cache.
@@ -32,5 +35,7 @@ class Reader {
   virtual std::vector<ECAL::Data2D> parse2D(const std::string& content) = 0;
 };
 
+}  // namespace readers
+}  // namespace dqmcpp
 #define READER_HH
 #endif

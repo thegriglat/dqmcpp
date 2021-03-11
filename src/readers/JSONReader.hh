@@ -5,9 +5,11 @@
  *
  */
 #include "../ECAL/ECAL.hh"
+#include "../common/json.hh"
 #include "Reader.hh"
 
-#include "../common/json.hh"
+namespace dqmcpp {
+namespace readers {
 
 class JSONReader : public Reader {
  public:
@@ -52,5 +54,7 @@ class JSONReader : public Reader {
   static bool isValid(nlohmann::json& j);
 };
 
+}  // namespace readers
+}  // namespace dqmcpp
 #define JSONREADER_HH
 #endif

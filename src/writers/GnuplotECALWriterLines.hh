@@ -6,6 +6,10 @@
  */
 #include <array>
 #include <vector>
+
+namespace dqmcpp {
+namespace writers {
+
 /**
  * @brief Returns list of points for EE lines
  *
@@ -20,5 +24,7 @@ std::vector<std::array<int, 4>> EndcapLines();
  */
 void drawEESM(std::ostream& os, const int iz);
 
+}  // namespace writers
+}  // namespace dqmcpp
 #define GNUPLOTECALWRITERLINES_HH
 #endif

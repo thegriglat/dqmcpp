@@ -6,6 +6,10 @@
  */
 #include "ECAL.hh"
 
+namespace dqmcpp {
+namespace ECAL {
+namespace ECALChannels {
+
 /**
  * @brief Static channel list structure
  * Dumped from DQM a long long time ago ...
@@ -41,7 +45,6 @@ struct ChannelInfo {
   std::string crate;
 };
 
-namespace ECALChannels {
 /**
  * @brief Find channel in static database. Returns nullptr if not found
  *
@@ -51,7 +54,9 @@ namespace ECALChannels {
 const ChannelInfo* find(const ECAL::Channel& channel);
 const std::vector<ChannelInfo> list(void);
 const std::string detByTTTTC(const int tt, const int tcc);
-};  // namespace ECALChannels
 
+}  // namespace ECALChannels
+}  // namespace ECAL
+}  // namespace dqmcpp
 #define ECALCHANNELS_HH
 #endif

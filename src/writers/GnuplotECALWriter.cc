@@ -11,12 +11,16 @@
 #include "../filters/ECALFilters.hh"
 #include "GnuplotECALWriterLines.hh"
 
-static inline void drawLine(std::ostream& os,
-                            int x1,
-                            int y1,
-                            int x2,
-                            int y2,
-                            const std::string color = "black") {
+namespace {
+using namespace dqmcpp;
+using namespace dqmcpp::writers;
+
+inline void drawLine(std::ostream& os,
+                     int x1,
+                     int y1,
+                     int x2,
+                     int y2,
+                     const std::string color = "black") {
   os << "set arrow front nohead from " << x1 << "," << y1 << " to " << x2 << ","
      << y2 << "lc rgb \"" << color << "\"" << std::endl;
 }
@@ -33,10 +37,8 @@ struct Point {
   double value;
 };
 
-static void writeBarrel(std::ostream& os,
-                        ECAL::RunData& rd,
-                        const int numdata) {
-  auto barrel = ECALFilters::barrel(rd.channeldata);
+void writeBarrel(std::ostream& os, ECAL::RunData& rd, const int numdata) {
+  auto barrel = filters::barrel(rd.channeldata);
   os << "set xrange [0:360]" << std::endl
      << "set yrange [-85.5: 85.5]" << std::endl
      << "set size ratio 0.472" << std::endl
@@ -89,12 +91,12 @@ static void writeBarrel(std::ostream& os,
   os << "plot '$map" << numdata << "' using 1:2:3 w image notitle" << std::endl;
 }
 
-static void writeEndcap(std::ostream& os,
-                        ECAL::RunData& rd,
-                        const int numdata,
-                        const int iz) {
-  auto endcap = (iz == 1) ? ECALFilters::eeplus(rd.channeldata)
-                          : ECALFilters::eeminus(rd.channeldata);
+void writeEndcap(std::ostream& os,
+                 ECAL::RunData& rd,
+                 const int numdata,
+                 const int iz) {
+  auto endcap = (iz == 1) ? filters::eeplus(rd.channeldata)
+                          : filters::eeminus(rd.channeldata);
   const std::string title = (iz == 1) ? "ECAL EE+" : "ECAL EE-";
   os << "set xrange [0:100]" << std::endl
      << "set yrange [0:100]" << std::endl
@@ -161,6 +163,11 @@ static void writeGnuplot(std::ostream& os,
   };
 }
 
+}  // namespace
+
+namespace dqmcpp {
+namespace writers {
+
 std::ostream& operator<<(std::ostream& os, const GnuplotECALWriter& gw) {
   writeGnuplot(os, gw, *(gw.rd));
   return os;
@@ -186,3 +193,6 @@ std::string GnuplotECALWriter::palette_str() const {
   s += ")";
   return s;
 }
+
+}  // namespace writers
+}  // namespace dqmcpp

@@ -7,6 +7,7 @@
 #include "../common/logging.hh"
 #include "curl/curl.h"
 
+namespace {
 /**
  * @brief Helper for curl
  *
@@ -16,10 +17,7 @@
  * @param s
  * @return size_t
  */
-static size_t curl_write(void* contents,
-                         size_t size,
-                         size_t nmemb,
-                         std::string* s) {
+size_t curl_write(void* contents, size_t size, size_t nmemb, std::string* s) {
   size_t newLength = size * nmemb;
   size_t oldLength = s->size();
   try {
@@ -33,6 +31,11 @@ static size_t curl_write(void* contents,
             s->begin() + oldLength);
   return size * nmemb;
 }
+
+}  // namespace
+
+namespace dqmcpp {
+namespace net {
 
 /**
  * @brief Returns content of URL
@@ -82,3 +85,6 @@ URLHandler::URLHandler() {
     // curl_easy_setopt(curl, CURLOPT_CAINFO, pCACertFile);
   }
 }
+
+}  // namespace net
+}  // namespace dqmcpp

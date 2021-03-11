@@ -9,10 +9,13 @@
 #include <vector>
 #include "Plugin.hh"
 
-namespace Plugins {
+namespace dqmcpp {
+namespace plugins {
+
 Plugin* get(const std::string name);
 std::vector<std::string> list();
-};  // namespace Plugins
 
+}  // namespace plugins
+}  // namespace dqmcpp
 #define PLUGINFACTORY_HH
 #endif

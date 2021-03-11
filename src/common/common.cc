@@ -10,6 +10,8 @@
 #include "sys/dir.h"
 #include "sys/stat.h"
 
+namespace dqmcpp {
+namespace common {
 std::vector<std::string> split(const std::string str,
                                const std::string delimiter) {
   size_t pos;
@@ -88,3 +90,6 @@ std::string ltrim(const std::string& str) {
           }));
   return s;
 }
+
+}  // namespace common
+}  // namespace dqmcpp

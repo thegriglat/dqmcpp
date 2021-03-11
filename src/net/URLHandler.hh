@@ -7,6 +7,9 @@
 #include <string>
 #include "curl/curl.h"
 
+namespace dqmcpp {
+namespace net {
+
 class URLHandler {
  private:
   CURL* _curl = nullptr;
@@ -39,5 +42,7 @@ class URLHandler {
   inline void setUserKeyFile(const std::string& keyFile) { pKeyFile = keyFile; }
 };
 
+}  // namespace net
+}  // namespace dqmcpp
 #define URLHANDLER_HH
 #endif

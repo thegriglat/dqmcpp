@@ -8,6 +8,9 @@
 #include "../ECAL/ECAL.hh"
 #include "Plugin.hh"
 
+namespace dqmcpp {
+namespace plugins {
+
 class TTF4Occupancy : public Plugin {
  private:
   std::vector<ECAL::TTRunData> readTT();
@@ -15,6 +18,9 @@ class TTF4Occupancy : public Plugin {
  public:
   void Process();
 };
+
+}  // namespace plugins
+}  // namespace dqmcpp
 
 #define TTF4OCCUPANCY_HH
 #endif  // !TTF4OCCUPANCY_HH

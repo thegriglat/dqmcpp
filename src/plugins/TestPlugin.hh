@@ -6,6 +6,9 @@
  */
 #include "Plugin.hh"
 
+namespace dqmcpp {
+namespace plugins {
+
 class TestPlugin : public Plugin {
  private:
   std::vector<std::string> urls(const unsigned int runnumber,
@@ -16,6 +19,9 @@ class TestPlugin : public Plugin {
  public:
   void Process(void);
 };
+
+}  // namespace plugins
+}  // namespace dqmcpp
 
 #define TESTPLUGIN_HH
 #endif

@@ -5,10 +5,15 @@
  * @brief L1TEGammaIsoPrePlugin
  */
 #include "Plugin.hh"
+namespace dqmcpp {
+namespace plugins {
+
 class L1TEGammaIsoPrePlugin : public Plugin {
  public:
   void Process();
 };
 
+}  // namespace plugins
+}  // namespace dqmcpp
 #define L1TEGAMMAISOPRE_HH
 #endif  // !L1TEGAMMAISOPRE_HH
