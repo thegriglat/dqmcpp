@@ -38,7 +38,19 @@ class JSONReader : public Reader {
     auto q = parseJSON(content);
     return parse(q);
   }
+  /**
+   * @brief Parse DQM json as vector of 2D points
+   *
+   * @param j
+   * @return std::vector<ECAL::Data2D>
+   */
   std::vector<ECAL::Data2D> parse2D(nlohmann::json& j);
+  /**
+   * @brief Parse DQM HTTP output as vector of 2D points
+   *
+   * @param j
+   * @return std::vector<ECAL::Data2D>
+   */
   inline std::vector<ECAL::Data2D> parse2D(const std::string& content) {
     auto q = parseJSON(content);
     return parse2D(q);
