@@ -43,15 +43,6 @@ class JSONReader : public Reader {
     auto q = parseJSON(content);
     return parse2D(q);
   }
-
-  /**
-   * @brief Check that DQM json is valid. Just check that some data returned.
-   * No "smart" checks performed.
-   * @param j Parsed HTTP response content
-   * @return true
-   * @return false
-   */
-  static bool isValid(nlohmann::json& j);
 };
 
 }  // namespace readers

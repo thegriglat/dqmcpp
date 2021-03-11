@@ -31,6 +31,21 @@ DETECTORS getECALDetector(const std::string& title) {
   return DETECTORS::EB;
 }
 
+/**
+ * @brief Check that DQM json is valid. Just check that some data returned.
+ * No "smart" checks performed.
+ * @param j Parsed HTTP response content
+ * @return true
+ * @return false
+ */
+bool isValid(nlohmann::json& j) {
+  const auto hist = j["hist"];
+  // {"hist": "unsupported type"}
+  if (hist.empty() || hist.is_string())
+    return false;
+  return true;
+}
+
 }  // namespace
 
 namespace dqmcpp {
@@ -39,14 +54,6 @@ namespace readers {
 nlohmann::json JSONReader::parseJSON(const std::string& content) {
   auto j = nlohmann::json::parse(content);
   return j;
-}
-
-bool JSONReader::isValid(nlohmann::json& j) {
-  const auto hist = j["hist"];
-  // {"hist": "unsupported type"}
-  if (hist.empty() || hist.is_string())
-    return false;
-  return true;
 }
 
 std::vector<ECAL::ChannelData> JSONReader::parse(nlohmann::json& j) {
