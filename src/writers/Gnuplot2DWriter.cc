@@ -14,7 +14,7 @@
 namespace dqmcpp {
 namespace writers {
 
-Gnuplot2DWriter::Gnuplot2DWriter(Data2D& data) : _data(data) {
+Gnuplot2DWriter::Gnuplot2DWriter(Data2D& data) : _data(&data) {
   for (auto& elem : data) {
     const auto xlabel = elem.first.first;
     const auto ylabel = elem.first.second;
@@ -44,7 +44,7 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
     const auto ylabel = gw._ylabels.at(iy);
     for (unsigned int ix = 0; ix < gw._xlabels.size(); ++ix) {
       const auto xlabel = gw._xlabels.at(ix);
-      if (gw._data.find({xlabel, ylabel}) != gw._data.end())
+      if (gw._data->find({xlabel, ylabel}) != gw._data->end())
         all[index(ix, iy)] = gw.get(xlabel, ylabel);
     }
   }

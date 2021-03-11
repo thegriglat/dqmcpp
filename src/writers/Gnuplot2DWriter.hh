@@ -16,7 +16,7 @@ namespace writers {
 
 class Gnuplot2DWriter : public Gnuplot2D {
  private:
-  Data2D _data;
+  Data2D* _data = nullptr;
   std::vector<std::string> _xlabels;
   std::vector<std::string> _ylabels;
 
@@ -24,7 +24,7 @@ class Gnuplot2DWriter : public Gnuplot2D {
   inline unsigned int ncolumns() const { return _ylabels.size(); }
 
   inline double get(const std::string& x, const std::string& y) const {
-    return _data.at({x, y});
+    return _data->at({x, y});
   }
 
  public:
