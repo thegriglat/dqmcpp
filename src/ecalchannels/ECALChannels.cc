@@ -5,6 +5,7 @@
  */
 #include "ECALChannels.hh"
 #include <algorithm>
+#include <array>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -12,57 +13,13 @@
 #include "../common/common.hh"
 #include "../common/logging.hh"
 
+#include "ecalchannels_db.hh"
+
 using namespace std;
-
-namespace {
-
-using namespace dqmcpp::ECALChannels;
-// symbols from dumped ecalchannels.o
-extern "C" char _binary_ecalchannels_dat_start;
-extern "C" char _binary_ecalchannels_dat_end;
-
-std::vector<ChannelInfo> _channels;
-bool isInit = false;
-
-int* getPtr(const ChannelInfo& info, const int n) {
-  return (int*)(&info) + n;
-};
-
-void Init() {
-  if (isInit)
-    return;
-  _channels.reserve(75848);
-  // read text from ecalchannels.o to stringstream
-  std::stringstream in;
-  char* p = &_binary_ecalchannels_dat_start;
-  while (p != &_binary_ecalchannels_dat_end) {
-    // just insert byte-per-byte
-    in << *p++;
-  }
-  string line;
-  while (!in.eof()) {
-    std::getline(in, line);
-    ChannelInfo info;
-    const auto stringlist = dqmcpp::common::split(line, ",");
-    for (unsigned int n = 0; n < stringlist.size(); n++) {
-      auto token = stringlist.at(n);
-      if (n < 26) {
-        int* intptr = getPtr(info, n);
-        *(intptr) = atoi(token.c_str());
-      } else {
-        continue;
-      };
-    }
-    _channels.push_back(info);
-  }
-  isInit = true;
-};
-}  // namespace
 
 namespace dqmcpp {
 namespace ECALChannels {
 const ChannelInfo* find(const ECAL::Channel& channel) {
-  Init();
   auto it = std::find_if(
       _channels.begin(), _channels.end(), [channel](const ChannelInfo& info) {
         if (channel.iz == ECAL::DETECTORS::EB) {
@@ -88,13 +45,11 @@ const ChannelInfo* find(const ECAL::Channel& channel) {
   return nullptr;
 }
 
-const std::vector<ChannelInfo> list() {
-  Init();
+const ECALChannelsList list() {
   return _channels;
 }
 
 const std::string detByTTTTC(const int tt, const int tcc) {
-  Init();
   auto it = std::find_if(_channels.begin(), _channels.end(),
                          [tt, tcc](const ChannelInfo& c) {
                            return c.tower == tt && c.tcc == tcc;

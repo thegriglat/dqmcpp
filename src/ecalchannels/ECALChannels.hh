@@ -4,6 +4,7 @@
  * @author Grigory Latyshev (thegriglat@gmail.com)
  * @brief Access to ECAL channels database
  */
+#include <array>
 #include <string>
 #include "../ECAL/ECAL.hh"
 
@@ -15,35 +16,37 @@ namespace ECALChannels {
  * Dumped from DQM a long long time ago ...
  */
 struct ChannelInfo {
-  int fed;
-  int tcc;
-  int tower;
-  int stripintower;
-  int xtalinstrip;
-  int ccu;
-  int vfe;
-  int xtalinvfe;
-  int xtalinccu;
-  int ieta;
-  int iphi;
-  int ix;
-  int iy;
-  int iz;
-  int hashedid;
-  int ic;
-  int cmsswid;
-  int dbid;
-  int ietatt;
-  int iphitt;
-  int tccch;
-  int tccslot;
-  int slbch;
-  int slbslot;
-  int ietagct;
-  int iphigct;
+  unsigned short fed;
+  char tcc;
+  unsigned char tower;
+  unsigned short stripintower;
+  unsigned short xtalinstrip;
+  unsigned short ccu;
+  unsigned short vfe;
+  short xtalinvfe;
+  unsigned short xtalinccu;
+  short ieta;
+  short iphi;
+  short ix;
+  short iy;
+  short iz;
+  unsigned short hashedid;
+  unsigned short ic;
+  long int cmsswid;
+  long int dbid;
+  short ietatt;
+  unsigned short iphitt;
+  unsigned short tccch;
+  unsigned short tccslot;
+  unsigned short slbch;
+  unsigned short slbslot;
+  unsigned short ietagct;
+  unsigned short iphigct;
   // std::string crate;
   std::string det() const;
 };
+
+using ECALChannelsList = std::array<dqmcpp::ECALChannels::ChannelInfo, 75848>;
 
 /**
  * @brief Find channel in static database. Returns nullptr if not found
@@ -52,7 +55,7 @@ struct ChannelInfo {
  * @return const ChannelInfo* | nullptr
  */
 const ChannelInfo* find(const ECAL::Channel& channel);
-const std::vector<ChannelInfo> list(void);
+const ECALChannelsList list(void);
 const std::string detByTTTTC(const int tt, const int tcc);
 
 }  // namespace ECALChannels

@@ -8,17 +8,9 @@ find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIR})
 include_directories(${PROJECT_SOURCE_DIR})
 
-# ecalchannels
-add_custom_command(
-  OUTPUT ecalchannels.o
-  COMMAND cp ${PROJECT_SOURCE_DIR}/ecalchannels/ecalchannels.dat ecalchannels.dat
-  COMMAND objcopy --input binary --output elf64-x86-64 ecalchannels.dat ecalchannels.o
-  DEPENDS ${PROJECT_SOURCE_DIR}/ecalchannels/ecalchannels.dat
-  VERBATIM)
-
 # libecalchannels
-file(GLOB_RECURSE ecalchannels_src ${PROJECT_SOURCE_DIR}/ecalchannels/*.cc)
-add_library(ecalchannels SHARED ${ecalchannels_src} ecalchannels.o)
+file(GLOB_RECURSE ecalchannels_src ${PROJECT_SOURCE_DIR}/ecalchannels/*.cc )
+add_library(ecalchannels SHARED ${ecalchannels_src} )
 install(TARGETS ecalchannels LIBRARY)
 
 #libdqmcpp
