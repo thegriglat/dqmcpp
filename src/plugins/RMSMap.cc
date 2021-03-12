@@ -56,7 +56,7 @@ void RMSMap::plot(const std::vector<ECAL::RunData>& rundata) {
     writer.setPalette(colors::PaletteSets::RMSHeatMap);
     writer.setZ(0, 10);
     writer.setZTick(1);
-    out << writers::GnuplotECALWriter(rd) << std::endl;
+    out << writer << std::endl;
     out.close();
   }
 }
