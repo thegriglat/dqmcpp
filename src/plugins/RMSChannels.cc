@@ -8,7 +8,7 @@
 #include <fstream>
 #include <map>
 #include <string>
-#include "../ECAL/ECALChannels.hh"
+#include "../ecalchannels/ECALChannels.hh"
 #include "../net/DQMURLProvider.hh"
 #include "../writers/Gnuplot2DWriter.hh"
 
@@ -83,7 +83,7 @@ void RMSPlugin::plot(const std::vector<ECAL::RunData>& rundata) {
   for (auto& rd : rundata) {
     const auto runstr = std::to_string(rd.run.runnumber);
     for (auto& chd : rd.channeldata) {
-      auto channel_info = ECAL::ECALChannels::find(chd.channel);
+      auto channel_info = ECALChannels::find(chd.channel);
       const std::string channelstr =
           channel_info->det() + " TT" + std::to_string(channel_info->tower) +
           " [" + std::to_string(chd.channel.ix_iphi) + "," +

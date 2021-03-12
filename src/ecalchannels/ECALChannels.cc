@@ -16,7 +16,7 @@ using namespace std;
 
 namespace {
 
-using namespace dqmcpp::ECAL::ECALChannels;
+using namespace dqmcpp::ECALChannels;
 // symbols from dumped ecalchannels.o
 extern "C" char _binary_ecalchannels_dat_start;
 extern "C" char _binary_ecalchannels_dat_end;
@@ -60,7 +60,6 @@ void Init() {
 }  // namespace
 
 namespace dqmcpp {
-namespace ECAL {
 namespace ECALChannels {
 const ChannelInfo* find(const ECAL::Channel& channel) {
   Init();
@@ -220,5 +219,4 @@ std::string ChannelInfo::det() const {
 }
 
 }  // namespace ECALChannels
-}  // namespace ECAL
 }  // namespace dqmcpp

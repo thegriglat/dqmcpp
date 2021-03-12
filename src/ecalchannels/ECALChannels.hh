@@ -5,10 +5,9 @@
  * @brief Access to ECAL channels database
  */
 #include <string>
-#include "ECAL.hh"
+#include "../ECAL/ECAL.hh"
 
 namespace dqmcpp {
-namespace ECAL {
 namespace ECALChannels {
 
 /**
@@ -57,7 +56,6 @@ const std::vector<ChannelInfo> list(void);
 const std::string detByTTTTC(const int tt, const int tcc);
 
 }  // namespace ECALChannels
-}  // namespace ECAL
 }  // namespace dqmcpp
 #define ECALCHANNELS_HH
 #endif

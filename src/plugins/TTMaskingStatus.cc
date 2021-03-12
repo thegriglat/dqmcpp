@@ -12,8 +12,8 @@
 #include <string>
 #include <vector>
 #include "../ECAL/ECAL.hh"
-#include "../ECAL/ECALChannels.hh"
 #include "../common/common.hh"
+#include "../ecalchannels/ECALChannels.hh"
 #include "../net/DQMURLProvider.hh"
 #include "../writers/Gnuplot2DWriter.hh"
 
@@ -113,11 +113,11 @@ std::vector<TTRunData> TTMaskingStatus::Init() {
           // find tt by channel coord
           const int xch = e.x;
           const int ych = e.y;
-          auto f = std::find_if(
-              all_channels.begin(), all_channels.end(),
-              [xch, ych](const ECAL::ECALChannels::ChannelInfo& ch) {
-                return ch.iphi == xch && ch.ieta == ych;
-              });
+          auto f =
+              std::find_if(all_channels.begin(), all_channels.end(),
+                           [xch, ych](const ECALChannels::ChannelInfo& ch) {
+                             return ch.iphi == xch && ch.ieta == ych;
+                           });
           if (f == all_channels.end()) {
             std::cout << "Cannot find channel !" << std::endl;
             std::cout << "x: " << xch << " y: " << ych << std::endl;

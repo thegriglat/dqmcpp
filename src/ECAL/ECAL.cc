@@ -4,7 +4,7 @@
  * @brief Various functions to convert ECAL data
  */
 #include "ECAL.hh"
-#include "ECALChannels.hh"
+#include "../ecalchannels/ECALChannels.hh"
 
 #include <algorithm>
 #include <array>

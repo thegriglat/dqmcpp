@@ -8,8 +8,8 @@
 #include <fstream>
 #include <map>
 #include <string>
-#include "../ECAL/ECALChannels.hh"
 #include "../common/common.hh"
+#include "../ecalchannels/ECALChannels.hh"
 #include "../net/DQMURLProvider.hh"
 #include "../writers/Gnuplot2DWriter.hh"
 #include "TTMaskingStatus.hh"
@@ -80,11 +80,11 @@ std::vector<ECAL::TTRunData> TTF4Occupancy::readTT() {
           // find tt by channel coord
           const int xch = (int)e.x;
           const int ych = (int)e.y;
-          auto f = std::find_if(
-              all_channels.begin(), all_channels.end(),
-              [xch, ych](const ECAL::ECALChannels::ChannelInfo& ch) {
-                return ch.iphi == xch && ch.ieta == ych;
-              });
+          auto f =
+              std::find_if(all_channels.begin(), all_channels.end(),
+                           [xch, ych](const ECALChannels::ChannelInfo& ch) {
+                             return ch.iphi == xch && ch.ieta == ych;
+                           });
           if (f == all_channels.end()) {
             std::cout << "Cannot find channel !" << std::endl;
             std::cout << "x: " << xch << " y: " << ych << std::endl;
@@ -151,7 +151,7 @@ void TTF4Occupancy::Process() {
   for (auto& r : occupancy_tt) {
     std::string xlabel = std::to_string(r.run);
     for (auto& tt : r.ttdata) {
-      std::string det = ECAL::ECALChannels::detByTTTTC(tt.tt, tt.tcc);
+      std::string det = ECALChannels::detByTTTTC(tt.tt, tt.tcc);
       std::string ylabel = det + " TCC" + std::to_string(tt.tcc) + " TT" +
                            (tt.tt < 10 ? "0" : "") + std::to_string(tt.tt);
       data.insert({{xlabel, ylabel}, tt.value});
