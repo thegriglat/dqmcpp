@@ -7,8 +7,11 @@
 #include <assert.h>
 #include <bits/stl_function.h>
 #include <algorithm>
+#include <functional>
 #include <string>
 #include <vector>
+
+#include "functionalcpp.hh"
 
 namespace dqmcpp {
 namespace common {
@@ -33,6 +36,31 @@ std::string join(const std::vector<std::string> list,
                  const std::string delimiter = ",");
 
 /**
+ * @brief Get element index in vector. Returns -1 if not found
+ *
+ * @tparam T
+ * @param data
+ * @param element
+ * @return int
+ */
+template <typename T>
+int index(const std::vector<T>& data, std::function<bool(const T&)> index_fn) {
+  auto it = std::find_if(data.begin(), data.end(), index_fn);
+  if (it == data.end())
+    // element not found
+    return -1;
+  return std::distance(data.begin(), it);
+};
+template <typename T>
+int index(const std::vector<T>& data, const T& element) {
+  auto it = std::find(data.begin(), data.end(), element);
+  if (it == data.end())
+    // element not found
+    return -1;
+  return std::distance(data.begin(), it);
+}
+
+/**
  * @brief Returns true if vector has element
  *
  * @param data
@@ -41,8 +69,12 @@ std::string join(const std::vector<std::string> list,
  * @return false
  */
 template <typename T>
-bool has(const std::vector<T>& data, const T& elem) {
-  return std::find(data.begin(), data.end(), elem) != data.end();
+bool has(const std::vector<T>& data, const T& element) {
+  return (index(data, element) != -1);
+}
+template <typename T>
+int has(const std::vector<T>& data, std::function<bool(const T&)> index_fn) {
+  return (index(data, index_fn) != -1);
 }
 
 /**
@@ -53,8 +85,8 @@ bool has(const std::vector<T>& data, const T& elem) {
  * @param getter
  * @return double
  */
-template <typename T>
-double maximum(std::vector<T>& list, double (*getter)(const T&)) {
+template <typename T, typename BinaryOp>
+double maximum(std::vector<T>& list, BinaryOp getter) {
   if (list.size() == 0)
     return -1;
   double max = getter(list.at(0));
@@ -129,6 +161,21 @@ std::string ltrim(const std::string& text);
 inline std::string trim(const std::string& text) {
   return rtrim(ltrim(text));
 };
+
+template <typename T, typename BinaryOp>
+double sum(const std::vector<T>& d, BinaryOp fn) {
+  double s = 0;
+  for (const auto& e : d)
+    s += fn(e);
+  return s;
+}
+
+template <typename T>
+int sign(T value) {
+  if (value == 0)
+    return 0;
+  return ((value > 0) ? 1 : -1);
+}
 
 }  // namespace common
 }  // namespace dqmcpp
