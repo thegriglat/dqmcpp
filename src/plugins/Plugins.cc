@@ -5,6 +5,7 @@
  */
 #include "Plugins.hh"
 
+#include "FEStatusBits.hh"
 #include "L1TEGammaIsoPre.hh"
 #include "RMSChannels.hh"
 #include "RMSMap.hh"
@@ -20,7 +21,8 @@ const std::map<std::string, Plugin*> _pluginmap = {
     {"RMSMap", new RMSMap()},
     {"TTMaskingStatus", new TTMaskingStatus()},
     {"TTF4Occupancy", new TTF4Occupancy()},
-    {"L1TEGammaIsoPre", new L1TEGammaIsoPrePlugin()}
+    {"L1TEGammaIsoPre", new L1TEGammaIsoPrePlugin()},
+    {"FEStatusBits", new FEStatusBits()}
 
 };
 
