@@ -15,7 +15,7 @@ namespace ColorSets {
 const HEXColor red = "#ff280a";
 const HEXColor white = "white";
 const HEXColor green = "#148314";
-const HEXColor yellow = "#feec14";
+const HEXColor yellow = "#FFFACD";
 const HEXColor blue = "#2249aa";
 const HEXColor orange = "#f99314";
 const HEXColor gray = "#e5e5e5";
