@@ -205,6 +205,8 @@ void FEStatusBits::Process() {
     // skip ENABLED
     if (common::has(statuslist, common::index(STATUSES, string("ENABLED"))))
       continue;
+    if (common::has(statuslist, common::index(STATUSES, string("SUPPRESSED"))))
+      continue;
     plot(rundata, statuslist);
   }
 }
