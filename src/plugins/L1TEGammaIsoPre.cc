@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "../common/common.hh"
 #include "../net/DQMURLProvider.hh"
 #include "../readers/JSONReader.hh"
 #include "../writers/Gnuplot1DWriter.hh"
@@ -45,10 +46,7 @@ vector<ECAL::Data2D> filter(
 }
 
 double sum(const vector<ECAL::Data2D>& d) {
-  double s = 0;
-  for (auto& e : d)
-    s += e.value;
-  return s;
+  return dqmcpp::common::sum(d, [](const ECAL::Data2D& e) { return e.value; });
 }
 
 vector<RunProb> calcProb(const vector<ECAL::RunData2D>& rundata) {
