@@ -6,6 +6,7 @@
 #include "Gnuplot2DWriter.hh"
 
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 #include "../common/common.hh"
 
@@ -50,6 +51,10 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   }
   // print x labels
   auto scale = (double)gw.ncolumns() / gw.nrows();
+  /**
+  // @todo check scale. Sometimes produces plots are very small
+  */
+  scale = std::max(1.0, std::min(5.0, scale));
   os << "scale = " << scale << std::endl
      << "set term pngcairo size 1024*scale,768*scale*scale fontscale scale "
         "linewidth "
