@@ -24,6 +24,7 @@ set (libdqmcpplibs
   filters
   readers
   writers
+  colors
 )
 set (ldqm_sources)
 foreach(d ${libdqmcpplibs})

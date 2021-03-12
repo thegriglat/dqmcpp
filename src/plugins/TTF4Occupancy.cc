@@ -163,7 +163,6 @@ void TTF4Occupancy::Process() {
   writer.setZTick(0.1);
   writer.setOutput("ttf4_occupancy.png");
   writer.setTitle("TTF4 Occupancy");
-  writer.setPalette({{0, "white"}, {0, "#fff497"}, {1, "#ff0201"}});
   out << writer << std::endl;
   out.close();
 }

@@ -8,6 +8,7 @@
 
 #include <fstream>
 #include <string>
+#include "../colors/Colors.hh"
 #include "../net/DQMURLProvider.hh"
 #include "../writers/GnuplotECALWriter.hh"
 
@@ -51,6 +52,10 @@ void RMSMap::plot(const std::vector<ECAL::RunData>& rundata) {
     std::string outfile = std::to_string(run) + ".plt";
     std::ofstream out(outfile);
     std::vector<ECAL::RunData> rd = {r};
+    writers::GnuplotECALWriter writer(rd);
+    writer.setPalette(colors::PaletteSets::RMSHeatMap);
+    writer.setZ(0, 10);
+    writer.setZTick(1);
     out << writers::GnuplotECALWriter(rd) << std::endl;
     out.close();
   }

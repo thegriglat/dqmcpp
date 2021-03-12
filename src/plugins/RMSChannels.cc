@@ -94,9 +94,10 @@ void RMSPlugin::plot(const std::vector<ECAL::RunData>& rundata) {
   std::ofstream out("rms_channels.plt");
   writers::Gnuplot2DWriter writer(data);
   writer.setTitle("G12 RMS channels");
-  writer.setPalette(
-      {{0, "white"}, {0.03, "#006400"}, {0.03, "#fff497"}, {1.0, "#ff0201"}});
   writer.setZ(0, 100);
+  writer.setPalette(colors::PaletteSets::RMSHeatMap);
+  writer.setZ(0, 10);
+  writer.setZTick(1);
   writer.setOutput("rms_channels.png");
   out << writer << std::endl;
   out.close();

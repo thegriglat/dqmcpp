@@ -2,23 +2,19 @@
 
 #include <map>
 #include <vector>
+#include "../colors/Colors.hh"
 #include "Gnuplot.hh"
 
 namespace dqmcpp {
 namespace writers {
 
-struct PaletteColor {
-  float position;
-  std::string color;
-};
-
-using Palette = std::vector<PaletteColor>;
+using Palette = std::vector<dqmcpp::colors::PaletteColor>;
 
 class Gnuplot2D : public Gnuplot {
  private:
   Axis _zaxis;
   double _cbtick = 1;
-  Palette _palette = {{{-1, "white"}, {0.0, "yellow"}, {5.0, "red"}}};
+  Palette _palette = dqmcpp::colors::PaletteSets::Heatmap;
 
  public:
   using Data2D = std::map<std::pair<std::string, std::string>, double>;

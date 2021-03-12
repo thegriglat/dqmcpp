@@ -5,6 +5,7 @@
 namespace dqmcpp {
 namespace writers {
 
+using colors::PaletteColor;
 void Gnuplot2D::setPalette(Palette palette) {
   _palette = palette;
   std::sort(
