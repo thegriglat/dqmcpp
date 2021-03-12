@@ -85,7 +85,7 @@ void RMSPlugin::plot(const std::vector<ECAL::RunData>& rundata) {
     for (auto& chd : rd.channeldata) {
       auto channel_info = ECAL::ECALChannels::find(chd.channel);
       const std::string channelstr =
-          channel_info->det + " TT" + std::to_string(channel_info->tower) +
+          channel_info->det() + " TT" + std::to_string(channel_info->tower) +
           " [" + std::to_string(chd.channel.ix_iphi) + "," +
           std::to_string(chd.channel.iy_ieta) + "]";
       data.insert({{runstr, channelstr}, chd.value});

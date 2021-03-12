@@ -4,6 +4,7 @@
  * @author Grigory Latyshev (thegriglat@gmail.com)
  * @brief Access to ECAL channels database
  */
+#include <string>
 #include "ECAL.hh"
 
 namespace dqmcpp {
@@ -41,8 +42,8 @@ struct ChannelInfo {
   int slbslot;
   int ietagct;
   int iphigct;
-  std::string det;
-  std::string crate;
+  // std::string crate;
+  std::string det() const;
 };
 
 /**
