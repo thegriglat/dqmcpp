@@ -12,7 +12,7 @@ using Palette = std::vector<dqmcpp::colors::PaletteColor>;
 
 class Gnuplot2D : public Gnuplot {
  private:
-  Axis _zaxis;
+  Axis _zaxis = {0, 1};
   double _cbtick = 1;
   Palette _palette = dqmcpp::colors::PaletteSets::Heatmap;
 
