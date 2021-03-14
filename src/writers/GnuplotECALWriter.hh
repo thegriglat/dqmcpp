@@ -14,10 +14,11 @@ namespace writers {
 
 class GnuplotECALWriter : public Gnuplot2D {
  private:
-  std::vector<ECAL::RunData>* rd = nullptr;
+  std::vector<ECAL::RunChannelData>* rd = nullptr;
 
  public:
-  GnuplotECALWriter(std::vector<ECAL::RunData>& rundata) : rd(&rundata){};
+  GnuplotECALWriter(std::vector<ECAL::RunChannelData>& rundata)
+      : rd(&rundata){};
 
   friend std::ostream& operator<<(std::ostream& os,
                                   const GnuplotECALWriter& gw);

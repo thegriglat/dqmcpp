@@ -57,9 +57,9 @@ vector<TTRunData> analyze(vector<TTRunData>& rundata) {
   rundata = filterZeroTT(rundata);
   // normalize TT value
   for (auto& e : rundata) {
-    auto max = common::maximum<TTData>(e.ttdata,
+    auto max = common::maximum<TTData>(e.data,
                                        [](const TTData& e) { return e.value; });
-    for (auto& ee : e.ttdata) {
+    for (auto& ee : e.data) {
       ee.value /= max;
     }
   }
@@ -70,8 +70,8 @@ void plot(const vector<TTRunData>& rundata) {
   // output in Gnuplot
   std::map<std::pair<std::string, std::string>, double> data;
   for (auto& r : rundata) {
-    std::string xlabel = std::to_string(r.run);
-    for (auto& tt : r.ttdata) {
+    std::string xlabel = std::to_string(r.run.runnumber);
+    for (auto& tt : r.data) {
       std::string det =
           ((tt.iz == 0) ? "EB  " : ((tt.iz == 1) ? "EE+ " : "EE- "));
       std::string ylabel =
@@ -134,7 +134,7 @@ std::vector<TTRunData> TTMaskingStatus::Init() {
         data.push_back(e);
       }
     }
-    rundata.push_back(TTRunData(r.runnumber, data));
+    rundata.push_back(TTRunData(r, data));
   }
   return rundata;
 }

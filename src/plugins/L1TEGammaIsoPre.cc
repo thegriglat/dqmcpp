@@ -62,7 +62,7 @@ vector<RunProb> calcProb(const vector<ECAL::RunData2D>& rundata) {
     auto minus1_i = sum(minus1values);
     auto zero_i = sum(zerovalues);
     auto prob = minus1_i / (minus1_i + zero_i);
-    result.push_back(RunProb(rd.run, prob));
+    result.push_back(RunProb(rd.run.runnumber, prob));
   }
   return result;
 }
@@ -96,11 +96,11 @@ void L1TEGammaIsoPrePlugin::Process() {
     if (content.size() == 0)
       continue;
     content = filter0m1(content);
-    rundata.push_back(ECAL::RunData2D(run.runnumber, content));
+    rundata.push_back(ECAL::RunData2D(run, content));
     auto eb_content = filter_det(content, true);
     auto ee_content = filter_det(content, false);
-    eb_rundata.push_back(ECAL::RunData2D(run.runnumber, eb_content));
-    ee_rundata.push_back(ECAL::RunData2D(run.runnumber, ee_content));
+    eb_rundata.push_back(ECAL::RunData2D(run, eb_content));
+    ee_rundata.push_back(ECAL::RunData2D(run, ee_content));
   }
   vector<RunProb> runprob = calcProb(rundata);
   vector<RunProb> eb_runprob = calcProb(eb_rundata);

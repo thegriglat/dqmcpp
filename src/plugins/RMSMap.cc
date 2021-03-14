@@ -42,16 +42,16 @@ std::vector<std::string> RMSMap::urls(const unsigned int runnumber,
   delete[] plot;
   return urls;
 }
-std::vector<ECAL::RunData> RMSMap::analyze(
-    const std::vector<ECAL::RunData>& rundata) {
+std::vector<ECAL::RunChannelData> RMSMap::analyze(
+    const std::vector<ECAL::RunChannelData>& rundata) {
   return rundata;
 }
-void RMSMap::plot(const std::vector<ECAL::RunData>& rundata) {
+void RMSMap::plot(const std::vector<ECAL::RunChannelData>& rundata) {
   for (auto& r : rundata) {
     auto run = r.run.runnumber;
     std::string outfile = std::to_string(run) + ".plt";
     std::ofstream out(outfile);
-    std::vector<ECAL::RunData> rd = {r};
+    std::vector<ECAL::RunChannelData> rd = {r};
     writers::GnuplotECALWriter writer(rd);
     writer.setPalette(colors::PaletteSets::RMSHeatMap);
     writer.setZ(0, 10);
@@ -63,7 +63,7 @@ void RMSMap::plot(const std::vector<ECAL::RunData>& rundata) {
 
 void RMSMap::Process() {
   using namespace std;
-  vector<ECAL::RunData> rundata;
+  vector<ECAL::RunChannelData> rundata;
   for (auto& run : runListReader->runs()) {
     vector<ECAL::ChannelData> data;
     data.reserve(ECAL::NTotalChannels);
@@ -73,7 +73,7 @@ void RMSMap::Process() {
       for (auto& e : data_tt)
         data.push_back(e);
     }
-    ECAL::RunData rd(run, data);
+    ECAL::RunChannelData rd(run, data);
     rundata.push_back(rd);
   }
   plot(analyze(rundata));

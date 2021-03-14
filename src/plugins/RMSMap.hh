@@ -13,8 +13,9 @@ class RMSMap : public Plugin {
  private:
   std::vector<std::string> urls(const unsigned int runnumber,
                                 const std::string& dataset);
-  std::vector<ECAL::RunData> analyze(const std::vector<ECAL::RunData>& rundata);
-  void plot(const std::vector<ECAL::RunData>& rundata);
+  std::vector<ECAL::RunChannelData> analyze(
+      const std::vector<ECAL::RunChannelData>& rundata);
+  void plot(const std::vector<ECAL::RunChannelData>& rundata);
 
  public:
   void Process(void);

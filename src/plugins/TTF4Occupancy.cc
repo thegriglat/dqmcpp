@@ -101,7 +101,7 @@ std::vector<ECAL::TTRunData> TTF4Occupancy::readTT() {
         data.push_back(e);
       }
     }
-    rundata.push_back(TTRunData(r.runnumber, data));
+    rundata.push_back(TTRunData(r, data));
   }
   return rundata;
 };
@@ -114,8 +114,8 @@ void TTF4Occupancy::Process() {
   // scale to max
   for (auto& ttrun : occupancy_tt) {
     auto max = common::maximum<ECAL::TTData>(
-        ttrun.ttdata, [](const ECAL::TTData& e) { return e.value; });
-    for (auto& ee : ttrun.ttdata) {
+        ttrun.data, [](const ECAL::TTData& e) { return e.value; });
+    for (auto& ee : ttrun.data) {
       ee.value /= max;
     }
   }
@@ -127,30 +127,31 @@ void TTF4Occupancy::Process() {
         [&occtt](const ECAL::TTRunData& rd) { return occtt.run == rd.run; });
     if (masked_it == maskedtt.end()) {
       // not found
-      std::cout << "Masked run " << occtt.run << " not found!" << std::endl;
+      std::cout << "Masked run " << occtt.run.runnumber << " not found!"
+                << std::endl;
       continue;
     }
     // iterate over tt and remove masked
-    occtt.ttdata.erase(
-        std::remove_if(occtt.ttdata.begin(), occtt.ttdata.end(),
+    occtt.data.erase(
+        std::remove_if(occtt.data.begin(), occtt.data.end(),
                        [masked_it](const ECAL::TTData& ttdata) {
                          auto pos = std::find_if(
-                             masked_it->ttdata.begin(), masked_it->ttdata.end(),
+                             masked_it->data.begin(), masked_it->data.end(),
                              [&ttdata](const ECAL::TTData& maskedtt) {
                                return maskedtt.iz == ttdata.iz &&
                                       maskedtt.tt == ttdata.tt &&
                                       maskedtt.tcc == ttdata.tcc;
                              });
-                         return (pos != masked_it->ttdata.end());
+                         return (pos != masked_it->data.end());
                        }),
-        occtt.ttdata.end());
+        occtt.data.end());
   }
 
   // plot
   std::map<std::pair<std::string, std::string>, double> data;
   for (auto& r : occupancy_tt) {
-    std::string xlabel = std::to_string(r.run);
-    for (auto& tt : r.ttdata) {
+    std::string xlabel = std::to_string(r.run.runnumber);
+    for (auto& tt : r.data) {
       std::string det = ECALChannels::detByTTTTC(tt.tt, tt.tcc);
       std::string ylabel = det + " TCC" + std::to_string(tt.tcc) + " TT" +
                            (tt.tt < 10 ? "0" : "") + std::to_string(tt.tt);

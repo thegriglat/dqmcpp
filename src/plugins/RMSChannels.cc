@@ -48,12 +48,12 @@ std::vector<std::string> RMSPlugin::urls(const unsigned int runnumber,
   delete[] plot;
   return urls;
 }
-std::vector<ECAL::RunData> RMSPlugin::analyze(
-    const std::vector<ECAL::RunData>& rundata) {
+std::vector<ECAL::RunChannelData> RMSPlugin::analyze(
+    const std::vector<ECAL::RunChannelData>& rundata) {
   std::vector<ECAL::Channel> badchannels;
   badchannels.reserve(100);
   for (auto& e : rundata) {
-    for (auto& channeldata : e.channeldata) {
+    for (auto& channeldata : e.data) {
       if (rmslimit(channeldata.value)) {
         if (std::find(badchannels.begin(), badchannels.end(),
                       channeldata.channel) == badchannels.end())
@@ -61,28 +61,27 @@ std::vector<ECAL::RunData> RMSPlugin::analyze(
       }
     }
   }
-  std::vector<ECAL::RunData> rd;
+  std::vector<ECAL::RunChannelData> rd;
   rd.reserve(rundata.size());
   for (auto& e : rundata) {
     std::vector<ECAL::ChannelData> bd;
-    std::copy_if(e.channeldata.begin(), e.channeldata.end(),
-                 std::back_inserter(bd),
+    std::copy_if(e.data.begin(), e.data.end(), std::back_inserter(bd),
                  [badchannels](const ECAL::ChannelData& ecd) {
                    return std::find(badchannels.begin(), badchannels.end(),
                                     ecd.channel) != badchannels.end();
                  });
-    rd.push_back(ECAL::RunData(e.run, bd));
+    rd.push_back(ECAL::RunChannelData(e.run, bd));
   }
   return rd;
 }
-void RMSPlugin::plot(const std::vector<ECAL::RunData>& rundata) {
+void RMSPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata) {
   if (rundata.size() == 0)
     return;
 
   writers::Gnuplot2DWriter::Data2D data;
   for (auto& rd : rundata) {
     const auto runstr = std::to_string(rd.run.runnumber);
-    for (auto& chd : rd.channeldata) {
+    for (auto& chd : rd.data) {
       auto channel_info = ECALChannels::find(chd.channel);
       const std::string channelstr =
           channel_info->det() + " TT" + std::to_string(channel_info->tower) +
@@ -106,7 +105,7 @@ void RMSPlugin::plot(const std::vector<ECAL::RunData>& rundata) {
 
 void RMSPlugin::Process() {
   using namespace std;
-  vector<ECAL::RunData> rundata;
+  vector<ECAL::RunChannelData> rundata;
   for (auto& run : runListReader->runs()) {
     vector<ECAL::ChannelData> data;
     data.reserve(ECAL::NTotalChannels);
@@ -116,7 +115,7 @@ void RMSPlugin::Process() {
       for (auto& e : data_tt)
         data.push_back(e);
     }
-    ECAL::RunData rd(run, data);
+    ECAL::RunChannelData rd(run, data);
     rundata.push_back(rd);
   }
   plot(analyze(rundata));

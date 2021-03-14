@@ -37,8 +37,10 @@ struct Point {
   double value;
 };
 
-void writeBarrel(std::ostream& os, ECAL::RunData& rd, const int numdata) {
-  auto barrel = filters::barrel(rd.channeldata);
+void writeBarrel(std::ostream& os,
+                 ECAL::RunChannelData& rd,
+                 const int numdata) {
+  auto barrel = filters::barrel(rd.data);
   os << "set xrange [0:360]" << std::endl
      << "set yrange [-85.5: 85.5]" << std::endl
      << "set size ratio 0.472" << std::endl
@@ -92,11 +94,11 @@ void writeBarrel(std::ostream& os, ECAL::RunData& rd, const int numdata) {
 }
 
 void writeEndcap(std::ostream& os,
-                 ECAL::RunData& rd,
+                 ECAL::RunChannelData& rd,
                  const int numdata,
                  const int iz) {
-  auto endcap = (iz == 1) ? filters::eeplus(rd.channeldata)
-                          : filters::eeminus(rd.channeldata);
+  auto endcap =
+      (iz == 1) ? filters::eeplus(rd.data) : filters::eeminus(rd.data);
   const std::string title = (iz == 1) ? "ECAL EE+" : "ECAL EE-";
   os << "set xrange [0:100]" << std::endl
      << "set yrange [0:100]" << std::endl
@@ -138,7 +140,7 @@ void writeEndcap(std::ostream& os,
 
 static void writeGnuplot(std::ostream& os,
                          const GnuplotECALWriter& gw,
-                         std::vector<ECAL::RunData>& rd) {
+                         std::vector<ECAL::RunChannelData>& rd) {
   // filter barrel
   os << "scale = 2" << std::endl
      << "set term pngcairo size 1024*scale,768*scale fontscale scale linewidth "

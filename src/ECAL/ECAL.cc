@@ -56,17 +56,17 @@ std::vector<TTData> channel2TT(
 vector<TTRunData> filterZeroTT(vector<TTRunData>& rundata) {
   if (rundata.size() == 0)
     return vector<TTRunData>();
-  auto& ttlist = rundata.at(0).ttdata;
+  auto& ttlist = rundata.at(0).data;
   vector<array<int, 3>> tt_to_remove;
   for (auto& tt : ttlist) {
     bool all_is_zero = true;
     for (auto& rd : rundata) {
       // find
-      auto it = std::find_if(
-          rd.ttdata.begin(), rd.ttdata.end(), [tt](const TTData& e) {
+      auto it =
+          std::find_if(rd.data.begin(), rd.data.end(), [tt](const TTData& e) {
             return tt.tt == e.tt && tt.iz == e.iz && tt.tcc == e.tcc;
           });
-      if (it == rd.ttdata.end()) {
+      if (it == rd.data.end()) {
         // tt not found;
         continue;
       };
@@ -82,13 +82,13 @@ vector<TTRunData> filterZeroTT(vector<TTRunData>& rundata) {
   for (auto& ttremove : tt_to_remove) {
     for (auto& run : rundata) {
       auto it = std::find_if(
-          run.ttdata.begin(), run.ttdata.end(), [ttremove](const TTData& e) {
+          run.data.begin(), run.data.end(), [ttremove](const TTData& e) {
             return ttremove[0] == e.tt && ttremove[1] == e.iz &&
                    ttremove[2] == e.tcc;
           });
-      if (it == run.ttdata.end())
+      if (it == run.data.end())
         continue;
-      run.ttdata.erase(it);
+      run.data.erase(it);
     }
   }
   return rundata;

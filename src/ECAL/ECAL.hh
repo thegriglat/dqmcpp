@@ -29,15 +29,7 @@ struct Data2D {
   double value;
   Data2D(double x, double y, double value) : x(x), y(y), value(value){};
 };
-/**
- * @brief Run Structure for Data2D
- * @todo use Run struct for run field
- */
-struct RunData2D {
-  int run;
-  std::vector<Data2D> data;
-  RunData2D(int run, std::vector<Data2D>& data) : run(run), data(data){};
-};
+
 /**
  * @brief Basic channel struct
  * Trivial constructor is disabled
@@ -84,17 +76,6 @@ struct Run {
     return a.dataset == b.dataset && a.runnumber == b.runnumber;
   }
 };
-/**
- * @brief Run data struct.
- * @todo use Run struct for run field
- * Trivial constructor is disabled
- */
-struct RunData {
-  Run run;
-  std::vector<ChannelData> channeldata;
-  RunData(Run _run, std::vector<ChannelData> _cd)
-      : run(_run), channeldata(_cd){};
-};
 
 struct TTData {
   // TT number
@@ -115,16 +96,16 @@ struct TTData {
   }
 };
 
-/**
- * @brief Run struct for TT data
- * @todo use Run struct for run field
- */
-struct TTRunData {
-  int run;
-  std::vector<TTData> ttdata;
-  TTRunData(int _run, const std::vector<TTData>& ttd)
-      : run(_run), ttdata(ttd){};
+template <typename T>
+struct RunData {
+  Run run;
+  T data;
+  RunData(const Run& _run, const T& _data) : run(_run), data(_data){};
 };
+
+typedef RunData<std::vector<TTData>> TTRunData;
+typedef RunData<std::vector<ChannelData>> RunChannelData;
+typedef RunData<std::vector<Data2D>> RunData2D;
 
 std::vector<TTRunData> filterZeroTT(std::vector<TTRunData>& rundata);
 std::vector<TTData> channel2TT(
