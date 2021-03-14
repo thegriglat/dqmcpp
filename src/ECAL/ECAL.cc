@@ -79,18 +79,6 @@ vector<TTRunData> filterZeroTT(vector<TTRunData>& rundata) {
       tt_to_remove.push_back({tt.tt, tt.iz, tt.tcc});
     }
   }
-  /*
-  for (auto& removett : tt_to_remove)
-    for (auto& run : rundata) {
-      run.ttdata.erase(std::remove_if(run.ttdata.begin(), run.ttdata.end(),
-                                      [&removett](const TTData& ttdata) {
-                                        return removett[0] == ttdata.tt &&
-                                               removett[1] == ttdata.iz &&
-                                               removett[2] == ttdata.tcc;
-                                      }),
-                       run.ttdata.end());
-    }
-    */
   for (auto& ttremove : tt_to_remove) {
     for (auto& run : rundata) {
       auto it = std::find_if(
