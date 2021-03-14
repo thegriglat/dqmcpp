@@ -77,10 +77,9 @@ struct ChannelData {
  * Trivial constructor is disabled
  */
 struct Run {
-  unsigned int runnumber;
+  int runnumber;
   std::string dataset;
-  Run(unsigned int _run, std::string _dataset)
-      : runnumber(_run), dataset(_dataset){};
+  Run(int _run, std::string _dataset) : runnumber(_run), dataset(_dataset){};
   friend inline bool operator==(const Run& a, const Run& b) {
     return a.dataset == b.dataset && a.runnumber == b.runnumber;
   }
