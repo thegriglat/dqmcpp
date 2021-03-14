@@ -16,32 +16,32 @@ namespace ECALChannels {
  * Dumped from DQM a long long time ago ...
  */
 struct ChannelInfo {
-  int fed;           // 601..654
-  int tcc;           // 1..108
-  int tower;         // 1..68
-  int stripintower;  // 1..5
-  int xtalinstrip;   // 1..5
-  int ccu;           // 1..68
-  int vfe;           // 1..5
-  int xtalinvfe;     // 1..5
-  int xtalinccu;     // 0..24
-  int ieta;          //-999..85
-  int iphi;          //-999..360
-  int ix;            //-999..100
-  int iy;            //-999..100
-  int iz;            // -1..1
-  int hashedid;      // 0..61199
-  int ic;            // 1..1700
-  int cmsswid;
-  int dbid;
-  int ietatt;   // -28..28
-  int iphitt;   // 1..72
-  int tccch;    // 1..68
-  int tccslot;  // 2..17
-  int slbch;    // 1..8
-  int slbslot;  // 1..9
-  int ietagct;  // 4..17
-  int iphigct;  // 0..17
+  unsigned short fed;          // 601..654
+  unsigned char tcc;           // 1..108
+  unsigned char tower;         // 1..68
+  unsigned char stripintower;  // 1..5
+  unsigned char xtalinstrip;   // 1..5
+  unsigned char ccu;           // 1..68
+  unsigned char vfe;           // 1..5
+  unsigned char xtalinvfe;     // 1..5
+  unsigned char xtalinccu;     // 0..24
+  short ieta;                  //-999..85
+  short iphi;                  //-999..360
+  short ix;                    //-999..100
+  short iy;                    //-999..100
+  char iz;                     // -1..1
+  unsigned short hashedid;     // 0..61199
+  unsigned short ic;           // 1..1700
+  long int cmsswid;
+  long int dbid;
+  char ietatt;            // -28..28
+  unsigned char iphitt;   // 1..72
+  unsigned char tccch;    // 1..68
+  unsigned char tccslot;  // 2..17
+  unsigned char slbch;    // 1..8
+  unsigned char slbslot;  // 1..9
+  unsigned char ietagct;  // 4..17
+  unsigned char iphigct;  // 0..17
   // std::string crate;
   std::string det() const;
 };
