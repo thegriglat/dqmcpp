@@ -103,9 +103,9 @@ struct RunData {
   RunData(const Run& _run, const T& _data) : run(_run), data(_data){};
 };
 
-typedef RunData<std::vector<TTData>> RunTTData;
-typedef RunData<std::vector<ChannelData>> RunChannelData;
-typedef RunData<std::vector<Data2D>> RunData2D;
+using RunTTData = RunData<std::vector<TTData>>;
+using RunChannelData = RunData<std::vector<ChannelData>>;
+using RunData2D = RunData<std::vector<Data2D>>;
 
 std::vector<RunTTData> filterZeroTT(std::vector<RunTTData>& rundata);
 std::vector<TTData> channel2TT(
