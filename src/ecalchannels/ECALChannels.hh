@@ -32,8 +32,8 @@ struct ChannelInfo {
   char iz;                     // -1..1
   unsigned short hashedid;     // 0..61199
   unsigned short ic;           // 1..1700
-  long int cmsswid;
-  long int dbid;
+  unsigned int cmsswid;
+  unsigned int dbid;
   char ietatt;            // -28..28
   unsigned char iphitt;   // 1..72
   unsigned char tccch;    // 1..68
