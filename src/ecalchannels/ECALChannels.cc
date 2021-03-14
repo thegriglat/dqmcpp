@@ -12,7 +12,6 @@
 #include <string>
 #include "../common/common.hh"
 #include "../common/logging.hh"
-
 #include "ecalchannels_db.hh"
 
 using namespace std;
@@ -21,7 +20,8 @@ namespace dqmcpp {
 namespace ECALChannels {
 const ChannelInfo* find(const ECAL::Channel& channel) {
   auto it = std::find_if(
-      _channels.begin(), _channels.end(), [channel](const ChannelInfo& info) {
+      ChannelsDB::channels.begin(), ChannelsDB::channels.end(),
+      [channel](const ChannelInfo& info) {
         if (channel.iz == ECAL::DETECTORS::EB) {
           // barrel
           return channel.ix_iphi == info.iphi && channel.iy_ieta == info.ieta;
@@ -33,7 +33,7 @@ const ChannelInfo* find(const ECAL::Channel& channel) {
         return channel.ix_iphi == info.ix && channel.iy_ieta == info.iy &&
                iz == info.iz;
       });
-  if (it != _channels.end()) {
+  if (it != ChannelsDB::channels.end()) {
     return &(*it);
   }
   std::cerr << "channel not found!" << std::endl;
@@ -46,15 +46,16 @@ const ChannelInfo* find(const ECAL::Channel& channel) {
 }
 
 const ECALChannelsList list() {
-  return _channels;
+  return ChannelsDB::channels;
 }
 
 const std::string detByTTTTC(const int tt, const int tcc) {
-  auto it = std::find_if(_channels.begin(), _channels.end(),
-                         [tt, tcc](const ChannelInfo& c) {
-                           return c.tower == tt && c.tcc == tcc;
-                         });
-  if (it == _channels.end())
+  auto it =
+      std::find_if(ChannelsDB::channels.begin(), ChannelsDB::channels.end(),
+                   [tt, tcc](const ChannelInfo& c) {
+                     return c.tower == tt && c.tcc == tcc;
+                   });
+  if (it == ChannelsDB::channels.end())
     return "";
   return it->det();
 }
