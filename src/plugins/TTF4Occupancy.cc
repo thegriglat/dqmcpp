@@ -47,7 +47,7 @@ std::vector<URLType> urls(const unsigned int runnumber,
   return urls;
 };
 
-vector<ECAL::TTRunData> getMaskedChannels(
+vector<ECAL::RunTTData> getMaskedChannels(
     dqmcpp::readers::Reader* reader,
     dqmcpp::readers::RunListReader* runlistreader) {
   dqmcpp::plugins::TTMaskingStatus ttmasking;
@@ -61,9 +61,9 @@ vector<ECAL::TTRunData> getMaskedChannels(
 namespace dqmcpp {
 namespace plugins {
 
-std::vector<ECAL::TTRunData> TTF4Occupancy::readTT() {
+std::vector<ECAL::RunTTData> TTF4Occupancy::readTT() {
   using namespace ECAL;
-  vector<TTRunData> rundata;
+  vector<RunTTData> rundata;
   const auto all_channels = ECALChannels::list();
   for (auto r : runListReader->runs()) {
     std::vector<TTData> data;
@@ -101,7 +101,7 @@ std::vector<ECAL::TTRunData> TTF4Occupancy::readTT() {
         data.push_back(e);
       }
     }
-    rundata.push_back(TTRunData(r, data));
+    rundata.push_back(RunTTData(r, data));
   }
   return rundata;
 };
@@ -124,7 +124,7 @@ void TTF4Occupancy::Process() {
     // find masked run
     auto masked_it = std::find_if(
         maskedtt.begin(), maskedtt.end(),
-        [&occtt](const ECAL::TTRunData& rd) { return occtt.run == rd.run; });
+        [&occtt](const ECAL::RunTTData& rd) { return occtt.run == rd.run; });
     if (masked_it == maskedtt.end()) {
       // not found
       std::cout << "Masked run " << occtt.run.runnumber << " not found!"

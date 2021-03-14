@@ -53,9 +53,9 @@ std::vector<TTData> channel2TT(
   return ttdata;
 }
 
-vector<TTRunData> filterZeroTT(vector<TTRunData>& rundata) {
+vector<RunTTData> filterZeroTT(vector<RunTTData>& rundata) {
   if (rundata.size() == 0)
-    return vector<TTRunData>();
+    return vector<RunTTData>();
   auto& ttlist = rundata.at(0).data;
   vector<array<int, 3>> tt_to_remove;
   for (auto& tt : ttlist) {

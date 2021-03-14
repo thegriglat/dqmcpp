@@ -52,7 +52,7 @@ std::vector<URLType> urls(const unsigned int runnumber,
   return urls;
 };
 
-vector<TTRunData> analyze(vector<TTRunData>& rundata) {
+vector<RunTTData> analyze(vector<RunTTData>& rundata) {
   // filter tt which all have 0 in all runs
   rundata = filterZeroTT(rundata);
   // normalize TT value
@@ -66,7 +66,7 @@ vector<TTRunData> analyze(vector<TTRunData>& rundata) {
   return rundata;
 };
 
-void plot(const vector<TTRunData>& rundata) {
+void plot(const vector<RunTTData>& rundata) {
   // output in Gnuplot
   std::map<std::pair<std::string, std::string>, double> data;
   for (auto& r : rundata) {
@@ -95,8 +95,8 @@ namespace dqmcpp {
 namespace plugins {
 
 using namespace dqmcpp;
-std::vector<TTRunData> TTMaskingStatus::Init() {
-  vector<TTRunData> rundata;
+std::vector<RunTTData> TTMaskingStatus::Init() {
+  vector<RunTTData> rundata;
   const auto all_channels = ECALChannels::list();
   for (auto r : runListReader->runs()) {
     std::vector<TTData> data;
@@ -134,7 +134,7 @@ std::vector<TTRunData> TTMaskingStatus::Init() {
         data.push_back(e);
       }
     }
-    rundata.push_back(TTRunData(r, data));
+    rundata.push_back(RunTTData(r, data));
   }
   return rundata;
 }
@@ -144,7 +144,7 @@ void TTMaskingStatus::Process() {
   plot(analyze(rundata));
 }
 
-std::vector<TTRunData> TTMaskingStatus::get() {
+std::vector<RunTTData> TTMaskingStatus::get() {
   auto rundata = Init();
   return rundata;
 }

@@ -13,7 +13,7 @@ namespace plugins {
 
 class TTF4Occupancy : public Plugin {
  private:
-  std::vector<ECAL::TTRunData> readTT();
+  std::vector<ECAL::RunTTData> readTT();
 
  public:
   void Process();
