@@ -35,11 +35,7 @@ struct TTInfo {
       : tt(tt), sm(sm), status(status), isEB(isEB), value(value){};
 };
 
-struct RunTTInfo {
-  int run;
-  std::vector<TTInfo> ttinfo;
-  RunTTInfo(int run, std::vector<TTInfo>& i) : run(run), ttinfo(i){};
-};
+using RunTTInfo = dqmcpp::ECAL::RunData<std::vector<TTInfo>>;
 
 vector<URLType> urls(const int runnumber, const std::string& dataset) {
   std::vector<URLType> urls;
@@ -93,17 +89,17 @@ void plot(const std::vector<RunTTInfo>& rundata,
   // get runlist
   vector<int> runs;
   for (auto& rd : rundata)
-    runs.push_back(rd.run);
+    runs.push_back(rd.run.runnumber);
   std::sort(runs.begin(), runs.end());
   vector<int> filled_runs;
   for (auto& run : runs) {
-    auto rd =
-        std::find_if(rundata.begin(), rundata.end(),
-                     [run](const RunTTInfo& rd0) { return rd0.run == run; });
+    auto rd = std::find_if(
+        rundata.begin(), rundata.end(),
+        [run](const RunTTInfo& rd0) { return rd0.run.runnumber == run; });
     const string runlabel = to_string(run);
     // filter tt with given statuses
     auto filtered_tt =
-        common::filter(rd->ttinfo, [&statuses](const TTInfo& ttinfo) {
+        common::filter(rd->data, [&statuses](const TTInfo& ttinfo) {
           return (common::has(statuses, ttinfo.status));
         });
     for (auto& ttdata : filtered_tt) {
@@ -185,7 +181,7 @@ void FEStatusBits::Process() {
       for (auto& e : data_tt)
         data.push_back(e);
     }
-    const RunTTInfo rd(run.runnumber, data);
+    const RunTTInfo rd(run, data);
     rundata.push_back(rd);
     ++i;
   }
@@ -198,7 +194,7 @@ void FEStatusBits::Process() {
                         common::index(STATUSES, std::string("HEADERERROR")),
                         common::index(STATUSES, std::string("TIMEOUT"))});
   for (auto& rd : rundata) {
-    for (auto& tti : rd.ttinfo)
+    for (auto& tti : rd.data)
       uniq_statuses.insert({tti.status});
   }
   for (auto& statuslist : uniq_statuses) {

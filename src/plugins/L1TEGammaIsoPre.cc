@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "../ECAL/ECAL.hh"
 #include "../common/common.hh"
 #include "../net/DQMURLProvider.hh"
 #include "../readers/JSONReader.hh"
@@ -21,11 +22,7 @@ namespace {
 
 using namespace dqmcpp;
 
-struct RunProb {
-  int run;
-  double prob;
-  RunProb(int run, double val) : run(run), prob(val){};
-};
+using RunProb = dqmcpp::ECAL::RunData<double>;
 
 string urls(const int run, const std::string& dataset) {
   const std::string path =
@@ -62,7 +59,7 @@ vector<RunProb> calcProb(const vector<ECAL::RunData2D>& rundata) {
     auto minus1_i = sum(minus1values);
     auto zero_i = sum(zerovalues);
     auto prob = minus1_i / (minus1_i + zero_i);
-    result.push_back(RunProb(rd.run.runnumber, prob));
+    result.push_back(RunProb(rd.run, prob));
   }
   return result;
 }
@@ -107,7 +104,7 @@ void L1TEGammaIsoPrePlugin::Process() {
   vector<RunProb> ee_runprob = calcProb(ee_rundata);
 
   auto sorter = [](const RunProb& a, const RunProb& b) {
-    return a.run < b.run;
+    return a.run.runnumber < b.run.runnumber;
   };
   std::sort(runprob.begin(), runprob.end(), sorter);
   std::sort(eb_runprob.begin(), eb_runprob.end(), sorter);
@@ -117,11 +114,11 @@ void L1TEGammaIsoPrePlugin::Process() {
   writers::Gnuplot1DWriter::Data1D ee_data;
 
   for (auto& rp : runprob)
-    data.push_back({std::to_string(rp.run), rp.prob});
+    data.push_back({std::to_string(rp.run.runnumber), rp.data});
   for (auto& rp : eb_runprob)
-    eb_data.push_back({std::to_string(rp.run), rp.prob});
+    eb_data.push_back({std::to_string(rp.run.runnumber), rp.data});
   for (auto& rp : ee_runprob)
-    ee_data.push_back({std::to_string(rp.run), rp.prob});
+    ee_data.push_back({std::to_string(rp.run.runnumber), rp.data});
 
   ofstream out("L1TEGammaIsoPre_ECAL.plt");
   writers::Gnuplot1DWriter writer(data);
