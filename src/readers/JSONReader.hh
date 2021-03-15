@@ -44,16 +44,17 @@ class JSONReader : public Reader {
    * @param j
    * @return std::vector<ECAL::Data2D>
    */
-  std::vector<ECAL::Data2D> parse2D(nlohmann::json& j);
+  std::vector<ECAL::Data2D> parse2D(nlohmann::json& j, bool skipZeroes = true);
   /**
    * @brief Parse DQM HTTP output as vector of 2D points
    *
    * @param j
    * @return std::vector<ECAL::Data2D>
    */
-  inline std::vector<ECAL::Data2D> parse2D(const std::string& content) {
+  inline std::vector<ECAL::Data2D> parse2D(const std::string& content,
+                                           bool skipZeroes = true) {
     auto q = parseJSON(content);
-    return parse2D(q);
+    return parse2D(q, skipZeroes);
   }
 };
 

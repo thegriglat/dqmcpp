@@ -32,7 +32,8 @@ class Reader {
    * @return std::vector<ECAL::ChannelData>
    */
   virtual std::vector<ECAL::ChannelData> parse(const std::string& content) = 0;
-  virtual std::vector<ECAL::Data2D> parse2D(const std::string& content) = 0;
+  virtual std::vector<ECAL::Data2D> parse2D(const std::string& content,
+                                            bool skipZeroes = true) = 0;
 };
 
 }  // namespace readers

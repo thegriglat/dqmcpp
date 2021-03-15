@@ -88,7 +88,8 @@ std::vector<ECAL::ChannelData> JSONReader::parse(nlohmann::json& j) {
   return channel_data;
 }
 
-std::vector<ECAL::Data2D> JSONReader::parse2D(nlohmann::json& j) {
+std::vector<ECAL::Data2D> JSONReader::parse2D(nlohmann::json& j,
+                                              bool skipZeroes) {
   // TODO:: make it common with parse ..
   using namespace std;
   using BinContentList = vector<vector<double>>;
@@ -118,7 +119,8 @@ std::vector<ECAL::Data2D> JSONReader::parse2D(nlohmann::json& j) {
       double x = xfirst + xstep * 0.5 + xstep * xbin;
       const auto value = content.at(ybin).at(xbin);
       ECAL::Data2D c(x, y, value);
-      if (value != 0) {
+      const bool skip = value == 0 && skipZeroes;
+      if (!skip) {
         // to avoid overlapping DQM output for different SM
         channel_data.push_back(c);
       }
