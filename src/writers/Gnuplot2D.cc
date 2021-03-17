@@ -18,7 +18,7 @@ std::string Gnuplot2D::palette_str() const {
   for (unsigned int i = 0; i < _palette.size(); ++i) {
     auto& e = _palette.at(i);
     const auto palette_pos =
-        getZ().min + e.position * (getZ().max - getZ().min);
+        getZ().mind() + e.position * (getZ().maxd() - getZ().mind());
     s += std::to_string(palette_pos) + " \"" + e.color + "\"";
     if (i != _palette.size() - 1)
       s += ", ";

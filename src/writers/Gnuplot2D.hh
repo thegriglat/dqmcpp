@@ -12,15 +12,15 @@ using Palette = std::vector<dqmcpp::colors::PaletteColor>;
 
 class Gnuplot2D : public Gnuplot {
  private:
-  Axis _zaxis = {0, 1};
+  Axis _zaxis = {"*", "*"};
   double _cbtick = 1;
   Palette _palette = dqmcpp::colors::PaletteSets::Heatmap;
 
  public:
   using Data2D = std::map<std::pair<std::string, std::string>, double>;
 
-  inline void setZ(const double min, const double max) {
-    _zaxis = {std::min(min, max), std::max(min, max)};
+  inline void setZ(const std::string& min, const std::string& max) {
+    _zaxis = {min, max};
   }
   inline Axis getZ() const { return _zaxis; };
 
@@ -30,6 +30,9 @@ class Gnuplot2D : public Gnuplot {
 
   inline void setZTick(const double tick) { _cbtick = tick; }
   inline double getZTick(void) const { return _cbtick; }
+  inline void setZ(const double min, const double max) {
+    _zaxis = axis(min, max);
+  }
 };
 
 }  // namespace writers

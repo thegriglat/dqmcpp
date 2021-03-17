@@ -15,16 +15,27 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot1DWriter& gw) {
         "scale pointscale scale"
      << std::endl;
   os << "set xtics rotate 90" << std::endl
-     << "set xrange [-0.5:" << gw._data->size() - 1.5 << "]" << std::endl
-     << "set xtics scale 0" << std::endl
-     << "set ytics scale 0" << std::endl
+     << "set xrange [-0.5:" << gw._data.size() - 0.5 << "]" << std::endl;
+  if (gw.with_option != "boxes")
+    os << "set grid lw 2" << std::endl;
+  os << "set yrange [" << gw.getY().min << ":" << gw.getY().max << "]"
+     << std::endl
+     //   << "set ytics scale 0" << std::endl
      << "set title \"" << gw.getTitle() << "\"" << std::endl;
   os << "$map1 << EOD" << std::endl;
-  for (auto& e : *(gw._data))
+  for (auto& e : gw._data)
     os << "\"" << e.first << "\" " << e.second << std::endl;
   os << "EOD" << std::endl;
   os << "set output \"" << gw.getOutput() << "\"" << std::endl;
-  os << "plot '$map1' u 2:xticlabels(1) w boxes notitle" << std::endl;
+  os << "plot '$map1' u 2:xticlabels(1) ";
+  if (gw.with_option.length() != 0)
+    // TODO: fix hardcoded style
+    os << "w " << gw.with_option << " ";
+  if (gw.with_option.find("lines") != std::string::npos)
+    os << "lt 1 lw 2 ";
+  if (gw.with_option.find("points") != std::string::npos)
+    os << "pt 7 pi -1 ps 1.5 ";
+  os << "notitle" << std::endl;
   return os;
 }
 
