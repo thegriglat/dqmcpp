@@ -44,7 +44,7 @@ struct Fit {
 };
 
 /**
- * @brief Fit x/y data with Fit structure. Change parameters value in-place
+ * @brief Fit x/y data with Fit structure.
  *
  * @param x x coord
  * @param y y coord
