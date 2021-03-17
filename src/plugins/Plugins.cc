@@ -12,6 +12,7 @@
 #include "RMSMap.hh"
 #include "TTF4Occupancy.hh"
 #include "TTMaskingStatus.hh"
+#include "Timing.hh"
 
 namespace {
 
@@ -23,6 +24,7 @@ const std::map<std::string, Plugin*> _pluginmap = {
     {"TTMaskingStatus", new TTMaskingStatus()},
     {"TTF4Occupancy", new TTF4Occupancy()},
     {"L1TEGammaIsoPre", new L1TEGammaIsoPrePlugin()},
+    {"Timing", new Timing()},
     {"FEErrorClusterSize", new FEErrorClusterSize()},
     {"FEStatusBits", new FEStatusBits()}
 
