@@ -1,5 +1,7 @@
 #ifndef FUNCTIONALCPP_HH
 
+#include <vector>
+
 // copied from https://gist.github.com/phatak-dev/766eccf8c72484ad623b
 
 namespace dqmcpp {
@@ -10,10 +12,13 @@ void for_each(Collection col, unop op) {
   std::for_each(col.begin(), col.end(), op);
 }
 
-template <typename Collection, typename unop>
-Collection map(Collection col, unop op) {
-  std::transform(col.begin(), col.end(), col.begin(), op);
-  return col;
+template <typename T, typename K, typename unop>
+std::vector<K> map(std::vector<T>& col, unop op) {
+  std::vector<K> _tmp;
+  _tmp.reserve(col.size());
+  for (auto& e : col)
+    _tmp.push_back(op(e));
+  return _tmp;
 }
 
 template <typename Collection, typename binop>
