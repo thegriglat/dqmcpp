@@ -7,7 +7,6 @@
 #include <assert.h>
 #include <bits/stl_function.h>
 #include <algorithm>
-#include <functional>
 #include <string>
 #include <vector>
 
@@ -43,8 +42,8 @@ std::string join(const std::vector<std::string> list,
  * @param element
  * @return int
  */
-template <typename T>
-int index(const std::vector<T>& data, std::function<bool(const T&)> index_fn) {
+template <typename T, typename BinaryOp>
+int index(const std::vector<T>& data, BinaryOp index_fn) {
   auto it = std::find_if(data.begin(), data.end(), index_fn);
   if (it == data.end())
     // element not found
@@ -72,8 +71,8 @@ template <typename T>
 bool has(const std::vector<T>& data, const T& element) {
   return (index(data, element) != -1);
 }
-template <typename T>
-int has(const std::vector<T>& data, std::function<bool(const T&)> index_fn) {
+template <typename T, typename BinaryOp>
+int has(const std::vector<T>& data, BinaryOp index_fn) {
   return (index(data, index_fn) != -1);
 }
 
