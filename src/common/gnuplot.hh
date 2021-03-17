@@ -24,7 +24,7 @@ struct FitParameter {
       : name(parameter_name), value(initialValue){};
   inline friend std::ostream& operator<<(std::ostream& os,
                                          const FitParameter& fp) {
-    os << fp.name << " ~> " << fp.value;
+    os << fp.name << " fitted to " << fp.value;
     return os;
   }
 };
@@ -41,6 +41,7 @@ struct Fit {
       os << "  " << p << std::endl;
     return os;
   }
+  const FitParameter& getParameter(const std::string& name) const;
 };
 
 /**
@@ -54,6 +55,40 @@ struct Fit {
 Fit fit(const std::vector<double>& x,
         const std::vector<double>& y,
         const Fit& fit);
+
+/**
+ * @brief Fit with function which should returs std::pair of x/x
+ *
+ * @tparam T
+ * @tparam BinaryOp
+ * @param list
+ * @param op
+ * @param fit
+ * @return Fit
+ */
+template <typename T, typename BinaryOp>
+Fit fit(const std::vector<T>& list, BinaryOp op, const Fit& initial_fit) {
+  std::vector<double> _x;
+  _x.reserve(list.size());
+  std::vector<double> _y;
+  _y.reserve(list.size());
+  for (auto& elem : list) {
+    std::pair<double, double> pair = op(elem);
+    _x.push_back(pair.first);
+    _y.push_back(pair.second);
+  };
+  return fit(_x, _y, initial_fit);
+}
+
+/**
+ * @brief Returns gauss fit function
+ *
+ * @param a default value for a
+ * @param mu default value for mu
+ * @param sigma default value for sigma
+ * @return Fit
+ */
+Fit gauss(double a = 1, double mu = 1, double sigma = 1);
 
 }  // namespace gnuplot
 }  // namespace common

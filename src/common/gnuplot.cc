@@ -1,7 +1,9 @@
 #include "gnuplot.hh"
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include "../common/common.hh"
 #include "common.hh"
 #include "pstream.h"
 
@@ -21,8 +23,11 @@ std::string exec(const std::string& content) {
   return ss.str();
 };
 
-Fit GaussianFit("a/(sigma*sqrt(2.*pi))*exp(-(x-mu)**2./(2.*sigma**2))",
-                {FitParameter("a"), FitParameter("mu"), FitParameter("sigma")});
+Fit gauss(double a, double mu, double sigma) {
+  return Fit("a/(sigma*sqrt(2.*pi))*exp(-(x-mu)**2./(2.*sigma**2))",
+             {FitParameter("a", a), FitParameter("mu", mu),
+              FitParameter("sigma", sigma)});
+}
 
 Fit fit(const std::vector<double>& x,
         const std::vector<double>& y,
@@ -61,6 +66,14 @@ Fit fit(const std::vector<double>& x,
     newFit.parameters.at(i).value = std::atof(values.at(i).c_str());
   }
   return newFit;
+}
+
+const FitParameter& Fit::getParameter(const std::string& name) const {
+  auto idx = dqmcpp::common::index(
+      parameters, [&name](const FitParameter& e) { return e.name == name; });
+  if (idx >= 0)
+    return parameters.at(idx);
+  throw "Cannot find fit parameter with name " + name;
 }
 
 }  // namespace gnuplot
