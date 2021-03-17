@@ -129,5 +129,37 @@ std::vector<ECAL::Data2D> JSONReader::parse2D(nlohmann::json& j,
   return channel_data;
 }
 
+std::vector<ECAL::Data1D> JSONReader::parse1D(nlohmann::json& j,
+                                              bool skipZeroes) {
+  // TODO:: make it common with parse ..
+  using namespace std;
+  using BinContentList = vector<double>;
+  // check validity of json
+  if (!isValid(j))
+    return std::vector<ECAL::Data1D>();
+  const auto xaxis = j["hist"]["xaxis"];
+  const auto yaxis = j["hist"]["yaxis"];
+  const auto xnbins =
+      xaxis["last"]["id"].get<int>() - xaxis["first"]["id"].get<int>() + 1;
+  const auto xfirst = xaxis["first"]["value"].get<double>();
+  const auto xlast = xaxis["last"]["value"].get<double>();
+  const auto xstep = (xlast - xfirst) / xnbins;
+
+  // bin increment always == 1 as it is channel
+  const auto content = j["hist"]["bins"]["content"].get<BinContentList>();
+  std::vector<ECAL::Data1D> channel_data;
+  for (int xbin = 0; xbin < xnbins; ++xbin) {
+    double x = xfirst + xstep * 0.5 + xstep * xbin;
+    const auto value = content.at(xbin);
+    ECAL::Data1D c(x, value);
+    const bool skip = value == 0 && skipZeroes;
+    if (!skip) {
+      // to avoid overlapping DQM output for different SM
+      channel_data.push_back(c);
+    }
+  }
+  return channel_data;
+}
+
 }  // namespace readers
 }  // namespace dqmcpp

@@ -56,6 +56,13 @@ class JSONReader : public Reader {
     auto q = parseJSON(content);
     return parse2D(q, skipZeroes);
   }
+
+  std::vector<ECAL::Data1D> parse1D(nlohmann::json& j, bool skipZeroes = true);
+  inline std::vector<ECAL::Data1D> parse1D(const std::string& content,
+                                           bool skipZeroes = true) {
+    auto q = parseJSON(content);
+    return parse1D(q, skipZeroes);
+  }
 };
 
 }  // namespace readers
