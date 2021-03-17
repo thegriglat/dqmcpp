@@ -31,6 +31,16 @@ struct Data2D {
 };
 
 /**
+ * @brief Common 1D data structure
+ *
+ */
+struct Data1D {
+  double x;
+  double value;
+  Data1D(double x, double value) : x(x), value(value){};
+};
+
+/**
  * @brief Basic channel struct
  * Trivial constructor is disabled
  */
