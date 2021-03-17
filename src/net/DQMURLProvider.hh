@@ -23,8 +23,8 @@ namespace DQMURL {
  * @return std::string
  */
 std::string dqmurl(const unsigned int run,
-                   const std::string dataset,
-                   const std::string plotname);
+                   const std::string& dataset,
+                   const std::string& plotname);
 /**
  * @brief Get list of datasets for given run and mask
  *

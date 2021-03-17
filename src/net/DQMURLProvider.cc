@@ -139,8 +139,8 @@ namespace net {
 namespace DQMURL {
 
 std::string dqmurl(const unsigned int run,
-                   const std::string dataset,
-                   const std::string plotname) {
+                   const std::string& dataset,
+                   const std::string& plotname) {
   const std::string ds = (dataset == "online") ? ONLINEDQMDS : dataset;
   std::string s = (dataset == "online") ? DQMONLINEURL : DQMOFFLINEURL;
   s += "/" + std::to_string(run) + "/" + ds + "/" + urlencode(plotname);
