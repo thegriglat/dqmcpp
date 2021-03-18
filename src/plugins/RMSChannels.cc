@@ -14,6 +14,7 @@
 #include "../writers/Gnuplot2DWriter.hh"
 
 using namespace dqmcpp;
+using namespace std;
 
 namespace {
 const double RMSMAX = 8.0;
@@ -49,22 +50,36 @@ std::vector<std::string> RMSPlugin::urls(const unsigned int runnumber,
   delete[] plot;
   return urls;
 }
+// channel and number of channel's repetitions
+using BadChannel = std::pair<ECAL::Channel, int>;
 std::vector<ECAL::RunChannelData> RMSPlugin::analyze(
     const std::vector<ECAL::RunChannelData>& rundata) {
-  std::vector<ECAL::Channel> badchannels;
-  badchannels.reserve(100);
+  vector<BadChannel> badchannels_list;
+  badchannels_list.reserve(100);
   for (auto& e : rundata) {
     for (auto& channeldata : e.data) {
       if (rmslimit(channeldata.value)) {
-        badchannels.push_back(channeldata.channel);
+        auto it = std::find_if(badchannels_list.begin(), badchannels_list.end(),
+                               [&channeldata](const BadChannel& bc) {
+                                 return bc.first == channeldata.channel;
+                               });
+        if (it == badchannels_list.end()) {
+          // channel not recorded
+          badchannels_list.push_back({channeldata.channel, 1});
+        } else {
+          // increment number;
+          it->second++;
+        }
       }
     }
   }
-  auto it = std::remove_if(badchannels.begin(), badchannels.end(),
-                           [&badchannels](const ECAL::Channel& c) {
-                             return common::count(badchannels, c) == 1;
-                           });
-  badchannels.erase(it, badchannels.end());
+  auto it = std::remove_if(badchannels_list.begin(), badchannels_list.end(),
+                           [](const BadChannel& c) { return c.second == 1; });
+  badchannels_list.erase(it, badchannels_list.end());
+
+  vector<ECAL::Channel> badchannels = common::map<BadChannel, ECAL::Channel>(
+      badchannels_list, [](const BadChannel& bc) { return bc.first; });
+
   std::vector<ECAL::RunChannelData> rd;
   rd.reserve(rundata.size());
   for (auto& e : rundata) {
