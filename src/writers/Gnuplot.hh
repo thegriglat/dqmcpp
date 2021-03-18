@@ -8,8 +8,11 @@ namespace writers {
 struct Axis {
   std::string min;
   std::string max;
-  inline double mind() { return std::atof(min.c_str()); }
-  inline double maxd() { return std::atof(max.c_str()); }
+  Axis(const std::string& min, const std::string max) : min(min), max(max){};
+  Axis(const double min, const double max)
+      : min(std::to_string(min)), max(std::to_string(max)){};
+  inline double mind() const { return std::atof(min.c_str()); }
+  inline double maxd() const { return std::atof(max.c_str()); }
 };
 
 class Gnuplot {
@@ -27,10 +30,12 @@ class Gnuplot {
   inline void setX(const std::string& min, const std::string& max) {
     _xaxis = {min, max};
   }
+  inline void setX(const Axis& x) { _xaxis = x; };
   inline Axis getX() const { return _xaxis; };
   inline void setY(const std::string& min, const std::string& max) {
     _yaxis = {min, max};
   }
+  inline void setY(const Axis& y) { _yaxis = y; };
   Axis axis(const double min, const double max);
 
   inline void setX(const double min, const double max) {

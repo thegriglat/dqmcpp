@@ -22,6 +22,7 @@ class Gnuplot2D : public Gnuplot {
   inline void setZ(const std::string& min, const std::string& max) {
     _zaxis = {min, max};
   }
+  inline void setZ(const Axis& z) { _zaxis = z; }
   inline Axis getZ() const { return _zaxis; };
 
   void setPalette(Palette palette);
