@@ -1,11 +1,11 @@
-#ifndef RMSCHANNELS_HH
+#ifndef MEANCHANNELS_HH
 
 #include "ChannelPlugin.hh"
 
 namespace dqmcpp {
 namespace plugins {
 
-class RMSChannels : public ChannelPlugin {
+class MeanChannels : public ChannelPlugin {
  private:
   std::vector<std::string> urls(const ECAL::Run& run);
 
@@ -16,5 +16,5 @@ class RMSChannels : public ChannelPlugin {
 }  // namespace plugins
 }  // namespace dqmcpp
 
-#define RMSCHANNELS_HH
-#endif  // !RMSCHANNELS_HH
+#define MEANCHANNELS_HH
+#endif  // !MEANCHANNELS_HH

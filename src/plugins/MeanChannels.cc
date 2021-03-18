@@ -1,4 +1,4 @@
-#include "RMSChannels.hh"
+#include "MeanChannels.hh"
 
 #include "../colors/Colors.hh"
 #include "../common/common.hh"
@@ -17,40 +17,36 @@ struct Analysis {
   std::function<bool(double)> func;
 };
 
-std::vector<std::string> RMSChannels::urls(const ECAL::Run& run) {
+std::vector<std::string> MeanChannels::urls(const ECAL::Run& run) {
   std::vector<std::string> urls;
   for (int i = -18; i < 19; ++i) {
     if (i == 0)
       continue;
     const auto plot = common::string_format(
-        "EcalBarrel/EBPedestalOnlineClient/EBPOT pedestal rms map "
-        "G12 EB%+03d",
-        i);
+        "EcalBarrel/EBPedestalOnlineTask/Gain12/EBPOT pedestal EB%+03d G12", i);
     urls.push_back(net::DQMURL::dqmurl(run.runnumber, run.dataset, plot));
   }
   for (int i = -9; i < 10; ++i) {
     if (i == 0)
       continue;
     const auto plot = common::string_format(
-        "EcalEndcap/EEPedestalOnlineClient/EEPOT pedestal rms map G12 EE%+03d",
-        i);
+        "EcalEndcap/EEPedestalOnlineTask/Gain12/EEPOT pedestal EE%+03d G12", i);
     urls.push_back(net::DQMURL::dqmurl(run.runnumber, run.dataset, plot));
   }
   return urls;
 };
 
-void RMSChannels::Process() {
+void MeanChannels::Process() {
   const auto rundata = getRunData();
-  std::cout << "rundata size " << rundata.size() << std::endl;
   vector<Analysis> analyses = {
-      {"rms_channels_greater_8", "ECAL G12 RMS > 8",
-       [](const double rms) { return rms > 8.0; }},
-      {"rms_channels_less_1.5", "ECAL G12 RMS < 1.5",
-       [](const double rms) { return rms < 1.5 && rms > 0; }}};
+      {"mean_channels_greater_300", "ECAL G12 Mean > 300",
+       [](const double mean) { return mean > 300.0; }},
+      {"mean_channels_less_100", "ECAL G12 Mean < 100",
+       [](const double mean) { return mean < 100 && mean > 0; }}};
   for (auto& analysis : analyses) {
     std::cout << "## Run subanalysis " << analysis.title << std::endl;
     plot(analyze(rundata, analysis.func), analysis.filename, analysis.title,
-         writers::Axis(0, 10), colors::PaletteSets::RMSHeatMap);
+         writers::Axis(0, 300), colors::PaletteSets::MeanHeatMap);
   }
 }
 

@@ -8,6 +8,7 @@
 #include "FEErrorClusterSize.hh"
 #include "FEStatusBits.hh"
 #include "L1TEGammaIsoPre.hh"
+#include "MeanChannels.hh"
 #include "RMSChannels.hh"
 #include "RMSMap.hh"
 #include "TTF4Occupancy.hh"
@@ -19,7 +20,8 @@ namespace {
 using namespace dqmcpp::plugins;
 
 const std::map<std::string, Plugin*> _pluginmap = {
-    {"RMS", new RMSPlugin()},
+    {"RMSChannels", new RMSChannels()},
+    {"MeanChannels", new MeanChannels()},
     {"RMSMap", new RMSMap()},
     {"TTMaskingStatus", new TTMaskingStatus()},
     {"TTF4Occupancy", new TTF4Occupancy()},
