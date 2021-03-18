@@ -25,16 +25,16 @@ struct ChannelInfo {
   unsigned char vfe;           // 1..5
   unsigned char xtalinvfe;     // 1..5
   unsigned char xtalinccu;     // 0..24
-  short ieta;                  //-999..85
-  short iphi;                  //-999..360
-  short ix;                    //-999..100
-  short iy;                    //-999..100
-  char iz;                     // -1..1
+  signed short ieta;           //-999..85
+  signed short iphi;           //-999..360
+  signed short ix;             //-999..100
+  signed short iy;             //-999..100
+  signed char iz;              // -1..1
   unsigned short hashedid;     // 0..61199
   unsigned short ic;           // 1..1700
   unsigned int cmsswid;
   unsigned int dbid;
-  char ietatt;            // -28..28
+  signed char ietatt;     // -28..28
   unsigned char iphitt;   // 1..72
   unsigned char tccch;    // 1..68
   unsigned char tccslot;  // 2..17
