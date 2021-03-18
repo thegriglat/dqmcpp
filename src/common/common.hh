@@ -59,6 +59,15 @@ int index(const std::vector<T>& data, const T& element) {
   return std::distance(data.begin(), it);
 }
 
+template <typename T>
+int count(const std::vector<T>& list, const T& elem) {
+  int c = 0;
+  for (auto& e : list)
+    if (e == elem)
+      c++;
+  return c;
+}
+
 /**
  * @brief Returns true if vector has element
  *
