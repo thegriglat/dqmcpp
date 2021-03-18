@@ -38,6 +38,7 @@ namespace PaletteSets {
 
 extern const Palette Heatmap;
 extern const Palette RMSHeatMap;
+extern const Palette MeanHeatMap;
 
 }  // namespace PaletteSets
 
