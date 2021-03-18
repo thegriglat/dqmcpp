@@ -8,6 +8,7 @@
 #include <fstream>
 #include <map>
 #include <string>
+#include "../common/common.hh"
 #include "../ecalchannels/ECALChannels.hh"
 #include "../net/DQMURLProvider.hh"
 #include "../writers/Gnuplot2DWriter.hh"
@@ -15,7 +16,7 @@
 using namespace dqmcpp;
 
 namespace {
-const double RMSMAX = 5.0;
+const double RMSMAX = 8.0;
 const auto rmslimit = [](const double rms) { return rms > RMSMAX; };
 
 }  // namespace
@@ -55,18 +56,21 @@ std::vector<ECAL::RunChannelData> RMSPlugin::analyze(
   for (auto& e : rundata) {
     for (auto& channeldata : e.data) {
       if (rmslimit(channeldata.value)) {
-        if (std::find(badchannels.begin(), badchannels.end(),
-                      channeldata.channel) == badchannels.end())
-          badchannels.push_back(channeldata.channel);
+        badchannels.push_back(channeldata.channel);
       }
     }
   }
+  auto it = std::remove_if(badchannels.begin(), badchannels.end(),
+                           [&badchannels](const ECAL::Channel& c) {
+                             return common::count(badchannels, c) == 1;
+                           });
+  badchannels.erase(it, badchannels.end());
   std::vector<ECAL::RunChannelData> rd;
   rd.reserve(rundata.size());
   for (auto& e : rundata) {
     std::vector<ECAL::ChannelData> bd;
     std::copy_if(e.data.begin(), e.data.end(), std::back_inserter(bd),
-                 [badchannels](const ECAL::ChannelData& ecd) {
+                 [&badchannels](const ECAL::ChannelData& ecd) {
                    return std::find(badchannels.begin(), badchannels.end(),
                                     ecd.channel) != badchannels.end();
                  });
@@ -107,10 +111,10 @@ void RMSPlugin::Process() {
   using namespace std;
   vector<ECAL::RunChannelData> rundata;
   for (auto& run : runListReader->runs()) {
+    cout << run.runnumber << endl;
     vector<ECAL::ChannelData> data;
     data.reserve(ECAL::NTotalChannels);
     for (auto& url : urls(run.runnumber, run.dataset)) {
-      cout << url << endl;
       auto data_tt = reader->parse(reader->get(url));
       for (auto& e : data_tt)
         data.push_back(e);
