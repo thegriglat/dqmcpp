@@ -151,7 +151,7 @@ void RMSPlugin::Process() {
   vector<Analysis> analyses = {
       {"rms_channels_greater_8", "ECAL G12 RMS > 8",
        [](const double rms) { return rms > 8.0; }},
-      {"rms_channels_less_2", "ECAL G12 RMS < 1.5",
+      {"rms_channels_less_1.5", "ECAL G12 RMS < 1.5",
        [](const double rms) { return rms < 1.5 && rms > 0; }}};
   for (auto& analy : analyses) {
     std::cout << "## Run subanalysis " << analy.title << std::endl;
