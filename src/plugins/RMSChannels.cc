@@ -41,7 +41,6 @@ std::vector<std::string> RMSChannels::urls(const ECAL::Run& run) {
 
 void RMSChannels::Process() {
   const auto rundata = getRunData();
-  std::cout << "rundata size " << rundata.size() << std::endl;
   vector<Analysis> analyses = {
       {"rms_channels_greater_8", "ECAL G12 RMS > 8",
        [](const double rms) { return rms > 8.0; }},
