@@ -28,6 +28,10 @@ struct Data2D {
   double y;
   double value;
   Data2D(double x, double y, double value) : x(x), y(y), value(value){};
+  friend std::ostream& operator<<(std::ostream& os, const Data2D& d2d) {
+    os << "[" << d2d.x << ", " << d2d.y << "] = " << d2d.value;
+    return os;
+  }
 };
 
 /**
@@ -38,6 +42,10 @@ struct Data1D {
   double x;
   double value;
   Data1D(double x, double value) : x(x), value(value){};
+  friend std::ostream& operator<<(std::ostream& os, const Data1D& d1d) {
+    os << "[" << d1d.x << "] = " << d1d.value;
+    return os;
+  }
 };
 
 /**
@@ -84,6 +92,10 @@ struct Run {
   Run(int _run, std::string _dataset) : runnumber(_run), dataset(_dataset){};
   friend inline bool operator==(const Run& a, const Run& b) {
     return a.dataset == b.dataset && a.runnumber == b.runnumber;
+  }
+  friend std::ostream& operator<<(std::ostream& os, const Run& run) {
+    os << run.runnumber << " " << run.dataset;
+    return os;
   }
 };
 
