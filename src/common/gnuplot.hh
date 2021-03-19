@@ -1,6 +1,7 @@
 #ifndef DQMCPPSYSTEM_HH
 
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -15,6 +16,13 @@ namespace gnuplot {
  * @return std::string
  */
 std::string exec(const std::string& content);
+
+template <typename T>
+std::string exec(const T& t) {
+  std::stringstream ss;
+  ss << t;
+  return exec(ss.str());
+}
 
 struct FitParameter {
   std::string name;
