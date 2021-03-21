@@ -1,5 +1,6 @@
-#ifndef FUNCTIONALCPP_HH
+#ifndef COMMON_FUNCTIONAL_HH
 
+#include <algorithm>
 #include <vector>
 
 // copied from https://gist.github.com/phatak-dev/766eccf8c72484ad623b
@@ -51,5 +52,5 @@ Collection filter(Collection col, Predicate predicate) {
 }  // namespace common
 }  // namespace dqmcpp
 
-#define FUNCTIONALCPP_HH
+#define COMMON_FUNCTIONAL_HH
 #endif
