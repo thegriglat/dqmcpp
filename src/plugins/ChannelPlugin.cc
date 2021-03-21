@@ -12,6 +12,7 @@
 #include "../common/common.hh"
 #include "../ecalchannels/ECALChannels.hh"
 #include "../writers/Gnuplot2DWriter.hh"
+#include "../writers/ProgressBar.hh"
 
 using namespace dqmcpp;
 using namespace std;
@@ -105,16 +106,18 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
 vector<ECAL::RunChannelData> ChannelPlugin::getRunData(void) {
   using namespace std;
   vector<ECAL::RunChannelData> rundata;
+  writers::ProgressBar progress;
   const auto nruns = runListReader->runs().size();
-  int i = 1;
   for (auto& run : runListReader->runs()) {
-    cout << run.runnumber << " [" << i++ << "/" << nruns << "]" << endl;
     vector<ECAL::ChannelData> data;
     data.reserve(ECAL::NTotalChannels);
+    progress.setMaxValue(urls(run).size() * runListReader->runs().size());
+    progress.setLabel(to_string(run.runnumber));
     for (auto& url : urls(run)) {
       auto data_tt = reader->parse(reader->get(url));
       for (auto& e : data_tt)
         data.push_back(e);
+      progress.increment();
     }
     ECAL::RunChannelData rd(run, data);
     rundata.push_back(rd);
