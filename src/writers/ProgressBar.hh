@@ -16,12 +16,12 @@ class ProgressBar {
 
  public:
   ProgressBar(const int maxSteps = 1) : maxProgressValue(maxSteps){};
-  inline void Update(int value) {
+  inline void update(int value) {
     currentProgress = value;
     draw();
   };
-  inline void Increment(const int increment = 1.0) {
-    Update(currentProgress + increment);
+  inline void increment(const int increment = 1.0) {
+    update(currentProgress + increment);
   };
   inline void setMaxValue(const int maxvalue) { maxProgressValue = maxvalue; }
   inline void setLabel(const std::string& newlabel) { label = newlabel; }

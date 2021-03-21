@@ -117,7 +117,7 @@ vector<ECAL::RunChannelData> ChannelPlugin::getRunData(void) {
       auto data_tt = reader->parse(reader->get(url));
       for (auto& e : data_tt)
         data.push_back(e);
-      progress.Increment();
+      progress.increment();
     }
     ECAL::RunChannelData rd(run, data);
     rundata.push_back(rd);
