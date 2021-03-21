@@ -20,7 +20,7 @@ using namespace std;
 namespace dqmcpp {
 namespace plugins {
 
-std::vector<std::string> ChannelPlugin::urls(const ECAL::Run& run) {
+std::vector<std::string> ChannelPlugin::urls(const ECAL::Run&) {
   return std::vector<std::string>();
 }
 
@@ -107,7 +107,6 @@ vector<ECAL::RunChannelData> ChannelPlugin::getRunData(void) {
   using namespace std;
   vector<ECAL::RunChannelData> rundata;
   writers::ProgressBar progress;
-  const auto nruns = runListReader->runs().size();
   for (auto& run : runListReader->runs()) {
     vector<ECAL::ChannelData> data;
     data.reserve(ECAL::NTotalChannels);
