@@ -58,41 +58,6 @@ int has(const std::vector<T>& data, BinaryOp index_fn) {
   return has(data.begin(), data.end(), index_fn);
 }
 
-template <typename Iterator, typename BinaryOp>
-double maximum(Iterator begin, Iterator end, BinaryOp getfn) {
-  if (begin == end)
-    return 0;
-  double max = getfn(*begin);
-  for (auto it = begin + 1; it != end; ++it)
-    max = std::max(max, getfn(*it));
-  return max;
-}
-
-/**
- * @brief Returns maximum value from vector of T with getter
- *
- * @tparam T
- * @param list
- * @param getter
- * @return double
- */
-template <typename T, typename BinaryOp>
-double maximum(std::vector<T>& list, BinaryOp getter) {
-  return maximum(list.begin(), list.end(), getter);
-}
-
-/**
- * @brief Returns maximum value from vector of T
- *
- * @tparam T
- * @param list
- * @return double
- */
-template <typename T>
-double maximum(std::vector<T>& list) {
-  return maximum(list, [](const T& e) { return e; });
-}
-
 }  // namespace common
 }  // namespace dqmcpp
 
