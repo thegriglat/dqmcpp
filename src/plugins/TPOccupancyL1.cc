@@ -10,6 +10,7 @@
 #include "../common/gnuplot.hh"
 #include "../net/DQMURLProvider.hh"
 #include "../writers/Gnuplot1DWriter.hh"
+#include "../writers/ProgressBar.hh"
 
 using namespace std;
 using namespace dqmcpp;
@@ -50,11 +51,13 @@ namespace plugins {
 vector<TPOccupancyL1::RunL1Data> TPOccupancyL1::getRunData(void) {
   vector<RunL1Data> rundata;
   rundata.reserve(runListReader->runs().size());
+  writers::ProgressBar progress(runListReader->runs().size());
   for (auto& run : runListReader->runs()) {
-    cout << run << endl;
+    progress.setLabel(to_string(run.runnumber));
     const auto url = geturl(run);
     const auto content = reader->parse2D(reader->get(url));
     rundata.emplace_back(run, content);
+    progress.increment();
   }
   return rundata;
 }
@@ -62,10 +65,11 @@ vector<TPOccupancyL1::RunL1Data> TPOccupancyL1::getRunData(void) {
 void TPOccupancyL1::Process() {
   // plot
   const auto rundata = getRunData();
+  writers::ProgressBar progress((28 * 2));
   for (int x = -28; x <= 28; ++x) {
     if (x == 0)
       continue;
-    cout << "Processing x " << x << endl;
+    progress.increment();
     for (int y = 1; y <= 72; ++y) {
       const auto data = getData(rundata, x, y);
       if (data.size() == 0)
