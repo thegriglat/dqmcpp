@@ -39,7 +39,11 @@ class ProgressBar {
     update(currentProgress + increment);
   };
 
-  inline void setMaxValue(const int maxvalue) { maxProgressValue = maxvalue; }
+  inline void setMaxValue(const int maxvalue) {
+    maxProgressValue = maxvalue;
+    updateTimingEvery =
+        (maxProgressValue > 1) ? std::round(std::log(maxProgressValue)) : 1;
+  }
 
   inline void setLabel(const std::string& newlabel) { label = newlabel; }
 
