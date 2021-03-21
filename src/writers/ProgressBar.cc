@@ -1,5 +1,6 @@
 #include "ProgressBar.hh"
 
+#include <cmath>
 #include <iostream>
 
 using namespace std;
@@ -27,7 +28,7 @@ void ProgressBar::draw(void) {
     else
       std::cout << " ";
   }
-  std::cout << "] " << int(progress * 100.0) << " %\r";
+  std::cout << "] " << std::ceil(progress * 100.0 * 10.0) / 10.0 << " %\r";
   std::cout.flush();
 }
 

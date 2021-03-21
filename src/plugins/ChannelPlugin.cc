@@ -115,9 +115,9 @@ vector<ECAL::RunChannelData> ChannelPlugin::getRunData(void) {
     progress.setLabel(to_string(run.runnumber));
     for (auto& url : urls(run)) {
       auto data_tt = reader->parse(reader->get(url));
-      progress.Increment();
       for (auto& e : data_tt)
         data.push_back(e);
+      progress.Increment();
     }
     ECAL::RunChannelData rd(run, data);
     rundata.push_back(rd);
