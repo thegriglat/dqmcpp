@@ -31,7 +31,7 @@ std::string formatPercent(float value) {
 namespace dqmcpp {
 namespace writers {
 
-void ProgressBar::finish(void) {
+void ProgressBar::finish(void) const {
   cout << endl;
 }
 
@@ -41,7 +41,7 @@ float ProgressBar::progress() const {
 }
 
 // return estimated time in seconds
-int ProgressBar::getEstimatedTime() {
+int ProgressBar::getEstimatedTime() const {
   auto _end = std::chrono::steady_clock::now();
   const auto seconds_passed =
       static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -58,7 +58,7 @@ int ProgressBar::getEstimatedTime() {
   return secs;
 }
 
-void ProgressBar::draw(void) {
+void ProgressBar::draw(void) const {
   cout << label << " ";
   cout << "[";
   const int pos = barWidth * progress();
