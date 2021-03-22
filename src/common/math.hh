@@ -126,7 +126,7 @@ double median(It begin, It end, BinaryOp op) {
 }
 
 template <typename T, typename BinaryOp>
-double median(const std::vector<T>& list BinaryOp op) {
+double median(const std::vector<T>& list, BinaryOp op) {
   return dqmcpp::common::median(list.begin(), list.end(), op);
 }
 
