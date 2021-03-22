@@ -31,6 +31,24 @@ double getAvgY(const plugins::TPOccupancyL1::RunL1Data& rd, const int x) {
   return avgy;
 }
 
+std::pair<int, int> getXY(const std::string& s) {
+  const auto list = common::split(s, ",");
+  const auto x = list.at(0).substr(1);
+  const auto y = list.at(1).substr(0, list.at(1).size() - 2);
+  return std::pair<int, int>(atoi(x.c_str()), atoi(y.c_str()));
+}
+
+bool sortYlabel(const std::string& a, const std::string& b) {
+  const auto ap = getXY(a);
+  const auto bp = getXY(b);
+  // first == ieta
+  // second == iphi
+  if (ap.first == bp.first) {
+    return ap.second < bp.second;
+  }
+  return ap.first < bp.first;
+}
+
 }  // namespace
 
 namespace dqmcpp {
@@ -138,6 +156,7 @@ void TPOccupancyL1::Process() {
                      {2.0 / _maxvalue, colors::ColorSets::yellow},
                      {4.0 / _maxvalue, colors::ColorSets::orange},
                      {1.0, colors::ColorSets::red}});
+  writer.setSortYFn(sortYlabel);
   ofstream out("TPOccupancyL1.plt");
   out << writer;
   out.close();
