@@ -32,10 +32,10 @@ vector<std::pair<std::string, double>> getData(
         rd.data.begin(), rd.data.end(),
         [x, y](const ECAL::Data2D& d2d) { return d2d.x == x && d2d.y == y; });
     // right tt for x > 0 and left for x < 0
-    const auto tt2 = find_if(
-        rd.data.begin(), rd.data.end(), [x, y](const ECAL::Data2D& d2d) {
-          return d2d.x == x + common::sign(x) && d2d.y == y;
-        });
+    const auto tt2 = find_if(rd.data.begin(), rd.data.end(),
+                             [x, y](const ECAL::Data2D& d2d) {
+                               return d2d.x == x && d2d.y == y + 1;
+                             });
     if (tt1 != rd.data.end() && tt2 != rd.data.end())
       result.push_back(
           {to_string(rd.run.runnumber), (tt1->value) / (tt2->value)});
