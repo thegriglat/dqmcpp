@@ -136,6 +136,7 @@ void TPOccupancyL1::Process() {
                      {0.5 / _maxvalue, colors::ColorSets::white},
                      {2.0 / _maxvalue, colors::ColorSets::white},
                      {2.0 / _maxvalue, colors::ColorSets::yellow},
+                     {4.0 / _maxvalue, colors::ColorSets::orange},
                      {1.0, colors::ColorSets::red}});
   ofstream out("TPOccupancyL1.plt");
   out << writer;
