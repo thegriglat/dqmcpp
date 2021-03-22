@@ -19,6 +19,7 @@ class Gnuplot2DWriter : public Gnuplot2D {
   const Data2D* _data = nullptr;
   std::vector<std::string> _xlabels;
   std::vector<std::string> _ylabels;
+  std::function<bool(const std::string&, const std::string&)> sortfn = nullptr;
 
   inline unsigned int nrows() const { return _xlabels.size(); }
   inline unsigned int ncolumns() const { return _ylabels.size(); }
@@ -29,6 +30,8 @@ class Gnuplot2DWriter : public Gnuplot2D {
 
  public:
   Gnuplot2DWriter(const Data2D& data);
+  void setSortYFn(std::function<bool(const std::string&, const std::string&)>
+                      sort_function);
   friend std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw);
 };
 

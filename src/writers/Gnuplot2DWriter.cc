@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <cmath>
 #include <iostream>
+#include <set>
+#include <string>
 #include "../common/common.hh"
 
 #define DEFAULT_VALUE (0)
@@ -16,20 +18,29 @@ namespace dqmcpp {
 namespace writers {
 
 Gnuplot2DWriter::Gnuplot2DWriter(const Data2D& data) : _data(&data) {
+  std::set<std::string> __xlabels;
+  std::set<std::string> __ylabels;
   for (auto& elem : data) {
     const auto xlabel = elem.first.first;
     const auto ylabel = elem.first.second;
-    if (!dqmcpp::common::has(_xlabels, xlabel)) {
-      _xlabels.push_back(xlabel);
-    }
-    if (!dqmcpp::common::has(_ylabels, ylabel)) {
-      _ylabels.push_back(ylabel);
-    }
+    __xlabels.insert(xlabel);
+    __ylabels.insert(ylabel);
   }
-  // TODO: sort?
+  _xlabels.reserve(__xlabels.size());
+  _ylabels.reserve(__ylabels.size());
+  for (auto& e : __xlabels)
+    _xlabels.push_back(e);
+  for (auto& e : __ylabels)
+    _ylabels.push_back(e);
   std::sort(_xlabels.begin(), _xlabels.end());
   std::sort(_ylabels.begin(), _ylabels.end());
 }
+
+void Gnuplot2DWriter::setSortYFn(
+    std::function<bool(const std::string&, const std::string&)> sort_function) {
+  sortfn = sort_function;
+  std::sort(_ylabels.begin(), _ylabels.end(), sortfn);
+};
 
 std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   // prepare default map
