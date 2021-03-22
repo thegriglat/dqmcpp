@@ -61,7 +61,7 @@ bool has(const std::vector<T>& data, const T& element) {
 
 // count
 template <typename It, typename BinaryOp>
-int _count(It begin, It end, BinaryOp op) {
+int count(It begin, It end, BinaryOp op) {
   int __count = 0;
   for (; begin != end; ++begin) {
     if (op(*begin))
@@ -71,14 +71,14 @@ int _count(It begin, It end, BinaryOp op) {
 }
 
 template <typename T, typename BinaryOp>
-int _count(const std::vector<T>& list, BinaryOp op) {
-  return _count(list.begin(), list.end(), op);
+int count(const std::vector<T>& list, BinaryOp op) {
+  return dqmcpp::common::count(list.begin(), list.end(), op);
 }
 
 template <typename T>
-int _count(const std::vector<T>& list, const T& element) {
-  return _count(list.begin(), list.end(),
-                [&element](const T& e) { return e == element; });
+int count(const std::vector<T>& list, const T& element) {
+  return dqmcpp::common::count(list.begin(), list.end(),
+                               [&element](const T& e) { return e == element; });
 }
 
 }  // namespace common
