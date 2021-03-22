@@ -1,5 +1,7 @@
 #ifndef COMMON_MATH_HH
 
+#include <cmath>
+
 namespace dqmcpp {
 namespace common {
 
@@ -62,6 +64,47 @@ int sign(const T& value) {
     return 0;
   return ((value > 0) ? 1 : -1);
 }
+
+// Mean
+template <typename Iterator, typename BinaryOp>
+double mean(Iterator begin, Iterator end, BinaryOp op) {
+  return sum(begin, end, op) / std::distance(begin, end);
+}
+
+template <typename T, typename BinaryOp>
+double mean(const std::vector<T>& list, BinaryOp op) {
+  return mean(list.begin(), list.end(), op);
+}
+
+template <typename T>
+double mean(const std::vector<T>& list) {
+  return mean(list.begin(), list.end(), [](const T& e) { return e; });
+}
+
+// RMS
+template <typename Iterator, typename BinaryOp>
+double rms(Iterator begin, Iterator end, BinaryOp op) {
+  double _mean = mean(begin, end, op);
+  const int n = std::distance(begin, end);
+  double _sum = 0;
+  // TODO: Can it be replaced with sum() ?
+  for (; begin != end; ++begin) {
+    const auto _xi = op(*begin);
+    _sum += (_xi - _mean) * (_xi - _mean);
+  }
+  return std::sqrt(_sum / n);
+}
+
+template <typename T, typename BinaryOp>
+double rms(const std::vector<T>& list, BinaryOp op) {
+  return rms(list.begin(), list.end(), op);
+}
+
+template <typename T>
+double rms(const std::vector<T>& list) {
+  return rms(list.begin(), list.end(), [](const T& e) { return e; });
+}
+
 }  // namespace common
 }  // namespace dqmcpp
 
