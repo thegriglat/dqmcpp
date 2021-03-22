@@ -1,5 +1,6 @@
 #ifndef COMMON_MATH_HH
 
+#include <algorithm>
 #include <cmath>
 
 namespace dqmcpp {
@@ -103,6 +104,35 @@ double rms(const std::vector<T>& list, BinaryOp op) {
 template <typename T>
 double rms(const std::vector<T>& list) {
   return rms(list.begin(), list.end(), [](const T& e) { return e; });
+}
+
+// median
+template <typename It, typename BinaryOp>
+double median(It begin, It end, BinaryOp op) {
+  if (std::distance(begin, end) == 0)
+    return 0;
+  std::vector<double> tmp;
+  tmp.reserve(std::distance(begin, end));
+  for (; begin != end; ++begin) {
+    tmp.push_back(op(*begin));
+  }
+  std::sort(tmp.begin(), tmp.end());
+  if (tmp.size() % 2 == 0) {
+    const auto left = tmp.size() / 2 - 1;
+    const auto right = tmp.size() / 2;
+    return (tmp.at(left) + tmp.at(right)) / 2;
+  }
+  return tmp.at((tmp.size() - 1) / 2);
+}
+
+template <typename T, typename BinaryOp>
+double median(const std::vector<T>& list BinaryOp op) {
+  return dqmcpp::common::median(list.begin(), list.end(), op);
+}
+
+template <typename T>
+double median(const std::vector<T>& list) {
+  return dqmcpp::common::median(list, [](const T& e) { return e; });
 }
 
 }  // namespace common
