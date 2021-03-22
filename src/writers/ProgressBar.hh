@@ -1,7 +1,6 @@
 #ifndef PROGRESSBAR_HH
 
 #include <chrono>
-#include <cmath>
 #include <string>
 
 namespace dqmcpp {
@@ -19,32 +18,16 @@ class ProgressBar {
   void finish(void) const;
   float progress() const;
   int getEstimatedTime() const;
+  void update(int value);
 
  public:
-  ProgressBar(const int maxSteps = 1)
-      : maxProgressValue(maxSteps),
-        _beginTime(std::chrono::steady_clock::now()) {
-    updateTimingEvery = (maxSteps > 1) ? std::round(std::log(maxSteps)) : 1;
-  };
-
-  inline void update(int value) {
-    currentProgress = value;
-    draw();
-    if (currentProgress % updateTimingEvery == 0) {
-      _beginTime = std::chrono::steady_clock::now();
-    }
-  };
+  ProgressBar(const int maxSteps = 1);
 
   inline void increment(const int increment = 1.0) {
     update(currentProgress + increment);
   };
 
-  inline void setMaxValue(const int maxvalue) {
-    maxProgressValue = maxvalue;
-    updateTimingEvery =
-        (maxProgressValue > 1) ? std::round(std::log(maxProgressValue)) : 1;
-  }
-
+  void setMaxValue(const int maxvalue);
   inline void setLabel(const std::string& newlabel) { label = newlabel; }
 
   ~ProgressBar() { finish(); };

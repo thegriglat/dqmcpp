@@ -31,6 +31,25 @@ std::string formatPercent(float value) {
 namespace dqmcpp {
 namespace writers {
 
+ProgressBar::ProgressBar(const int maxSteps)
+    : maxProgressValue(maxSteps), _beginTime(std::chrono::steady_clock::now()) {
+  updateTimingEvery = (maxSteps > 1) ? std::round(std::log(maxSteps)) : 1;
+};
+
+void ProgressBar::setMaxValue(const int maxvalue) {
+  maxProgressValue = maxvalue;
+  updateTimingEvery =
+      (maxProgressValue > 1) ? std::round(std::log(maxProgressValue)) : 1;
+}
+
+void ProgressBar::update(int value) {
+  currentProgress = value;
+  draw();
+  if (currentProgress % updateTimingEvery == 0) {
+    _beginTime = std::chrono::steady_clock::now();
+  }
+};
+
 void ProgressBar::finish(void) const {
   cout << endl;
 }
