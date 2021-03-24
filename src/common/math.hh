@@ -31,7 +31,7 @@ double maximum(Iterator begin, Iterator end, BinaryOp getfn) {
   double max = getfn(*begin);
   for (auto it = begin + 1; it != end; ++it) {
     const auto _tmp = getfn(*it);
-    if (max > _tmp) {
+    if (_tmp > max) {
       max = _tmp;
     }
   }
@@ -55,7 +55,7 @@ double minimum(Iterator begin, Iterator end, BinaryOp getfn) {
   double min = getfn(*begin);
   for (auto it = begin + 1; it != end; ++it) {
     const auto _tmp = getfn(*it);
-    if (min > _tmp) {
+    if (_tmp < min) {
       min = _tmp;
     }
   }
