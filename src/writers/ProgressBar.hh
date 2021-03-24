@@ -28,7 +28,10 @@ class ProgressBar {
   };
 
   void setMaxValue(const int maxvalue);
-  inline void setLabel(const std::string& newlabel) { label = newlabel; }
+  inline void setLabel(const std::string& newlabel) {
+    label = newlabel;
+    draw();
+  }
 
   ~ProgressBar() { finish(); };
 };
