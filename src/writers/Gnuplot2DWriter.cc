@@ -62,14 +62,13 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   }
   // print x labels
   auto scale = (double)gw.ncolumns() / gw.nrows();
-  /**
-  // @todo check scale. Sometimes produces plots are very small
-  */
-  scale = std::max(1.0, std::min(5.0, scale));
+  while (scale < 1)
+    scale *= 10;
+  int ticksfontsize = std::trunc(12.0 / scale) + 1;
   os << "scale = " << scale << std::endl
-     << "set term pngcairo size 1024*scale,768*scale*scale fontscale scale "
-        "linewidth "
-        "scale pointscale scale"
+     << "pagescale = 5" << std::endl
+     << "set term pngcairo size 1024*pagescale*scale,1024*pagescale linewidth "
+        "pagescale pointscale pagescale fontscale pagescale"
      << std::endl
      << "set palette defined " << gw.palette_str() << std::endl;
   os << "set cbrange [" << gw.getZ().min << ":" << gw.getZ().max << "]"
@@ -88,8 +87,8 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
      << "set grid front mx2tics my2tics lw 1"
      << std::endl
      // remove x/y tics, keep labels
-     << "set xtics scale 0" << std::endl
-     << "set ytics scale 0" << std::endl
+     << "set xtics scale 0 font '," << ticksfontsize << "'" << std::endl
+     << "set ytics scale 0 font '," << ticksfontsize << "'" << std::endl
      << "set title \"" << gw.getTitle() << "\"" << std::endl;
   os << "$map1 << EOD" << std::endl;
   os << "N ";
