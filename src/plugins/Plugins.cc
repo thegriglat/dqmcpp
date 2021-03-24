@@ -12,6 +12,7 @@
 #include "RMSChannels.hh"
 #include "RMSMap.hh"
 #include "TPOccupancyL1.hh"
+#include "TPOccupancyLTAmplitude.hh"
 #include "TTF4Occupancy.hh"
 #include "TTMaskingStatus.hh"
 #include "Timing.hh"
@@ -25,6 +26,7 @@ const std::map<std::string, Plugin*> _pluginmap = {
     {"MeanChannels", new MeanChannels()},
     {"RMSMap", new RMSMap()},
     {"TPOccupancyL1", new TPOccupancyL1()},
+    {"TPOccupancyLTAmp", new TPOccupancyLTAmplitude()},
     {"TTMaskingStatus", new TTMaskingStatus()},
     {"TTF4Occupancy", new TTF4Occupancy()},
     {"L1TEGammaIsoPre", new L1TEGammaIsoPrePlugin()},
