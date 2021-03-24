@@ -29,34 +29,47 @@ double maximum(Iterator begin, Iterator end, BinaryOp getfn) {
   if (begin == end)
     return 0;
   double max = getfn(*begin);
-  for (auto it = begin + 1; it != end; ++it)
-    max = std::max(max, getfn(*it));
+  for (auto it = begin + 1; it != end; ++it) {
+    const auto _tmp = getfn(*it);
+    if (max > _tmp) {
+      max = _tmp;
+    }
+  }
   return max;
 }
 
-/**
- * @brief Returns maximum value from vector of T with getter
- *
- * @tparam T
- * @param list
- * @param getter
- * @return double
- */
 template <typename T, typename BinaryOp>
 double maximum(std::vector<T>& list, BinaryOp getter) {
   return maximum(list.begin(), list.end(), getter);
 }
 
-/**
- * @brief Returns maximum value from vector of T
- *
- * @tparam T
- * @param list
- * @return double
- */
 template <typename T>
 double maximum(std::vector<T>& list) {
   return maximum(list, [](const T& e) { return e; });
+}
+
+template <typename Iterator, typename BinaryOp>
+double minimum(Iterator begin, Iterator end, BinaryOp getfn) {
+  if (begin == end)
+    return 0;
+  double min = getfn(*begin);
+  for (auto it = begin + 1; it != end; ++it) {
+    const auto _tmp = getfn(*it);
+    if (min > _tmp) {
+      min = _tmp;
+    }
+  }
+  return min;
+}
+
+template <typename T, typename BinaryOp>
+double minimum(std::vector<T>& list, BinaryOp getter) {
+  return minimum(list.begin(), list.end(), getter);
+}
+
+template <typename T>
+double minimum(std::vector<T>& list) {
+  return minimum(list, [](const T& e) { return e; });
 }
 
 template <typename T>
