@@ -83,6 +83,7 @@ URLHandler::URLHandler() {
     // TCP Keep Alive
     curl_easy_setopt(_curl, CURLOPT_TCP_KEEPALIVE, 1UL);
     // curl_easy_setopt(curl, CURLOPT_CAINFO, pCACertFile);
+    curl_easy_setopt(_curl, CURLOPT_TCP_NODELAY, 1L);
   }
 }
 
