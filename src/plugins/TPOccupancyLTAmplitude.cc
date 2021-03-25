@@ -98,7 +98,6 @@ std::vector<pair<int, int>> getBadXY_EE(
     const vector<plugins::TPOccupancyLTAmplitude::RunL1Data>& rundata) {
   set<pair<int, int>> allxy;
   vector<pair<int, int>> badxy;
-  // TODO: may be slow ...
   for (auto& rd : rundata)
     for (auto& d : rd.data)
       allxy.insert({d.channel.ix_iphi, d.channel.iy_ieta});
