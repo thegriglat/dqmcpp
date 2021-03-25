@@ -50,7 +50,7 @@ struct Point {
   double y;
   Point(double x, double y) : x(x), y(y){};
   friend bool inline operator==(const Point& a, const Point& b) {
-    return a.x == b.x && a.y == b.y;
+    return common::equal(a.x, b.x) && common::equal(a.y, b.y);
   }
 };
 
@@ -60,7 +60,7 @@ vector<array<Point, 2>> get_pairs(const vector<ECAL::Data2D>& data2d_in) {
   // remove all non-zero elements;
   // in DQM 0 in these histograms mean bad TT
   for (auto& e : data2d_in) {
-    if (e.value == 0)
+    if (common::isZero(e.value))
       data2d.push_back(e);
   }
   const double maxdistance = 6;  // 5 for TT

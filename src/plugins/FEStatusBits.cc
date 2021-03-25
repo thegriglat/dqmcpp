@@ -172,7 +172,7 @@ void FEStatusBits::Process() {
       vector<TTInfo> data_tt;
       data_tt.reserve(data_json.size());
       for (auto& e : data_json)
-        if (e.value != 0) {
+        if (common::isNotZero(e.value)) {
           TTInfo tti = TTInfo(std::floor(e.x), url.sm, std::floor(e.y),
                               url.isEB, e.value);
           data_tt.push_back(tti);

@@ -4,6 +4,7 @@
  * @brief Various functions to convert ECAL data
  */
 #include "ECAL.hh"
+#include "../common/math.hh"
 #include "../ecalchannels/ECALChannels.hh"
 
 #include <algorithm>
@@ -70,7 +71,7 @@ vector<RunTTData> filterZeroTT(vector<RunTTData>& rundata) {
         // tt not found;
         continue;
       };
-      if (it->value != 0) {
+      if (!common::isZero(it->value)) {
         all_is_zero = false;
         break;
       }

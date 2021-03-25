@@ -9,6 +9,7 @@
 #include <cmath>
 #include <vector>
 #include "../common/logging.hh"
+#include "../common/math.hh"
 
 namespace {
 using namespace dqmcpp::ECAL;
@@ -119,7 +120,7 @@ std::vector<ECAL::Data2D> JSONReader::parse2D(nlohmann::json& j,
       double x = xfirst + xstep * 0.5 + xstep * xbin;
       const auto value = content.at(ybin).at(xbin);
       ECAL::Data2D c(x, y, value);
-      const bool skip = value == 0 && skipZeroes;
+      const bool skip = common::isZero(value) && skipZeroes;
       if (!skip) {
         // to avoid overlapping DQM output for different SM
         channel_data.push_back(c);
@@ -152,7 +153,7 @@ std::vector<ECAL::Data1D> JSONReader::parse1D(nlohmann::json& j,
     double x = xfirst + xstep * 0.5 + xstep * xbin;
     const auto value = content.at(xbin);
     ECAL::Data1D c(x, value);
-    const bool skip = value == 0 && skipZeroes;
+    const bool skip = common::isZero(value) && skipZeroes;
     if (!skip) {
       // to avoid overlapping DQM output for different SM
       channel_data.push_back(c);

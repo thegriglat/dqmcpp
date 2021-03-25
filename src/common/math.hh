@@ -165,6 +165,38 @@ inline double median(const Collection& list) {
       list, [](const typename Collection::value_type& e) { return e; });
 }
 
+/**
+ * @brief For float/double types
+ *
+ * @tparam T
+ * @param value
+ * @return true
+ * @return false
+ */
+template <typename T>
+inline bool isNotZero(const T value) {
+  return value > 0 || value < 0;
+}
+
+template <typename T>
+inline bool isZero(const T value) {
+  return !isNotZero(value);
+}
+
+/**
+ * @brief float equality
+ *
+ * @tparam T
+ * @param a
+ * @param b
+ * @return true
+ * @return false
+ */
+template <typename T>
+inline bool equal(const T a, const T b) {
+  return isZero(a - b);
+}
+
 }  // namespace common
 }  // namespace dqmcpp
 

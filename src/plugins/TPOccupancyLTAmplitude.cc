@@ -65,7 +65,7 @@ void scaleSM(std::vector<ECAL::ChannelData>& data, const int sm) {
       [](const ChannelData& d2d) { return d2d.value; });
   for (auto it = data.begin(); it != data.end(); ++it) {
     const auto median = (isIBlock(it->channel, sm)) ? Imedian : Lmedian;
-    if (median != 0)
+    if (common::isNotZero(median))
       it->value /= median;
   }
 };
@@ -89,7 +89,7 @@ void scaleSM_EE(std::vector<ECAL::ChannelData>& data) {
   for (auto& d : data) {
     const auto region = ECAL::EELightMR(d.channel.ix_iphi, d.channel.iy_ieta);
     const auto median = region_median.at(region);
-    if (median != 0)
+    if (common::isNotZero(median))
       d.value /= median;
   }
 }

@@ -24,8 +24,9 @@ const string geturl(const ECAL::Run& run) {
 }
 
 double getAvgY(const plugins::TPOccupancyL1::RunL1Data& rd, const int x) {
-  const auto ally = common::filter(
-      rd.data, [x](const ECAL::Data2D& d2d) { return d2d.x == x; });
+  const auto ally = common::filter(rd.data, [x](const ECAL::Data2D& d2d) {
+    return common::equal(d2d.x, static_cast<double>(x));
+  });
   const auto avgy =
       common::median(ally, [](const ECAL::Data2D& d2d) { return d2d.value; });
   return avgy;
@@ -79,7 +80,7 @@ void TPOccupancyL1::Process() {
       const double avgy = getAvgY(rd, x);
       // scale to avgy
       for (auto& d : rd.data) {
-        if (d.x == x) {
+        if (common::equal(d.x, static_cast<double>(x))) {
           d.value /= avgy;
         }
       }
@@ -98,10 +99,11 @@ void TPOccupancyL1::Process() {
       vector<double> runsvalues;
       runsvalues.reserve(rundata.size());
       for (auto& rd : rundata) {
-        auto it = std::find_if(rd.data.begin(), rd.data.end(),
-                               [x, y](const ECAL::Data2D& d2d) {
-                                 return d2d.x == x && d2d.y == y;
-                               });
+        auto it = std::find_if(
+            rd.data.begin(), rd.data.end(), [x, y](const ECAL::Data2D& d2d) {
+              return common::equal(d2d.x, static_cast<double>(x)) &&
+                     common::equal(d2d.y, static_cast<double>(y));
+            });
         if (it != rd.data.end()) {
           runsvalues.push_back(it->value);
         }
@@ -112,7 +114,8 @@ void TPOccupancyL1::Process() {
       const double lowerlimit = median / 2;
       for (auto& rd : rundata) {
         for (auto& d : rd.data) {
-          if (d.x != x || d.y != y)
+          if (!common::equal(d.x, static_cast<double>(x)) ||
+              !common::equal(d.y, static_cast<double>(y)))
             continue;
           if (d.value > upperlimit || d.value < lowerlimit)
             badxy.insert({x, y});
@@ -132,8 +135,10 @@ void TPOccupancyL1::Process() {
       const auto x = p.first;
       const auto y = p.second;
       auto it = std::find_if(
-          rd.data.begin(), rd.data.end(),
-          [x, y](const ECAL::Data2D& d2d) { return d2d.x == x && d2d.y == y; });
+          rd.data.begin(), rd.data.end(), [x, y](const ECAL::Data2D& d2d) {
+            return common::equal(d2d.x, static_cast<double>(x)) &&
+                   common::equal(d2d.y, static_cast<double>(y));
+          });
       if (it != rd.data.end()) {
         const string xlabel = to_string(rd.run.runnumber);
         const string ylabel = common::string_format("[%d,%d]", x, y);
