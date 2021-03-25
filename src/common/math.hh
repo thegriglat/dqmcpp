@@ -68,8 +68,8 @@ double minimum(Iterator begin, Iterator end, BinaryOp getfn) {
   return min;
 }
 
-template <typename T, typename BinaryOp>
-inline double minimum(std::vector<T>& list, BinaryOp getter) {
+template <typename Collection, typename BinaryOp>
+inline double minimum(const Collection& list, BinaryOp getter) {
   return minimum(list.begin(), list.end(), getter);
 }
 
