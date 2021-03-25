@@ -70,7 +70,7 @@ void scaleSM(std::vector<ECAL::ChannelData>& data, const int sm) {
   }
 };
 
-void scaleSM_EE(std::vector<ECAL::ChannelData>& data, const int sm) {
+void scaleSM_EE(std::vector<ECAL::ChannelData>& data) {
   using ECAL::ChannelData;
   set<uint8_t> regions;
   for (auto& d : data)
@@ -241,7 +241,7 @@ void TPOccupancyLTAmplitude::Process() {
     progress.setLabel(common::string_format("EE%+03d", sm));
     auto rundata = getRunData(sm, false);
     for (auto& rd : rundata) {
-      scaleSM_EE(rd.data, sm);
+      scaleSM_EE(rd.data);
     }
     // get bad xy over all runs
     auto badxy = getBadXY_EE(rundata);
