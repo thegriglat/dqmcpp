@@ -11,6 +11,7 @@
 #include "../colors/Colors.hh"
 #include "../net/DQMURLProvider.hh"
 #include "../writers/GnuplotECALWriter.hh"
+#include "../writers/ProgressBar.hh"
 
 using namespace dqmcpp;
 
@@ -63,18 +64,20 @@ void RMSMap::plot(const std::vector<ECAL::RunChannelData>& rundata) {
 
 void RMSMap::Process() {
   using namespace std;
+  writers::ProgressBar progress(runListReader->runs().size());
   vector<ECAL::RunChannelData> rundata;
   for (auto& run : runListReader->runs()) {
+    progress.setLabel(to_string(run.runnumber));
     vector<ECAL::ChannelData> data;
     data.reserve(ECAL::NTotalChannels);
     for (auto& url : urls(run.runnumber, run.dataset)) {
-      cout << url << endl;
       auto data_tt = reader->parse(reader->get(url));
       for (auto& e : data_tt)
         data.push_back(e);
     }
     ECAL::RunChannelData rd(run, data);
     rundata.push_back(rd);
+    progress.increment();
   }
   plot(analyze(rundata));
 }
