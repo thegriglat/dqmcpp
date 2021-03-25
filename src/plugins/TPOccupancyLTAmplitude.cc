@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include "../ECAL/ECAL.hh"
+#include "../ECAL/EELightMonitoringRegions.hh"
 #include "../colors/Colors.hh"
 #include "../common/common.hh"
 #include "../common/gnuplot.hh"
@@ -16,6 +17,8 @@
 
 #define MEDIANUP (1.15)
 #define MEDIANLOW (0.85)
+#define MEDIANUPEE (1.3)
+#define MEDIANLOWEE (0.7)
 
 using namespace std;
 using namespace dqmcpp;
@@ -26,6 +29,12 @@ const string geturl(const ECAL::Run& run, const int sm) {
   return net::DQMURL::dqmurl(
       run, common::string_format(
                "EcalBarrel/EBLaserTask/Laser3/EBLT amplitude EB%+03d L3", sm));
+}
+
+const string geturl_ee(const ECAL::Run& run, const int sm) {
+  return net::DQMURL::dqmurl(
+      run, common::string_format(
+               "EcalEndcap/EELaserTask/Laser3/EELT amplitude EE%+03d L3", sm));
 }
 
 bool isIBlock(const ECAL::Channel& c, const int sm) {
@@ -60,6 +69,63 @@ void scaleSM(std::vector<ECAL::ChannelData>& data, const int sm) {
       it->value /= median;
   }
 };
+
+void scaleSM_EE(std::vector<ECAL::ChannelData>& data, const int sm) {
+  using ECAL::ChannelData;
+  set<uint8_t> regions;
+  for (auto& d : data)
+    regions.insert(ECAL::EELightMR(d.channel.ix_iphi, d.channel.iy_ieta));
+  std::map<uint8_t, double> region_median;
+  for (const auto region : regions) {
+    const auto median = common::median(
+        common::filter(data,
+                       [region](const ChannelData& cd) {
+                         return region == ECAL::EELightMR(cd.channel.ix_iphi,
+                                                          cd.channel.iy_ieta);
+                       }),
+        [](const ChannelData& cd) { return cd.value; });
+    region_median.insert({region, median});
+  }
+  for (auto& d : data) {
+    const auto region = ECAL::EELightMR(d.channel.ix_iphi, d.channel.iy_ieta);
+    const auto median = region_median.at(region);
+    if (median != 0)
+      d.value /= median;
+  }
+}
+
+std::vector<pair<int, int>> getBadXY_EE(
+    const vector<plugins::TPOccupancyLTAmplitude::RunL1Data>& rundata) {
+  set<pair<int, int>> allxy;
+  vector<pair<int, int>> badxy;
+  // TODO: may be slow ...
+  for (auto& rd : rundata)
+    for (auto& d : rd.data)
+      allxy.insert({d.channel.ix_iphi, d.channel.iy_ieta});
+
+  for (auto& xy : allxy) {
+    const auto x = xy.first;
+    const auto y = xy.second;
+    vector<double> values;
+    values.reserve(rundata.size());
+
+    for (auto& rd : rundata)
+      for (auto& d : rd.data)
+        if (d.channel.ix_iphi == x && d.channel.iy_ieta == y)
+          values.push_back(d.value);
+
+    const auto median_over_runs = common::median(values);
+    const auto median_upper = median_over_runs * MEDIANUPEE;
+    const auto median_lower = median_over_runs * MEDIANLOWEE;
+    for (auto& v : values) {
+      if (v > median_upper || v < median_lower) {
+        badxy.push_back({x, y});
+        break;
+      }
+    }
+  }
+  return badxy;
+}
 
 std::vector<pair<int, int>> getBadXY(
     const vector<plugins::TPOccupancyLTAmplitude::RunL1Data>& rundata,
@@ -102,18 +168,18 @@ vector<int> getSM() {
       sms.push_back(i);
   return sms;
 }
-
 }  // namespace
 
 namespace dqmcpp {
 namespace plugins {
 
 vector<TPOccupancyLTAmplitude::RunL1Data> TPOccupancyLTAmplitude::getRunData(
-    const int sm) {
+    const int sm,
+    bool eb) {
   vector<RunL1Data> rundata;
   rundata.reserve(runListReader->runs().size());
   for (auto& run : runListReader->runs()) {
-    const auto url = geturl(run, sm);
+    const auto url = (eb) ? geturl(run, sm) : geturl_ee(run, sm);
     const auto content = reader->parse(reader->get(url));
     rundata.emplace_back(run, content);
   }
@@ -121,16 +187,15 @@ vector<TPOccupancyLTAmplitude::RunL1Data> TPOccupancyLTAmplitude::getRunData(
 }
 
 void TPOccupancyLTAmplitude::Process() {
-  // plot
-  writers::ProgressBar progress(18 * 2);
-  vector<TPOccupancyLTAmplitude::RunL1Data> allrundata;
+  writers::ProgressBar progress(18 * 2 + 9 * 2);
   writers::Gnuplot2DWriter::Data2D gdata;
   double _maxvalue = -1;
+  // ECAL Barrel
   for (auto sm : getSM()) {
     if (sm == 0)
       continue;
     progress.setLabel(common::string_format("EB%+03d", sm));
-    auto rundata = getRunData(sm);
+    auto rundata = getRunData(sm, true);
     for (auto& rd : rundata) {
       scaleSM(rd.data, sm);
     }
@@ -153,12 +218,9 @@ void TPOccupancyLTAmplitude::Process() {
     }
     progress.increment();
   }
-
-  // gnuplot
-
   writers::Gnuplot2DWriter writer(gdata);
-  writer.setOutput("TPOccupancyLTAmplitude.png");
-  writer.setTitle("TPOccupancyLTAmplitude");
+  writer.setOutput("TPOccupancyLTAmplitude_EB.png");
+  writer.setTitle("TPOccupancyLTAmplitude EB");
   writer.setZ(0, _maxvalue);
   writer.setZTick(0.1);
   writer.setPalette({{0.0, colors::ColorSets::black},
@@ -167,9 +229,56 @@ void TPOccupancyLTAmplitude::Process() {
                      {MEDIANUP / _maxvalue, colors::ColorSets::white},
                      {MEDIANUP / _maxvalue, colors::ColorSets::yellow},
                      {1.0, colors::ColorSets::red}});
-  ofstream out("TPOccupancyLTAmplitude.plt");
+  ofstream out("TPOccupancyLTAmplitude_EB.plt");
   out << writer;
   out.close();
+  // ECAL Endcap
+  double _maxvalueee = -1;
+  writers::Gnuplot2DWriter::Data2D gdataee;
+  for (int sm = -9; sm <= 9; ++sm) {
+    if (sm == 0)
+      continue;
+    progress.setLabel(common::string_format("EE%+03d", sm));
+    auto rundata = getRunData(sm, false);
+    for (auto& rd : rundata) {
+      scaleSM_EE(rd.data, sm);
+    }
+    // get bad xy over all runs
+    auto badxy = getBadXY_EE(rundata);
+    for (auto& rd : rundata) {
+      const auto badxyfiltered =
+          common::filter(rd.data, [&badxy](const ECAL::ChannelData& cd) {
+            const pair<int, int> xy = {cd.channel.ix_iphi, cd.channel.iy_ieta};
+            return std::find(badxy.begin(), badxy.end(), xy) != badxy.end();
+          });
+      for (auto& c : badxyfiltered) {
+        const string xlabel = to_string(rd.run.runnumber);
+        const string ylabel = common::string_format(
+            "EE%+03d [%d:%d]", sm, c.channel.ix_iphi, c.channel.iy_ieta);
+        const auto value = c.value;
+        _maxvalueee = std::max(_maxvalueee, value);
+        gdataee.insert({{xlabel, ylabel}, value});
+      }
+    }
+    progress.increment();
+  }
+
+  writers::Gnuplot2DWriter writeree(gdataee);
+  writeree.setOutput("TPOccupancyLTAmplitude_EE.png");
+  writeree.setTitle("TPOccupancyLTAmplitude EE");
+  writeree.setZ(0, _maxvalueee);
+  writeree.setZTick(0.1);
+  writeree.setPalette({{0.0, colors::ColorSets::black},
+                       {0.0, colors::ColorSets::blue},
+                       {MEDIANLOWEE / _maxvalueee, colors::ColorSets::white},
+                       {MEDIANUPEE / _maxvalueee, colors::ColorSets::white},
+                       {MEDIANUPEE / _maxvalueee, colors::ColorSets::yellow},
+                       {1.0, colors::ColorSets::red}});
+  // gnuplot
+
+  ofstream outee("TPOccupancyLTAmplitude_EE.plt");
+  outee << writeree;
+  outee.close();
   return;
 }
 

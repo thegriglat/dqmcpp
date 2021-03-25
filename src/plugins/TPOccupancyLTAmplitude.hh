@@ -12,7 +12,7 @@ class TPOccupancyLTAmplitude : public Plugin {
   using RunL1Data = ECAL::RunData<std::vector<ECAL::ChannelData>>;
 
  private:
-  std::vector<RunL1Data> getRunData(const int sm);
+  std::vector<RunL1Data> getRunData(const int sm, bool eb);
 
  public:
   void Process();
