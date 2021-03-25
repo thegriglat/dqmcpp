@@ -57,8 +57,7 @@ vector<RunTTData> analyze(vector<RunTTData>& rundata) {
   rundata = filterZeroTT(rundata);
   // normalize TT value
   for (auto& e : rundata) {
-    auto max = common::maximum<TTData>(e.data,
-                                       [](const TTData& e) { return e.value; });
+    auto max = common::maximum(e.data, [](const TTData& e) { return e.value; });
     for (auto& ee : e.data) {
       ee.value /= max;
     }

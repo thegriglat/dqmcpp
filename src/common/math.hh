@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <numeric>
 
 namespace dqmcpp {
 namespace common {
@@ -14,14 +15,14 @@ double sum(ForwardIterator begin, ForwardIterator end, BinaryOp fn) {
   return s;
 }
 
-template <typename T, typename BinaryOp>
-double sum(const std::vector<T>& d, BinaryOp fn) {
+template <typename Collection, typename BinaryOp>
+inline double sum(const Collection& d, BinaryOp fn) {
   return sum(d.begin(), d.end(), fn);
 }
 
-template <typename T>
-double sum(const std::vector<T>& list) {
-  return sum(list.begin(), list.end(), [](const T& e) { return e; });
+template <typename Collection>
+inline double sum(const Collection& list) {
+  return std::accumulate(list.begin(), list.end(), 0.0);
 }
 
 template <typename Iterator, typename BinaryOp>
@@ -38,14 +39,19 @@ double maximum(Iterator begin, Iterator end, BinaryOp getfn) {
   return max;
 }
 
-template <typename T, typename BinaryOp>
-double maximum(std::vector<T>& list, BinaryOp getter) {
+template <typename Collection, typename BinaryOp>
+inline double maximum(const Collection& list, BinaryOp getter) {
   return maximum(list.begin(), list.end(), getter);
 }
 
-template <typename T>
-double maximum(std::vector<T>& list) {
-  return maximum(list, [](const T& e) { return e; });
+template <typename Collection>
+double maximum(const Collection& list) {
+  if (list.size() == 0)
+    return 0;
+  double m = list.at(0);
+  for (auto it = list.begin() + 1; it != list.end(); ++it)
+    m = std::max(m, *it);
+  return m;
 }
 
 template <typename Iterator, typename BinaryOp>
@@ -63,13 +69,18 @@ double minimum(Iterator begin, Iterator end, BinaryOp getfn) {
 }
 
 template <typename T, typename BinaryOp>
-double minimum(std::vector<T>& list, BinaryOp getter) {
+inline double minimum(std::vector<T>& list, BinaryOp getter) {
   return minimum(list.begin(), list.end(), getter);
 }
 
-template <typename T>
-double minimum(std::vector<T>& list) {
-  return minimum(list, [](const T& e) { return e; });
+template <typename Collection>
+double minimum(const Collection& list) {
+  if (list.size() == 0)
+    return 0;
+  double m = list.at(0);
+  for (auto it = list.begin() + 1; it != list.end(); ++it)
+    m = std::min(m, *it);
+  return m;
 }
 
 template <typename T>
@@ -81,42 +92,50 @@ int sign(const T& value) {
 
 // Mean
 template <typename Iterator, typename BinaryOp>
-double mean(Iterator begin, Iterator end, BinaryOp op) {
+inline double mean(Iterator begin, Iterator end, BinaryOp op) {
   return sum(begin, end, op) / std::distance(begin, end);
 }
 
-template <typename T, typename BinaryOp>
-double mean(const std::vector<T>& list, BinaryOp op) {
-  return mean(list.begin(), list.end(), op);
+template <typename Collection, typename BinaryOp>
+inline double mean(const Collection& list, BinaryOp op) {
+  return sum(list, op) / list.size();
 }
 
-template <typename T>
-double mean(const std::vector<T>& list) {
-  return mean(list.begin(), list.end(), [](const T& e) { return e; });
+template <typename Collection>
+inline double mean(const Collection& list) {
+  return sum(list) / list.size();
 }
 
 // RMS
 template <typename Iterator, typename BinaryOp>
 double rms(Iterator begin, Iterator end, BinaryOp op) {
+  if (std::distance(begin, end) == 0)
+    return 0;
   double _mean = mean(begin, end, op);
   const int n = std::distance(begin, end);
-  double _sum = 0;
   // TODO: Can it be replaced with sum() ?
-  for (; begin != end; ++begin) {
-    const auto _xi = op(*begin);
-    _sum += (_xi - _mean) * (_xi - _mean);
-  }
+  auto _sum = sum(begin, end, [_mean, op](const Iterator& it) {
+    const auto _xi = op(*it);
+    return (_xi - _mean) * (_xi - _mean);
+  });
   return std::sqrt(_sum / n);
 }
 
-template <typename T, typename BinaryOp>
-double rms(const std::vector<T>& list, BinaryOp op) {
+template <typename Collection, typename BinaryOp>
+inline double rms(const Collection& list, BinaryOp op) {
   return rms(list.begin(), list.end(), op);
 }
 
-template <typename T>
-double rms(const std::vector<T>& list) {
-  return rms(list.begin(), list.end(), [](const T& e) { return e; });
+template <typename Collection>
+double rms(const Collection& list) {
+  if (list.size() == 0)
+    return 0;
+  auto _mean = mean(list);
+  auto n = list.size();
+  auto _sum = sum(list, [_mean](const typename Collection::value_type& _xi) {
+    return (_xi - _mean) * (_xi - _mean);
+  });
+  return std::sqrt(_sum / n);
 }
 
 // median
@@ -138,14 +157,15 @@ double median(It begin, It end, BinaryOp op) {
   return tmp.at((tmp.size() - 1) / 2);
 }
 
-template <typename T, typename BinaryOp>
-double median(const std::vector<T>& list, BinaryOp op) {
+template <typename Collection, typename BinaryOp>
+inline double median(const Collection& list, BinaryOp op) {
   return dqmcpp::common::median(list.begin(), list.end(), op);
 }
 
-template <typename T>
-double median(const std::vector<T>& list) {
-  return dqmcpp::common::median(list, [](const T& e) { return e; });
+template <typename Collection>
+inline double median(const Collection& list) {
+  return dqmcpp::common::median(
+      list, [](const typename Collection::value_type& e) { return e; });
 }
 
 }  // namespace common
