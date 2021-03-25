@@ -40,12 +40,13 @@ uint8_t EELightMR(const int x, const int y) {
     return 0;
   if (y < 0 || y > 100)
     return 0;
-  int xtt = x;
+  int xtt = x - 1;
   if (x > 50)
     xtt = 50 - std::abs(x - 50);
   xtt = xtt / 5;
-  const int ytt = y / 5;
-  return EELightMonitoringRegions.at(ytt).at(xtt);
+  const int ytt = (y - 1) / 5;
+  const auto region = EELightMonitoringRegions.at(ytt).at(xtt);
+  return region;
 };
 
 std::vector<std::pair<int, int>> EELightMRChannels(const uint8_t region) {
