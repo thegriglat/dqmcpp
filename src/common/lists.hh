@@ -3,10 +3,13 @@
  * @brief File contains list specific templates
  *
  */
+#include <functional>
 #include <vector>
 
 namespace dqmcpp {
 namespace common {
+
+// index
 
 template <typename Iterator, typename BinaryOp>
 int index(Iterator begin, Iterator end, BinaryOp index_fn) {
@@ -17,46 +20,41 @@ int index(Iterator begin, Iterator end, BinaryOp index_fn) {
   return std::distance(begin, it);
 }
 
-/**
- * @brief Get element index in vector. Returns -1 if not found
- *
- * @tparam T
- * @param data
- * @param element
- * @return int
- */
-template <typename T, typename BinaryOp>
-int index(const std::vector<T>& data, BinaryOp index_fn) {
+template <typename Collection>
+inline int index(
+    const Collection& data,
+    std::function<bool(const typename Collection::value_type&)> index_fn) {
   return index(data.begin(), data.end(), index_fn);
 };
 
-template <typename T>
-int index(const std::vector<T>& data, const T& element) {
-  return index(data.begin(), data.end(),
-               [&element](const T& elem) { return elem == element; });
+template <typename Collection>
+int index(const Collection& data,
+          const typename Collection::value_type& element) {
+  auto it = std::find(data.begin(), data.end(), element);
+  if (it == data.end())
+    // element not found
+    return -1;
+  return std::distance(data.begin(), it);
 }
+
+// has
 
 template <typename Iterator, typename BinaryOp>
-bool has(Iterator begin, Iterator end, BinaryOp op) {
-  return (index(begin, end, op) != -1);
+inline bool has(Iterator begin, Iterator end, BinaryOp op) {
+  return (std::find_if(begin, end, op) != end);
 }
 
-/**
- * @brief Returns true if vector has element
- *
- * @param data
- * @param elem
- * @return true
- * @return false
- */
-template <typename T, typename BinaryOp>
-int has(const std::vector<T>& data, BinaryOp index_fn) {
-  return has(data.begin(), data.end(), index_fn);
+template <typename Collection>
+inline bool has(const Collection& data,
+                const typename Collection::value_type& element) {
+  return (std::find(data.begin(), data.end(), element) != data.end());
 }
-template <typename T>
-bool has(const std::vector<T>& data, const T& element) {
-  return has(data.begin(), data.end(),
-             [&element](const T& elem) { return elem == element; });
+
+template <typename Collection>
+inline bool has(
+    const Collection& data,
+    std::function<bool(const typename Collection::value_type&)> index_fn) {
+  return has(data.begin(), data.end(), index_fn);
 }
 
 // count
@@ -70,15 +68,22 @@ int count(It begin, It end, BinaryOp op) {
   return __count;
 }
 
-template <typename T, typename BinaryOp>
-int count(const std::vector<T>& list, BinaryOp op) {
+template <typename Collection>
+inline int count(
+    const Collection& list,
+    std::function<bool(const typename Collection::value_type&)> op) {
   return dqmcpp::common::count(list.begin(), list.end(), op);
 }
 
-template <typename T>
-int count(const std::vector<T>& list, const T& element) {
-  return dqmcpp::common::count(list.begin(), list.end(),
-                               [&element](const T& e) { return e == element; });
+template <typename Collection>
+int count(const Collection& list,
+          const typename Collection::value_type& element) {
+  int __count = 0;
+  for (auto& e : list) {
+    if (e == element)
+      ++__count;
+  }
+  return __count;
 }
 
 }  // namespace common

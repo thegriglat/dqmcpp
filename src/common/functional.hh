@@ -28,12 +28,6 @@ Collection zip(Collection fc, Collection sc, binop op) {
   return fc;
 }
 
-template <typename Collection, typename Condition>
-bool exists(Collection col, Condition con) {
-  auto exist = std::find_if(col.begin(), col.end(), con);
-  return exist != col.end();
-}
-
 template <typename Collection, typename Predicate>
 Collection filterNot(Collection col, Predicate predicate) {
   auto returnIterator = std::remove_if(col.begin(), col.end(), predicate);
