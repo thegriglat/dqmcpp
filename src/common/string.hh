@@ -14,8 +14,8 @@ namespace common {
  * @param delimiter
  * @return std::vector<std::string>
  */
-std::vector<std::string> split(const std::string str,
-                               const std::string delimiter = " ");
+std::vector<std::string> split(const std::string& str,
+                               const std::string& delimiter = " ");
 /**
  * @brief Joins vector of strings with delimiter
  *
@@ -23,8 +23,8 @@ std::vector<std::string> split(const std::string str,
  * @param delimiter
  * @return std::string
  */
-std::string join(const std::vector<std::string> list,
-                 const std::string delimiter = ",");
+std::string join(const std::vector<std::string>& list,
+                 const std::string& delimiter = ",");
 
 /**
  * @brief Remove trailing whitespaces

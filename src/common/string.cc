@@ -4,8 +4,8 @@
 
 namespace dqmcpp {
 namespace common {
-std::vector<std::string> split(const std::string str,
-                               const std::string delimiter) {
+std::vector<std::string> split(const std::string& str,
+                               const std::string& delimiter) {
   size_t pos;
   std::vector<std::string> tokens;
   std::string line = str;
@@ -20,8 +20,8 @@ std::vector<std::string> split(const std::string str,
   return tokens;
 }
 
-std::string join(const std::vector<std::string> list,
-                 const std::string delimiter) {
+std::string join(const std::vector<std::string>& list,
+                 const std::string& delimiter) {
   std::string result;
   const auto len = list.size();
   for (unsigned int i = 0; i < len; ++i) {
