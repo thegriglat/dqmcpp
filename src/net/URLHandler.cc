@@ -84,6 +84,10 @@ URLHandler::URLHandler() {
     curl_easy_setopt(_curl, CURLOPT_TCP_KEEPALIVE, 1UL);
     // curl_easy_setopt(curl, CURLOPT_CAINFO, pCACertFile);
     curl_easy_setopt(_curl, CURLOPT_TCP_NODELAY, 1L);
+    // max buffer size
+    curl_easy_setopt(_curl, CURLOPT_BUFFERSIZE, CURL_MAX_READ_SIZE);
+    // max cached connections
+    curl_easy_setopt(_curl, CURLOPT_MAXCONNECTS, 10L);
   }
 }
 
