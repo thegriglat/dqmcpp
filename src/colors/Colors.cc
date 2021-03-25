@@ -29,7 +29,7 @@ const Palette Heatmap = {{0.0, ColorSets::white},
                          {0.0, ColorSets::yellow},
                          {0.5, ColorSets::orange},
                          {1.0, ColorSets::red}};
-const Palette RMSHeatMap = {{0.0, ColorSets::black},  {0.0, ColorSets::blue},
+const Palette RMSHeatMap = {{0.0, ColorSets::white},  {0.0, ColorSets::blue},
                             {0.2, ColorSets::white},  {0.4, ColorSets::yellow},
                             {0.6, ColorSets::orange}, {1.0, ColorSets::red}};
 
