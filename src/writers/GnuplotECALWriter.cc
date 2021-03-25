@@ -7,8 +7,8 @@
 #include "GnuplotECALWriter.hh"
 #include <algorithm>
 #include <iomanip>
+#include "../common/functional.hh"
 #include "../common/logging.hh"
-#include "../filters/ECALFilters.hh"
 #include "GnuplotECALWriterLines.hh"
 
 namespace {
@@ -40,7 +40,9 @@ struct Point {
 void writeBarrel(std::ostream& os,
                  ECAL::RunChannelData& rd,
                  const int numdata) {
-  auto barrel = filters::barrel(rd.data);
+  auto barrel = common::filter(rd.data, [](const ECAL::ChannelData& cd) {
+    return cd.channel.iz == ECAL::DETECTORS::EB;
+  });
   os << "set xrange [0:360]" << std::endl
      << "set yrange [-85.5: 85.5]" << std::endl
      << "set size ratio 0.472" << std::endl
@@ -97,8 +99,11 @@ void writeEndcap(std::ostream& os,
                  ECAL::RunChannelData& rd,
                  const int numdata,
                  const int iz) {
-  auto endcap =
-      (iz == 1) ? filters::eeplus(rd.data) : filters::eeminus(rd.data);
+  const auto eedet =
+      (iz == 1) ? ECAL::DETECTORS::EEPLUS : ECAL::DETECTORS::EEMINUS;
+  const auto endcap = common::filter(
+      rd.data,
+      [eedet](const ECAL::ChannelData& cd) { return cd.channel.iz == eedet; });
   const std::string title = (iz == 1) ? "ECAL EE+" : "ECAL EE-";
   os << "set xrange [0:100]" << std::endl
      << "set yrange [0:100]" << std::endl

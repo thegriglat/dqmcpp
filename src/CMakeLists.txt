@@ -18,7 +18,6 @@ set (libdqmcpplibs
   common
   ECAL
   net
-  filters
   readers
   writers
   colors
