@@ -143,11 +143,8 @@ template <typename It, typename BinaryOp>
 double median(It begin, It end, BinaryOp op) {
   if (std::distance(begin, end) == 0)
     return 0;
-  std::vector<double> tmp;
-  tmp.reserve(std::distance(begin, end));
-  for (; begin != end; ++begin) {
-    tmp.push_back(op(*begin));
-  }
+  std::vector<double> tmp(std::distance(begin, end));
+  std::transform(begin, end, tmp.begin(), op);
   std::sort(tmp.begin(), tmp.end());
   if (tmp.size() % 2 == 0) {
     const auto left = tmp.size() / 2 - 1;
