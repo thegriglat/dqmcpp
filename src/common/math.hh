@@ -7,8 +7,8 @@
 namespace dqmcpp {
 namespace common {
 
-template <typename ForwardIterator, typename BinaryOp>
-double sum(ForwardIterator begin, ForwardIterator end, BinaryOp fn) {
+template <typename Iterator, typename BinaryOp>
+double sum(Iterator begin, Iterator end, BinaryOp fn) {
   double s = 0;
   for (; begin != end; ++begin)
     s += fn(*begin);
