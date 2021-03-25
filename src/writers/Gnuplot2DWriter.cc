@@ -66,7 +66,7 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
     scale *= 10;
   scale = std::min(9.0, scale);
   int pagescale = std::max(9.0 / scale, 3.0);
-  int ticksfontsize = std::trunc(12.0 / scale) + 1;
+  int ticksfontsize = pagescale;
   os << "scale = " << scale << std::endl
      << "pagescale = " << pagescale << std::endl
      << "set term pngcairo size 1024*pagescale*scale,1024*pagescale linewidth "
