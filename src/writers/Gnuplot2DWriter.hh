@@ -32,6 +32,10 @@ class Gnuplot2DWriter : public Gnuplot2D {
   Gnuplot2DWriter(const Data2D& data);
   void setSortYFn(std::function<bool(const std::string&, const std::string&)>
                       sort_function);
+  inline void setXlabels(const std::vector<std::string>& xlabels) {
+    _xlabels = xlabels;
+    std::sort(_xlabels.begin(), _xlabels.end());
+  }
   friend std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw);
 };
 
