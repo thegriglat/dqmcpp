@@ -7,6 +7,7 @@
 #include <set>
 #include <string>
 #include "../ECAL/ECAL.hh"
+#include "../colors/Colors.hh"
 #include "../common/clusters.hh"
 #include "../common/common.hh"
 #include "../common/gnuplot.hh"
@@ -19,6 +20,12 @@ using namespace std;
 using namespace dqmcpp;
 
 namespace {
+
+const dqmcpp::colors::Palette Palette = {
+    {0., "white"},       {2. / 15, "blue"},    {5. / 15, "skyblue"},
+    {10. / 15, "green"}, {11. / 15, "yellow"}, {13. / 15, "orange"},
+    {1., "red"}};
+
 string geturl(const ECAL::Run& run, const int iz) {
   string url;
   switch (iz) {
@@ -33,7 +40,7 @@ string geturl(const ECAL::Run& run, const int iz) {
       break;
   }
   return net::DQMURL::dqmurl(run, url);
-}
+}  // namespace
 
 double channelDistance(const dqmcpp::ECAL::ChannelData& a,
                        const dqmcpp::ECAL::ChannelData& b) {
@@ -137,6 +144,7 @@ void ChannelStatus::Process() {
     writer.setZTick(1.0);
     writer.setOutput("ChannelStatusMap_channels.png");
     writer.setTitle("ChannelStatusMap: channels");
+    writer.setPalette(Palette);
     dump(writer, "ChannelStatusMap_channels.plt");
   }
 
@@ -158,6 +166,7 @@ void ChannelStatus::Process() {
     writer.setZTick(1.0);
     writer.setOutput("ChannelStatusMap_tt.png");
     writer.setTitle("ChannelStatusMap: TT");
+    writer.setPalette(Palette);
     dump(writer, "ChannelStatusMap_tt.plt");
   }
 }
