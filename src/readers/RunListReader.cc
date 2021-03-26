@@ -5,11 +5,19 @@
  */
 #include "RunListReader.hh"
 
+#include <algorithm>
 #include <fstream>
 #include <string>
+#include "../ECAL/ECAL.hh"
 #include "../common/common.hh"
 
 using namespace std;
+
+namespace {
+bool runSorter(const dqmcpp::ECAL::Run& a, const dqmcpp::ECAL::Run& b) {
+  return (a.runnumber < b.runnumber);
+}
+}  // namespace
 
 namespace dqmcpp {
 namespace readers {
@@ -36,6 +44,7 @@ RunListReader::RunListReader(const std::string filename) {
     _runs.push_back(r);
   };
   in.close();
+  std::sort(_runs.begin(), _runs.end(), runSorter);
 }
 
 }  // namespace readers
