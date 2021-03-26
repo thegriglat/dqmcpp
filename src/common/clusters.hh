@@ -7,33 +7,38 @@
 namespace {
 
 template <typename T, typename BinaryOp>
-std::vector<std::array<T, 2>> get_pairs(const std::vector<T>& data,
-                                        const double maxdistance,
-                                        BinaryOp distance_fn) {
-  std::vector<std::array<T, 2>> points;
-  for (auto it = data.begin(); it != data.end(); ++it) {
-    for (auto jit = it + 1; jit != data.end(); ++jit) {
-      const auto distance = distance_fn(*it, *jit);
+std::vector<std::array<const T*, 2>> get_pairs(const std::vector<T>& data,
+                                               const double maxdistance,
+                                               BinaryOp distance_fn) {
+  std::vector<std::array<const T*, 2>> points;
+  if (data.size() == 0)
+    return points;
+  const auto len = data.size();
+  const T* first = &(data[0]);
+  for (uint i = 0; i < len; ++i)
+    for (uint j = i + 1; j < len; ++j) {
+      const T* pi = first + i;
+      const T* pj = first + j;
+      const auto distance = distance_fn(*pi, *pj);
       if (distance > maxdistance)
         continue;
-      T p1 = *it;
-      T p2 = *jit;
-      points.push_back({p1, p2});
+      points.push_back({pi, pj});
     }
-  }
   return points;
 }
 
 template <typename T>
-std::vector<std::vector<T>> clusterize(std::vector<std::array<T, 2>>& pairs) {
-  std::vector<std::vector<T>> clusters;
+std::vector<std::vector<const T*>> clusterize(
+    std::vector<std::array<const T*, 2>>& pairs) {
+  std::vector<std::vector<const T*>> clusters;
   if (pairs.size() == 0)
     return clusters;
   do {
-    std::vector<T> current_cluster = {pairs.at(0).at(0), pairs.at(0).at(1)};
+    std::vector<const T*> current_cluster = {pairs.at(0).at(0),
+                                             pairs.at(0).at(1)};
     for (auto it = pairs.begin() + 1; it != pairs.end(); ++it) {
-      const auto& p1 = it->at(0);
-      const auto& p2 = it->at(1);
+      const T* p1 = it->at(0);
+      const T* p2 = it->at(1);
       auto pos1 = std::find(current_cluster.begin(), current_cluster.end(), p1);
       auto pos2 = std::find(current_cluster.begin(), current_cluster.end(), p2);
       const bool match1 = pos1 != current_cluster.end();
@@ -51,7 +56,7 @@ std::vector<std::vector<T>> clusterize(std::vector<std::array<T, 2>>& pairs) {
     // remove added points
     auto removeit = std::remove_if(
         pairs.begin(), pairs.end(),
-        [&current_cluster](const std::array<T, 2>& pts) {
+        [&current_cluster](const std::array<const T*, 2>& pts) {
           return dqmcpp::common::has(current_cluster, pts.at(0)) ||
                  dqmcpp::common::has(current_cluster, pts.at(1));
         });
@@ -66,9 +71,9 @@ namespace dqmcpp {
 namespace common {
 
 template <typename T, typename BinaryOp>
-std::vector<std::vector<T>> clusters(const std::vector<T>& data,
-                                     const double maxdistance,
-                                     BinaryOp distance_fn) {
+std::vector<std::vector<const T*>> clusters(const std::vector<T>& data,
+                                            const double maxdistance,
+                                            BinaryOp distance_fn) {
   auto pairs = get_pairs(data, maxdistance, distance_fn);
   return clusterize(pairs);
 }

@@ -47,15 +47,6 @@ vector<URLInfo> urls(const int run, const std::string& dataset) {
   return urls;
 }
 
-struct Point {
-  double x;
-  double y;
-  Point(double x, double y) : x(x), y(y){};
-  friend bool inline operator==(const Point& a, const Point& b) {
-    return common::equal(a.x, b.x) && common::equal(a.y, b.y);
-  }
-};
-
 struct PluginData {
   int iz;
   int clusterSize;
@@ -101,7 +92,7 @@ void plot(const std::vector<RunFEData>& rundata) {
   out.close();
 }
 
-double Pdistance(const Point& a, const Point& b) {
+double d2distance(const ECAL::Data2D& a, const ECAL::Data2D& b) {
   const auto dx = a.x - b.x;
   const auto dy = a.y - b.y;
   return std::sqrt(SQR(dx) + SQR(dy));
@@ -128,12 +119,7 @@ void FEErrorClusterSize::Process() {
           data2d.begin(), data2d.end(),
           [](const ECAL::Data2D& d2d) { return common::isNotZero(d2d.value); });
       data2d.erase(it, data2d.end());
-      vector<Point> points;
-      points.reserve(data2d.size());
-      for (auto& d2d : data2d) {
-        points.emplace_back(d2d.x, d2d.y);
-      }
-      const auto clusters = common::clusters(points, 6, Pdistance);
+      const auto clusters = common::clusters(data2d, 6, d2distance);
       for (auto& cluster : clusters) {
         const auto clustersize = static_cast<int>(cluster.size());
         if (clustersize == 0)
