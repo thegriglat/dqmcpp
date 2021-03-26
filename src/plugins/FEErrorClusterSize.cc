@@ -13,6 +13,7 @@
 #include "../common/common.hh"
 #include "../net/DQMURLProvider.hh"
 #include "../writers/Gnuplot2DWriter.hh"
+#include "../writers/ProgressBar.hh"
 
 #define SQR(X) ((X) * (X))
 
@@ -112,17 +113,17 @@ namespace dqmcpp {
 namespace plugins {
 
 void FEErrorClusterSize::Process() {
+  writers::ProgressBar progress(runListReader->runs().size());
   vector<RunFEData> rundata;
   for (auto& run : runListReader->runs()) {
     vector<PluginData> rdata;
     const auto& runnumber = run.runnumber;
     const auto& dataset = run.dataset;
+    progress.setLabel(to_string(runnumber));
     const auto urllist = urls(runnumber, dataset);
     for (auto& url : urllist) {
-      cout << url.url << endl;
       const auto iz = url.iz;
       auto data2d = reader->parse2D(reader->get(url.url), false);
-      // TODO: remove non-zero elements
       auto it = std::remove_if(
           data2d.begin(), data2d.end(),
           [](const ECAL::Data2D& d2d) { return common::isNotZero(d2d.value); });
@@ -150,6 +151,7 @@ void FEErrorClusterSize::Process() {
       }
     }
     rundata.push_back(RunFEData(run, rdata));
+    progress.increment();
   }
   plot(rundata);
 }
