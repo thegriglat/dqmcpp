@@ -9,6 +9,7 @@
 #include <vector>
 #include "../ECAL/ECAL.hh"
 #include "../colors/Colors.hh"
+#include "../common/clusters.hh"
 #include "../common/common.hh"
 #include "../net/DQMURLProvider.hh"
 #include "../writers/Gnuplot2DWriter.hh"
@@ -53,67 +54,6 @@ struct Point {
     return common::equal(a.x, b.x) && common::equal(a.y, b.y);
   }
 };
-
-vector<array<Point, 2>> get_pairs(const vector<ECAL::Data2D>& data2d_in) {
-  vector<array<Point, 2>> points;
-  vector<ECAL::Data2D> data2d;
-  // remove all non-zero elements;
-  // in DQM 0 in these histograms mean bad TT
-  for (auto& e : data2d_in) {
-    if (common::isZero(e.value))
-      data2d.push_back(e);
-  }
-  const double maxdistance = 6;  // 5 for TT
-  for (auto it = data2d.begin(); it != data2d.end(); ++it) {
-    for (auto jit = it + 1; jit != data2d.end(); ++jit) {
-      const auto dx = it->x - jit->x;
-      const auto dy = it->y - jit->y;
-      const auto distance = std::sqrt(SQR(dx) + SQR(dy));
-      if (distance > maxdistance)
-        continue;
-      Point p1(it->x, it->y);
-      Point p2(jit->x, jit->y);
-      points.push_back({p1, p2});
-    }
-  }
-  return points;
-}
-
-vector<vector<Point>> clusterize(const vector<array<Point, 2>>& pairs_in) {
-  vector<vector<Point>> clusters;
-  vector<array<Point, 2>> pairs(pairs_in);
-  if (pairs.size() == 0)
-    return clusters;
-  do {
-    vector<Point> current_cluster = {pairs.at(0).at(0), pairs.at(0).at(1)};
-    for (auto it = pairs.begin() + 1; it != pairs.end(); ++it) {
-      const auto& p1 = it->at(0);
-      const auto& p2 = it->at(1);
-      auto pos1 = std::find(current_cluster.begin(), current_cluster.end(), p1);
-      auto pos2 = std::find(current_cluster.begin(), current_cluster.end(), p2);
-      const bool match1 = pos1 != current_cluster.end();
-      const bool match2 = pos2 != current_cluster.end();
-      if (match1 || match2) {
-        // some of point connected with current cluster
-        if (!match1) {
-          current_cluster.push_back(p1);
-        }
-        if (!match2)
-          current_cluster.push_back(p2);
-      }
-    }
-    clusters.push_back(current_cluster);
-    // remove added points
-    auto removeit =
-        std::remove_if(pairs.begin(), pairs.end(),
-                       [&current_cluster](const array<Point, 2>& pts) {
-                         return common::has(current_cluster, pts.at(0)) ||
-                                common::has(current_cluster, pts.at(1));
-                       });
-    pairs.erase(removeit, pairs.end());
-  } while (pairs.size() > 0);
-  return clusters;
-}
 
 struct PluginData {
   int iz;
@@ -160,6 +100,12 @@ void plot(const std::vector<RunFEData>& rundata) {
   out.close();
 }
 
+double Pdistance(const Point& a, const Point& b) {
+  const auto dx = a.x - b.x;
+  const auto dy = a.y - b.y;
+  return std::sqrt(SQR(dx) + SQR(dy));
+}
+
 }  // namespace
 
 namespace dqmcpp {
@@ -175,9 +121,18 @@ void FEErrorClusterSize::Process() {
     for (auto& url : urllist) {
       cout << url.url << endl;
       const auto iz = url.iz;
-      const auto data2d = reader->parse2D(reader->get(url.url), false);
-      const auto pairs = get_pairs(data2d);
-      const auto clusters = clusterize(pairs);
+      auto data2d = reader->parse2D(reader->get(url.url), false);
+      // TODO: remove non-zero elements
+      auto it = std::remove_if(
+          data2d.begin(), data2d.end(),
+          [](const ECAL::Data2D& d2d) { return common::isNotZero(d2d.value); });
+      data2d.erase(it, data2d.end());
+      vector<Point> points;
+      points.reserve(data2d.size());
+      for (auto& d2d : data2d) {
+        points.emplace_back(d2d.x, d2d.y);
+      }
+      const auto clusters = common::clusters(points, 6, Pdistance);
       for (auto& cluster : clusters) {
         const auto clustersize = static_cast<int>(cluster.size());
         if (clustersize == 0)
