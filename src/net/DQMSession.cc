@@ -4,11 +4,48 @@
  * @brief DQM session manager's code
  */
 #include "DQMSession.hh"
+#include <fstream>
 #include "URLHandler.hh"
 
+#define TMPFILE ".dqmsession"
+
 namespace {
+dqmcpp::net::URLHandler urlhdlr;
+const std::string SESSIONURL = "https://cmsweb.cern.ch/dqm/offline/session/";
+
 // local string cache
 std::string currentSession = "";
+
+bool sessionExpired(const std::string& session) {
+  if (session.size() == 0)
+    return true;
+  auto content = urlhdlr.get(SESSIONURL + session);
+  /*
+   If expired smth like
+   ===
+   The page you accessed, /dqm/offline/session/123123412345, is not a valid page
+   or you may have tried to access content that belongs to someone else that was
+   not made "public."
+   ===
+   will be returned
+   Check for "is not a valid page"
+  */
+  return (content.find("is not a valid page") != content.npos);
+}
+
+std::string getCachedSession() {
+  std::ifstream fh(TMPFILE);
+  std::string session;
+  fh >> session;
+  fh.close();
+  return session;
+}
+
+void setCachedSession(const std::string& session) {
+  std::ofstream fh(TMPFILE);
+  fh << session;
+  fh.close();
+}
 }  // namespace
 
 namespace dqmcpp {
@@ -24,11 +61,21 @@ std::string get() {
 We should not use URLCache to be sure that new session returns every time
 */
   // return current session if it is set
-  if (currentSession.length() != 0)
+
+  if (currentSession.size() != 0) {
+    // get() called multiple times at one program call
     return currentSession;
-  static dqmcpp::net::URLHandler urlhdlr;
-  static const std::string url = "https://cmsweb.cern.ch/dqm/offline/session/";
-  auto content = urlhdlr.get(url);
+  }
+  {
+    auto session = getCachedSession();
+    if (!sessionExpired(session)) {
+      // not expired
+      currentSession = session;
+      return session;
+    }
+  }
+  // otherwise -- get new session
+  auto content = urlhdlr.get(SESSIONURL);
 
   // Returns smth like:
   // <html><head><script>location.replace('/dqm/offline/session/ABMTY3')</script></head><body><noscript>Please
@@ -43,6 +90,7 @@ We should not use URLCache to be sure that new session returns every time
 
   // cache session
   currentSession = content;
+  setCachedSession(currentSession);
   return content;
 }
 
