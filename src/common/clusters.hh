@@ -1,5 +1,6 @@
 #ifndef COMMONCLUSTERS_HH
 
+#include <algorithm>
 #include <array>
 #include <vector>
 #include "../common/lists.hh"
@@ -70,6 +71,16 @@ std::vector<std::vector<const T*>> clusterize(
 namespace dqmcpp {
 namespace common {
 
+/**
+ * @brief Groups input vector to "clusters" based on distance between elements
+ *
+ * @tparam T std::vector's element type
+ * @tparam BinaryOp
+ * @param data input std::vector<T>
+ * @param maxdistance Distance which means that two elements are together
+ * @param distance_fn Function to compute distance from T
+ * @return std::vector<std::vector<const T*>> list of lists of const T*
+ */
 template <typename T, typename BinaryOp>
 std::vector<std::vector<const T*>> clusters(const std::vector<T>& data,
                                             const double maxdistance,
