@@ -1,6 +1,9 @@
 cmake_minimum_required (VERSION 2.8.11)
 project (DQMCpp)
 
+# 
+add_definitions("-Wall -Wextra")
+
 # CURL
 
 set(CURL_LIBRARY "-lcurl") 
