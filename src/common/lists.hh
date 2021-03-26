@@ -3,6 +3,7 @@
  * @brief File contains list specific templates
  *
  */
+#include <algorithm>
 #include <functional>
 #include <vector>
 
