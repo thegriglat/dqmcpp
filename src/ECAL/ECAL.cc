@@ -9,6 +9,8 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
+#include <iostream>
 #include <vector>
 
 using namespace dqmcpp::ECAL;
@@ -94,6 +96,15 @@ vector<RunTTData> filterZeroTT(vector<RunTTData>& rundata) {
   }
   return rundata;
 };
+
+ChannelData Data2D2Channel(const Data2D& d2d, DETECTORS iz) {
+  const int x = std::trunc(d2d.x);
+  const int y = std::trunc(d2d.y);
+  const int iphi = std::abs(x) + 1;
+  const int ieta = y + 1 * common::sign(d2d.y);
+  // std::cout << "y " << d2d.y << " ieta " << ieta << std::endl;
+  return ChannelData(Channel(iphi, ieta, iz), d2d.value);
+}
 
 };  // namespace ECAL
 };  // namespace dqmcpp

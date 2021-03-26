@@ -58,6 +58,9 @@ struct Channel {
   int iy_ieta;
   DETECTORS iz;
   Channel(int x, int y, DETECTORS z) : ix_iphi(x), iy_ieta(y), iz(z){};
+  inline bool isEB() const { return iz == DETECTORS::EB; };
+  inline bool isEEP() const { return iz == DETECTORS::EEPLUS; };
+  inline bool isEEM() const { return iz == DETECTORS::EEMINUS; };
   friend inline std::ostream& operator<<(std::ostream& os, const Channel& c) {
     os << "{x: " << c.ix_iphi << ", y: " << c.iy_ieta << ", z:" << c.iz << "}";
     return os;
@@ -133,6 +136,7 @@ std::vector<RunTTData> filterZeroTT(std::vector<RunTTData>& rundata);
 std::vector<TTData> channel2TT(
     const std::vector<ECAL::ChannelData>& channelData);
 
+ChannelData Data2D2Channel(const Data2D& d2d, DETECTORS iz = DETECTORS::EB);
 };  // namespace ECAL
 }  // namespace dqmcpp
 #define ECAL_HH
