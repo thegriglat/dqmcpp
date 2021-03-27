@@ -37,11 +37,13 @@ string geturl(const ECAL::Run& run, const int iz) {
   return net::DQMURL::dqmurl(run, url);
 }  // namespace
 
-double channelDistance(const dqmcpp::ECAL::ChannelData& a,
-                       const dqmcpp::ECAL::ChannelData& b) {
+int channelDistance(const dqmcpp::ECAL::ChannelData& a,
+                    const dqmcpp::ECAL::ChannelData& b) {
+  // for distance cut we don't need to have exact 2D distance
+  // squared d. is enough
   const auto dx = a.channel.ix_iphi - b.channel.ix_iphi;
   const auto dy = a.channel.iy_ieta - b.channel.iy_ieta;
-  return std::sqrt(dx * dx + dy * dy);
+  return dx * dx + dy * dy;
 }
 
 int getChannelTT(const ECAL::ChannelData& cd) {
