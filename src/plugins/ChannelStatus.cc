@@ -21,11 +21,6 @@ using namespace dqmcpp;
 
 namespace {
 
-const dqmcpp::colors::Palette Palette = {
-    {0., "white"},       {2. / 15, "blue"},    {5. / 15, "skyblue"},
-    {10. / 15, "green"}, {11. / 15, "yellow"}, {13. / 15, "orange"},
-    {1., "red"}};
-
 string geturl(const ECAL::Run& run, const int iz) {
   string url;
   switch (iz) {
@@ -139,12 +134,12 @@ void ChannelStatus::Process() {
       data.insert({{xlabel, ylabel}, ch.value});
     }
     writers::Gnuplot2DWriter writer(data);
-    writer.setZ(0, 15);
+    writer.setZ(0, 14);
     writer.setPalette(colors::PaletteSets::Heatmap);
     writer.setZTick(1.0);
     writer.setOutput("ChannelStatusMap_channels.png");
     writer.setTitle("ChannelStatusMap: channels");
-    writer.setPalette(Palette);
+    writer.setPalette(colors::PaletteSets::Rainbow);
     dump(writer, "ChannelStatusMap_channels.plt");
   }
 
@@ -161,12 +156,12 @@ void ChannelStatus::Process() {
       data.insert({{xlabel, ylabel}, ch.value});
     }
     writers::Gnuplot2DWriter writer(data);
-    writer.setZ(0, 15);
+    writer.setZ(0, 14);
     writer.setPalette(colors::PaletteSets::Heatmap);
     writer.setZTick(1.0);
     writer.setOutput("ChannelStatusMap_tt.png");
     writer.setTitle("ChannelStatusMap: TT");
-    writer.setPalette(Palette);
+    writer.setPalette(colors::PaletteSets::Rainbow);
     dump(writer, "ChannelStatusMap_tt.plt");
   }
 }
