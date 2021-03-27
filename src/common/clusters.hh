@@ -8,10 +8,10 @@
 namespace {
 
 template <typename T, typename BinaryOp>
-std::vector<std::array<const T*, 2>> get_pairs(const std::vector<T>& data,
-                                               const double maxdistance,
-                                               BinaryOp distance_fn) {
-  std::vector<std::array<const T*, 2>> points;
+std::vector<std::array<T, 2>> get_pairs(const std::vector<T>& data,
+                                        const double maxdistance,
+                                        BinaryOp distance_fn) {
+  std::vector<std::array<T, 2>> points;
   if (data.size() == 0)
     return points;
   const auto len = data.size();
@@ -23,25 +23,28 @@ std::vector<std::array<const T*, 2>> get_pairs(const std::vector<T>& data,
       const auto distance = distance_fn(*pi, *pj);
       if (distance > maxdistance)
         continue;
-      points.push_back({pi, pj});
+      points.push_back({*pi, *pj});
     }
   return points;
 }
 
-template <typename T>
-std::vector<std::vector<const T*>> clusterize(
-    std::vector<std::array<const T*, 2>>& pairs) {
-  std::vector<std::vector<const T*>> clusters;
+template <typename T, typename BinaryOp>
+std::vector<std::vector<T>> clusterize(std::vector<std::array<T, 2>>& pairs,
+                                       BinaryOp distance_fn) {
+  std::vector<std::vector<T>> clusters;
   if (pairs.size() == 0)
     return clusters;
   do {
-    std::vector<const T*> current_cluster = {pairs.at(0).at(0),
-                                             pairs.at(0).at(1)};
+    std::vector<T> current_cluster = {pairs.at(0).at(0), pairs.at(0).at(1)};
     for (auto it = pairs.begin() + 1; it != pairs.end(); ++it) {
-      const T* p1 = it->at(0);
-      const T* p2 = it->at(1);
-      auto pos1 = std::find(current_cluster.begin(), current_cluster.end(), p1);
-      auto pos2 = std::find(current_cluster.begin(), current_cluster.end(), p2);
+      const T& p1 = it->at(0);
+      const T& p2 = it->at(1);
+      auto pos1 = std::find_if(
+          current_cluster.begin(), current_cluster.end(),
+          [&p1, distance_fn](const T& e) { return distance_fn(e, p1) == 0; });
+      auto pos2 = std::find_if(
+          current_cluster.begin(), current_cluster.end(),
+          [&p2, distance_fn](const T& e) { return distance_fn(p2, e) == 0; });
       const bool match1 = pos1 != current_cluster.end();
       const bool match2 = pos2 != current_cluster.end();
       if (match1 || match2) {
@@ -57,9 +60,11 @@ std::vector<std::vector<const T*>> clusterize(
     // remove added points
     auto removeit = std::remove_if(
         pairs.begin(), pairs.end(),
-        [&current_cluster](const std::array<const T*, 2>& pts) {
-          return dqmcpp::common::has(current_cluster, pts.at(0)) ||
-                 dqmcpp::common::has(current_cluster, pts.at(1));
+        [&current_cluster, distance_fn](const std::array<T, 2>& pts) {
+          return dqmcpp::common::has(current_cluster, [&pts, distance_fn](
+                                                          const T& e) {
+            return distance_fn(pts.at(0), e) * distance_fn(pts.at(1), e) == 0;
+          });
         });
     pairs.erase(removeit, pairs.end());
   } while (pairs.size() > 0);
@@ -78,15 +83,16 @@ namespace common {
  * @tparam BinaryOp
  * @param data input std::vector<T>
  * @param maxdistance Distance which means that two elements are together
- * @param distance_fn Function to compute distance from T
+ * @param distance_fn Function to compute distance from T, 0 means that elements
+ * are equal
  * @return std::vector<std::vector<const T*>> list of lists of const T*
  */
 template <typename T, typename BinaryOp>
-std::vector<std::vector<const T*>> clusters(const std::vector<T>& data,
-                                            const double maxdistance,
-                                            BinaryOp distance_fn) {
+std::vector<std::vector<T>> clusters(const std::vector<T>& data,
+                                     const double maxdistance,
+                                     BinaryOp distance_fn) {
   auto pairs = get_pairs(data, maxdistance, distance_fn);
-  return clusterize(pairs);
+  return clusterize(pairs, distance_fn);
 }
 
 }  // namespace common
