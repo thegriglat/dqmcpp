@@ -61,17 +61,19 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
     }
   }
   // print x labels
+  /*
   auto scale = (double)gw.ncolumns() / gw.nrows();
   while (scale < 1)
     scale *= 10;
   scale = std::min(9.0, scale);
   int pagescale = std::max(9.0 / scale, 3.0);
   int ticksfontsize = pagescale;
+  */
+  auto scale = static_cast<double>(gw.ncolumns()) / gw.nrows();
+  // scale in 0.5 .. 3
+  scale = std::min(std::max(scale, 0.5), 3.);
   os << "scale = " << scale << std::endl
-     << "pagescale = " << pagescale << std::endl
-     << "set term pngcairo size 1024*pagescale*scale,1024*pagescale linewidth "
-        "pagescale pointscale pagescale fontscale pagescale"
-     << std::endl
+     << "set term pngcairo size 1024,768*scale" << std::endl
      << "set palette defined " << gw.palette_str() << std::endl;
   os << "set cbrange [" << gw.getZ().min << ":" << gw.getZ().max << "]"
      << std::endl;
@@ -89,8 +91,8 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
      << "set grid front mx2tics my2tics lw 1"
      << std::endl
      // remove x/y tics, keep labels
-     << "set xtics scale 0 font '," << ticksfontsize << "'" << std::endl
-     << "set ytics scale 0 font '," << ticksfontsize << "'" << std::endl
+     << "set xtics scale 0" << std::endl
+     << "set ytics scale 0" << std::endl
      << "set title \"" << gw.getTitle() << "\"" << std::endl;
   os << "$map1 << EOD" << std::endl;
   os << "N ";
