@@ -63,6 +63,13 @@ void dump(dqmcpp::writers::Gnuplot2DWriter& writer,
   out.close();
 }
 
+struct ChannelDataTT : public dqmcpp::ECAL::ChannelData {
+  int tt;
+  ChannelDataTT(const dqmcpp::ECAL::ChannelData& cd) : ChannelData(cd) {
+    tt = getChannelTT(cd);
+  }
+};
+
 }  // namespace
 
 namespace dqmcpp {
@@ -70,21 +77,26 @@ namespace plugins {
 
 void ChannelStatus::Process() {
   writers::ProgressBar progress(runListReader->runs().size());
-  vector<pair<int, ECAL::ChannelData>> channeldata;
-  vector<pair<int, ECAL::ChannelData>> ttdata;
+  vector<pair<int, ChannelDataTT>> channeldata;
+  vector<pair<int, ChannelDataTT>> ttdata;
   for (auto& run : runListReader->runs()) {
     progress.setLabel(to_string(run.runnumber));
     for (int iz = -1; iz <= 1; ++iz) {
       const string url = geturl(run, iz);
-      vector<vector<ECAL::ChannelData>> clusters;
+      vector<vector<ChannelDataTT>> clusters;
       if (iz != 0) {
         const auto content = reader->parse(reader->get(url));
-        clusters = common::clusters(content, 1, channelDistance);
+        vector<ChannelDataTT> cdtt;
+        cdtt.reserve(content.size());
+        for (auto& c : content) {
+          cdtt.emplace_back(c);
+        }
+        clusters = common::clusters(cdtt, 1, channelDistance);
       } else {
         // for EB we have to transform Data2D to ChannelData as DQM rotates
         // histogram
         const auto content = reader->parse2D(reader->get(url));
-        vector<ECAL::ChannelData> chdata;
+        vector<ChannelDataTT> chdata;
         chdata.reserve(content.size());
         for (auto& e : content) {
           chdata.push_back(ECAL::Data2D2Channel(e));
@@ -98,14 +110,12 @@ void ChannelStatus::Process() {
       for (auto& cluster : clusters) {
         set<int> ttset;
         for (auto c : cluster) {
-          ttset.insert(getChannelTT(c));
+          ttset.insert(c.tt);
         }
         for (auto tt : ttset) {
           // filter channels from cluster to determine full TT
-          const auto channels_per_tt =
-              common::filter(cluster, [tt](const ECAL::ChannelData& cd) {
-                return tt == getChannelTT(cd);
-              });
+          const auto channels_per_tt = common::filter(
+              cluster, [tt](const ChannelDataTT& cd) { return tt == cd.tt; });
           if (channels_per_tt.size() == 25) {
             // full TT
             auto c = channels_per_tt.at(0);
