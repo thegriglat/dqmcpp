@@ -72,8 +72,19 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   auto scale = static_cast<double>(gw.ncolumns()) / gw.nrows();
   // scale in 0.5 .. 3
   scale = std::min(std::max(scale, 0.5), 3.);
+  // pagescale is common page scale for large run numbers
+  // optimum is about 1024px/24runs ~ 40 px/run
+  double pagescale = 1.0;
+  if (1024. / gw.ncolumns() < 40 || 768. * scale / gw.nrows() < 40) {
+    pagescale =
+        std::max(40.0 / 1024. * gw.ncolumns(), 40 / 368. / scale * gw.nrows());
+  }
+  pagescale = std::min(std::max(pagescale, 0.8), 2.5);
+
   os << "scale = " << scale << std::endl
-     << "set term pngcairo size 1024,768*scale" << std::endl
+     << "pagescale = " << pagescale << std::endl
+     << "set term pngcairo size pagescale * 1024,768*scale * pagescale"
+     << std::endl
      << "set palette defined " << gw.palette_str() << std::endl;
   os << "set cbrange [" << gw.getZ().min << ":" << gw.getZ().max << "]"
      << std::endl;
