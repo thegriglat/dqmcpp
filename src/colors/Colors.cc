@@ -33,6 +33,10 @@ const Palette RMSHeatMap = {{0.0, ColorSets::white},  {0.0, ColorSets::blue},
                             {0.2, ColorSets::white},  {0.4, ColorSets::yellow},
                             {0.6, ColorSets::orange}, {1.0, ColorSets::red}};
 
+const Palette Rainbow = {
+    {0.0, "white"},    {0.0, "violet"},    {1. / 6, "blue"},   {2. / 6, "cyan"},
+    {3. / 6, "green"}, {4. / 6, "yellow"}, {5. / 6, "orange"}, {1.0, "red"}};
+
 const Palette MeanHeatMap = {
     {0.0, ColorSets::black},          {0.0, ColorSets::blue},
     {0.5, ColorSets::white},          {250. / 300., ColorSets::white},
