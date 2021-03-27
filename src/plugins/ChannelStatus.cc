@@ -152,7 +152,9 @@ void ChannelStatus::Process() {
       string xlabel = to_string(pair.first);
       string det = (info) ? info->det() : "NONE?";
       auto tt = getChannelTT(&ch);
-      string ylabel = common::string_format("%s TT/CCU %02d", det.c_str(), tt);
+      const string ttccu = (ch.channel.isEB()) ? "TT" : "CCU";
+      string ylabel =
+          common::string_format("%s %s %02d", det.c_str(), ttccu.c_str(), tt);
       data.insert({{xlabel, ylabel}, ch.value});
     }
     writers::Gnuplot2DWriter writer(data);
