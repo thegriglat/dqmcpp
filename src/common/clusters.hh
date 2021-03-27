@@ -4,6 +4,7 @@
 #include <array>
 #include <vector>
 #include "../common/lists.hh"
+#include "../common/math.hh"
 
 namespace {
 
@@ -39,12 +40,16 @@ std::vector<std::vector<T>> clusterize(std::vector<std::array<T, 2>>& pairs,
     for (auto it = pairs.begin() + 1; it != pairs.end(); ++it) {
       const T& p1 = it->at(0);
       const T& p2 = it->at(1);
-      auto pos1 = std::find_if(
-          current_cluster.begin(), current_cluster.end(),
-          [&p1, distance_fn](const T& e) { return distance_fn(e, p1) == 0; });
-      auto pos2 = std::find_if(
-          current_cluster.begin(), current_cluster.end(),
-          [&p2, distance_fn](const T& e) { return distance_fn(p2, e) == 0; });
+      auto pos1 =
+          std::find_if(current_cluster.begin(), current_cluster.end(),
+                       [&p1, distance_fn](const T& e) {
+                         return dqmcpp::common::isZero(distance_fn(e, p1));
+                       });
+      auto pos2 =
+          std::find_if(current_cluster.begin(), current_cluster.end(),
+                       [&p2, distance_fn](const T& e) {
+                         return dqmcpp::common::isZero(distance_fn(p2, e));
+                       });
       const bool match1 = pos1 != current_cluster.end();
       const bool match2 = pos2 != current_cluster.end();
       if (match1 || match2) {
@@ -61,10 +66,11 @@ std::vector<std::vector<T>> clusterize(std::vector<std::array<T, 2>>& pairs,
     auto removeit = std::remove_if(
         pairs.begin(), pairs.end(),
         [&current_cluster, distance_fn](const std::array<T, 2>& pts) {
-          return dqmcpp::common::has(current_cluster, [&pts, distance_fn](
-                                                          const T& e) {
-            return distance_fn(pts.at(0), e) * distance_fn(pts.at(1), e) == 0;
-          });
+          return dqmcpp::common::has(
+              current_cluster, [&pts, distance_fn](const T& e) {
+                return dqmcpp::common::isZero(distance_fn(pts.at(0), e) *
+                                              distance_fn(pts.at(1), e));
+              });
         });
     pairs.erase(removeit, pairs.end());
   } while (pairs.size() > 0);
