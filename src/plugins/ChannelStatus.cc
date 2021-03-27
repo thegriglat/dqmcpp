@@ -72,13 +72,13 @@ void ChannelStatus::Process() {
   writers::ProgressBar progress(runListReader->runs().size());
   vector<pair<int, ECAL::ChannelData>> channeldata;
   vector<pair<int, ECAL::ChannelData>> ttdata;
+  vector<ECAL::ChannelData> chdata;
   for (auto& run : runListReader->runs()) {
+    chdata.clear();
     progress.setLabel(to_string(run.runnumber));
     for (int iz = -1; iz <= 1; ++iz) {
       const string url = geturl(run, iz);
       vector<vector<const ECAL::ChannelData*>> clusters;
-      vector<ECAL::ChannelData> chdata;
-      chdata.reserve(ECAL::NEBChannels);
       if (iz != 0) {
         const auto content = reader->parse(reader->get(url));
         clusters = common::clusters(content, 1, channelDistance);
