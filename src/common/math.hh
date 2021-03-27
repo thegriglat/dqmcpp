@@ -174,12 +174,12 @@ inline double median(const Collection& list) {
  * @return false
  */
 template <typename T>
-inline bool isNotZero(const T value) {
+inline bool isNotZero(const T& value) {
   return value > 0 || value < 0;
 }
 
 template <typename T>
-inline bool isZero(const T value) {
+inline bool isZero(const T& value) {
   return !isNotZero(value);
 }
 
@@ -193,7 +193,7 @@ inline bool isZero(const T value) {
  * @return false
  */
 template <typename T>
-inline bool equal(const T a, const T b) {
+inline bool equal(const T& a, const T& b) {
   return isZero(a - b);
 }
 
