@@ -18,44 +18,21 @@ using namespace std;
 
 namespace dqmcpp {
 namespace ECALChannels {
-const ChannelInfo* find(const ECAL::Channel& channel) {
-  auto it = std::find_if(
-      ChannelsDB::channels.begin(), ChannelsDB::channels.end(),
-      [channel](const ChannelInfo& info) {
-        if (channel.iz == ECAL::DETECTORS::EB) {
-          // barrel
-          return channel.ix_iphi == info.iphi && channel.iy_ieta == info.ieta;
-        }
-        int iz = 1;
-        if (channel.iz == ECAL::DETECTORS::EEMINUS) {
-          iz = -1;
-        }
-        return channel.ix_iphi == info.ix && channel.iy_ieta == info.iy &&
-               iz == info.iz;
-      });
-  if (it != ChannelsDB::channels.end()) {
-    return &(*it);
-  }
-  std::cerr << "channel not found!" << std::endl;
-  std::cerr << "====" << std::endl
-            << "ix_iphi = " << channel.ix_iphi
-            << " iy_ieta = " << channel.iy_ieta << " iz = " << channel.iz
-            << std::endl
-            << "====" << std::endl;
-  return nullptr;
-}
+const ChannelInfo* find(const ECAL::Channel& c) {
+  return ChannelsDB::find(c.ix_iphi, c.iy_ieta, c.iz);
+};
 
 const ECALChannelsList list() {
-  return ChannelsDB::channels;
+  return ChannelsDB::channels();
 }
 
 const std::string detByTTTTC(const int tt, const int tcc) {
-  auto it =
-      std::find_if(ChannelsDB::channels.begin(), ChannelsDB::channels.end(),
-                   [tt, tcc](const ChannelInfo& c) {
-                     return c.tower == tt && c.tcc == tcc;
-                   });
-  if (it == ChannelsDB::channels.end())
+  auto channels = ECALChannels::ChannelsDB::channels();
+  auto it = std::find_if(channels.begin(), channels.end(),
+                         [tt, tcc](const ChannelInfo& c) {
+                           return c.tower == tt && c.tcc == tcc;
+                         });
+  if (it == channels.end())
     return "";
   return it->det();
 }
