@@ -1,24 +1,26 @@
 # DQMCpp
 
-DQM based ECAL tests
+Here you can find a C++ library to work with CERN CMS DQM and some tests used in CMS PFG group. Fill free to use these tests as examples to develop your essential things!
 
-How to compile:
+## How to build
+
+DQMCpp only depends on `libcurl` and `libcurl-dev`. CMake is used as build system.
 ```bash
 mkdir build
 cd build
 cmake ../src
-make
+make -j `nproc`
 ```
 
-How to generate documentation:
+To get Doxygen docs about DQMCpp run `make docs` or `make docs-pdf` from root of the repository. I try to get docs up-to-date.
 ```bash
 make docs
-# or 
 make docs-pdf
 ```
 
-How to contribute:
+## How to contribute:
  * Make changes
- * run `make` in source -- it will run `astyle`
- * Submit PR
+ * run `make` in source -- it will run `clang-format` to make code looks better and unified
+ * Submit merge/pull request or contact via thegriglat@gmail.com
  
+
