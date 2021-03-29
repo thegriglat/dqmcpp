@@ -130,21 +130,11 @@ void ChannelStatus::Process() {
   vector<pair<int, ChannelDataTT>> ttdata;
   for (auto& run : runListReader->runs()) {
     progress.setLabel(to_string(run.runnumber));
-    const auto rd = getChannelStatus(run);
     for (int iz = -1; iz <= 1; ++iz) {
       vector<ChannelDataTT> channelttdata;
       {
-        const auto channelD =
-            common::filter(rd, [iz](const ECAL::ChannelData& cd) {
-              if (iz == 0 && cd.channel.isEB())
-                return true;
-              if (iz == 1 && cd.channel.isEEP())
-                return true;
-              if (iz == -1 && cd.channel.isEEM())
-                return true;
-              return false;
-            });
-        for (auto& c : channelD) {
+        const auto rd = getCS(run, iz);
+        for (auto& c : rd) {
           channelttdata.push_back(c);
         }
       }
