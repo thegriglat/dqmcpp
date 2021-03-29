@@ -88,6 +88,8 @@ URLHandler::URLHandler() {
     curl_easy_setopt(_curl, CURLOPT_BUFFERSIZE, CURL_MAX_READ_SIZE);
     // max cached connections
     curl_easy_setopt(_curl, CURLOPT_MAXCONNECTS, 10L);
+    curl_easy_setopt(_curl, CURLOPT_ACCEPT_ENCODING,
+                     "gzip,bzip2,deflate,br,zstd");
   }
 }
 
