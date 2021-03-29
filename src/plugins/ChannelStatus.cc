@@ -73,14 +73,7 @@ struct ChannelDataTT : public dqmcpp::ECAL::ChannelData {
   }
 };
 
-}  // namespace
-
-namespace dqmcpp {
-namespace plugins {
-
-std::vector<ECAL::ChannelData> ChannelStatus::getChannelStatus(
-    const ECAL::Run& run,
-    const int iz) const {
+std::vector<ECAL::ChannelData> getCS(const ECAL::Run& run, const int iz) {
   const string url = geturl(run, iz);
   if (iz != 0) {
     const auto content =
@@ -99,24 +92,29 @@ std::vector<ECAL::ChannelData> ChannelStatus::getChannelStatus(
   return cd;
 }
 
+}  // namespace
+
+namespace dqmcpp {
+namespace plugins {
+
 std::vector<ECAL::ChannelData> ChannelStatus::getChannelStatus(
-    const ECAL::Run& run) const {
+    const ECAL::Run& run) {
   std::vector<ECAL::ChannelData> cd;
   for (int iz = -1; iz <= 1; ++iz) {
-    const auto _tmp = getChannelStatus(run, iz);
+    const auto _tmp = getCS(run, iz);
     cd.insert(cd.end(), _tmp.begin(), _tmp.end());
   }
   return cd;
 }
 
 int ChannelStatus::getChannelStatus(const ECAL::Run& run,
-                                    const ECAL::Channel& channel) const {
+                                    const ECAL::Channel& channel) {
   int iz = 0;
   if (channel.isEEM())
     iz = -1;
   if (channel.isEEP())
     iz = 1;
-  const auto _d = getChannelStatus(run, iz);
+  const auto _d = getCS(run, iz);
   auto it = std::find_if(_d.begin(), _d.end(),
                          [&channel](const ECAL::ChannelData& cd) {
                            return cd.channel == channel;

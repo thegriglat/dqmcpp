@@ -82,7 +82,6 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
 
   writers::Gnuplot2DWriter::Data2D data;
   ECAL::Run lastrun(rundata.back().run);
-  auto cs = new plugins::ChannelStatus();
   vector<pair<ECAL::Channel, int>> analyzed_channels;
   for (auto& rd : rundata) {
     const auto runstr = std::to_string(rd.run.runnumber);
@@ -94,7 +93,8 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
                              });
       int channel_status;
       if (it == analyzed_channels.end()) {
-        channel_status = cs->getChannelStatus(lastrun, chd.channel);
+        channel_status =
+            plugins::ChannelStatus::getChannelStatus(lastrun, chd.channel);
         analyzed_channels.push_back({chd.channel, channel_status});
       } else {
         channel_status = it->second;
