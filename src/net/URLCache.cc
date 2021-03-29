@@ -12,7 +12,7 @@ namespace {
 
 using namespace dqmcpp;
 using namespace dqmcpp::common;
-net::URLHandler* _urlhandler = new net::URLHandler();
+net::URLHandler urlhandler;
 const std::string CACHEDIR = "/tmp";
 
 /**
@@ -77,7 +77,7 @@ std::string URLCache::get(const std::string& url) {
   if (has(url)) {
     return getFromCache(url);
   }
-  const auto content = _urlhandler->get(url);
+  const auto content = urlhandler.get(url);
   add(url, content);
   return content;
 }
