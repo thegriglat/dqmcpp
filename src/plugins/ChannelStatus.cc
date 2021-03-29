@@ -77,34 +77,77 @@ struct ChannelDataTT : public dqmcpp::ECAL::ChannelData {
 namespace dqmcpp {
 namespace plugins {
 
+std::vector<ECAL::ChannelData> ChannelStatus::getChannelStatus(
+    const ECAL::Run& run,
+    const int iz) const {
+  const string url = geturl(run, iz);
+  if (iz != 0) {
+    const auto content = reader->parse(reader->get(url));
+    return content;
+  }
+  // for EB we have to transform Data2D to ChannelData as DQM rotates
+  // histogram
+  std::vector<ECAL::ChannelData> cd;
+  const auto content = reader->parse2D(reader->get(url));
+  cd.reserve(content.size());
+  for (auto& e : content) {
+    cd.push_back(ECAL::Data2D2Channel(e));
+  }
+  return cd;
+}
+
+std::vector<ECAL::ChannelData> ChannelStatus::getChannelStatus(
+    const ECAL::Run& run) const {
+  std::vector<ECAL::ChannelData> cd;
+  for (int iz = -1; iz <= 1; ++iz) {
+    const auto _tmp = getChannelStatus(run, iz);
+    cd.insert(cd.end(), _tmp.begin(), _tmp.end());
+  }
+  return cd;
+}
+
+int ChannelStatus::getChannelStatus(const ECAL::Run& run,
+                                    const ECAL::Channel& channel) const {
+  int iz = 0;
+  if (channel.isEEM())
+    iz = -1;
+  if (channel.isEEP())
+    iz = 1;
+  const auto _d = getChannelStatus(run, iz);
+  auto it = std::find_if(_d.begin(), _d.end(),
+                         [&channel](const ECAL::ChannelData& cd) {
+                           return cd.channel == channel;
+                         });
+  if (it == _d.end())
+    return 0;
+  return it->value;
+}
+
 void ChannelStatus::Process() {
   writers::ProgressBar progress(runListReader->runs().size());
   vector<pair<int, ChannelDataTT>> channeldata;
   vector<pair<int, ChannelDataTT>> ttdata;
   for (auto& run : runListReader->runs()) {
     progress.setLabel(to_string(run.runnumber));
+    const auto rd = getChannelStatus(run);
     for (int iz = -1; iz <= 1; ++iz) {
-      const string url = geturl(run, iz);
-      vector<vector<ChannelDataTT>> clusters;
-      if (iz != 0) {
-        const auto content = reader->parse(reader->get(url));
-        vector<ChannelDataTT> cdtt;
-        cdtt.reserve(content.size());
-        for (auto& c : content) {
-          cdtt.emplace_back(c);
+      vector<ChannelDataTT> channelttdata;
+      {
+        const auto channelD =
+            common::filter(rd, [iz](const ECAL::ChannelData& cd) {
+              if (iz == 0 && cd.channel.isEB())
+                return true;
+              if (iz == 1 && cd.channel.isEEP())
+                return true;
+              if (iz == -1 && cd.channel.isEEM())
+                return true;
+              return false;
+            });
+        for (auto& c : channelD) {
+          channelttdata.push_back(c);
         }
-        clusters = common::clusters(cdtt, 1, channelDistance);
-      } else {
-        // for EB we have to transform Data2D to ChannelData as DQM rotates
-        // histogram
-        const auto content = reader->parse2D(reader->get(url));
-        vector<ChannelDataTT> chdata;
-        chdata.reserve(content.size());
-        for (auto& e : content) {
-          chdata.push_back(ECAL::Data2D2Channel(e));
-        }
-        clusters = common::clusters(chdata, 1, channelDistance);
       }
+      const auto clusters = common::clusters(channelttdata, 1, channelDistance);
       /*
        1. get separately TT and channels
        2. make history plot for TT and channels
