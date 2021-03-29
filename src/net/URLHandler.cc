@@ -76,6 +76,8 @@ URLHandler::URLHandler() {
     curl_easy_setopt(_curl, CURLOPT_SSLKEY, pKeyFile.c_str());
     // TCP Keep Alive
     curl_easy_setopt(_curl, CURLOPT_TCP_KEEPALIVE, 1UL);
+    curl_easy_setopt(_curl, CURLOPT_TCP_KEEPIDLE, 120L);
+    curl_easy_setopt(_curl, CURLOPT_TCP_KEEPINTVL, 60L);
     // curl_easy_setopt(curl, CURLOPT_CAINFO, pCACertFile);
     curl_easy_setopt(_curl, CURLOPT_TCP_NODELAY, 1L);
     // max buffer size
@@ -84,6 +86,7 @@ URLHandler::URLHandler() {
     curl_easy_setopt(_curl, CURLOPT_MAXCONNECTS, 10L);
     curl_easy_setopt(_curl, CURLOPT_ACCEPT_ENCODING,
                      "gzip,bzip2,deflate,br,zstd");
+    curl_easy_setopt(_curl, CURLOPT_HTTPGET, 1L);
   }
 }
 
