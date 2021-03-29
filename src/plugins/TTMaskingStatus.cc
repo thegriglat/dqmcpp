@@ -106,7 +106,8 @@ std::vector<RunTTData> TTMaskingStatus::Init() {
       if (url.isEB) {
         // parse as tt
         /** .... uhh */
-        auto q = reader->parse2D(reader->get(url.url));
+        auto q =
+            readers::JSONReader::parse2D(readers::JSONReader::get(url.url));
 
         for (auto& e : q) {
           // find tt by channel coord
@@ -126,7 +127,8 @@ std::vector<RunTTData> TTMaskingStatus::Init() {
       } else {
         // EE+ or EE-
         // parse as usual channel json
-        auto data_det = reader->parse(reader->get(url.url));
+        auto data_det =
+            readers::JSONReader::parse(readers::JSONReader::get(url.url));
         data_tt = channel2TT(data_det);
       }
       for (auto& e : data_tt) {

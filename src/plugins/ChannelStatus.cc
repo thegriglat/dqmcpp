@@ -13,6 +13,7 @@
 #include "../common/gnuplot.hh"
 #include "../ecalchannels/ECALChannels.hh"
 #include "../net/DQMURLProvider.hh"
+#include "../readers/JSONReader.hh"
 #include "../writers/Gnuplot2DWriter.hh"
 #include "../writers/ProgressBar.hh"
 
@@ -82,13 +83,15 @@ std::vector<ECAL::ChannelData> ChannelStatus::getChannelStatus(
     const int iz) const {
   const string url = geturl(run, iz);
   if (iz != 0) {
-    const auto content = reader->parse(reader->get(url));
+    const auto content =
+        readers::JSONReader::parse(readers::JSONReader::get(url));
     return content;
   }
   // for EB we have to transform Data2D to ChannelData as DQM rotates
   // histogram
   std::vector<ECAL::ChannelData> cd;
-  const auto content = reader->parse2D(reader->get(url));
+  const auto content =
+      readers::JSONReader::parse2D(readers::JSONReader::get(url));
   cd.reserve(content.size());
   for (auto& e : content) {
     cd.push_back(ECAL::Data2D2Channel(e));

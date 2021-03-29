@@ -11,6 +11,7 @@
 #include <string>
 #include "../common/common.hh"
 #include "../ecalchannels/ECALChannels.hh"
+#include "../readers/JSONReader.hh"
 #include "../writers/Gnuplot2DWriter.hh"
 #include "../writers/ProgressBar.hh"
 #include "ChannelStatus.hh"
@@ -83,7 +84,6 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
   ECAL::Run lastrun(rundata.back().run);
   auto cs = new plugins::ChannelStatus();
   vector<pair<ECAL::Channel, int>> analyzed_channels;
-  cs->setReader(reader);
   for (auto& rd : rundata) {
     const auto runstr = std::to_string(rd.run.runnumber);
     for (auto& chd : rd.data) {
@@ -124,6 +124,7 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
 
 vector<ECAL::RunChannelData> ChannelPlugin::getRunData(void) {
   using namespace std;
+  using namespace dqmcpp;
   vector<ECAL::RunChannelData> rundata;
   writers::ProgressBar progress;
   for (auto& run : runListReader->runs()) {
@@ -132,7 +133,7 @@ vector<ECAL::RunChannelData> ChannelPlugin::getRunData(void) {
     progress.setMaxValue(urls(run).size() * runListReader->runs().size());
     progress.setLabel(to_string(run.runnumber));
     for (auto& url : urls(run)) {
-      auto data_tt = reader->parse(reader->get(url));
+      auto data_tt = readers::JSONReader::parse(net::URLCache::get(url));
       for (auto& e : data_tt)
         data.push_back(e);
       progress.increment();

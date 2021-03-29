@@ -59,7 +59,8 @@ void Timing::Process() {
     for (auto& run : runListReader->runs()) {
       const auto url = get_url(run.runnumber, run.dataset, iz);
       cout << url.url << endl;
-      const auto content = reader->parse1D(reader->get(url.url));
+      const auto content =
+          readers::JSONReader::parse1D(readers::JSONReader::get(url.url));
       const auto default_a = (iz == 0) ? 1e4 : 1e3;
       const auto gauss_fit = common::gnuplot::gauss(default_a, 0.1, 1.0);
       const auto fit_result = common::gnuplot::fit(

@@ -168,7 +168,8 @@ void FEStatusBits::Process() {
     vector<TTInfo> data;
     for (auto& url : urls(run.runnumber, run.dataset)) {
       //   cout << url.url << endl;
-      auto data_json = reader->parse2D(reader->get(url.url));
+      auto data_json =
+          readers::JSONReader::parse2D(readers::JSONReader::get(url.url));
       vector<TTInfo> data_tt;
       data_tt.reserve(data_json.size());
       for (auto& e : data_json)

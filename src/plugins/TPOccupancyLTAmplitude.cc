@@ -179,7 +179,8 @@ vector<TPOccupancyLTAmplitude::RunL1Data> TPOccupancyLTAmplitude::getRunData(
   rundata.reserve(runListReader->runs().size());
   for (auto& run : runListReader->runs()) {
     const auto url = (eb) ? geturl(run, sm) : geturl_ee(run, sm);
-    const auto content = reader->parse(reader->get(url));
+    const auto content =
+        readers::JSONReader::parse(readers::JSONReader::get(url));
     rundata.emplace_back(run, content);
   }
   return rundata;

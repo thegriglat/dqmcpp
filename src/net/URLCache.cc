@@ -10,7 +10,11 @@
 
 namespace {
 
+using namespace dqmcpp;
 using namespace dqmcpp::common;
+net::URLHandler* _urlhandler = new net::URLHandler();
+const std::string CACHEDIR = "/tmp";
+
 /**
  * @brief Removes http://, https:// etc.
  *
@@ -23,33 +27,24 @@ std::string removeProtocol(const std::string& url) {
   return url.substr(pos + protodelimeter.length());
 }
 
-}  // namespace
-
-namespace dqmcpp {
-namespace net {
-
-void URLCache::setCacheDir(const std::string& dir) {
-  _cachedir = dir;
-}
-
-std::string URLCache::getCacheDir(void) const {
+std::string getCacheDir(void) {
   auto env = std::getenv("CACHEDIR");
   if (env)
     return env;
-  return _cachedir;
+  return CACHEDIR;
 }
 
-std::string URLCache::hash(const std::string& text) const {
+std::string hash(const std::string& text) {
   // return basename
   auto s = split(text, "/");
   return s.back();
 }
-std::string URLCache::cFileName(const std::string& url) const {
+std::string cFileName(const std::string& url) {
   auto dirpath = getCacheDir() + "/" + dirname(removeProtocol(url));
   mkdir_p(dirpath);
   return dirpath + "/" + hash(url);
 }
-std::string URLCache::getFromCache(const std::string& url) const {
+std::string getFromCache(const std::string& url) {
   // assuming that file exists
   std::ifstream in(cFileName(url));
   std::string content;
@@ -63,15 +58,20 @@ std::string URLCache::getFromCache(const std::string& url) const {
   return content;
 }
 
-void URLCache::add(const std::string& url, const std::string& content) {
+void add(const std::string& url, const std::string& content) {
   std::ofstream out(cFileName(url));
   out << content;
   out.close();
 }
 
-bool URLCache::has(const std::string& url) const {
+bool has(const std::string& url) {
   return file_exists(cFileName(url));
 }
+
+}  // namespace
+
+namespace dqmcpp {
+namespace net {
 
 std::string URLCache::get(const std::string& url) {
   if (has(url)) {

@@ -114,7 +114,8 @@ void FEErrorClusterSize::Process() {
     const auto urllist = urls(runnumber, dataset);
     for (auto& url : urllist) {
       const auto iz = url.iz;
-      auto data2d = reader->parse2D(reader->get(url.url), false);
+      auto data2d = readers::JSONReader::parse2D(
+          readers::JSONReader::get(url.url), false);
       auto it = std::remove_if(
           data2d.begin(), data2d.end(),
           [](const ECAL::Data2D& d2d) { return common::isNotZero(d2d.value); });

@@ -27,14 +27,12 @@ int main(int argc, char** argv) {
   auto plugin_names = common::split(argv[1], ",");
   if (common::has(plugin_names, std::string("all")))
     plugin_names = plugins::list();
-  auto reader = new readers::JSONReader();
   for (auto plugin_name : plugin_names) {
     std::cout << "##### RUN " << plugin_name << " #####" << std::endl;
     auto plugin = plugins::get(plugin_name);
     if (!plugin) {
       exit(1);
     }
-    plugin->setReader(reader);
     readers::RunListReader rlr(argv[2]);
     plugin->setRunListReader(&rlr);
     plugin->Process();

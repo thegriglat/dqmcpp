@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 #include "../ECAL/ECAL.hh"
-#include "../readers/Reader.hh"
+#include "../readers/JSONReader.hh"
 #include "../readers/RunListReader.hh"
 
 namespace dqmcpp {
@@ -15,7 +15,6 @@ namespace plugins {
 
 class Plugin {
  protected:
-  dqmcpp::readers::Reader* reader = nullptr;
   dqmcpp::readers::RunListReader* runListReader = nullptr;
 
  public:
@@ -24,14 +23,7 @@ class Plugin {
    *
    */
   virtual void Process(void) = 0;
-  /**
-   * @brief Set the Reader object
-   *
-   * @param UrlReader Reader* pointer
-   */
-  inline void setReader(dqmcpp::readers::Reader* UrlReader) {
-    reader = UrlReader;
-  }
+
   /**
    * @brief Set the Run List Reader object
    *

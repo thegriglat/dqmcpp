@@ -48,10 +48,8 @@ std::vector<URLType> urls(const unsigned int runnumber,
 };
 
 vector<ECAL::RunTTData> getMaskedChannels(
-    dqmcpp::readers::Reader* reader,
     dqmcpp::readers::RunListReader* runlistreader) {
   dqmcpp::plugins::TTMaskingStatus ttmasking;
-  ttmasking.setReader(reader);
   ttmasking.setRunListReader(runlistreader);
   return ttmasking.get();
 };
@@ -74,7 +72,8 @@ std::vector<ECAL::RunTTData> TTF4Occupancy::readTT() {
       if (url.isEB) {
         // parse as tt
         /** .... uhh */
-        auto q = reader->parse2D(reader->get(url.url));
+        auto q =
+            readers::JSONReader::parse2D(readers::JSONReader::get(url.url));
 
         for (auto& e : q) {
           // find tt by channel coord
@@ -94,7 +93,8 @@ std::vector<ECAL::RunTTData> TTF4Occupancy::readTT() {
       } else {
         // EE+ or EE-
         // parse as usual channel json
-        auto data_det = reader->parse(reader->get(url.url));
+        auto data_det =
+            readers::JSONReader::parse(readers::JSONReader::get(url.url));
         data_tt = channel2TT(data_det);
       }
       for (auto& e : data_tt) {
@@ -108,7 +108,7 @@ std::vector<ECAL::RunTTData> TTF4Occupancy::readTT() {
 
 void TTF4Occupancy::Process() {
   using namespace dqmcpp;
-  auto maskedtt = getMaskedChannels(reader, runListReader);
+  auto maskedtt = getMaskedChannels(runListReader);
   auto occupancy_tt = readTT();
   occupancy_tt = filterZeroTT(occupancy_tt);
   // scale to max

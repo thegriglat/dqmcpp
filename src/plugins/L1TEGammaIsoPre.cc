@@ -89,7 +89,7 @@ void L1TEGammaIsoPrePlugin::Process() {
   for (auto& run : runListReader->runs()) {
     auto url = urls(run.runnumber, run.dataset);
     cout << run.dataset << " " << url << endl;
-    auto content = reader->parse2D(reader->get(url));
+    auto content = readers::JSONReader::parse2D(readers::JSONReader::get(url));
     if (content.size() == 0)
       continue;
     content = filter0m1(content);

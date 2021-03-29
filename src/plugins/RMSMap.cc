@@ -71,7 +71,7 @@ void RMSMap::Process() {
     vector<ECAL::ChannelData> data;
     data.reserve(ECAL::NTotalChannels);
     for (auto& url : urls(run.runnumber, run.dataset)) {
-      auto data_tt = reader->parse(reader->get(url));
+      auto data_tt = readers::JSONReader::parse(readers::JSONReader::get(url));
       for (auto& e : data_tt)
         data.push_back(e);
     }

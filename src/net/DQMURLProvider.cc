@@ -25,8 +25,6 @@ using namespace std;
 
 namespace {
 
-dqmcpp::net::URLCache* cache = nullptr;
-
 /**
  * @brief Replace specific symbols in url
  *
@@ -150,16 +148,14 @@ std::string dqmurl(const unsigned int run,
 std::vector<ECAL::Run> runs(const unsigned int runnumber,
                             const std::string mask,
                             const bool useLast) {
-  if (!cache)
-    cache = new URLCache();
   auto session = DQMSession::get();
   // firstly we need to GET chooseSample to init ??? in DQM
-  cache->get("https://cmsweb.cern.ch/dqm/offline/session/" + session +
-             "/chooseSample?vary=run;order=dataset");
+  net::URLCache::get("https://cmsweb.cern.ch/dqm/offline/session/" + session +
+                     "/chooseSample?vary=run;order=dataset");
   const std::string query =
       "https://cmsweb.cern.ch/dqm/offline/session/" + session +
       "/modify?vary=any;order=dataset;pat=" + std::to_string(runnumber);
-  auto content = cache->get(query);
+  auto content = net::URLCache::get(query);
 
   // erase first and last ( )
   content.erase(0, 1);

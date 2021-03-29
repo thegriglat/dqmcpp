@@ -5,12 +5,11 @@
  */
 #include "DQMSession.hh"
 #include <fstream>
-#include "URLHandler.hh"
+#include "URLCache.hh"
 
 #define TMPFILE ".dqmsession"
 
 namespace {
-dqmcpp::net::URLHandler urlhdlr;
 const std::string SESSIONURL = "https://cmsweb.cern.ch/dqm/offline/session/";
 
 // local string cache
@@ -19,7 +18,7 @@ std::string currentSession = "";
 bool sessionExpired(const std::string& session) {
   if (session.size() == 0)
     return true;
-  auto content = urlhdlr.get(SESSIONURL + session);
+  auto content = dqmcpp::net::URLCache::get(SESSIONURL + session);
   /*
    If expired smth like
    ===
@@ -75,7 +74,7 @@ We should not use URLCache to be sure that new session returns every time
     }
   }
   // otherwise -- get new session
-  auto content = urlhdlr.get(SESSIONURL);
+  auto content = dqmcpp::net::URLCache::get(SESSIONURL);
 
   // Returns smth like:
   // <html><head><script>location.replace('/dqm/offline/session/ABMTY3')</script></head><body><noscript>Please

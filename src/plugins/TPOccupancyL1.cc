@@ -62,7 +62,8 @@ vector<TPOccupancyL1::RunL1Data> TPOccupancyL1::getRunData(void) {
   for (auto& run : runListReader->runs()) {
     progress.setLabel(to_string(run.runnumber));
     const auto url = geturl(run);
-    const auto content = reader->parse2D(reader->get(url));
+    const auto content =
+        readers::JSONReader::parse2D(readers::JSONReader::get(url));
     rundata.emplace_back(run, content);
     progress.increment();
   }
