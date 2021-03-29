@@ -1,7 +1,7 @@
 #ifndef CHANNELSTATUSMAP_HH
 
 #include "../ECAL/ECAL.hh"
-#include "Plugin.hh"
+#include "Plugins.hh"
 
 namespace dqmcpp {
 namespace plugins {
@@ -13,6 +13,7 @@ class ChannelStatus : public Plugin {
   static int getChannelStatus(const ECAL::Run& run,
                               const ECAL::Channel& channel);
 };
+
 }  // namespace plugins
 }  // namespace dqmcpp
 

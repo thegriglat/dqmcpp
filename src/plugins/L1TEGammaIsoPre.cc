@@ -18,6 +18,8 @@
 
 using namespace std;
 
+REGISTER_PLUGIN(L1TEGammaIsoPrePlugin)
+
 namespace {
 
 using namespace dqmcpp;

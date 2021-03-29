@@ -4,7 +4,7 @@
  * @author Grigory Latyshev (thegriglat@gmail.com)
  * @brief ECAL RMS G12 plugin
  */
-#include "Plugin.hh"
+#include "Plugins.hh"
 
 #include <functional>
 #include <string>

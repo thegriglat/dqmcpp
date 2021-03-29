@@ -20,6 +20,8 @@
 using namespace std;
 using namespace dqmcpp;
 
+REGISTER_PLUGIN(ChannelStatus)
+
 namespace {
 
 string geturl(const ECAL::Run& run, const int iz) {

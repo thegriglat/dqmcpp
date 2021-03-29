@@ -1,4 +1,4 @@
-#ifndef TTF4MASKINGSTATUS_HH
+#ifndef TTMASKINGSTATUS_HH
 /**
  * @file TTMaskingStatus.hh
  * @author Grigory Latyshev (thegriglat@gmail.com)
@@ -9,7 +9,7 @@
  */
 #include <vector>
 #include "../ECAL/ECAL.hh"
-#include "Plugin.hh"
+#include "Plugins.hh"
 
 namespace dqmcpp {
 namespace plugins {
@@ -25,5 +25,6 @@ class TTMaskingStatus : public Plugin {
 
 }  // namespace plugins
 }  // namespace dqmcpp
-#define TTF4MASKINGSTATUS_HH
+
+#define TTMASKINGSTATUS_HH
 #endif

@@ -8,6 +8,8 @@
 using namespace std;
 using namespace dqmcpp;
 
+REGISTER_PLUGIN(RMSChannels)
+
 namespace dqmcpp {
 namespace plugins {
 

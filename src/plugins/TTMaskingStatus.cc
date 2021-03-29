@@ -15,12 +15,15 @@
 #include "../common/common.hh"
 #include "../ecalchannels/ECALChannels.hh"
 #include "../net/DQMURLProvider.hh"
+#include "../readers/JSONReader.hh"
 #include "../writers/Gnuplot2DWriter.hh"
 
 using namespace dqmcpp::ECAL;
 using namespace dqmcpp;
 
 using namespace std;
+
+REGISTER_PLUGIN(TTMaskingStatus)
 
 namespace {
 

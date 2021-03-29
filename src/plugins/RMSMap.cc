@@ -10,10 +10,13 @@
 #include <string>
 #include "../colors/Colors.hh"
 #include "../net/DQMURLProvider.hh"
+#include "../readers/JSONReader.hh"
 #include "../writers/GnuplotECALWriter.hh"
 #include "../writers/ProgressBar.hh"
 
 using namespace dqmcpp;
+
+REGISTER_PLUGIN(RMSMap)
 
 namespace dqmcpp {
 namespace plugins {

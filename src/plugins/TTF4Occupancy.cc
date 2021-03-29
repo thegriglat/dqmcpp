@@ -11,11 +11,14 @@
 #include "../common/common.hh"
 #include "../ecalchannels/ECALChannels.hh"
 #include "../net/DQMURLProvider.hh"
+#include "../readers/JSONReader.hh"
 #include "../writers/Gnuplot2DWriter.hh"
 #include "TTMaskingStatus.hh"
 
 using namespace std;
 using namespace dqmcpp;
+
+REGISTER_PLUGIN(TTF4Occupancy)
 
 namespace {
 

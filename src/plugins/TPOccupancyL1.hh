@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "../ECAL/ECAL.hh"
-#include "Plugin.hh"
+#include "Plugins.hh"
 
 namespace dqmcpp {
 namespace plugins {

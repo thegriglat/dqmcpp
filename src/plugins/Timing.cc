@@ -9,10 +9,13 @@
 #include "../common/common.hh"
 #include "../common/gnuplot.hh"
 #include "../net/DQMURLProvider.hh"
+#include "../readers/JSONReader.hh"
 #include "../writers/Gnuplot1DWriter.hh"
 
 using namespace std;
 using namespace dqmcpp;
+
+REGISTER_PLUGIN(Timing)
 
 namespace {
 

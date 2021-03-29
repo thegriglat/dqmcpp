@@ -15,21 +15,23 @@ using namespace std;
 using namespace dqmcpp;
 
 int main(int argc, char** argv) {
+  auto& factory = plugins::PluginFactory::Instance();
   if (argc != 3) {
     std::cout << "Usage: " << argv[0] << " <plugin list | all> <runlist file>"
               << std::endl;
     std::cout << "Plugins: " << std::endl;
-    for (auto& name : plugins::list()) {
+    for (auto& name : factory.list()) {
       std::cout << "  " << name << std::endl;
     }
     return 0;
   }
   auto plugin_names = common::split(argv[1], ",");
+
   if (common::has(plugin_names, std::string("all")))
-    plugin_names = plugins::list();
+    plugin_names = factory.list();
   for (auto plugin_name : plugin_names) {
     std::cout << "##### RUN " << plugin_name << " #####" << std::endl;
-    auto plugin = plugins::get(plugin_name);
+    auto plugin = factory.GetPlugin(plugin_name);
     if (!plugin) {
       exit(1);
     }

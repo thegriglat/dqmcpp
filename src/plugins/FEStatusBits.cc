@@ -10,10 +10,13 @@
 #include "../colors/Colors.hh"
 #include "../common/common.hh"
 #include "../net/DQMURLProvider.hh"
+#include "../readers/JSONReader.hh"
 #include "../writers/Gnuplot2DWriter.hh"
 
 using namespace std;
 using namespace dqmcpp;
+
+REGISTER_PLUGIN(FEStatusBits)
 
 namespace {
 

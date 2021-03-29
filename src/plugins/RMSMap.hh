@@ -1,10 +1,10 @@
-#ifndef TESTPLUGIN_HH
+#ifndef RMSMAP_HH
 /**
  * @file RMSMap.hh
  * @author Grigory Latyshev (thegriglat@gmail.com)
  * @brief ECAL RMS G12 map plugin
  */
-#include "Plugin.hh"
+#include "Plugins.hh"
 
 namespace dqmcpp {
 namespace plugins {
@@ -24,5 +24,5 @@ class RMSMap : public Plugin {
 }  // namespace plugins
 }  // namespace dqmcpp
 
-#define TESTPLUGIN_HH
+#define RMSMAP_HH
 #endif

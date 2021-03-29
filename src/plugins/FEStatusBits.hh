@@ -1,6 +1,6 @@
 #ifndef FESTATUSBITS_HH
 
-#include "Plugin.hh"
+#include "Plugins.hh"
 
 namespace dqmcpp {
 namespace plugins {
@@ -17,5 +17,6 @@ class FEStatusBits : public Plugin {
 
 }  // namespace plugins
 }  // namespace dqmcpp
+
 #define FESTATUSBITS_HH
 #endif  // !FESTATUSBITS_HH
