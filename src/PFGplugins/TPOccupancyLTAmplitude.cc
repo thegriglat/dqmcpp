@@ -6,15 +6,15 @@
 #include <set>
 #include <string>
 #include <vector>
-#include "../ECAL/ECAL.hh"
-#include "../ECAL/EELightMonitoringRegions.hh"
-#include "../colors/Colors.hh"
-#include "../common/common.hh"
-#include "../common/gnuplot.hh"
-#include "../net/DQMURLProvider.hh"
-#include "../readers/JSONReader.hh"
-#include "../writers/Gnuplot2DWriter.hh"
-#include "../writers/ProgressBar.hh"
+#include "ECAL/ECAL.hh"
+#include "ECAL/EELightMonitoringRegions.hh"
+#include "colors/Colors.hh"
+#include "common/common.hh"
+#include "common/gnuplot.hh"
+#include "net/DQMURLProvider.hh"
+#include "readers/JSONReader.hh"
+#include "writers/Gnuplot2DWriter.hh"
+#include "writers/ProgressBar.hh"
 
 #define MEDIANUP (1.15)
 #define MEDIANLOW (0.85)

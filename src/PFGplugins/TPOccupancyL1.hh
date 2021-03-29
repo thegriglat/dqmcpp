@@ -1,8 +1,8 @@
 #ifndef TPOCCUPANCYL1_HH
 
 #include <vector>
-#include "../ECAL/ECAL.hh"
-#include "Plugins.hh"
+#include "ECAL/ECAL.hh"
+#include "plugins/Plugins.hh"
 
 namespace dqmcpp {
 namespace plugins {

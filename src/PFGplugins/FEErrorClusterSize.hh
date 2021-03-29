@@ -1,6 +1,6 @@
 #ifndef FEERRORCLUSTERSIZE_HH
 
-#include "Plugins.hh"
+#include "plugins/Plugins.hh"
 
 namespace dqmcpp {
 namespace plugins {

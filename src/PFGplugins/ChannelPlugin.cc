@@ -9,11 +9,11 @@
 #include <functional>
 #include <map>
 #include <string>
-#include "../common/common.hh"
-#include "../ecalchannels/ECALChannels.hh"
-#include "../readers/JSONReader.hh"
-#include "../writers/Gnuplot2DWriter.hh"
-#include "../writers/ProgressBar.hh"
+#include "common/common.hh"
+#include "ecalchannels/ECALChannels.hh"
+#include "readers/JSONReader.hh"
+#include "writers/Gnuplot2DWriter.hh"
+#include "writers/ProgressBar.hh"
 #include "ChannelStatus.hh"
 
 using namespace dqmcpp;

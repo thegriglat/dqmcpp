@@ -4,13 +4,13 @@
  * @author Grigory Latyshev (thegriglat@gmail.com)
  * @brief ECAL RMS G12 plugin
  */
-#include "Plugins.hh"
+#include "plugins/Plugins.hh"
 
 #include <functional>
 #include <string>
 #include <vector>
-#include "../ECAL/ECAL.hh"
-#include "../writers/Gnuplot2D.hh"
+#include "ECAL/ECAL.hh"
+#include "writers/Gnuplot2D.hh"
 
 namespace dqmcpp {
 namespace plugins {

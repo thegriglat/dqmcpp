@@ -4,7 +4,7 @@
  * @author Grigory Latyshev (thegriglat@gmail.com)
  * @brief L1TEGammaIsoPrePlugin
  */
-#include "Plugins.hh"
+#include "plugins/Plugins.hh"
 namespace dqmcpp {
 namespace plugins {
 

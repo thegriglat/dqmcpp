@@ -6,16 +6,16 @@
 #include <map>
 #include <set>
 #include <string>
-#include "../ECAL/ECAL.hh"
-#include "../colors/Colors.hh"
-#include "../common/clusters.hh"
-#include "../common/common.hh"
-#include "../common/gnuplot.hh"
-#include "../ecalchannels/ECALChannels.hh"
-#include "../net/DQMURLProvider.hh"
-#include "../readers/JSONReader.hh"
-#include "../writers/Gnuplot2DWriter.hh"
-#include "../writers/ProgressBar.hh"
+#include "ECAL/ECAL.hh"
+#include "colors/Colors.hh"
+#include "common/clusters.hh"
+#include "common/common.hh"
+#include "common/gnuplot.hh"
+#include "ecalchannels/ECALChannels.hh"
+#include "net/DQMURLProvider.hh"
+#include "readers/JSONReader.hh"
+#include "writers/Gnuplot2DWriter.hh"
+#include "writers/ProgressBar.hh"
 
 using namespace std;
 using namespace dqmcpp;

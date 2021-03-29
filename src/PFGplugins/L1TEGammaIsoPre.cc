@@ -10,11 +10,11 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "../ECAL/ECAL.hh"
-#include "../common/common.hh"
-#include "../net/DQMURLProvider.hh"
-#include "../readers/JSONReader.hh"
-#include "../writers/Gnuplot1DWriter.hh"
+#include "ECAL/ECAL.hh"
+#include "common/common.hh"
+#include "net/DQMURLProvider.hh"
+#include "readers/JSONReader.hh"
+#include "writers/Gnuplot1DWriter.hh"
 
 using namespace std;
 

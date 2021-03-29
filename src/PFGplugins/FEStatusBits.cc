@@ -6,12 +6,12 @@
 #include <set>
 #include <string>
 #include <vector>
-#include "../ECAL/ECAL.hh"
-#include "../colors/Colors.hh"
-#include "../common/common.hh"
-#include "../net/DQMURLProvider.hh"
-#include "../readers/JSONReader.hh"
-#include "../writers/Gnuplot2DWriter.hh"
+#include "ECAL/ECAL.hh"
+#include "colors/Colors.hh"
+#include "common/common.hh"
+#include "net/DQMURLProvider.hh"
+#include "readers/JSONReader.hh"
+#include "writers/Gnuplot2DWriter.hh"
 
 using namespace std;
 using namespace dqmcpp;

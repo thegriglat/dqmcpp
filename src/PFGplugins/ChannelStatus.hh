@@ -1,7 +1,7 @@
 #ifndef CHANNELSTATUSMAP_HH
 
-#include "../ECAL/ECAL.hh"
-#include "Plugins.hh"
+#include "ECAL/ECAL.hh"
+#include "plugins/Plugins.hh"
 
 namespace dqmcpp {
 namespace plugins {

@@ -4,7 +4,7 @@
  * @author Grigory Latyshev (thegriglat@gmail.com)
  * @brief ECAL RMS G12 map plugin
  */
-#include "Plugins.hh"
+#include "plugins/Plugins.hh"
 
 namespace dqmcpp {
 namespace plugins {

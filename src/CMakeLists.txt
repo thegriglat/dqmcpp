@@ -33,6 +33,7 @@ set (libdqmcpplibs
   net
   readers
   writers
+  plugins
   colors
 )
 set (ldqm_sources)
@@ -49,10 +50,12 @@ install(TARGETS dqmcpp LIBRARY)
 
 # Plugins
 set (plugins_sources)
-file(GLOB_RECURSE plugins_FILES ${PROJECT_SOURCE_DIR}/plugins/*.cc)
+file(GLOB_RECURSE plugins_FILES ${PROJECT_SOURCE_DIR}/PFGplugins/*.cc)
 foreach(f ${plugins_FILES})
   list(APPEND plugins_sources ${plugins_FILES})
 endforeach()
+
+include_directories(${CMAKE_SOURCE_DIR}/src)
 
 add_library(dqmplugins SHARED ${plugins_sources})
 target_link_libraries(dqmplugins dqmcpp)
