@@ -13,6 +13,7 @@
 #include "../ecalchannels/ECALChannels.hh"
 #include "../writers/Gnuplot2DWriter.hh"
 #include "../writers/ProgressBar.hh"
+#include "ChannelStatus.hh"
 
 using namespace dqmcpp;
 using namespace std;
@@ -79,14 +80,32 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
     return;
 
   writers::Gnuplot2DWriter::Data2D data;
+  ECAL::Run lastrun(rundata.back().run);
+  auto cs = new plugins::ChannelStatus();
+  vector<pair<ECAL::Channel, int>> analyzed_channels;
+  cs->setReader(reader);
   for (auto& rd : rundata) {
     const auto runstr = std::to_string(rd.run.runnumber);
     for (auto& chd : rd.data) {
       auto channel_info = ECALChannels::find(chd.channel);
+      auto it = std::find_if(analyzed_channels.begin(), analyzed_channels.end(),
+                             [&chd](const pair<ECAL::Channel, int>& pair) {
+                               return pair.first == chd.channel;
+                             });
+      int channel_status;
+      if (it == analyzed_channels.end()) {
+        channel_status = cs->getChannelStatus(lastrun, chd.channel);
+        analyzed_channels.push_back({chd.channel, channel_status});
+      } else {
+        channel_status = it->second;
+      }
+      string channel_status_str = "";
+      if (channel_status != 0)
+        channel_status_str = "^{" + to_string(channel_status) + "}";
       const std::string channelstr =
           channel_info->det() + " TT" + std::to_string(channel_info->tower) +
           " [" + std::to_string(chd.channel.ix_iphi) + "," +
-          std::to_string(chd.channel.iy_ieta) + "]";
+          std::to_string(chd.channel.iy_ieta) + "]" + channel_status_str;
       data.insert({{runstr, channelstr}, chd.value});
     }
   }

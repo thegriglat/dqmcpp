@@ -24,11 +24,11 @@ class ChannelPlugin : public Plugin {
       const std::vector<ECAL::RunChannelData>& rundata,
       std::function<bool(double)> checkfn);
 
-  static void plot(const std::vector<ECAL::RunChannelData>& rundata,
-                   const std::string& filename,
-                   const std::string& title,
-                   const writers::Axis& zaxis,
-                   const writers::Palette& palette);
+  void plot(const std::vector<ECAL::RunChannelData>& rundata,
+            const std::string& filename,
+            const std::string& title,
+            const writers::Axis& zaxis,
+            const writers::Palette& palette);
   std::vector<ECAL::RunChannelData> getRunData(void);
 
  public:
