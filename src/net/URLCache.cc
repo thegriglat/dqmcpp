@@ -113,6 +113,7 @@ std::vector<std::string> URLCache::get(const std::vector<std::string>& urls) {
     const auto index = common::index(urls2download, e.url);
     // if (index != -1) {
     returncontent.push_back(contents.at(index));
+    add(e.url, contents.at(index));
     // }
   }
   return returncontent;
