@@ -1,9 +1,18 @@
 #include "io.hh"
 
-#include <iostream>
 #include "string.hh"
 #include "sys/dir.h"
 #include "sys/stat.h"
+
+namespace {
+bool _mkdir(const std::string& path) {
+  int r = 0;
+  if (!dqmcpp::common::file_exists(path)) {
+    r = mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+  }
+  return (r != -1);
+}
+}  // namespace
 
 namespace dqmcpp {
 namespace common {
@@ -11,18 +20,6 @@ namespace common {
 bool file_exists(const std::string& path) {
   struct stat buffer;
   return (stat(path.c_str(), &buffer) == 0);
-}
-
-bool _mkdir(const std::string& path) {
-  bool success = true;
-  if (!file_exists(path)) {
-    auto r = mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-    success = (r != -1);
-    if (!success) {
-      std::cerr << "Cannot create directory " << path << std::endl;
-    }
-  }
-  return success;
 }
 
 bool mkdir_p(const std::string& path) {
