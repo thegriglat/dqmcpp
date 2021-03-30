@@ -87,6 +87,22 @@ int count(const Collection& list,
   return __count;
 }
 
+template <typename T>
+std::vector<std::vector<T>> chunks(const std::vector<T>& list, const uint n) {
+  std::vector<std::vector<T>> res;
+  const auto size = list.size();
+  uint i = 0;
+  for (i = 0; i < size / n; ++i) {
+    const std::vector<T> slice(list.begin() + i * n,
+                               list.begin() + (i + 1) * n);
+    res.push_back(slice);
+  }
+  // add tail
+  const std::vector<T> slicetail(list.begin() + (i)*n, list.end());
+  res.push_back(slicetail);
+  return res;
+}
+
 }  // namespace common
 }  // namespace dqmcpp
 
