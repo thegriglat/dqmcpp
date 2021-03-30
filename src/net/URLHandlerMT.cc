@@ -7,8 +7,6 @@
 #include "URLHandler.hh"
 
 namespace {
-const uint NThreads = 6;
-
 void download(const std::vector<std::string>& urls,
               std::vector<std::string>& content) {
   dqmcpp::net::URLHandler hdlr;
@@ -25,7 +23,7 @@ namespace net {
 namespace URLHandlerMT {
 
 std::vector<std::string> get(const std::vector<std::string>& urls) {
-  const auto urlchunks = common::chunks(urls, NThreads);
+  const auto urlchunks = common::chunks(urls, 4);
   std::vector<std::thread> threads;
   std::vector<std::vector<std::string>> content;
   // prepare content vector
