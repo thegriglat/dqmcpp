@@ -8,11 +8,15 @@
 #include "JSONReader.hh"
 #include <cmath>
 #include <vector>
+#include "../common/JSONParser.hh"
+#include "../common/json.hh"
 #include "../common/logging.hh"
 #include "../common/math.hh"
+#include "../net/URLCache.hh"
 
 namespace {
 using namespace dqmcpp::ECAL;
+using namespace dqmcpp;
 /**
  * @brief Get iz of ECAL from histo title
  *
@@ -47,50 +51,7 @@ bool isValid(nlohmann::json& j) {
   return true;
 }
 
-}  // namespace
-
-namespace dqmcpp {
-namespace readers {
-
-nlohmann::json JSONReader::parseJSON(const std::string& content) {
-  auto j = nlohmann::json::parse(content);
-  return j;
-}
-
-std::vector<ECAL::ChannelData> JSONReader::parse(nlohmann::json& j) {
-  using namespace std;
-  // check validity of json
-  const auto data2d = parse2D(j);
-  if (data2d.size() == 0)
-    return std::vector<ECAL::ChannelData>();
-  const auto iz = getECALDetector(j["hist"]["title"].get<string>());
-  vector<ECAL::ChannelData> channel_data;
-  const auto xaxis = j["hist"]["xaxis"];
-  const auto xtitle = xaxis["title"].get<string>();
-  const char xsign = (xtitle.find('-') != xtitle.npos) ? -1 : 1;
-  for (auto& datapoint : data2d) {
-    const int x = std::trunc(datapoint.x);
-    const int y = std::trunc(datapoint.y);
-    int ix_iphi;
-    int iy_ieta;
-    if (iz == ECAL::DETECTORS::EB) {
-      // EB
-      // in case of barrel we have to swap x and y values
-      ix_iphi = std::abs(y) + 1;
-      iy_ieta = (x + 1) * xsign;
-    } else {
-      // EE
-      ix_iphi = x + 1;
-      iy_ieta = y + 1;
-    }
-    ECAL::Channel c(ix_iphi, iy_ieta, iz);
-    channel_data.push_back(ECAL::ChannelData(c, datapoint.value));
-  }
-  return channel_data;
-}
-
-std::vector<ECAL::Data2D> JSONReader::parse2D(nlohmann::json& j,
-                                              bool skipZeroes) {
+std::vector<ECAL::Data2D> parse2D(nlohmann::json& j, bool skipZeroes = true) {
   // TODO:: make it common with parse ..
   using namespace std;
   using BinContentList = vector<vector<double>>;
@@ -130,8 +91,39 @@ std::vector<ECAL::Data2D> JSONReader::parse2D(nlohmann::json& j,
   return channel_data;
 }
 
-std::vector<ECAL::Data1D> JSONReader::parse1D(nlohmann::json& j,
-                                              bool skipZeroes) {
+std::vector<dqmcpp::ECAL::ChannelData> parse(nlohmann::json& j) {
+  using namespace std;
+  // check validity of json
+  const auto data2d = parse2D(j);
+  if (data2d.size() == 0)
+    return std::vector<ECAL::ChannelData>();
+  const auto iz = getECALDetector(j["hist"]["title"].get<string>());
+  vector<ECAL::ChannelData> channel_data;
+  const auto xaxis = j["hist"]["xaxis"];
+  const auto xtitle = xaxis["title"].get<string>();
+  const char xsign = (xtitle.find('-') != xtitle.npos) ? -1 : 1;
+  for (auto& datapoint : data2d) {
+    const int x = std::trunc(datapoint.x);
+    const int y = std::trunc(datapoint.y);
+    int ix_iphi;
+    int iy_ieta;
+    if (iz == ECAL::DETECTORS::EB) {
+      // EB
+      // in case of barrel we have to swap x and y values
+      ix_iphi = std::abs(y) + 1;
+      iy_ieta = (x + 1) * xsign;
+    } else {
+      // EE
+      ix_iphi = x + 1;
+      iy_ieta = y + 1;
+    }
+    ECAL::Channel c(ix_iphi, iy_ieta, iz);
+    channel_data.push_back(ECAL::ChannelData(c, datapoint.value));
+  }
+  return channel_data;
+}
+
+std::vector<ECAL::Data1D> parse1D(nlohmann::json& j, bool skipZeroes) {
   // TODO:: make it common with parse ..
   using namespace std;
   using BinContentList = vector<double>;
@@ -160,6 +152,32 @@ std::vector<ECAL::Data1D> JSONReader::parse1D(nlohmann::json& j,
     }
   }
   return channel_data;
+}
+
+}  // namespace
+
+namespace dqmcpp {
+namespace readers {
+
+std::vector<ECAL::Data2D> JSONReader::parse2D(const std::string& content,
+                                              bool skipZeroes) {
+  auto q = common::parseJSON(content);
+  return ::parse2D(q, skipZeroes);
+}
+
+std::vector<ECAL::ChannelData> JSONReader::parse(const std::string& content) {
+  auto q = common::parseJSON(content);
+  return ::parse(q);
+}
+
+std::vector<ECAL::Data1D> JSONReader::parse1D(const std::string& content,
+                                              bool skipZeroes) {
+  auto q = common::parseJSON(content);
+  return ::parse1D(q, skipZeroes);
+}
+
+std::string JSONReader::get(const std::string& url) {
+  return dqmcpp::net::URLCache::get(url);
 }
 
 }  // namespace readers

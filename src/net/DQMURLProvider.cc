@@ -11,6 +11,7 @@
 #include <regex>
 #include <sstream>
 #include <string>
+#include "../common/JSONParser.hh"
 #include "../common/common.hh"
 #include "../readers/JSONReader.hh"
 #include "DQMSession.hh"
@@ -165,7 +166,7 @@ std::vector<ECAL::Run> runs(const unsigned int runnumber,
     if (c == '\'')
       c = '\"';
 
-  auto json_content = dqmcpp::readers::JSONReader::parseJSON(content);
+  auto json_content = dqmcpp::common::parseJSON(content);
   auto j = json_content[1];
   auto j1 = j["items"][0]["items"];
   vector<ECAL::Run> runs;
