@@ -7,6 +7,7 @@
 #include <fstream>
 #include <functional>
 #include "../common/common.hh"
+#include "URLHandler.hh"
 
 namespace {
 

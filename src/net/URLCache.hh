@@ -6,7 +6,6 @@
  */
 
 #include <string>
-#include "URLHandler.hh"
 
 namespace dqmcpp {
 namespace net {
