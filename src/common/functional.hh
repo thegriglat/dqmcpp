@@ -14,7 +14,7 @@ void for_each(Collection col, unop op) {
 }
 
 template <typename T, typename K, typename unop>
-std::vector<K> map(std::vector<T>& col, unop op) {
+std::vector<K> map(const std::vector<T>& col, unop op) {
   std::vector<K> _tmp;
   _tmp.reserve(col.size());
   for (auto& e : col)

@@ -9,12 +9,13 @@
 #include <functional>
 #include <map>
 #include <string>
+#include "ChannelStatus.hh"
 #include "common/common.hh"
 #include "ecalchannels/ECALChannels.hh"
+#include "net/URLCache.hh"
 #include "readers/JSONReader.hh"
 #include "writers/Gnuplot2DWriter.hh"
 #include "writers/ProgressBar.hh"
-#include "ChannelStatus.hh"
 
 using namespace dqmcpp;
 using namespace std;
@@ -132,8 +133,9 @@ vector<ECAL::RunChannelData> ChannelPlugin::getRunData(void) {
     data.reserve(ECAL::NTotalChannels);
     progress.setMaxValue(urls(run).size() * runListReader->runs().size());
     progress.setLabel(to_string(run.runnumber));
-    for (auto& url : urls(run)) {
-      auto data_tt = readers::JSONReader::parse(net::URLCache::get(url));
+    const auto contents = net::URLCache::get(urls(run));
+    for (auto& с : contents) {
+      auto data_tt = readers::JSONReader::parse(с);
       for (auto& e : data_tt)
         data.push_back(e);
       progress.increment();

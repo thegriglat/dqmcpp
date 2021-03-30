@@ -6,6 +6,7 @@
  */
 
 #include <string>
+#include <vector>
 
 namespace dqmcpp {
 namespace net {
@@ -13,6 +14,7 @@ namespace net {
 namespace URLCache {
 
 std::string get(const std::string& url);
+std::vector<std::string> get(const std::vector<std::string>& urls);
 
 };  // namespace URLCache
 }  // namespace net
