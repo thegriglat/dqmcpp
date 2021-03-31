@@ -134,8 +134,8 @@ vector<ECAL::RunChannelData> ChannelPlugin::getRunData(void) {
     progress.setMaxValue(urls(run).size() * runListReader->runs().size());
     progress.setLabel(to_string(run.runnumber));
     const auto contents = net::URLCache::get(urls(run));
-    for (auto& с : contents) {
-      auto data_tt = readers::JSONReader::parse(с);
+    for (auto& c : contents) {
+      auto data_tt = readers::JSONReader::parse(c);
       for (auto& e : data_tt)
         data.push_back(e);
       progress.increment();
