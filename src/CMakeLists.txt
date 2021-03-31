@@ -34,6 +34,7 @@ set (libdqmcpplibs
   writers
   plugins
   colors
+  PFGplugins
 )
 set (ldqm_sources)
 foreach(d ${libdqmcpplibs})
@@ -46,24 +47,14 @@ endforeach()
 add_library(dqmcpp SHARED ${ldqm_sources})
 target_link_libraries(dqmcpp ${CURL_LIBRARIES} ecalchannels)
 
-# Plugins
-set (plugins_sources)
-file(GLOB_RECURSE plugins_FILES ${PROJECT_SOURCE_DIR}/PFGplugins/*.cc)
-foreach(f ${plugins_FILES})
-  list(APPEND plugins_sources ${plugins_FILES})
-endforeach()
-
 include_directories(${CMAKE_SOURCE_DIR}/src)
-
-add_library(dqmplugins SHARED ${plugins_sources})
-target_link_libraries(dqmplugins dqmcpp)
 
 # CLI programs
 file(GLOB CLI_FILES ${PROJECT_SOURCE_DIR}/cli/*.cc)
 foreach(cli ${CLI_FILES})
   get_filename_component(name ${cli} NAME_WE)
   add_executable(${name} ${cli})
-  target_link_libraries(${name} dqmcpp dqmplugins)
+  target_link_libraries(${name} dqmcpp)
 endforeach(cli)
 
 # Install headers
