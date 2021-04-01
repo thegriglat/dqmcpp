@@ -6,6 +6,7 @@
 #include "DQMSession.hh"
 #include <fstream>
 #include "URLCache.hh"
+#include "URLHandler.hh"
 
 #define TMPFILE ".dqmsession"
 
@@ -18,7 +19,8 @@ std::string currentSession = "";
 bool sessionExpired(const std::string& session) {
   if (session.size() == 0)
     return true;
-  auto content = dqmcpp::net::URLCache::get(SESSIONURL + session);
+  dqmcpp::net::URLHandler hdlr;
+  auto content = hdlr.get(SESSIONURL + session);
   /*
    If expired smth like
    ===
@@ -65,6 +67,10 @@ We should not use URLCache to be sure that new session returns every time
     // get() called multiple times at one program call
     return currentSession;
   }
+  /**
+   * @todo Why we do at least one GET request in any case?
+   * int sessionExpired() and in current fn
+   */
   {
     auto session = getCachedSession();
     if (!sessionExpired(session)) {
@@ -74,7 +80,8 @@ We should not use URLCache to be sure that new session returns every time
     }
   }
   // otherwise -- get new session
-  auto content = dqmcpp::net::URLCache::get(SESSIONURL);
+  net::URLHandler urlhdlr;
+  auto content = urlhdlr.get(SESSIONURL);
 
   // Returns smth like:
   // <html><head><script>location.replace('/dqm/offline/session/ABMTY3')</script></head><body><noscript>Please
