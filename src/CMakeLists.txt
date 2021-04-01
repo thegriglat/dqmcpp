@@ -14,6 +14,15 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
+if(NOT PFGPLUGINS )
+  message(STATUS "Will not build PFG plugins as -DPFGPLUGINS not specified ")
+  set(PFGPLUGINS "OFF" CACHE
+      STRING "Build PFG plugins" FORCE)
+  # Set the possible values of build type for cmake-gui
+  set_property(CACHE PFGPLUGINS PROPERTY STRINGS
+    "ON" "OFF")
+endif()
+
 # CURL
 
 set(CURL_LIBRARY "-lcurl") 
@@ -31,8 +40,12 @@ set (libdqmcpplibs
   plugins
   colors
   ecalchannels
-  PFGplugins
 )
+
+if (PFGPLUGINS)
+list(APPEND libdqmcpplibs "PFGplugins")
+endif()
+
 set (ldqm_sources)
 foreach(d ${libdqmcpplibs})
   file(GLOB_RECURSE SRC_FILES ${PROJECT_SOURCE_DIR}/${d}/*.cc)
