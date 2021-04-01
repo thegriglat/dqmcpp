@@ -21,10 +21,6 @@ find_package(CURL REQUIRED)
 include_directories(${CURL_INCLUDE_DIR})
 include_directories(${PROJECT_SOURCE_DIR})
 
-# libecalchannels
-file(GLOB_RECURSE ecalchannels_src ${PROJECT_SOURCE_DIR}/ecalchannels/*.cc )
-add_library(ecalchannels SHARED ${ecalchannels_src} )
-
 #libdqmcpp
 set (libdqmcpplibs
   common
@@ -34,6 +30,7 @@ set (libdqmcpplibs
   writers
   plugins
   colors
+  ecalchannels
   PFGplugins
 )
 set (ldqm_sources)
@@ -45,7 +42,7 @@ foreach(d ${libdqmcpplibs})
 endforeach()
 
 add_library(dqmcpp SHARED ${ldqm_sources})
-target_link_libraries(dqmcpp ${CURL_LIBRARIES} ecalchannels)
+target_link_libraries(dqmcpp ${CURL_LIBRARIES})
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
