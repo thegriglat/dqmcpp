@@ -20,6 +20,8 @@
 using namespace dqmcpp;
 using namespace std;
 
+#define MAXSTATUS4BOX (10)
+
 namespace dqmcpp {
 namespace plugins {
 
@@ -82,32 +84,21 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
     return;
 
   writers::Gnuplot2DWriter::Data2D data;
-  ECAL::Run lastrun(rundata.back().run);
-  vector<pair<ECAL::Channel, int>> analyzed_channels;
+  std::vector<std::pair<std::string, std::string>> boxes;
   for (auto& rd : rundata) {
-    const auto runstr = std::to_string(rd.run.runnumber);
+    const auto xlabel = std::to_string(rd.run.runnumber);
     for (auto& chd : rd.data) {
       auto channel_info = ECALChannels::find(chd.channel);
-      auto it = std::find_if(analyzed_channels.begin(), analyzed_channels.end(),
-                             [&chd](const pair<ECAL::Channel, int>& pair) {
-                               return pair.first == chd.channel;
-                             });
-      int channel_status;
-      if (it == analyzed_channels.end()) {
-        channel_status =
-            plugins::ChannelStatus::getChannelStatus(lastrun, chd.channel);
-        analyzed_channels.push_back({chd.channel, channel_status});
-      } else {
-        channel_status = it->second;
+      int channel_status =
+          plugins::ChannelStatus::getChannelStatus(rd.run, chd.channel);
+      const std::string ylabel = channel_info->det() + " TT" +
+                                 std::to_string(channel_info->tower) + " [" +
+                                 std::to_string(chd.channel.ix_iphi) + "," +
+                                 std::to_string(chd.channel.iy_ieta) + "]";
+      if (channel_status > MAXSTATUS4BOX) {
+        boxes.emplace_back(xlabel, ylabel);
       }
-      string channel_status_str = "";
-      if (channel_status != 0)
-        channel_status_str = "^{" + to_string(channel_status) + "}";
-      const std::string channelstr =
-          channel_info->det() + " TT" + std::to_string(channel_info->tower) +
-          " [" + std::to_string(chd.channel.ix_iphi) + "," +
-          std::to_string(chd.channel.iy_ieta) + "]" + channel_status_str;
-      data.insert({{runstr, channelstr}, chd.value});
+      data.insert({{xlabel, ylabel}, chd.value});
     }
   }
   std::ofstream out(filename + ".plt");
@@ -118,6 +109,9 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
   const int ztick = (zaxis.maxd() - zaxis.mind()) / 10.;
   writer.setZTick(ztick);
   writer.setOutput(filename + ".png");
+  for (auto& b : boxes) {
+    writer.addBox(b);
+  }
   out << writer << std::endl;
   out.close();
   return;
