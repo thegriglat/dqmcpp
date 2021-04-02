@@ -37,7 +37,10 @@ std::vector<ECAL::RunChannelData> ChannelPlugin::analyze(
     std::function<bool(double)> checkfn) {
   vector<BadChannel> badchannels_list;
   badchannels_list.reserve(100);
+  writers::ProgressBar progress(rundata.size());
+  progress.setLabel("analyzing...");
   for (auto& e : rundata) {
+    progress.increment();
     for (auto& channeldata : e.data) {
       if (checkfn(channeldata.value)) {
         auto it = std::find_if(badchannels_list.begin(), badchannels_list.end(),
@@ -85,7 +88,10 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
 
   writers::Gnuplot2DWriter::Data2D data;
   std::vector<std::pair<std::string, std::string>> boxes;
+  writers::ProgressBar progress(rundata.size());
+  progress.setLabel("plotting...");
   for (auto& rd : rundata) {
+    progress.increment();
     const auto xlabel = std::to_string(rd.run.runnumber);
     for (auto& chd : rd.data) {
       auto channel_info = ECALChannels::find(chd.channel);
