@@ -1,6 +1,5 @@
 #ifndef PROGRESSBAR_HH
 
-#include <chrono>
 #include <string>
 
 namespace dqmcpp {
@@ -9,15 +8,12 @@ namespace writers {
 class ProgressBar {
  private:
   static constexpr int barWidth = 70;
-  int updateTimingEvery = 20;
   int currentProgress = 0;
   int maxProgressValue = 1;
   std::string label = "";
-  std::chrono::steady_clock::time_point _beginTime;
   void draw(void) const;
   void finish(void) const;
   float progress() const;
-  int getEstimatedTime() const;
   void update(int value);
 
  public:
