@@ -5,9 +5,11 @@
  * @brief Heatmap with noisy RMS channels
  */
 // #include <cmath>
+#include <array>
 #include <fstream>
 #include <functional>
 #include <map>
+#include <set>
 #include <string>
 #include "ChannelStatus.hh"
 #include "common/common.hh"
@@ -21,6 +23,16 @@ using namespace dqmcpp;
 using namespace std;
 
 #define MAXSTATUS4BOX (10)
+
+namespace {
+
+std::string getYlabel(const ECAL::Channel& channel) {
+  auto channel_info = ECALChannels::find(channel);
+  return channel_info->det() + " TT" + std::to_string(channel_info->tower) +
+         " [" + std::to_string(channel.ix_iphi) + "," +
+         std::to_string(channel.iy_ieta) + "]";
+}
+}  // namespace
 
 namespace dqmcpp {
 namespace plugins {
@@ -90,21 +102,25 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
   std::vector<std::pair<std::string, std::string>> boxes;
   writers::ProgressBar progress(rundata.size());
   progress.setLabel("plotting...");
+  std::set<std::array<int, 3>> badchannels;
+  for (auto& rd : rundata) {
+    for (auto& chd : rd.data) {
+      badchannels.insert(chd.channel.asArray());
+    }
+  }
   for (auto& rd : rundata) {
     progress.increment();
     const auto xlabel = std::to_string(rd.run.runnumber);
     for (auto& chd : rd.data) {
-      auto channel_info = ECALChannels::find(chd.channel);
-      int channel_status =
-          plugins::ChannelStatus::getChannelStatus(rd.run, chd.channel);
-      const std::string ylabel = channel_info->det() + " TT" +
-                                 std::to_string(channel_info->tower) + " [" +
-                                 std::to_string(chd.channel.ix_iphi) + "," +
-                                 std::to_string(chd.channel.iy_ieta) + "]";
-      if (channel_status > MAXSTATUS4BOX) {
-        boxes.emplace_back(xlabel, ylabel);
-      }
+      const std::string ylabel = getYlabel(chd.channel);
       data.insert({{xlabel, ylabel}, chd.value});
+    }
+    for (auto& b : badchannels) {
+      const ECAL::Channel c(b[0], b[1], b[2]);
+      int channel_status = plugins::ChannelStatus::getChannelStatus(rd.run, c);
+      if (channel_status > MAXSTATUS4BOX) {
+        boxes.emplace_back(xlabel, getYlabel(c));
+      }
     }
   }
   std::ofstream out(filename + ".plt");

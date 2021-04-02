@@ -111,18 +111,14 @@ std::vector<ECAL::ChannelData> ChannelStatus::getChannelStatus(
 
 int ChannelStatus::getChannelStatus(const ECAL::Run& run,
                                     const ECAL::Channel& channel) {
-  int iz = 0;
-  if (channel.isEEM())
-    iz = -1;
-  if (channel.isEEP())
-    iz = 1;
-  const auto _d = getCS(run, iz);
+  const auto _d = getCS(run, channel.iz);
   auto it = std::find_if(_d.begin(), _d.end(),
                          [&channel](const ECAL::ChannelData& cd) {
                            return cd.channel == channel;
                          });
-  if (it == _d.end())
+  if (it == _d.end()) {
     return 0;
+  }
   return it->value;
 }
 
