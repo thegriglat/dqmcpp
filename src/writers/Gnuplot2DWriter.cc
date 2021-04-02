@@ -42,6 +42,28 @@ void Gnuplot2DWriter::setSortYFn(
   std::sort(_ylabels.begin(), _ylabels.end(), sortfn);
 };
 
+void Gnuplot2DWriter::addBox(const std::string& xlabel,
+                             const std::string& ylabel,
+                             const uint pattern) {
+  const auto xbin = common::index(_xlabels, xlabel);
+  const auto ybin = common::index(_ylabels, ylabel);
+  if (xbin < 0 || ybin < 0)
+    return;
+  boxes.emplace_back(xbin, ybin, pattern);
+}
+
+std::ostream& operator<<(std::ostream& os,
+                         const Gnuplot2DWriter::Rectangle& r) {
+  const float x1 = r.xbin - 0.5;
+  const float x2 = r.xbin + 0.5;
+  const float y1 = r.ybin - 0.5;
+  const float y2 = r.ybin + 0.5;
+  os << "set object rect from " << x1 << "," << y1 << " to " << x2 << "," << y2
+     << "front fc lt -1 fs transparent pattern " << r.pattern << " lw 0"
+     << std::endl;
+  return os;
+}
+
 std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   // prepare default map
 
@@ -105,6 +127,8 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
      << "set xtics scale 0" << std::endl
      << "set ytics scale 0" << std::endl
      << "set title \"" << gw.getTitle() << "\"" << std::endl;
+  for (auto& box : gw.boxes)
+    os << box << std::endl;
   os << "$map1 << EOD" << std::endl;
   os << "N ";
   for (auto& e : gw._xlabels)
