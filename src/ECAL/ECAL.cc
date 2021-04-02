@@ -97,7 +97,7 @@ vector<RunTTData> filterZeroTT(vector<RunTTData>& rundata) {
   return rundata;
 };
 
-ChannelData Data2D2Channel(const Data2D& d2d, DETECTORS iz) {
+ChannelData Data2D2Channel(const Data2D& d2d, const int iz) {
   const int x = std::trunc(d2d.x);
   const int y = std::trunc(d2d.y);
   const int iphi = std::abs(x) + 1;

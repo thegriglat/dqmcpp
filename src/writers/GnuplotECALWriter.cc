@@ -40,9 +40,8 @@ struct Point {
 void writeBarrel(std::ostream& os,
                  ECAL::RunChannelData& rd,
                  const int numdata) {
-  auto barrel = common::filter(rd.data, [](const ECAL::ChannelData& cd) {
-    return cd.channel.iz == ECAL::DETECTORS::EB;
-  });
+  auto barrel = common::filter(
+      rd.data, [](const ECAL::ChannelData& cd) { return cd.channel.isEB(); });
   os << "set xrange [0:360]" << std::endl
      << "set yrange [-85.5: 85.5]" << std::endl
      << "set size ratio 0.472" << std::endl
@@ -99,11 +98,9 @@ void writeEndcap(std::ostream& os,
                  ECAL::RunChannelData& rd,
                  const int numdata,
                  const int iz) {
-  const auto eedet =
-      (iz == 1) ? ECAL::DETECTORS::EEPLUS : ECAL::DETECTORS::EEMINUS;
   const auto endcap = common::filter(
       rd.data,
-      [eedet](const ECAL::ChannelData& cd) { return cd.channel.iz == eedet; });
+      [iz](const ECAL::ChannelData& cd) { return cd.channel.iz == iz; });
   const std::string title = (iz == 1) ? "ECAL EE+" : "ECAL EE-";
   os << "set xrange [0:100]" << std::endl
      << "set yrange [0:100]" << std::endl

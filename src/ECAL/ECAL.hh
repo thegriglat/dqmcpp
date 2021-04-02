@@ -4,6 +4,7 @@
  * @author Grigory Latyshev (thegriglat@gmail.com)
  * @brief ECAL data structure namespace
  */
+#include <array>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -18,7 +19,6 @@ constexpr unsigned int NTotalChannels = NEBChannels + NEEChannels;
  * @brief Explicit enum of ECAL parts
  * Usually shouldn't be casted to int
  */
-enum DETECTORS { EB = 0, EEPLUS = 1, EEMINUS = -1 };
 /**
  * @brief Common 2D data structure
  *
@@ -56,11 +56,16 @@ struct Channel {
   // unsigned long channel_id;
   int ix_iphi;
   int iy_ieta;
-  DETECTORS iz;
-  Channel(int x, int y, DETECTORS z) : ix_iphi(x), iy_ieta(y), iz(z){};
-  inline bool isEB() const { return iz == DETECTORS::EB; };
-  inline bool isEEP() const { return iz == DETECTORS::EEPLUS; };
-  inline bool isEEM() const { return iz == DETECTORS::EEMINUS; };
+  int iz;
+  Channel(const int x, const int y, const int z)
+      : ix_iphi(x), iy_ieta(y), iz(z){};
+  inline bool isEB() const { return iz == 0; };
+  inline bool isEEP() const { return iz == 1; };
+  inline bool isEEM() const { return iz == -1; };
+  inline std::array<int, 3> asArray() const {
+    std::array<int, 3> tmp = {ix_iphi, iy_ieta, iz};
+    return tmp;
+  }
   friend inline std::ostream& operator<<(std::ostream& os, const Channel& c) {
     os << "{x: " << c.ix_iphi << ", y: " << c.iy_ieta << ", z:" << c.iz << "}";
     return os;
@@ -136,7 +141,7 @@ std::vector<RunTTData> filterZeroTT(std::vector<RunTTData>& rundata);
 std::vector<TTData> channel2TT(
     const std::vector<ECAL::ChannelData>& channelData);
 
-ChannelData Data2D2Channel(const Data2D& d2d, DETECTORS iz = DETECTORS::EB);
+ChannelData Data2D2Channel(const Data2D& d2d, const int iz = 0);
 };  // namespace ECAL
 }  // namespace dqmcpp
 #define ECAL_HH

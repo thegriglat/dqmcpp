@@ -55,12 +55,10 @@ ECALChannelsList channels() {
   return _channels;
 }
 
-const ChannelInfo* find(const int ix_iphi,
-                        const int iy_ieta,
-                        const ECAL::DETECTORS iz) {
+const ChannelInfo* find(const int ix_iphi, const int iy_ieta, const int iz) {
   Init();
   ChannelInfo key;
-  if (iz == ECAL::DETECTORS::EB) {
+  if (iz == 0) {
     key.iz = common::sign(iy_ieta);
     key.ix = -999;
     key.iy = -999;

@@ -22,18 +22,18 @@ using namespace dqmcpp;
  *
  * @param title
  */
-DETECTORS getECALDetector(const std::string& title) {
+int getECALDetector(const std::string& title) {
   if (title.find("EB") != title.npos) {
-    return DETECTORS::EB;
+    return 0;
   }
   if (title.find("EE+") != title.npos || title.find("EE +") != title.npos) {
-    return DETECTORS::EEPLUS;
+    return +1;
   }
   if (title.find("EE-") != title.npos || title.find("EE -") != title.npos) {
-    return DETECTORS::EEMINUS;
+    return -1;
   }
   WARNING("Cannot determine ECAL iz from title");
-  return DETECTORS::EB;
+  return 0;
 }
 
 /**
@@ -107,7 +107,7 @@ std::vector<dqmcpp::ECAL::ChannelData> parse(nlohmann::json& j) {
     const int y = std::trunc(datapoint.y);
     int ix_iphi;
     int iy_ieta;
-    if (iz == ECAL::DETECTORS::EB) {
+    if (iz == 0) {
       // EB
       // in case of barrel we have to swap x and y values
       ix_iphi = std::abs(y) + 1;
