@@ -5,6 +5,7 @@
  * @brief Helper class for drawing ECAL
  */
 #include <array>
+#include <ostream>
 #include <vector>
 
 namespace dqmcpp {

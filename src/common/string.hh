@@ -1,6 +1,7 @@
 #ifndef COMMON_STRING_HH
 
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <vector>
 

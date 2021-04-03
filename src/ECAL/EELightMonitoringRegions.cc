@@ -4,7 +4,7 @@
 #include <cmath>
 
 namespace {
-using EELightmonitoringRegions = std::array<std::array<uint8_t, 10>, 20>;
+using EELightmonitoringRegions = std::array<std::array<unsigned int, 10>, 20>;
 // mirrored against x == 50
 const EELightmonitoringRegions EELightMonitoringRegions = {{
 
@@ -35,7 +35,7 @@ const EELightmonitoringRegions EELightMonitoringRegions = {{
 namespace dqmcpp {
 namespace ECAL {
 
-uint8_t EELightMR(const int x, const int y) {
+unsigned int EELightMR(const int x, const int y) {
   if (x < 0 || x > 100)
     return 0;
   if (y < 0 || y > 100)
@@ -49,7 +49,7 @@ uint8_t EELightMR(const int x, const int y) {
   return region;
 };
 
-std::vector<std::pair<int, int>> EELightMRChannels(const uint8_t region) {
+std::vector<std::pair<int, int>> EELightMRChannels(const unsigned int region) {
   std::vector<std::pair<int, int>> channels;
   for (int y = 0; y <= 20; ++y) {
     for (int x = 0; x <= 10; ++x) {

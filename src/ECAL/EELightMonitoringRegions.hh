@@ -13,8 +13,8 @@ namespace ECAL {
  * @param y channel coordinate
  * @return uint8_t
  */
-uint8_t EELightMR(const int x, const int y);
-std::vector<std::pair<int, int>> EELightMRChannels(const uint8_t region);
+unsigned int EELightMR(const int x, const int y);
+std::vector<std::pair<int, int>> EELightMRChannels(const unsigned int region);
 
 }  // namespace ECAL
 }  // namespace dqmcpp
