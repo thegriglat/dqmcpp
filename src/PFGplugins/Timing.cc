@@ -1,5 +1,6 @@
 #include "Timing.hh"
 
+#include <array>
 #include <fstream>
 #include <map>
 #include <string>
@@ -8,6 +9,7 @@
 #include "common/common.hh"
 #include "common/gnuplot.hh"
 #include "net/DQMURLProvider.hh"
+#include "net/URLCache.hh"
 #include "readers/JSONReader.hh"
 #include "writers/Gnuplot1DWriter.hh"
 #include "writers/ProgressBar.hh"
@@ -31,23 +33,17 @@ std::string det(const int iz) {
   return "UNDEFINED";
 }
 
-struct URLInfo {
-  int iz;
-  std::string url;
-  URLInfo(int iz, std::string url) : iz(iz), url(url){};
-};
-
-URLInfo get_url(const int run, const std::string& dataset, const int iz) {
-  vector<URLInfo> a = {
-      {-1, net::DQMURL::dqmurl(run, dataset,
-                               "EcalEndcap/EESummaryClient/EETMT EE - "
-                               "timing mean 1D summary")},
-      {0, net::DQMURL::dqmurl(
-              run, dataset,
-              "EcalBarrel/EBSummaryClient/EBTMT timing mean 1D summary")},
-      {1, net::DQMURL::dqmurl(run, dataset,
-                              "EcalEndcap/EESummaryClient/EETMT EE + "
-                              "timing mean 1D summary")}};
+std::string get_url(const ECAL::Run& run, const int iz) {
+  static const array<std::string, 3> a = {
+      net::DQMURL::dqmurl(run.runnumber, run.dataset,
+                          "EcalEndcap/EESummaryClient/EETMT EE - "
+                          "timing mean 1D summary"),
+      net::DQMURL::dqmurl(
+          run.runnumber, run.dataset,
+          "EcalBarrel/EBSummaryClient/EBTMT timing mean 1D summary"),
+      net::DQMURL::dqmurl(run.runnumber, run.dataset,
+                          "EcalEndcap/EESummaryClient/EETMT EE + "
+                          "timing mean 1D summary")};
   return a.at(iz + 1);
 }
 
@@ -59,12 +55,14 @@ namespace plugins {
 void Timing::Process() {
   writers::ProgressBar progress(3 * runListReader->runs().size());
   for (int iz = -1; iz <= 1; ++iz) {
+    progress.setLabel(det(iz));
     vector<ECAL::RunData<double>> rundata;
-    for (auto& run : runListReader->runs()) {
-      progress.setLabel(det(iz) + " " + to_string(run.runnumber));
-      const auto url = get_url(run.runnumber, run.dataset, iz);
-      const auto content =
-          readers::JSONReader::parse1D(readers::JSONReader::get(url.url));
+    const auto contents = net::URLCache::get(common::map<ECAL::Run, string>(
+        runListReader->runs(),
+        [iz](const ECAL::Run& run) { return get_url(run, iz); }));
+
+    for (unsigned int i = 0; i < contents.size(); ++i) {
+      const auto content = readers::JSONReader::parse1D(contents.at(i));
       const auto default_a = (iz == 0) ? 1e4 : 1e3;
       const auto gauss_fit = common::gnuplot::gauss(default_a, 0.1, 1.0);
       const auto fit_result = common::gnuplot::fit(
@@ -74,7 +72,7 @@ void Timing::Process() {
           },
           gauss_fit);
       const auto mu = fit_result.getParameter("mu").value;
-      rundata.push_back(ECAL::RunData<double>(run, mu));
+      rundata.push_back(ECAL::RunData<double>(runListReader->runs().at(i), mu));
       progress.increment();
     }
     // plot
