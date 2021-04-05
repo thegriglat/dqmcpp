@@ -106,29 +106,27 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
   auto& lastrun = rundata.back().run;
   writers::ProgressBar progress(rundata.size());
   progress.setLabel("plotting...");
-  std::set<std::array<int, 4>> badchannels;
+  std::set<ECAL::Channel> badchannels;
+  std::map<ECAL::Channel, int> channelstatus;
   for (auto& rd : rundata) {
     for (auto& chd : rd.data) {
-      auto cc = chd.channel.asArray();
-      // TODO: optimize this loop, don't get status for every channel
-      std::array<int, 4> c = {
-          cc[0], cc[1], cc[2],
-          plugins::ChannelStatus::getChannelStatus(lastrun, chd.channel)};
-      badchannels.insert(c);
+      badchannels.insert(chd.channel);
     }
+  }
+  for (auto& b : badchannels) {
+    channelstatus[b] = plugins::ChannelStatus::getChannelStatus(lastrun, b);
   }
   for (auto& rd : rundata) {
     progress.increment();
     const auto xlabel = std::to_string(rd.run.runnumber);
     for (auto& b : badchannels) {
-      const ECAL::Channel c(b[0], b[1], b[2]);
-      int channel_status = b[3];
-      const auto ylabel = getYlabel(c, channel_status);
+      int channel_status = channelstatus.at(b);
+      const auto ylabel = getYlabel(b, channel_status);
       if (channel_status > MAXSTATUS4BOX) {
         boxes.emplace_back(xlabel, ylabel);
       }
-      int idx = common::index(rd.data, [&c](const ECAL::ChannelData& cd) {
-        return cd.channel == c;
+      int idx = common::index(rd.data, [&b](const ECAL::ChannelData& cd) {
+        return cd.channel == b;
       });
       if (idx != -1) {
         data.insert({{xlabel, ylabel}, rd.data.at(idx).value});
