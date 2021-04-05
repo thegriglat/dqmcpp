@@ -110,6 +110,7 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
   for (auto& rd : rundata) {
     for (auto& chd : rd.data) {
       auto cc = chd.channel.asArray();
+      // TODO: optimize this loop, don't get status for every channel
       std::array<int, 4> c = {
           cc[0], cc[1], cc[2],
           plugins::ChannelStatus::getChannelStatus(lastrun, chd.channel)};
