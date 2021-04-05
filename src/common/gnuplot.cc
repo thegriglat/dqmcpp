@@ -46,6 +46,7 @@ Fit fit(const std::vector<double>& x,
   }
   ss << "EOD" << endl;
   ss << "set fit quiet" << endl;
+  ss << "set fit logfile '/dev/null'" << endl;
   ss << "f(x) = " << fit.equation << endl;
   vector<string> paramnames;
   for (auto& param : fit.parameters) {
