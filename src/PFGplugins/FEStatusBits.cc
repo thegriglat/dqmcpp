@@ -12,6 +12,7 @@
 #include "net/DQMURLProvider.hh"
 #include "readers/JSONReader.hh"
 #include "writers/Gnuplot2DWriter.hh"
+#include "writers/ProgressBar.hh"
 
 using namespace std;
 using namespace dqmcpp;
@@ -163,11 +164,10 @@ const std::vector<std::string> FEStatusBits::STATUSES = {
     "FIFOFULLL1ADESYNC", "HPARITY",   "VPARITY",   "FORCEDZS"};
 
 void FEStatusBits::Process() {
+  writers::ProgressBar progress(runListReader->runs().size());
   vector<RunTTInfo> rundata;
-  int i = 1;
   for (auto& run : runListReader->runs()) {
-    cout << "Download run #" << run.runnumber << " [" << i << "/"
-         << runListReader->runs().size() << "]" << endl;
+    progress.setLabel(to_string(run.runnumber));
     vector<TTInfo> data;
     for (auto& url : urls(run.runnumber, run.dataset)) {
       //   cout << url.url << endl;
@@ -187,7 +187,7 @@ void FEStatusBits::Process() {
     }
     const RunTTInfo rd(run, data);
     rundata.push_back(rd);
-    ++i;
+    progress.increment();
   }
 
   // get uniq statuses
