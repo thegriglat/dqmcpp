@@ -127,6 +127,8 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
      << "set xtics scale 0" << std::endl
      << "set ytics scale 0" << std::endl
      << "set title \"" << gw.getTitle() << "\"" << std::endl;
+  if (gw.getLogscale().size() != 0)
+    os << "set logscale " << gw.getLogscale() << std::endl;
   for (auto& box : gw.boxes)
     os << box << std::endl;
   os << "$map1 << EOD" << std::endl;

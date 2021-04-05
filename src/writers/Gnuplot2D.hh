@@ -15,6 +15,7 @@ class Gnuplot2D : public Gnuplot {
   Axis _zaxis = {"*", "*"};
   double _cbtick = 1;
   Palette _palette = dqmcpp::colors::PaletteSets::Heatmap;
+  std::string logscale = "";
 
  public:
   using Data2D = std::map<std::pair<std::string, std::string>, double>;
@@ -34,6 +35,8 @@ class Gnuplot2D : public Gnuplot {
   inline void setZ(const double min, const double max) {
     _zaxis = axis(min, max);
   }
+  inline void setLogscale(const std::string ls) { logscale = ls; }
+  inline std::string getLogscale() const { return logscale; }
 };
 
 }  // namespace writers
