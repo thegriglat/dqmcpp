@@ -9,7 +9,9 @@
 #include <fstream>
 #include <string>
 #include "colors/Colors.hh"
+#include "common/common.hh"
 #include "net/DQMURLProvider.hh"
+#include "net/URLCache.hh"
 #include "readers/JSONReader.hh"
 #include "writers/GnuplotECALWriter.hh"
 #include "writers/ProgressBar.hh"
@@ -24,26 +26,24 @@ namespace plugins {
 std::vector<std::string> RMSMap::urls(const unsigned int runnumber,
                                       const std::string& dataset) {
   std::vector<std::string> urls;
-  char* plot = new char[72];
   for (int i = -18; i < 19; ++i) {
     if (i == 0)
       continue;
-    sprintf(
-        plot,
-        "EcalBarrel/EBPedestalOnlineClient/EBPOT pedestal rms map G12 EB%+03d",
-        i);
-    urls.push_back(net::DQMURL::dqmurl(runnumber, dataset, plot));
+    urls.push_back(net::DQMURL::dqmurl(
+        runnumber, dataset,
+        common::string_format("EcalBarrel/EBPedestalOnlineClient/EBPOT "
+                              "pedestal rms map G12 EB%+03d",
+                              i)));
   }
   for (int i = -9; i < 10; ++i) {
     if (i == 0)
       continue;
-    sprintf(
-        plot,
-        "EcalEndcap/EEPedestalOnlineClient/EEPOT pedestal rms map G12 EE%+03d",
-        i);
-    urls.push_back(net::DQMURL::dqmurl(runnumber, dataset, plot));
+    urls.push_back(net::DQMURL::dqmurl(
+        runnumber, dataset,
+        common::string_format("EcalEndcap/EEPedestalOnlineClient/EEPOT "
+                              "pedestal rms map G12 EE%+03d",
+                              i)));
   }
-  delete[] plot;
   return urls;
 }
 std::vector<ECAL::RunChannelData> RMSMap::analyze(
@@ -73,10 +73,10 @@ void RMSMap::Process() {
     progress.setLabel(to_string(run.runnumber));
     vector<ECAL::ChannelData> data;
     data.reserve(ECAL::NTotalChannels);
-    for (auto& url : urls(run.runnumber, run.dataset)) {
-      auto data_tt = readers::JSONReader::parse(readers::JSONReader::get(url));
-      for (auto& e : data_tt)
-        data.push_back(e);
+    const auto contents = net::URLCache::get(urls(run.runnumber, run.dataset));
+    for (auto& content : contents) {
+      auto data_tt = readers::JSONReader::parse(content);
+      data.insert(data.end(), data_tt.begin(), data_tt.end());
     }
     ECAL::RunChannelData rd(run, data);
     rundata.push_back(rd);
