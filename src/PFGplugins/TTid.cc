@@ -6,6 +6,7 @@
 #include <vector>
 #include "colors/Colors.hh"
 #include "common/common.hh"
+#include "ecalchannels/ECALChannels.hh"
 #include "net/DQMURLProvider.hh"
 #include "net/URLCache.hh"
 #include "readers/JSONReader.hh"
@@ -39,13 +40,9 @@ void plot(const vector<ECAL::RunTTData>& rundata) {
   for (auto& rd : rundata) {
     const string xlabel = to_string(rd.run.runnumber);
     for (auto& d : rd.data) {
-      string det = "EB";
-      if (d.iz > 0)
-        det = "EE+";
-      if (d.iz < 0)
-        det = "EE-";
+      const string det = ECALChannels::detByTTTTC(d.tt, d.tcc);
       const string ylabel =
-          common::string_format("%s TT%02d TCC%02d", det.c_str(), d.tt, d.tcc);
+          common::string_format("%s TT%02d", det.c_str(), d.tt);
       data.insert({{xlabel, ylabel}, d.value});
       _max = std::max(_max, d.value);
     }
