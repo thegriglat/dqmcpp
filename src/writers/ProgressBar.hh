@@ -7,7 +7,8 @@ namespace writers {
 
 class ProgressBar {
  private:
-  static constexpr int barWidth = 70;
+  static constexpr int barWidth = 58;
+  static constexpr int labelWidth = 12;
   int currentProgress = 0;
   int maxProgressValue = 1;
   std::string label = "";
@@ -25,7 +26,7 @@ class ProgressBar {
 
   void setMaxValue(const int maxvalue);
   inline void setLabel(const std::string& newlabel) {
-    label = newlabel;
+    label = newlabel.substr(0, labelWidth);
     draw();
   }
 

@@ -42,7 +42,9 @@ float ProgressBar::progress() const {
 }
 
 void ProgressBar::draw(void) const {
-  cout << label << " ";
+  cout << label;
+  for (unsigned i = label.size(); i < labelWidth; ++i)
+    cout << ' ';
   cout << "[";
   const int pos = barWidth * progress();
   for (int i = 0; i < barWidth; ++i) {
