@@ -12,6 +12,7 @@
 #include "common/common.hh"
 #include "common/gnuplot.hh"
 #include "net/DQMURLProvider.hh"
+#include "net/URLCache.hh"
 #include "readers/JSONReader.hh"
 #include "writers/Gnuplot2DWriter.hh"
 #include "writers/ProgressBar.hh"
@@ -180,11 +181,14 @@ vector<TPOccupancyLTAmplitude::RunL1Data> TPOccupancyLTAmplitude::getRunData(
     bool eb) {
   vector<RunL1Data> rundata;
   rundata.reserve(runListReader->runs().size());
-  for (auto& run : runListReader->runs()) {
-    const auto url = (eb) ? geturl(run, sm) : geturl_ee(run, sm);
-    const auto content =
-        readers::JSONReader::parse(readers::JSONReader::get(url));
-    rundata.emplace_back(run, content);
+  const auto getter = (eb) ? geturl : geturl_ee;
+  const auto contents = net::URLCache::get(common::map<ECAL::Run, string>(
+      runListReader->runs(),
+      [getter, sm](const ECAL::Run& run) { return getter(run, sm); }));
+
+  for (unsigned int i = 0; i < contents.size(); ++i) {
+    const auto cont = readers::JSONReader::parse(contents.at(i));
+    rundata.emplace_back(runListReader->runs().at(i), cont);
   }
   return rundata;
 }
