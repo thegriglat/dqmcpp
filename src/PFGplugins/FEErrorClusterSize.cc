@@ -98,7 +98,7 @@ void plot(const std::vector<RunFEData>& rundata) {
 double d2distance(const ECAL::Data2D& a, const ECAL::Data2D& b) {
   const auto dx = a.x - b.x;
   const auto dy = a.y - b.y;
-  return std::sqrt(SQR(dx) + SQR(dy));
+  return SQR(dx) + SQR(dy);
 }
 
 }  // namespace
@@ -123,7 +123,7 @@ void FEErrorClusterSize::Process() {
           data2d.begin(), data2d.end(),
           [](const ECAL::Data2D& d2d) { return common::isNotZero(d2d.value); });
       data2d.erase(it, data2d.end());
-      const auto clusters = common::clusters(data2d, 6, d2distance);
+      const auto clusters = common::clusters(data2d, 36, d2distance);
       for (auto& cluster : clusters) {
         const auto clustersize = static_cast<int>(cluster.size());
         if (clustersize == 0)
