@@ -5,7 +5,7 @@
  * @brief ECAL data structure namespace
  */
 #include <array>
-#include <iostream>
+#include <ostream>
 #include <string>
 #include <vector>
 
