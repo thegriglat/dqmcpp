@@ -1,7 +1,6 @@
 #include "Timing.hh"
 
 #include <fstream>
-#include <iostream>
 #include <map>
 #include <string>
 #include <vector>
@@ -11,6 +10,7 @@
 #include "net/DQMURLProvider.hh"
 #include "readers/JSONReader.hh"
 #include "writers/Gnuplot1DWriter.hh"
+#include "writers/ProgressBar.hh"
 
 using namespace std;
 using namespace dqmcpp;
@@ -57,11 +57,12 @@ namespace dqmcpp {
 namespace plugins {
 
 void Timing::Process() {
+  writers::ProgressBar progress(3 * runListReader->runs().size());
   for (int iz = -1; iz <= 1; ++iz) {
     vector<ECAL::RunData<double>> rundata;
     for (auto& run : runListReader->runs()) {
+      progress.setLabel(det(iz) + " " + to_string(run.runnumber));
       const auto url = get_url(run.runnumber, run.dataset, iz);
-      cout << url.url << endl;
       const auto content =
           readers::JSONReader::parse1D(readers::JSONReader::get(url.url));
       const auto default_a = (iz == 0) ? 1e4 : 1e3;
@@ -74,6 +75,7 @@ void Timing::Process() {
           gauss_fit);
       const auto mu = fit_result.getParameter("mu").value;
       rundata.push_back(ECAL::RunData<double>(run, mu));
+      progress.increment();
     }
     // plot
     string filename = "Timing_mean_" + det(iz) + ".plt";
