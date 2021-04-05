@@ -26,11 +26,15 @@ using namespace std;
 
 namespace {
 
-std::string getYlabel(const ECAL::Channel& channel) {
+std::string getYlabel(const ECAL::Channel& channel, const int status) {
   auto channel_info = ECALChannels::find(channel);
-  return channel_info->det() + " TT" + std::to_string(channel_info->tower) +
-         " [" + std::to_string(channel.ix_iphi) + "," +
-         std::to_string(channel.iy_ieta) + "]";
+  string s = channel_info->det() + " TT" + std::to_string(channel_info->tower) +
+             " [" + std::to_string(channel.ix_iphi) + "," +
+             std::to_string(channel.iy_ieta) + "]";
+  if (status > 0) {
+    s += " ^{" + to_string(status) + "}";
+  }
+  return s;
 }
 }  // namespace
 
@@ -97,29 +101,36 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
                          const writers::Palette& palette) {
   if (rundata.size() == 0)
     return;
-
   writers::Gnuplot2DWriter::Data2D data;
   std::vector<std::pair<std::string, std::string>> boxes;
+  auto& lastrun = rundata.back().run;
   writers::ProgressBar progress(rundata.size());
   progress.setLabel("plotting...");
-  std::set<std::array<int, 3>> badchannels;
+  std::set<std::array<int, 4>> badchannels;
   for (auto& rd : rundata) {
     for (auto& chd : rd.data) {
-      badchannels.insert(chd.channel.asArray());
+      auto cc = chd.channel.asArray();
+      std::array<int, 4> c = {
+          cc[0], cc[1], cc[2],
+          plugins::ChannelStatus::getChannelStatus(lastrun, chd.channel)};
+      badchannels.insert(c);
     }
   }
   for (auto& rd : rundata) {
     progress.increment();
     const auto xlabel = std::to_string(rd.run.runnumber);
-    for (auto& chd : rd.data) {
-      const std::string ylabel = getYlabel(chd.channel);
-      data.insert({{xlabel, ylabel}, chd.value});
-    }
     for (auto& b : badchannels) {
       const ECAL::Channel c(b[0], b[1], b[2]);
-      int channel_status = plugins::ChannelStatus::getChannelStatus(rd.run, c);
+      int channel_status = b[3];
+      const auto ylabel = getYlabel(c, channel_status);
       if (channel_status > MAXSTATUS4BOX) {
-        boxes.emplace_back(xlabel, getYlabel(c));
+        boxes.emplace_back(xlabel, ylabel);
+      }
+      int idx = common::index(rd.data, [&c](const ECAL::ChannelData& cd) {
+        return cd.channel == c;
+      });
+      if (idx != -1) {
+        data.insert({{xlabel, ylabel}, rd.data.at(idx).value});
       }
     }
   }
