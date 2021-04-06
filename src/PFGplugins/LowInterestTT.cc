@@ -38,12 +38,16 @@ void plot(const vector<ECAL::RunTTData>& rundata) {
       const auto ylabel =
           common::string_format("%s TT%02d", det.c_str(), tt.tt);
       data.insert({{xlabel, ylabel}, tt.value});
+      if (tt.value < LOWLIMIT) {
+        cout << rd.run.runnumber << " " << det << " TT" << tt.tt << " = "
+             << tt.value << endl;
+      }
     }
   }
   writers::Gnuplot2DWriter writer(data);
   writer.setOutput("LowInterestTT.png");
   writer.setTitle("LowInterestTT");
-  writer.setZ(0.99, 1.0);
+  writer.setZ(0.0, 1.0);
   writer.setPalette(colors::PaletteSets::Rainbow);
   writer.setZTick(0.001);
   ofstream out("LowInterestTT.plt");
@@ -69,5 +73,6 @@ void dqmcpp::plugins::LowInterestTT::Process() {
     rundata.emplace_back(run, content);
     pb.increment();
   }
+  pb.finish();
   plot(rundata);
 }
