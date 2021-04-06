@@ -45,9 +45,9 @@ void plot(const vector<ECAL::RunTTData>& rundata) {
   for (auto& rd : rundata) {
     const auto xlabel = to_string(rd.run.runnumber);
     for (auto& tt : rd.data) {
-      const auto det = ECALChannels::det(tt);
+      const auto det = ECALChannels::det(tt.base);
       const auto ylabel =
-          common::string_format("%s TT%02d", det.c_str(), tt.tt);
+          common::string_format("%s TT%02d", det.c_str(), tt.base.tt);
       data.insert({{xlabel, ylabel}, tt.value});
     }
     progress.increment();
@@ -80,9 +80,10 @@ void dqmcpp::plugins::LowInterestTT::Process() {
     auto removeit = std::remove_if(
         content.begin(), content.end(), [&zscontent](const ECAL::TTData& ttd) {
           bool hastoremove = ttd.value > LOWLIMIT && ttd.value < HIGHLIMIT;
-          auto it = std::find_if(
-              zscontent.begin(), zscontent.end(),
-              [&ttd](const ECAL::TTData& zsttd) { return zsttd.sameTT(ttd); });
+          auto it = std::find_if(zscontent.begin(), zscontent.end(),
+                                 [&ttd](const ECAL::TTData& zsttd) {
+                                   return zsttd.base == ttd.base;
+                                 });
           if (it != zscontent.end()) {
             if (!hastoremove && it->value > 0.98)
               hastoremove = true;

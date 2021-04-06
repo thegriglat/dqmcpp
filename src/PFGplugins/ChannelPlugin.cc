@@ -61,11 +61,11 @@ std::vector<ECAL::RunChannelData> ChannelPlugin::analyze(
       if (checkfn(channeldata.value)) {
         auto it = std::find_if(badchannels_list.begin(), badchannels_list.end(),
                                [&channeldata](const BadChannel& bc) {
-                                 return bc.first == channeldata.channel;
+                                 return bc.first == channeldata.base;
                                });
         if (it == badchannels_list.end()) {
           // channel not recorded
-          badchannels_list.push_back({channeldata.channel, 1});
+          badchannels_list.push_back({channeldata.base, 1});
         } else {
           // increment number;
           it->second++;
@@ -87,7 +87,7 @@ std::vector<ECAL::RunChannelData> ChannelPlugin::analyze(
     std::copy_if(e.data.begin(), e.data.end(), std::back_inserter(bd),
                  [&badchannels](const ECAL::ChannelData& ecd) {
                    return std::find(badchannels.begin(), badchannels.end(),
-                                    ecd.channel) != badchannels.end();
+                                    ecd.base) != badchannels.end();
                  });
     rd.push_back(ECAL::RunChannelData(e.run, bd));
   }
@@ -110,7 +110,7 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
   std::map<ECAL::Channel, int> channelstatus;
   for (auto& rd : rundata) {
     for (auto& chd : rd.data) {
-      badchannels.insert(chd.channel);
+      badchannels.insert(chd.base);
     }
   }
   for (auto& b : badchannels) {
@@ -125,9 +125,8 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
       if (channel_status > MAXSTATUS4BOX) {
         boxes.emplace_back(xlabel, ylabel);
       }
-      int idx = common::index(rd.data, [&b](const ECAL::ChannelData& cd) {
-        return cd.channel == b;
-      });
+      int idx = common::index(
+          rd.data, [&b](const ECAL::ChannelData& cd) { return cd.base == b; });
       if (idx != -1) {
         data.insert({{xlabel, ylabel}, rd.data.at(idx).value});
       }

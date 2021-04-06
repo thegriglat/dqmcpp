@@ -75,9 +75,9 @@ void plot(const vector<RunTTData>& rundata) {
     std::string xlabel = std::to_string(r.run.runnumber);
     for (auto& tt : r.data) {
       std::string det =
-          ((tt.iz == 0) ? "EB  " : ((tt.iz == 1) ? "EE+ " : "EE- "));
-      std::string ylabel =
-          det + "TT" + (tt.tt < 10 ? "0" : "") + std::to_string(tt.tt);
+          ((tt.base.iz == 0) ? "EB  " : ((tt.base.iz == 1) ? "EE+ " : "EE- "));
+      std::string ylabel = det + "TT" + (tt.base.tt < 10 ? "0" : "") +
+                           std::to_string(tt.base.tt);
       data.insert({{xlabel, ylabel}, tt.value});
     }
   }
@@ -114,8 +114,8 @@ std::vector<RunTTData> TTMaskingStatus::Init() {
 
         for (auto& e : q) {
           // find tt by channel coord
-          const int xch = e.x;
-          const int ych = e.y;
+          const int xch = e.base.x;
+          const int ych = e.base.y;
           auto f =
               std::find_if(all_channels.begin(), all_channels.end(),
                            [xch, ych](const ECALChannels::ChannelInfo& ch) {
@@ -125,7 +125,7 @@ std::vector<RunTTData> TTMaskingStatus::Init() {
             std::cout << "Cannot find channel !" << std::endl;
             std::cout << "x: " << xch << " y: " << ych << std::endl;
           }
-          data_tt.push_back(TTData(f->tower, 0, f->tcc, e.value));
+          data_tt.push_back(TTData(TT(f->tower, f->tcc, 0), e.value));
         }
       } else {
         // EE+ or EE-

@@ -40,9 +40,9 @@ void plot(const vector<ECAL::RunTTData>& rundata) {
   for (auto& rd : rundata) {
     const string xlabel = to_string(rd.run.runnumber);
     for (auto& d : rd.data) {
-      const string det = ECALChannels::detByTTTTC(d.tt, d.tcc);
+      const string det = ECALChannels::det(d.base);
       const string ylabel =
-          common::string_format("%s TT%02d", det.c_str(), d.tt);
+          common::string_format("%s TT%02d", det.c_str(), d.base.tt);
       data.insert({{xlabel, ylabel}, d.value});
       _max = std::max(_max, d.value);
     }

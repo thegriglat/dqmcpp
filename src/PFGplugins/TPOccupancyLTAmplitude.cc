@@ -60,15 +60,15 @@ void scaleSM(std::vector<ECAL::ChannelData>& data, const int sm) {
   const double Imedian = common::median(
       common::filter(
           data,
-          [sm](const ChannelData& d2d) { return isIBlock(d2d.channel, sm); }),
+          [sm](const ChannelData& d2d) { return isIBlock(d2d.base, sm); }),
       [](const ChannelData& d2d) { return d2d.value; });
   const double Lmedian = common::median(
       common::filter(
           data,
-          [sm](const ChannelData& d2d) { return isLBlock(d2d.channel, sm); }),
+          [sm](const ChannelData& d2d) { return isLBlock(d2d.base, sm); }),
       [](const ChannelData& d2d) { return d2d.value; });
   for (auto it = data.begin(); it != data.end(); ++it) {
-    const auto median = (isIBlock(it->channel, sm)) ? Imedian : Lmedian;
+    const auto median = (isIBlock(it->base, sm)) ? Imedian : Lmedian;
     if (common::isNotZero(median))
       it->value /= median;
   }
@@ -78,20 +78,20 @@ void scaleSM_EE(std::vector<ECAL::ChannelData>& data) {
   using ECAL::ChannelData;
   set<uint8_t> regions;
   for (auto& d : data)
-    regions.insert(ECAL::EELightMR(d.channel.ix_iphi, d.channel.iy_ieta));
+    regions.insert(ECAL::EELightMR(d.base.ix_iphi, d.base.iy_ieta));
   std::map<uint8_t, double> region_median;
   for (const auto region : regions) {
     const auto median = common::median(
         common::filter(data,
                        [region](const ChannelData& cd) {
-                         return region == ECAL::EELightMR(cd.channel.ix_iphi,
-                                                          cd.channel.iy_ieta);
+                         return region == ECAL::EELightMR(cd.base.ix_iphi,
+                                                          cd.base.iy_ieta);
                        }),
         [](const ChannelData& cd) { return cd.value; });
     region_median.insert({region, median});
   }
   for (auto& d : data) {
-    const auto region = ECAL::EELightMR(d.channel.ix_iphi, d.channel.iy_ieta);
+    const auto region = ECAL::EELightMR(d.base.ix_iphi, d.base.iy_ieta);
     const auto median = region_median.at(region);
     if (common::isNotZero(median))
       d.value /= median;
@@ -104,7 +104,7 @@ std::vector<pair<int, int>> getBadXY_EE(
   vector<pair<int, int>> badxy;
   for (auto& rd : rundata)
     for (auto& d : rd.data)
-      allxy.insert({d.channel.ix_iphi, d.channel.iy_ieta});
+      allxy.insert({d.base.ix_iphi, d.base.iy_ieta});
 
   for (auto& xy : allxy) {
     const auto x = xy.first;
@@ -114,7 +114,7 @@ std::vector<pair<int, int>> getBadXY_EE(
 
     for (auto& rd : rundata)
       for (auto& d : rd.data)
-        if (d.channel.ix_iphi == x && d.channel.iy_ieta == y)
+        if (d.base.ix_iphi == x && d.base.iy_ieta == y)
           values.push_back(d.value);
 
     const auto median_over_runs = common::median(values);
@@ -143,7 +143,7 @@ std::vector<pair<int, int>> getBadXY(
       for (auto& rd : rundata) {
         auto it = std::find_if(
             rd.data.begin(), rd.data.end(), [x, y](const ChannelData& cd) {
-              return cd.channel.ix_iphi == x && cd.channel.iy_ieta == y;
+              return cd.base.ix_iphi == x && cd.base.iy_ieta == y;
             });
         if (it != rd.data.end()) {
           values.push_back(it->value);
@@ -211,13 +211,13 @@ void TPOccupancyLTAmplitude::Process() {
     for (auto& rd : rundata) {
       const auto badxyfiltered =
           common::filter(rd.data, [&badxy](const ECAL::ChannelData& cd) {
-            const pair<int, int> xy = {cd.channel.ix_iphi, cd.channel.iy_ieta};
+            const pair<int, int> xy = {cd.base.ix_iphi, cd.base.iy_ieta};
             return std::find(badxy.begin(), badxy.end(), xy) != badxy.end();
           });
       for (auto& c : badxyfiltered) {
         const string xlabel = to_string(rd.run.runnumber);
         const string ylabel = common::string_format(
-            "EB%+03d [%d:%d]", sm, c.channel.ix_iphi, c.channel.iy_ieta);
+            "EB%+03d [%d:%d]", sm, c.base.ix_iphi, c.base.iy_ieta);
         const auto value = c.value;
         _maxvalue = std::max(_maxvalue, value);
         gdata.insert({{xlabel, ylabel}, value});
@@ -255,13 +255,13 @@ void TPOccupancyLTAmplitude::Process() {
     for (auto& rd : rundata) {
       const auto badxyfiltered =
           common::filter(rd.data, [&badxy](const ECAL::ChannelData& cd) {
-            const pair<int, int> xy = {cd.channel.ix_iphi, cd.channel.iy_ieta};
+            const pair<int, int> xy = {cd.base.ix_iphi, cd.base.iy_ieta};
             return std::find(badxy.begin(), badxy.end(), xy) != badxy.end();
           });
       for (auto& c : badxyfiltered) {
         const string xlabel = to_string(rd.run.runnumber);
         const string ylabel = common::string_format(
-            "EE%+03d [%d:%d]", sm, c.channel.ix_iphi, c.channel.iy_ieta);
+            "EE%+03d [%d:%d]", sm, c.base.ix_iphi, c.base.iy_ieta);
         const auto value = c.value;
         _maxvalueee = std::max(_maxvalueee, value);
         gdataee.insert({{xlabel, ylabel}, value});

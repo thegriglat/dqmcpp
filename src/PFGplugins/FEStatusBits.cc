@@ -177,8 +177,8 @@ void FEStatusBits::Process() {
       data_tt.reserve(data_json.size());
       for (auto& e : data_json)
         if (common::isNotZero(e.value)) {
-          TTInfo tti = TTInfo(std::floor(e.x), url.sm, std::floor(e.y),
-                              url.isEB, e.value);
+          TTInfo tti = TTInfo(std::floor(e.base.x), url.sm,
+                              std::floor(e.base.y), url.isEB, e.value);
           data_tt.push_back(tti);
         }
       rescaleToOne(data_tt);

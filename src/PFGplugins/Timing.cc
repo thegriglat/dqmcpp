@@ -68,7 +68,7 @@ void Timing::Process() {
       const auto fit_result = common::gnuplot::fit(
           content,
           [](const ECAL::Data1D& d1) {
-            return std::pair<double, double>(d1.x, d1.value);
+            return std::pair<double, double>(d1.base.x, d1.value);
           },
           gauss_fit);
       const auto mu = fit_result.getParameter("mu").value;
