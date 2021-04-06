@@ -19,24 +19,26 @@ using namespace std;
 namespace dqmcpp {
 namespace ECAL {
 
+TT::TT(const Channel& channel) {
+  const auto info = ECALChannels::find(channel);
+  if (!info) {
+    std::cerr << "Cannot find channel!" << channel << std::endl;
+    exit(1);
+  }
+  iz = 0;
+  if (info->ix != -999)
+    iz = info->iz;
+  tt = info->tower;
+  tcc = info->tcc;
+}
+
 std::vector<TTData> channel2TT(
     const std::vector<ECAL::ChannelData>& channelData) {
   vector<TTData> ttdata;
+  ttdata.reserve(channelData.size());
   // get list of TT from channels
   for (auto& channel : channelData) {
-    auto c_info = ECALChannels::find(channel.base);
-    if (!c_info) {
-      std::cerr << "Cannot find channel!" << channel.base << std::endl;
-      continue;
-    }
-    // determine det
-    int iz = 0;  // EB
-    if (c_info->ix != -999) {
-      // EE+-
-      iz = c_info->iz;
-    }
-    auto tt = TTData(TT(c_info->tower, c_info->tcc, iz), channel.value);
-    ttdata.push_back(tt);
+    ttdata.emplace_back(TT(channel.base), channel.value);
   }
   // make TT unique
   std::sort(ttdata.begin(), ttdata.end(),
@@ -89,13 +91,16 @@ vector<RunTTData> filterZeroTT(vector<RunTTData>& rundata) {
   return rundata;
 };
 
-ChannelData Data2D2Channel(const Data2D& d2d, const int iz) {
-  const int x = std::trunc(d2d.base.x);
-  const int y = std::trunc(d2d.base.y);
+Channel Point2D2Channel(const Point2D& p, const int iz) {
+  const int x = std::trunc(p.x);
+  const int y = std::trunc(p.y);
   const int iphi = std::abs(x) + 1;
-  const int ieta = y + 1 * common::sign(d2d.base.y);
-  // std::cout << "y " << d2d.y << " ieta " << ieta << std::endl;
-  return ChannelData(Channel(iphi, ieta, iz), d2d.value);
+  const int ieta = y + 1 * common::sign(p.y);
+  return Channel(iphi, ieta, iz);
+}
+
+ChannelData Data2D2Channel(const Data2D& d2d, const int iz) {
+  return ChannelData(Point2D2Channel(d2d.base, iz), d2d.value);
 }
 
 std::vector<ChannelData> Data2D2ChannelData(const std::vector<Data2D>& d2d,

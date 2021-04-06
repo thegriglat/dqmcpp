@@ -66,6 +66,7 @@ struct TT {
   // EB = 0 ; EE+ = 1; EE- = -1;
   int iz;
   TT(const int tt, const int tcc, const int iz) : tt(tt), tcc(tcc), iz(iz){};
+  TT(const Channel& channel);
   inline friend bool operator==(const TT& a, const TT& b) {
     return a.tt == b.tt && a.iz == b.iz && a.tcc == b.tcc;
   }
@@ -130,6 +131,7 @@ std::vector<RunTTData> filterZeroTT(std::vector<RunTTData>& rundata);
 std::vector<TTData> channel2TT(
     const std::vector<ECAL::ChannelData>& channelData);
 
+Channel Point2D2Channel(const Point2D& p, const int iz);
 ChannelData Data2D2Channel(const Data2D& d2d, const int iz = 0);
 std::vector<ChannelData> Data2D2ChannelData(const std::vector<Data2D>& d2d,
                                             const int iz = 0);
