@@ -60,11 +60,15 @@ float ProgressBar::progress() const {
 
 void ProgressBar::draw(void) const {
   const auto termwidth = getTermSize().width;
-  const unsigned int labelWidth = termwidth / 10;
+  const unsigned int labelWidth =
+      std::max(label.size(), (size_t)termwidth / 12);
   const std::string percents = formatPercent(progress() * 100.0);
   const unsigned int barWidth = termwidth - labelWidth - percents.size() - 5;
-  cout << label.substr(0, labelWidth);
-  for (unsigned i = label.size(); i < labelWidth; ++i)
+  const auto padding = (labelWidth - label.size()) / 2;
+  for (unsigned i = 0; i < padding; ++i)
+    cout << ' ';
+  cout << label;
+  for (unsigned i = 0; i < padding; ++i)
     cout << ' ';
   cout << "[";
   const unsigned int pos = barWidth * progress();
