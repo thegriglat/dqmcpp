@@ -5,6 +5,9 @@
 #include <iostream>
 #include <sstream>
 
+#include <sys/ioctl.h>  //ioctl() and TIOCGWINSZ
+#include <unistd.h>     // for STDOUT_FILENO
+
 using namespace std;
 
 namespace {
@@ -14,6 +17,20 @@ std::string formatPercent(float value) {
   stringstream ss;
   ss << setfill(' ') << setw(3) << a << "." << b;
   return ss.str();
+}
+
+struct TerminalSize {
+  unsigned int width;
+  unsigned int height;
+};
+
+// get terminal size
+// https://stackoverflow.com/questions/23369503/get-size-of-terminal-window-rows-columns
+
+TerminalSize getTermSize() {
+  struct winsize size;
+  ioctl(STDOUT_FILENO, TIOCGWINSZ, &size);
+  return {size.ws_col, size.ws_row};
 }
 
 }  // namespace
@@ -42,12 +59,16 @@ float ProgressBar::progress() const {
 }
 
 void ProgressBar::draw(void) const {
-  cout << label;
+  const auto termwidth = getTermSize().width;
+  const unsigned int labelWidth = termwidth / 10;
+  const std::string percents = formatPercent(progress() * 100.0);
+  const unsigned int barWidth = termwidth - labelWidth - percents.size() - 5;
+  cout << label.substr(0, labelWidth);
   for (unsigned i = label.size(); i < labelWidth; ++i)
     cout << ' ';
   cout << "[";
-  const int pos = barWidth * progress();
-  for (int i = 0; i < barWidth; ++i) {
+  const unsigned int pos = barWidth * progress();
+  for (unsigned int i = 0; i < barWidth; ++i) {
     if (i < pos)
       std::cout << "=";
     else if (i == pos)
@@ -55,7 +76,7 @@ void ProgressBar::draw(void) const {
     else
       std::cout << " ";
   }
-  std::cout << "] " << formatPercent(progress() * 100.0) << " %\r";
+  std::cout << "] " << percents << " %\r";
   std::cout.flush();
 }
 
