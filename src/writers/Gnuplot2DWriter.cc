@@ -101,7 +101,7 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
     pagescale =
         std::max(40.0 / 1024. * gw.ncolumns(), 40 / 368. / scale * gw.nrows());
   }
-  pagescale = std::min(std::max(pagescale, 0.8), 2.5);
+  pagescale = std::min(std::max(pagescale, 0.8), 5.0);
 
   os << "scale = " << scale << std::endl
      << "pagescale = " << pagescale << std::endl
