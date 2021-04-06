@@ -12,6 +12,8 @@
 #include "writers/Gnuplot2DWriter.hh"
 #include "writers/ProgressBar.hh"
 
+#define LOWLIMIT (0.05)
+
 REGISTER_PLUGIN(ReadoutFlagDropped)
 
 using namespace std;
@@ -100,6 +102,13 @@ void dqmcpp::plugins::ReadoutFlagDropped::Process() {
           }
         }
       }
+      auto rit = std::remove_if(content.begin(), content.end(),
+                                [](const ECAL::TTData& ttd) {
+                                  if (ttd.value < LOWLIMIT)
+                                    return true;
+                                  return false;
+                                });
+      content.erase(rit, content.end());
       ttdata.insert(ttdata.end(), content.begin(), content.end());
     }
     rundata.emplace_back(run, ttdata);
