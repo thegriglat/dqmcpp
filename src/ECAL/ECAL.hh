@@ -128,6 +128,9 @@ struct TTData {
   inline friend bool operator>(const TTData& a, const TTData& b) {
     return a.value > b.value;
   };
+  inline bool sameTT(const TTData& rhs) const {
+    return tt == rhs.tt && iz == rhs.iz && tcc == rhs.tcc;
+  }
   inline friend std::ostream& operator<<(std::ostream& os, const TTData& elem) {
     os << "tt[tt=" << elem.tt << ",iz=" << elem.iz << ",tcc=" << elem.tcc
        << "] = " << elem.value;
