@@ -48,9 +48,8 @@ void plot(vector<ECAL::RunTTData>& rundata) {
     allruns.push_back(xlabel);
     for (auto& ttd : rd.data) {
       const auto det = ECALChannels::det(ttd.base);
-      const string ttccu = (ttd.base.iz == 0) ? "TT" : "CCU";
-      const string ylabel = common::string_format("%s %s%02d", det.c_str(),
-                                                  ttccu.c_str(), ttd.base.tt);
+      const string ylabel =
+          common::string_format("%s TT%02d", det.c_str(), ttd.base.tt);
       data.insert({{xlabel, ylabel}, ttd.value});
     }
   }
@@ -98,7 +97,7 @@ void dqmcpp::plugins::ReadoutFlagDropped::Process() {
                 return false;
               });
           if (it != list.end()) {
-            content.emplace_back(ECAL::TT(it->ccu, it->tcc, iz), e.value);
+            content.emplace_back(ECAL::TT(it->tower, it->tcc, iz), e.value);
           }
         }
       }
