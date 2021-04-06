@@ -44,18 +44,18 @@ int channelDistance(const dqmcpp::ECAL::ChannelData& a,
                     const dqmcpp::ECAL::ChannelData& b) {
   // for distance cut we don't need to have exact 2D distance
   // squared d. is enough
-  const auto dx = a.channel.ix_iphi - b.channel.ix_iphi;
-  const auto dy = a.channel.iy_ieta - b.channel.iy_ieta;
+  const auto dx = a.base.ix_iphi - b.base.ix_iphi;
+  const auto dy = a.base.iy_ieta - b.base.iy_ieta;
   return dx * dx + dy * dy;
 }
 
 int getChannelTT(const ECAL::ChannelData& cd) {
-  auto cinfo = ECALChannels::find(cd.channel);
+  auto cinfo = ECALChannels::find(cd.base);
   if (!cinfo) {
     cerr << "Cannot find channel " << cd << endl;
     exit(1);
   }
-  if (cd.channel.isEB())
+  if (cd.base.isEB())
     return cinfo->tower;
   else
     return cinfo->ccu;
@@ -70,7 +70,8 @@ void dump(dqmcpp::writers::Gnuplot2DWriter& writer,
 
 struct ChannelDataTT : public dqmcpp::ECAL::ChannelData {
   int tt;
-  ChannelDataTT(const dqmcpp::ECAL::ChannelData& cd) : ChannelData(cd) {
+  ChannelDataTT(const dqmcpp::ECAL::ChannelData& cd)
+      : dqmcpp::ECAL::ChannelData(cd) {
     tt = getChannelTT(cd);
   }
 };
@@ -112,10 +113,9 @@ std::vector<ECAL::ChannelData> ChannelStatus::getChannelStatus(
 int ChannelStatus::getChannelStatus(const ECAL::Run& run,
                                     const ECAL::Channel& channel) {
   const auto _d = getCS(run, channel.iz);
-  auto it = std::find_if(_d.begin(), _d.end(),
-                         [&channel](const ECAL::ChannelData& cd) {
-                           return cd.channel == channel;
-                         });
+  auto it = std::find_if(
+      _d.begin(), _d.end(),
+      [&channel](const ECAL::ChannelData& cd) { return cd.base == channel; });
   if (it == _d.end()) {
     return 0;
   }
@@ -171,12 +171,11 @@ void ChannelStatus::Process() {
     writers::Gnuplot2DWriter::Data2D data;
     for (auto& pair : channeldata) {
       const auto ch = pair.second;
-      auto info = ECALChannels::find(ch.channel);
+      auto info = ECALChannels::find(ch.base);
       string xlabel = to_string(pair.first);
       string det = (info) ? info->det() : "NONE?";
-      string ylabel =
-          common::string_format("%s [%+03d, %+03d]", det.c_str(),
-                                ch.channel.ix_iphi, ch.channel.iy_ieta);
+      string ylabel = common::string_format("%s [%+03d, %+03d]", det.c_str(),
+                                            ch.base.ix_iphi, ch.base.iy_ieta);
       data.insert({{xlabel, ylabel}, ch.value});
     }
     writers::Gnuplot2DWriter writer(data);
@@ -194,11 +193,11 @@ void ChannelStatus::Process() {
     writers::Gnuplot2DWriter::Data2D data;
     for (auto& pair : ttdata) {
       const auto ch = pair.second;
-      auto info = ECALChannels::find(ch.channel);
+      auto info = ECALChannels::find(ch.base);
       string xlabel = to_string(pair.first);
       string det = (info) ? info->det() : "NONE?";
       auto tt = getChannelTT(ch);
-      const string ttccu = (ch.channel.isEB()) ? "TT" : "CCU";
+      const string ttccu = (ch.base.isEB()) ? "TT" : "CCU";
       string ylabel =
           common::string_format("%s %s %02d", det.c_str(), ttccu.c_str(), tt);
       data.insert({{xlabel, ylabel}, ch.value});

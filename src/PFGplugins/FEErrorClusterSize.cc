@@ -96,8 +96,8 @@ void plot(const std::vector<RunFEData>& rundata) {
 }
 
 double d2distance(const ECAL::Data2D& a, const ECAL::Data2D& b) {
-  const auto dx = a.x - b.x;
-  const auto dy = a.y - b.y;
+  const auto dx = a.base.x - b.base.x;
+  const auto dy = a.base.y - b.base.y;
   return SQR(dx) + SQR(dy);
 }
 

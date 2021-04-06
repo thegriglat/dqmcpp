@@ -80,7 +80,7 @@ std::vector<ECAL::Data2D> parse2D(nlohmann::json& j, bool skipZeroes = true) {
     for (int xbin = 0; xbin < xnbins; ++xbin) {
       double x = xfirst + xstep * 0.5 + xstep * xbin;
       const auto value = content.at(ybin).at(xbin);
-      ECAL::Data2D c(x, y, value);
+      ECAL::Data2D c(Point2D(x, y), value);
       const bool skip = common::isZero(value) && skipZeroes;
       if (!skip) {
         // to avoid overlapping DQM output for different SM
@@ -103,8 +103,8 @@ std::vector<dqmcpp::ECAL::ChannelData> parse(nlohmann::json& j) {
   const auto xtitle = xaxis["title"].get<string>();
   const char xsign = (xtitle.find('-') != xtitle.npos) ? -1 : 1;
   for (auto& datapoint : data2d) {
-    const int x = std::trunc(datapoint.x);
-    const int y = std::trunc(datapoint.y);
+    const int x = std::trunc(datapoint.base.x);
+    const int y = std::trunc(datapoint.base.y);
     int ix_iphi;
     int iy_ieta;
     if (iz == 0) {

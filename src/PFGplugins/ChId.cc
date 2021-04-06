@@ -41,12 +41,12 @@ void plot(const vector<ECAL::RunChannelData>& rundata) {
   for (auto& rd : rundata) {
     const string xlabel = to_string(rd.run.runnumber);
     for (auto& d : rd.data) {
-      const auto info = ECALChannels::find(d.channel);
+      const auto info = ECALChannels::find(d.base);
       if (!info) {
-        cout << "cannot find channel " << d.channel << endl;
+        cout << "cannot find channel " << d.base << endl;
         continue;
       }
-      const auto arr3 = d.channel.asArray();
+      const auto arr3 = d.base.asArray();
       const string ylabel = common::string_format(
           "%s [%+03d,%+03d]", info->det(), arr3[0], arr3[1]);
       data.insert({{xlabel, ylabel}, d.value});

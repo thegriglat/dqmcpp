@@ -80,8 +80,8 @@ std::vector<ECAL::RunTTData> TTF4Occupancy::readTT() {
 
         for (auto& e : q) {
           // find tt by channel coord
-          const int xch = (int)e.x;
-          const int ych = (int)e.y;
+          const int xch = (int)e.base.x;
+          const int ych = (int)e.base.y;
           auto f =
               std::find_if(all_channels.begin(), all_channels.end(),
                            [xch, ych](const ECALChannels::ChannelInfo& ch) {
@@ -91,7 +91,7 @@ std::vector<ECAL::RunTTData> TTF4Occupancy::readTT() {
             std::cout << "Cannot find channel !" << std::endl;
             std::cout << "x: " << xch << " y: " << ych << std::endl;
           }
-          data_tt.push_back(TTData(f->tower, 0, f->tcc, e.value));
+          data_tt.push_back(TTData(TT(f->tower, f->tcc, 0), e.value));
         }
       } else {
         // EE+ or EE-
@@ -141,9 +141,7 @@ void TTF4Occupancy::Process() {
                          auto pos = std::find_if(
                              masked_it->data.begin(), masked_it->data.end(),
                              [&ttdata](const ECAL::TTData& maskedtt) {
-                               return maskedtt.iz == ttdata.iz &&
-                                      maskedtt.tt == ttdata.tt &&
-                                      maskedtt.tcc == ttdata.tcc;
+                               return maskedtt.base == ttdata.base;
                              });
                          return (pos != masked_it->data.end());
                        }),
@@ -155,9 +153,10 @@ void TTF4Occupancy::Process() {
   for (auto& r : occupancy_tt) {
     std::string xlabel = std::to_string(r.run.runnumber);
     for (auto& tt : r.data) {
-      std::string det = ECALChannels::detByTTTTC(tt.tt, tt.tcc);
-      std::string ylabel = det + " TCC" + std::to_string(tt.tcc) + " TT" +
-                           (tt.tt < 10 ? "0" : "") + std::to_string(tt.tt);
+      std::string det = ECALChannels::det(tt.base);
+      std::string ylabel = det + " TCC" + std::to_string(tt.base.tcc) + " TT" +
+                           (tt.base.tt < 10 ? "0" : "") +
+                           std::to_string(tt.base.tt);
       data.insert({{xlabel, ylabel}, tt.value});
     }
   }

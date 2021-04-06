@@ -53,11 +53,13 @@ vector<RunProb> calcProb(const vector<ECAL::RunData2D>& rundata) {
   result.reserve(rundata.size());
   for (auto& rd : rundata) {
     // -1 bin
-    auto minus1values = filter(
-        rd.data, [](const ECAL::Data2D& d) { return std::abs(d.x + 1) < 0.1; });
+    auto minus1values = filter(rd.data, [](const ECAL::Data2D& d) {
+      return std::abs(d.base.x + 1) < 0.1;
+    });
     // zero bin
-    auto zerovalues = filter(
-        rd.data, [](const ECAL::Data2D& d) { return std::abs(d.x) < 0.1; });
+    auto zerovalues = filter(rd.data, [](const ECAL::Data2D& d) {
+      return std::abs(d.base.x) < 0.1;
+    });
     auto minus1_i = sum(minus1values);
     auto zero_i = sum(zerovalues);
     auto prob = minus1_i / (minus1_i + zero_i);
@@ -67,14 +69,15 @@ vector<RunProb> calcProb(const vector<ECAL::RunData2D>& rundata) {
 }
 
 vector<ECAL::Data2D> filter0m1(const vector<ECAL::Data2D>& data) {
-  return filter(data,
-                [](const ECAL::Data2D& d) { return d.x > -1.5 && d.x < 0.5; });
+  return filter(data, [](const ECAL::Data2D& d) {
+    return d.base.x > -1.5 && d.base.x < 0.5;
+  });
 }
 
 vector<ECAL::Data2D> filter_det(const vector<ECAL::Data2D>& data, bool isEB) {
   auto filter_fn =
-      (isEB) ? [](const ECAL::Data2D& d) { return std::abs(d.y) < 40; }
-             : [](const ECAL::Data2D& d) { return std::abs(d.y) >= 40; };
+      (isEB) ? [](const ECAL::Data2D& d) { return std::abs(d.base.y) < 40; }
+             : [](const ECAL::Data2D& d) { return std::abs(d.base.y) >= 40; };
   return filter(data, filter_fn);
 }
 
