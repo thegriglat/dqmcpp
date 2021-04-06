@@ -3,7 +3,7 @@ image: gitlab-registry.cern.ch/ecalpfg/dqmcpp:ci
 default:
  cache:
    paths:
-    - "*.o"
+    - "**/*.o"
     - "dqmcache"
 
 build:
@@ -18,10 +18,3 @@ build:
       - build/dqm
       - build/findDataset
       - build/*.so
-
-# run tests using the binary built before
-deploy:
-  stage: deploy
-  script:
-   - cd build
-   - ./dqm
