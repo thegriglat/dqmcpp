@@ -26,7 +26,7 @@ std::vector<TTData> channel2TT(
   for (auto& channel : channelData) {
     auto c_info = ECALChannels::find(channel.channel);
     if (!c_info) {
-      std::cerr << "Cannot find channel!" << std::endl;
+      std::cerr << "Cannot find channel!" << channel.channel << std::endl;
       continue;
     }
     // determine det
@@ -104,6 +104,16 @@ ChannelData Data2D2Channel(const Data2D& d2d, const int iz) {
   const int ieta = y + 1 * common::sign(d2d.y);
   // std::cout << "y " << d2d.y << " ieta " << ieta << std::endl;
   return ChannelData(Channel(iphi, ieta, iz), d2d.value);
+}
+
+std::vector<ChannelData> Data2D2ChannelData(const std::vector<Data2D>& d2d,
+                                            const int iz) {
+  std::vector<ChannelData> chd;
+  chd.reserve(d2d.size());
+  for (auto& d : d2d) {
+    chd.push_back(Data2D2Channel(d, iz));
+  }
+  return chd;
 }
 
 };  // namespace ECAL

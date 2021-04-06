@@ -151,6 +151,8 @@ std::vector<TTData> channel2TT(
     const std::vector<ECAL::ChannelData>& channelData);
 
 ChannelData Data2D2Channel(const Data2D& d2d, const int iz = 0);
+std::vector<ChannelData> Data2D2ChannelData(const std::vector<Data2D>& d2d,
+                                            const int iz = 0);
 };  // namespace ECAL
 }  // namespace dqmcpp
 #define ECAL_HH
