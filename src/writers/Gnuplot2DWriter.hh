@@ -17,10 +17,12 @@ namespace writers {
 class Gnuplot2DWriter : public Gnuplot2D {
  public:
   struct Rectangle {
-    uint xbin;
-    uint ybin;
-    uint pattern = 5;
-    Rectangle(const uint _xbin, const uint _ybin, const uint _pattern = 5)
+    unsigned int xbin;
+    unsigned int ybin;
+    unsigned int pattern = 5;
+    Rectangle(const unsigned int _xbin,
+              const unsigned int _ybin,
+              const unsigned int _pattern = 5)
         : xbin(_xbin), ybin(_ybin), pattern(_pattern){};
     friend std::ostream& operator<<(std::ostream& os, const Rectangle& r);
   };
@@ -48,9 +50,9 @@ class Gnuplot2DWriter : public Gnuplot2D {
   }
   void addBox(const std::string& xlabel,
               const std::string& ylabel,
-              const uint pattern = 5);
+              const unsigned int pattern = 5);
   inline void addBox(const std::pair<std::string, std::string>& labels,
-                     const uint pattern = 5) {
+                     const unsigned int pattern = 5) {
     addBox(labels.first, labels.second, pattern);
   }
 

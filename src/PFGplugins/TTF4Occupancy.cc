@@ -8,12 +8,12 @@
 #include <fstream>
 #include <map>
 #include <string>
+#include "TTMaskingStatus.hh"
 #include "common/common.hh"
 #include "ecalchannels/ECALChannels.hh"
 #include "net/DQMURLProvider.hh"
 #include "readers/JSONReader.hh"
 #include "writers/Gnuplot2DWriter.hh"
-#include "TTMaskingStatus.hh"
 
 using namespace std;
 using namespace dqmcpp;

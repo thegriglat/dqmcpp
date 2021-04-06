@@ -88,10 +88,11 @@ int count(const Collection& list,
 }
 
 template <typename T>
-std::vector<std::vector<T>> chunks(const std::vector<T>& list, const uint n) {
+std::vector<std::vector<T>> chunks(const std::vector<T>& list,
+                                   const unsigned int n) {
   std::vector<std::vector<T>> res;
   const auto size = list.size();
-  uint i = 0;
+  unsigned int i = 0;
   for (i = 0; i < size / n; ++i) {
     const std::vector<T> slice(list.begin() + i * n,
                                list.begin() + (i + 1) * n);

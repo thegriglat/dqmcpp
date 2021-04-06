@@ -17,8 +17,8 @@ std::vector<std::array<T, 2>> get_pairs(const std::vector<T>& data,
     return points;
   const auto len = data.size();
   const T* first = &(data[0]);
-  for (uint i = 0; i < len; ++i)
-    for (uint j = i + 1; j < len; ++j) {
+  for (unsigned int i = 0; i < len; ++i)
+    for (unsigned int j = i + 1; j < len; ++j) {
       const T* pi = first + i;
       const T* pj = first + j;
       const auto distance = distance_fn(*pi, *pj);

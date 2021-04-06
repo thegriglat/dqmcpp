@@ -44,7 +44,7 @@ void Gnuplot2DWriter::setSortYFn(
 
 void Gnuplot2DWriter::addBox(const std::string& xlabel,
                              const std::string& ylabel,
-                             const uint pattern) {
+                             const unsigned int pattern) {
   const auto xbin = common::index(_xlabels, xlabel);
   const auto ybin = common::index(_ylabels, ylabel);
   if (xbin < 0 || ybin < 0)
