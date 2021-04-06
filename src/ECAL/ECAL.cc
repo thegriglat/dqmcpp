@@ -22,7 +22,7 @@ namespace ECAL {
 TT::TT(const Channel& channel) {
   const auto info = ECALChannels::find(channel);
   if (!info) {
-    std::cerr << "Cannot find channel!" << channel << std::endl;
+    std::cerr << std::endl << "Cannot find channel!" << channel << std::endl;
     exit(1);
   }
   iz = 0;
