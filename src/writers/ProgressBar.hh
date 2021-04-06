@@ -11,13 +11,12 @@ class ProgressBar {
   int maxProgressValue = 1;
   std::string label = "";
   void draw(void) const;
-  void finish(void) const;
   float progress() const;
   void update(int value);
 
  public:
   ProgressBar(const int maxSteps = 1);
-
+  void finish(void) const;
   inline void increment(const int increment = 1.0) {
     update(currentProgress + increment);
   };
