@@ -91,7 +91,9 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   int pagescale = std::max(9.0 / scale, 3.0);
   int ticksfontsize = pagescale;
   */
-  auto scale = static_cast<double>(gw.ncolumns()) / gw.nrows();
+  double scale = 1;
+  if (gw.nrows() != 0)
+    scale = static_cast<double>(gw.ncolumns()) / gw.nrows();
   // scale in 0.5 .. 3
   scale = std::min(std::max(scale, 0.5), 3.);
   // pagescale is common page scale for large run numbers
