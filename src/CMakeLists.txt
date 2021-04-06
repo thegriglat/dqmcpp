@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 2.8.11)
 project (DQMCpp)
 
 # 
-add_definitions("-Wall -Wextra")
+add_definitions("-Wall -Wextra -Werror")
 set(default_build_type "Release")
  
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
