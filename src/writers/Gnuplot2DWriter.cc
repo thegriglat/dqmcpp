@@ -133,24 +133,28 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
     os << "set logscale " << gw.getLogscale() << std::endl;
   for (auto& box : gw.boxes)
     os << box << std::endl;
-  os << "$map1 << EOD" << std::endl;
-  os << "N ";
-  for (auto& e : gw._xlabels)
-    os << e << " ";
-  os << std::endl;
-  for (unsigned int iy = 0; iy < gw.ncolumns(); ++iy) {
-    const auto ylabel = gw._ylabels.at(iy);
-    os << "\"" << ylabel << "\" ";
-    for (unsigned int ix = 0; ix < gw.nrows(); ++ix) {
-      os << all[index(ix, iy)] << " ";
+  os << "set output \"" << gw.getOutput() << "\"" << std::endl;
+  if (gw.ncolumns() != 0) {
+    os << "$map1 << EOD" << std::endl;
+    os << "N ";
+    for (auto& e : gw._xlabels)
+      os << e << " ";
+    os << std::endl;
+    for (unsigned int iy = 0; iy < gw.ncolumns(); ++iy) {
+      const auto ylabel = gw._ylabels.at(iy);
+      os << "\"" << ylabel << "\" ";
+      for (unsigned int ix = 0; ix < gw.nrows(); ++ix) {
+        os << all[index(ix, iy)] << " ";
+      }
+      os << std::endl;
     }
     os << std::endl;
+    os << "EOD" << std::endl;
+    os << "plot '$map1' matrix rowheaders columnheaders with image notitle"
+       << std::endl;
+  } else {
+    os << "print 'no data to plot'" << std::endl;
   }
-  os << std::endl;
-  os << "EOD" << std::endl;
-  os << "set output \"" << gw.getOutput() << "\"" << std::endl;
-  os << "plot '$map1' matrix rowheaders columnheaders with image notitle"
-     << std::endl;
   delete[] all;
   return os;
 }
