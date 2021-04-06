@@ -48,8 +48,14 @@ void plot(vector<ECAL::RunTTData>& rundata) {
     allruns.push_back(xlabel);
     for (auto& ttd : rd.data) {
       const auto det = ECALChannels::det(ttd.base);
+      int ttccu = ttd.base.tt;
+      string tts = "TT";
+      if (ttd.base.iz != 0) {
+        ttccu = ECALChannels::ccu(ttd.base);
+        tts = "CCU";
+      }
       const string ylabel =
-          common::string_format("%s TT%02d", det.c_str(), ttd.base.tt);
+          common::string_format("%s %s%02d", det.c_str(), tts.c_str(), ttccu);
       data.insert({{xlabel, ylabel}, ttd.value});
     }
   }
@@ -88,15 +94,15 @@ void dqmcpp::plugins::ReadoutFlagDropped::Process() {
         for (auto& e : d2dv) {
           const int x = std::trunc(e.base.x);
           const int y = std::trunc(e.base.y);
-          const auto& list = ECALChannels::list();
+          const auto list = ECALChannels::list();
           auto it = std::find_if(
-              list.begin(), list.end(),
+              list->begin(), list->end(),
               [x, y](const dqmcpp::ECALChannels::ChannelInfo& e) {
                 if (std::abs(e.ix - x) <= 2.5 && std::abs(e.iy - y) <= 2.5)
                   return true;
                 return false;
               });
-          if (it != list.end()) {
+          if (it != list->end()) {
             content.emplace_back(ECAL::TT(it->tower, it->tcc, iz), e.value);
           }
         }

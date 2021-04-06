@@ -16,25 +16,43 @@
 
 using namespace std;
 
+namespace {
+
+using namespace dqmcpp;
+const dqmcpp::ECALChannels::ChannelInfo* info(const int tt, const int tcc) {
+  const auto channels = ECALChannels::ChannelsDB::channels();
+  auto it = std::find_if(channels->begin(), channels->end(),
+                         [tt, tcc](const ECALChannels::ChannelInfo& c) {
+                           return c.tower == tt && c.tcc == tcc;
+                         });
+  if (it != channels->end())
+    return &(*it);
+  return nullptr;
+}
+}  // namespace
+
 namespace dqmcpp {
 namespace ECALChannels {
 const ChannelInfo* find(const ECAL::Channel& c) {
   return ChannelsDB::find(c.ix_iphi, c.iy_ieta, c.iz);
 };
 
-const ECALChannelsList list() {
+const ECALChannelsList* list() {
   return ChannelsDB::channels();
 }
 
 const std::string detByTTTTC(const int tt, const int tcc) {
-  auto channels = ECALChannels::ChannelsDB::channels();
-  auto it = std::find_if(channels.begin(), channels.end(),
-                         [tt, tcc](const ChannelInfo& c) {
-                           return c.tower == tt && c.tcc == tcc;
-                         });
-  if (it == channels.end())
-    return "";
-  return it->det();
+  auto i = info(tt, tcc);
+  if (i)
+    return i->det();
+  return "";
+}
+
+int ccu(const ECAL::TT& tt) {
+  auto i = info(tt.tt, tt.tcc);
+  if (i)
+    return i->ccu;
+  return 0;
 }
 
 std::string ChannelInfo::det() const {

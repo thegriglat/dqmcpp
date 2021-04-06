@@ -50,9 +50,9 @@ namespace ECALChannels {
 
 namespace ChannelsDB {
 
-ECALChannelsList channels() {
+const ECALChannelsList* channels() {
   Init();
-  return _channels;
+  return &_channels;
 }
 
 const ChannelInfo* find(const int ix_iphi, const int iy_ieta, const int iz) {
