@@ -121,9 +121,9 @@ void FEErrorClusterSize::Process() {
           readers::JSONReader::get(url.url), false);
       auto it = std::remove_if(
           data2d.begin(), data2d.end(),
-          [](const ECAL::Data2D& d2d) { return common::isNotZero(d2d.value); });
+          [](const ECAL::Data2D& d2d) { return std::abs(d2d.value) == 1.0; });
       data2d.erase(it, data2d.end());
-      const auto clusters = common::clusters(data2d, 36, d2distance);
+      const auto clusters = common::clusters(data2d, 25, d2distance);
       for (auto& cluster : clusters) {
         const auto clustersize = static_cast<int>(cluster.size());
         if (clustersize == 0)
