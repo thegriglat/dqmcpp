@@ -24,6 +24,10 @@ struct Point1D {
 struct Point2D : public Point1D {
   double y;
   Point2D(const double x, const double y) : Point1D(x), y(y){};
+  friend inline std::ostream& operator<<(std::ostream& os, const Point2D& c) {
+    os << "{x: " << c.x << ", y: " << c.y << "}";
+    return os;
+  }
 };
 
 struct Channel {
