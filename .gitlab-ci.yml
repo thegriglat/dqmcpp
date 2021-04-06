@@ -9,12 +9,7 @@ default:
 build:
   stage: build
   script:
-    - mkdir build
+    - mkdir -p build
     - cd build
     - cmake -DPFGPLUGINS=ON ../src
     - make
-  artifacts:
-    paths:
-      - build/dqm
-      - build/findDataset
-      - build/*.so
