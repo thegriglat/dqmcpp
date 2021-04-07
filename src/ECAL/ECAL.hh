@@ -19,13 +19,17 @@ constexpr unsigned int NTotalChannels = NEBChannels + NEEChannels;
 struct Point1D {
   double x;
   Point1D(const double x) : x(x){};
+  friend inline std::ostream& operator<<(std::ostream& os, const Point1D& c) {
+    os << "[" << c.x << "]";
+    return os;
+  }
 };
 
 struct Point2D : public Point1D {
   double y;
   Point2D(const double x, const double y) : Point1D(x), y(y){};
   friend inline std::ostream& operator<<(std::ostream& os, const Point2D& c) {
-    os << "{x: " << c.x << ", y: " << c.y << "}";
+    os << "[" << c.x << ", " << c.y << "]";
     return os;
   }
 };
@@ -130,6 +134,7 @@ using Data2D = Data<Point2D>;
 using RunTTData = RunData<std::vector<TTData>>;
 using RunChannelData = RunData<std::vector<ChannelData>>;
 using RunData2D = RunData<std::vector<Data2D>>;
+using RunData1D = RunData<std::vector<Data1D>>;
 
 std::vector<RunTTData> filterZeroTT(std::vector<RunTTData>& rundata);
 std::vector<TTData> channel2TT(
