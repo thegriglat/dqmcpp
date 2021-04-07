@@ -65,7 +65,10 @@ void plot(vector<ECAL::RunTTData>& rundata) {
   writer.setTitle("ReadoutFlagDropped");
   writer.setZ(0, 1);
   writer.setZTick(0.1);
-  writer.setPalette(colors::PaletteSets::Rainbow);
+  auto palette = colors::PaletteSets::Rainbow;
+  palette.push_back({0.0, "white"});
+  palette.push_back({LOWLIMIT, "white"});
+  writer.setPalette(palette);
   ofstream out("ReadoutFlagDropped.plt");
   out << writer;
   out.close();
