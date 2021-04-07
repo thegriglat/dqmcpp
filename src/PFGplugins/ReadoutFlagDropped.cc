@@ -51,7 +51,6 @@ void plot(vector<ECAL::RunTTData>& rundata) {
       int ttccu = ttd.base.tt;
       string tts = "TT";
       if (ttd.base.iz != 0) {
-        ttccu = ECALChannels::ccu(ttd.base);
         tts = "CCU";
       }
       const string ylabel =
