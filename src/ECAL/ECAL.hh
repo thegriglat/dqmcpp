@@ -19,19 +19,13 @@ constexpr unsigned int NTotalChannels = NEBChannels + NEEChannels;
 struct Point1D {
   double x;
   Point1D(const double x) : x(x){};
-  friend inline std::ostream& operator<<(std::ostream& os, const Point1D& c) {
-    os << "[" << c.x << "]";
-    return os;
-  }
+  friend std::ostream& operator<<(std::ostream& os, const Point1D& c);
 };
 
 struct Point2D : public Point1D {
   double y;
   Point2D(const double x, const double y) : Point1D(x), y(y){};
-  friend inline std::ostream& operator<<(std::ostream& os, const Point2D& c) {
-    os << "[" << c.x << ", " << c.y << "]";
-    return os;
-  }
+  friend std::ostream& operator<<(std::ostream& os, const Point2D& c);
 };
 
 struct Channel {
@@ -44,27 +38,10 @@ struct Channel {
   inline bool isEB() const { return iz == 0; };
   inline bool isEEP() const { return iz == 1; };
   inline bool isEEM() const { return iz == -1; };
-  inline std::array<int, 3> asArray() const {
-    std::array<int, 3> tmp = {ix_iphi, iy_ieta, iz};
-    return tmp;
-  }
-  inline friend bool operator<(const Channel& a, const Channel& b) {
-    if (a.iz == b.iz) {
-      if (a.ix_iphi == b.ix_iphi) {
-        return a.iy_ieta < b.iy_ieta;
-      } else
-        return a.ix_iphi < b.ix_iphi;
-    } else
-      return a.iz < b.iz;
-  }
-  friend inline std::ostream& operator<<(std::ostream& os, const Channel& c) {
-    os << "{x: " << c.ix_iphi << ", y: " << c.iy_ieta << ", z:" << c.iz << "}";
-    return os;
-  }
-
-  friend inline bool operator==(const Channel& a, const Channel& b) {
-    return a.ix_iphi == b.ix_iphi && a.iy_ieta == b.iy_ieta && a.iz == b.iz;
-  }
+  std::array<int, 3> asArray() const;
+  friend bool operator<(const Channel& a, const Channel& b);
+  friend bool operator==(const Channel& a, const Channel& b);
+  friend std::ostream& operator<<(std::ostream& os, const Channel& c);
 };
 
 struct TT {
@@ -75,37 +52,17 @@ struct TT {
   int iz;
   TT(const int tt, const int tcc, const int iz) : tt(tt), tcc(tcc), iz(iz){};
   TT(const Channel& channel);
-  inline friend bool operator==(const TT& a, const TT& b) {
-    return a.tt == b.tt && a.iz == b.iz && a.tcc == b.tcc;
-  }
-  inline friend bool operator<(const TT& a, const TT& b) {
-    if (a.iz == b.iz) {
-      if (a.tcc == b.tcc) {
-        return a.tt < b.tt;
-      } else {
-        return a.tcc < b.tcc;
-      }
-    } else {
-      return a.iz < b.iz;
-    }
-  }
-  inline friend std::ostream& operator<<(std::ostream& os, const TT& elem) {
-    os << "TT[" << elem.tt << "," << elem.tcc << "," << elem.iz << "]";
-    return os;
-  }
+  friend bool operator==(const TT& a, const TT& b);
+  friend bool operator<(const TT& a, const TT& b);
+  friend std::ostream& operator<<(std::ostream& os, const TT& elem);
 };
 
 struct Run {
   int runnumber;
   std::string dataset;
   Run(int _run, std::string _dataset) : runnumber(_run), dataset(_dataset){};
-  friend inline bool operator==(const Run& a, const Run& b) {
-    return a.dataset == b.dataset && a.runnumber == b.runnumber;
-  }
-  friend std::ostream& operator<<(std::ostream& os, const Run& run) {
-    os << run.runnumber << " " << run.dataset;
-    return os;
-  }
+  friend bool operator==(const Run& a, const Run& b);
+  friend std::ostream& operator<<(std::ostream& os, const Run& run);
 };
 
 template <typename T>

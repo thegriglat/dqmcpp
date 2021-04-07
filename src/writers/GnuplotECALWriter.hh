@@ -4,8 +4,6 @@
  * @author Grigory Latyshev (thegriglat@gmail.com)
  * @brief Write ECAL plots in gnuplot format
  */
-#include <algorithm>
-#include <iostream>
 #include "../ECAL/ECAL.hh"
 #include "Gnuplot2D.hh"
 

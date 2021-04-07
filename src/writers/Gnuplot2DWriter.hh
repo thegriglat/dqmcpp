@@ -4,10 +4,9 @@
  * @author Grigory Latyshev (thegriglat@gmail.com)
  * @brief Output 2D histograms
  */
-#include <algorithm>
 #include <functional>
-#include <iostream>
 #include <map>
+#include <ostream>
 #include <vector>
 #include "Gnuplot2D.hh"
 
@@ -44,10 +43,7 @@ class Gnuplot2DWriter : public Gnuplot2D {
   Gnuplot2DWriter(const Data2D& data);
   void setSortYFn(std::function<bool(const std::string&, const std::string&)>
                       sort_function);
-  inline void setXlabels(const std::vector<std::string>& xlabels) {
-    _xlabels = xlabels;
-    std::sort(_xlabels.begin(), _xlabels.end());
-  }
+  void setXlabels(const std::vector<std::string>& xlabels);
   void addBox(const std::string& xlabel,
               const std::string& ylabel,
               const unsigned int pattern = 5);

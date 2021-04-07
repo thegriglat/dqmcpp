@@ -25,9 +25,7 @@ namespace DQMURL {
 std::string dqmurl(const unsigned int run,
                    const std::string& dataset,
                    const std::string& plotname);
-inline std::string dqmurl(const ECAL::Run& run, const std::string& plotname) {
-  return dqmurl(run.runnumber, run.dataset, plotname);
-}
+std::string dqmurl(const ECAL::Run& run, const std::string& plotname);
 /**
  * @brief Get list of datasets for given run and mask
  *

@@ -88,5 +88,14 @@ void ProgressBar::draw(void) const {
   std::cout.flush();
 }
 
+void ProgressBar::setLabel(const std::string& newlabel) {
+  label = newlabel;
+  draw();
+}
+
+void ProgressBar::increment(const int increment) {
+  update(currentProgress + increment);
+};
+
 }  // namespace writers
 }  // namespace dqmcpp

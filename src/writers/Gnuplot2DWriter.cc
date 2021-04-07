@@ -159,5 +159,10 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   return os;
 }
 
+void Gnuplot2DWriter::setXlabels(const std::vector<std::string>& xlabels) {
+  _xlabels = xlabels;
+  std::sort(_xlabels.begin(), _xlabels.end());
+}
+
 }  // namespace writers
 }  // namespace dqmcpp

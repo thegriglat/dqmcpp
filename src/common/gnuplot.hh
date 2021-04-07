@@ -30,11 +30,6 @@ struct FitParameter {
   FitParameter(const std::string& parameter_name,
                const double initialValue = 1.0)
       : name(parameter_name), value(initialValue){};
-  inline friend std::ostream& operator<<(std::ostream& os,
-                                         const FitParameter& fp) {
-    os << fp.name << " fitted to " << fp.value;
-    return os;
-  }
 };
 
 using FitParameters = std::vector<FitParameter>;
@@ -43,12 +38,6 @@ struct Fit {
   FitParameters parameters;
   Fit(const std::string equation, const FitParameters& parameters)
       : equation(equation), parameters(parameters){};
-  inline friend std::ostream& operator<<(std::ostream& os, const Fit& fp) {
-    os << "fit: " << fp.equation << std::endl;
-    for (auto& p : fp.parameters)
-      os << "  " << p << std::endl;
-    return os;
-  }
   const FitParameter& getParameter(const std::string& name) const;
 };
 

@@ -113,5 +113,71 @@ std::vector<ChannelData> Data2D2ChannelData(const std::vector<Data2D>& d2d,
   return chd;
 }
 
+std::array<int, 3> Channel::asArray() const {
+  std::array<int, 3> tmp = {ix_iphi, iy_ieta, iz};
+  return tmp;
+}
+
+// operators
+
+std::ostream& operator<<(std::ostream& os, const Point1D& c) {
+  os << "[" << c.x << "]";
+  return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const Point2D& c) {
+  os << "[" << c.x << ", " << c.y << "]";
+  return os;
+}
+
+bool operator<(const Channel& a, const Channel& b) {
+  if (a.iz == b.iz) {
+    if (a.ix_iphi == b.ix_iphi) {
+      return a.iy_ieta < b.iy_ieta;
+    } else
+      return a.ix_iphi < b.ix_iphi;
+  } else
+    return a.iz < b.iz;
+}
+
+std::ostream& operator<<(std::ostream& os, const Channel& c) {
+  os << "{x: " << c.ix_iphi << ", y: " << c.iy_ieta << ", z:" << c.iz << "}";
+  return os;
+}
+
+bool operator==(const Channel& a, const Channel& b) {
+  return a.ix_iphi == b.ix_iphi && a.iy_ieta == b.iy_ieta && a.iz == b.iz;
+}
+
+bool operator==(const TT& a, const TT& b) {
+  return a.tt == b.tt && a.iz == b.iz && a.tcc == b.tcc;
+}
+
+bool operator<(const TT& a, const TT& b) {
+  if (a.iz == b.iz) {
+    if (a.tcc == b.tcc) {
+      return a.tt < b.tt;
+    } else {
+      return a.tcc < b.tcc;
+    }
+  } else {
+    return a.iz < b.iz;
+  }
+}
+
+std::ostream& operator<<(std::ostream& os, const TT& elem) {
+  os << "TT[" << elem.tt << "," << elem.tcc << "," << elem.iz << "]";
+  return os;
+}
+
+bool operator==(const Run& a, const Run& b) {
+  return a.dataset == b.dataset && a.runnumber == b.runnumber;
+}
+
+std::ostream& operator<<(std::ostream& os, const Run& run) {
+  os << run.runnumber << " " << run.dataset;
+  return os;
+}
+
 };  // namespace ECAL
 };  // namespace dqmcpp

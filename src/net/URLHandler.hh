@@ -31,15 +31,13 @@ class URLHandler {
    *
    * @param certFile Path to user cert file (usually ~/.globus/usercert.pem)
    */
-  inline void setUserCertFile(const std::string& certFile) {
-    pCertFile = certFile;
-  }
+  inline void setUserCertFile(const std::string& certFile);
   /**
    * @brief Set the User Key File
    *
    * @param keyFile Path to user key file (usually ~/.globus/userkey.pem)
    */
-  inline void setUserKeyFile(const std::string& keyFile) { pKeyFile = keyFile; }
+  void setUserKeyFile(const std::string& keyFile);
 };
 
 }  // namespace net

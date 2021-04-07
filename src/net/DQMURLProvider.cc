@@ -197,6 +197,10 @@ std::vector<ECAL::Run> runs(const unsigned int runnumber,
   return filtered_runs;
 }
 
+std::string dqmurl(const ECAL::Run& run, const std::string& plotname) {
+  return dqmurl(run.runnumber, run.dataset, plotname);
+}
+
 }  // namespace DQMURL
 }  // namespace net
 }  // namespace dqmcpp

@@ -89,5 +89,13 @@ URLHandler::URLHandler() {
   }
 }
 
+void URLHandler::setUserCertFile(const std::string& certFile) {
+  pCertFile = certFile;
+}
+
+void URLHandler::setUserKeyFile(const std::string& keyFile) {
+  pKeyFile = keyFile;
+}
+
 }  // namespace net
 }  // namespace dqmcpp
