@@ -49,10 +49,12 @@ std::string URLHandler::get(const std::string& url) {
 
 URLHandler::URLHandler() {
   auto homedir_c = std::getenv("HOME");
+  std::string homedir = ".";
   if (!homedir_c) {
     ERROR("Cannot get $HOME environment variable");
+  } else {
+    homedir = homedir_c;
   }
-  std::string homedir(homedir_c);
   pCertFile = homedir + "/.globus/usercert.pem";
   pKeyFile = homedir + "/.globus/userkey.pem";
   // Handle ENV vars
