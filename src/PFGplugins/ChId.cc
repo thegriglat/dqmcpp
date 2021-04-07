@@ -48,7 +48,7 @@ void plot(const vector<ECAL::RunChannelData>& rundata) {
       }
       const auto arr3 = d.base.asArray();
       const string ylabel = common::string_format(
-          "%s [%+03d,%+03d]", info->det(), arr3[0], arr3[1]);
+          "%s [%+03d,%+03d]", info->det().c_str(), arr3[0], arr3[1]);
       data.insert({{xlabel, ylabel}, d.value});
       _max = std::max(_max, d.value);
     }
