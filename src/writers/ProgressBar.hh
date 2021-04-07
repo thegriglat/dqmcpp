@@ -1,5 +1,6 @@
 #ifndef PROGRESSBAR_HH
 
+#include <sstream>
 #include <string>
 
 namespace dqmcpp {
@@ -25,6 +26,14 @@ class ProgressBar {
   inline void setLabel(const std::string& newlabel) {
     label = newlabel;
     draw();
+  }
+
+  inline void setLabel(const int run) { setLabel(std::to_string(run)); }
+  template <typename T>
+  inline void setLabel(const T value) {
+    std::stringstream ss;
+    ss << value;
+    setLabel(ss.str());
   }
 
   ~ProgressBar() { finish(); };
