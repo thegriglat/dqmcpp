@@ -21,15 +21,26 @@ using namespace dqmcpp;
 namespace {
 using namespace std;
 using namespace dqmcpp;
-vector<string> get_urls(const ECAL::Run& run) {
+vector<string> get_urls(const ECAL::Run& run, const int iz) {
   vector<string> s;
-  s.reserve(18 * 2);
-  for (int i = -18; i <= 18; ++i) {
+  int low = -18;
+  int high = 18;
+  std::string formatstr = "EcalBarrel/EBIntegrityTask/TTId/EBIT TTId EB%+03d";
+  if (iz != 0)
+    formatstr = "EcalEndcap/EEIntegrityTask/TTId/EEIT TTId EE%+03d";
+  if (iz == -1) {
+    low = -9;
+    high = -1;
+  }
+  if (iz == 1) {
+    low = 1;
+    high = 9;
+  }
+  s.reserve(high - low + 1);
+  for (int i = low; i <= high; ++i) {
     if (i == 0)
       continue;
-    s.push_back(net::DQMURL::dqmurl(
-        run, common::string_format(
-                 "EcalBarrel/EBIntegrityTask/TTId/EBIT TTId EB%+03d", i)));
+    s.push_back(net::DQMURL::dqmurl(run, common::string_format(formatstr, i)));
   }
   return s;
 }
@@ -41,8 +52,12 @@ void plot(const vector<ECAL::RunTTData>& rundata) {
     const string xlabel = to_string(rd.run.runnumber);
     for (auto& d : rd.data) {
       const string det = ECALChannels::det(d.base);
-      const string ylabel =
-          common::string_format("%s TT%02d", det.c_str(), d.base.tt);
+      string ylabel;
+      if (d.base.iz != 0) {
+        ylabel = common::string_format("%s CCU%02d", det.c_str(), d.base.tt);
+      } else {
+        ylabel = common::string_format("%s TT%02d", det.c_str(), d.base.tt);
+      }
       data.insert({{xlabel, ylabel}, d.value});
       _max = std::max(_max, d.value);
     }
@@ -63,17 +78,42 @@ void plot(const vector<ECAL::RunTTData>& rundata) {
 }  // namespace
 
 void dqmcpp::plugins::TTid::Process() {
-  writers::ProgressBar progress(runListReader->runs().size());
+  writers::ProgressBar pb(runListReader->runs().size());
   std::vector<ECAL::RunTTData> rundata;
+  const auto channels = ECALChannels::list();
   for (auto& run : runListReader->runs()) {
-    progress.setLabel(to_string(run.runnumber));
-    progress.increment();
-    const auto urls = get_urls(run);
-    const auto contents = net::URLCache::get(urls);
+    pb.setLabel(to_string(run.runnumber));
+    pb.increment();
     ECAL::RunTTData ttdata(run, {});
-    for (auto& content : contents) {
-      const auto ttd = ECAL::channel2TT(readers::JSONReader::parse(content));
-      ttdata.data.insert(ttdata.data.end(), ttd.begin(), ttd.end());
+    for (int iz = -1; iz <= 1; ++iz) {
+      const auto urls = get_urls(run, iz);
+      const auto contents = net::URLCache::get(urls);
+      for (auto& content : contents) {
+        if (iz != 0) {
+          const auto d2d = readers::JSONReader::parse2D(content);
+          vector<ECAL::TTData> _localtt;
+          for (auto& d : d2d) {
+            auto it = std::find_if(
+                channels->begin(), channels->end(),
+                [&d, iz](const ECALChannels::ChannelInfo& ci) {
+                  return std::abs(ci.ix - d.base.x) < 2.5 &&
+                         std::abs(ci.iy - d.base.y) < 2.5 && ci.iz == iz;
+                });
+            if (it == channels->end()) {
+              cout << endl << run << " cannot determine ccu" << d.base << endl;
+            } else {
+              _localtt.emplace_back(ECAL::TT(it->ccu, it->tcc, iz), d.value);
+            }
+          }
+          ttdata.data.insert(ttdata.data.end(), _localtt.begin(),
+                             _localtt.end());
+
+        } else {
+          const auto ttd =
+              ECAL::channel2TT(readers::JSONReader::parse(content));
+          ttdata.data.insert(ttdata.data.end(), ttd.begin(), ttd.end());
+        }
+      }
     }
     rundata.push_back(ttdata);
   }
