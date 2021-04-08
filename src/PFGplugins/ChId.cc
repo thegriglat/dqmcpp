@@ -22,15 +22,26 @@ using namespace dqmcpp;
 namespace {
 using namespace std;
 using namespace dqmcpp;
-vector<string> get_urls(const ECAL::Run& run) {
+vector<string> get_urls(const ECAL::Run& run, const int iz) {
   vector<string> s;
-  s.reserve(18 * 2);
-  for (int i = -18; i <= 18; ++i) {
+  int low = -18;
+  int high = 18;
+  std::string formatstr = "EcalBarrel/EBIntegrityTask/ChId/EBIT ChId EB%+03d";
+  if (iz != 0)
+    formatstr = "EcalEndcap/EEIntegrityTask/ChId/EEIT ChId EE%+03d";
+  if (iz == -1) {
+    low = -9;
+    high = -1;
+  }
+  if (iz == 1) {
+    low = 1;
+    high = 9;
+  }
+  s.reserve(high - low + 1);
+  for (int i = low; i <= high; ++i) {
     if (i == 0)
       continue;
-    s.push_back(net::DQMURL::dqmurl(
-        run, common::string_format(
-                 "EcalBarrel/EBIntegrityTask/ChId/EBIT ChId EB%+03d", i)));
+    s.push_back(net::DQMURL::dqmurl(run, common::string_format(formatstr, i)));
   }
   return s;
 }
@@ -74,12 +85,14 @@ void dqmcpp::plugins::ChId::Process() {
   for (auto& run : runListReader->runs()) {
     progress.setLabel(to_string(run.runnumber));
     progress.increment();
-    const auto urls = get_urls(run);
-    const auto contents = net::URLCache::get(urls);
     ECAL::RunChannelData chdata(run, {});
-    for (auto& content : contents) {
-      const auto chd = readers::JSONReader::parse(content);
-      chdata.data.insert(chdata.data.end(), chd.begin(), chd.end());
+    for (int iz = -1; iz <= 1; ++iz) {
+      const auto urls = get_urls(run, iz);
+      const auto contents = net::URLCache::get(urls);
+      for (auto& content : contents) {
+        const auto chd = readers::JSONReader::parse(content);
+        chdata.data.insert(chdata.data.end(), chd.begin(), chd.end());
+      }
     }
     rundata.push_back(chdata);
   }
