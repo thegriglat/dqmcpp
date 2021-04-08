@@ -1,4 +1,4 @@
-#include "ChId.hh"
+#include "Gain.hh"
 
 #include <fstream>
 #include <iostream>
@@ -13,8 +13,8 @@
 #include "writers/Gnuplot2DWriter.hh"
 #include "writers/ProgressBar.hh"
 
-// TODO: plugins are disabled as all DQM plots are empty
-// REGISTER_PLUGIN(ChId)
+#define MINVALUETOSKIP (5.0);
+REGISTER_PLUGIN(Gain)
 
 using namespace std;
 using namespace dqmcpp;
@@ -26,9 +26,9 @@ vector<string> get_urls(const ECAL::Run& run, const int iz) {
   vector<string> s;
   int low = -18;
   int high = 18;
-  std::string formatstr = "EcalBarrel/EBIntegrityTask/ChId/EBIT ChId EB%+03d";
+  std::string formatstr = "EcalBarrel/EBIntegrityTask/Gain/EBIT gain EB%+03d";
   if (iz != 0)
-    formatstr = "EcalEndcap/EEIntegrityTask/ChId/EEIT ChId EE%+03d";
+    formatstr = "EcalEndcap/EEIntegrityTask/Gain/EEIT gain EE%+03d";
   if (iz == -1) {
     low = -9;
     high = -1;
@@ -65,21 +65,25 @@ void plot(const vector<ECAL::RunChannelData>& rundata) {
     }
   }
   writers::Gnuplot2DWriter writer(data);
-  writer.setOutput("ChId.png");
+  writer.setOutput("Gain.png");
   writer.setPalette(colors::PaletteSets::Heatmap);
   if (_max > 0)
     writer.setZ(0, _max);
   writer.setZTick(10);
-  writer.setTitle("ChId");
+  writer.setTitle("Gain");
   writer.setLogscale("cb");
-  ofstream out("ChId.plt");
+  ofstream out("Gain.plt");
   out << writer;
   out.close();
 }
 
+bool skipFn(const ECAL::ChannelData& cd) {
+  return cd.value < MINVALUETOSKIP;
+}
+
 }  // namespace
 
-void dqmcpp::plugins::ChId::Process() {
+void dqmcpp::plugins::Gain::Process() {
   writers::ProgressBar progress(runListReader->runs().size());
   std::vector<ECAL::RunChannelData> rundata;
   for (auto& run : runListReader->runs()) {
@@ -94,6 +98,9 @@ void dqmcpp::plugins::ChId::Process() {
         chdata.data.insert(chdata.data.end(), chd.begin(), chd.end());
       }
     }
+    chdata.data.erase(
+        std::remove_if(chdata.data.begin(), chdata.data.end(), skipFn),
+        chdata.data.end());
     rundata.push_back(chdata);
   }
   plot(rundata);
