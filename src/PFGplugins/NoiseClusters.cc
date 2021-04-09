@@ -3,12 +3,14 @@
 
 #include <fstream>
 #include <functional>
+#include <set>
 #include <sstream>
 #include <string>
 #include <vector>
 #include "colors/Colors.hh"
 #include "common/clusters.hh"
 #include "common/common.hh"
+#include "ecalchannels/ECALChannels.hh"
 #include "writers/Gnuplot2DWriter.hh"
 
 REGISTER_PLUGIN(NoiseClusters);
@@ -57,19 +59,23 @@ void dqmcpp::plugins::NoiseClusters::Process() {
           clusters.end());
       for (auto& cluster : clusters) {
         _maxsize = std::max((int)cluster.size(), _maxsize);
-        const int avgx = common::mean(
-            cluster,
-            [](const ECAL::ChannelData& chd) { return chd.base.ix_iphi; });
-        const int avgy = common::mean(
-            cluster,
-            [](const ECAL::ChannelData& chd) { return chd.base.iy_ieta; });
+        std::set<int> ttlist;
+        for (auto& chd : cluster) {
+          const auto info = ECALChannels::find(chd.base);
+          ttlist.insert(info->ccu);
+        }
+        std::vector<int> ttsorted(ttlist.begin(), ttlist.end());
+        std::sort(ttsorted.begin(), ttsorted.end());
         std::string dstr = "EB";
         if (det == 1)
           dstr = "EE+";
         if (det == -1)
           dstr = "EE-";
         std::stringstream yss;
-        yss << dstr << " [" << avgx << "," << avgy << "]";
+        yss << dstr << " ["
+            << common::join(common::map<int, std::string>(
+                   ttsorted, [](const int i) { return std::to_string(i); }))
+            << "]";
         const std::string ylabel = yss.str();
         data.insert({{xlabel, ylabel}, cluster.size()});
       }
