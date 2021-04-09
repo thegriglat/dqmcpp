@@ -15,6 +15,10 @@
 
 REGISTER_PLUGIN(NoiseClusters);
 
+#define MINCLUSTERSIZE (5)
+#define EBLIMIT (3.5)
+#define EELIMIT (5.0)
+
 namespace {
 int chDistance2(const dqmcpp::ECAL::ChannelData& a,
                 const dqmcpp::ECAL::ChannelData& b) {
@@ -33,7 +37,7 @@ void dqmcpp::plugins::NoiseClusters::Process() {
   int _maxsize = -1;
   for (int det = -1; det <= 1; ++det) {
     // EB == 0, EE == +-1
-    const double limit = (det == 0) ? 3.5 : 5.0;
+    const double limit = (det == 0) ? EBLIMIT : EELIMIT;
     std::vector<ECAL::RunChannelData> detrmsdata(rmsdata.begin(),
                                                  rmsdata.end());
     for (auto& d : detrmsdata) {
@@ -54,7 +58,7 @@ void dqmcpp::plugins::NoiseClusters::Process() {
       clusters.erase(
           std::remove_if(clusters.begin(), clusters.end(),
                          [](const std::vector<ECAL::ChannelData>& chdv) {
-                           return chdv.size() <= 4;
+                           return chdv.size() < MINCLUSTERSIZE;
                          }),
           clusters.end());
       for (auto& cluster : clusters) {
@@ -84,7 +88,7 @@ void dqmcpp::plugins::NoiseClusters::Process() {
   writers::Gnuplot2DWriter writer(data);
   writer.setOutput("NoiseClusters.png");
   writer.setTitle("NoiseClusters");
-  writer.setZ(0, _maxsize);
+  writer.setZ(MINCLUSTERSIZE - .5, _maxsize);
   writer.setZTick(1);
   writer.setPalette(colors::PaletteSets::Heatmap);
   writer.setXlabels(common::map<ECAL::Run, std::string>(
