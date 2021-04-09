@@ -48,7 +48,6 @@ vector<string> get_urls(const ECAL::Run& run, const int iz) {
 
 void plot(const vector<ECAL::RunChannelData>& rundata) {
   writers::Gnuplot2DWriter::Data2D data;
-  double _max = -1;
   for (auto& rd : rundata) {
     const string xlabel = to_string(rd.run.runnumber);
     for (auto& d : rd.data) {
@@ -61,15 +60,13 @@ void plot(const vector<ECAL::RunChannelData>& rundata) {
       const string ylabel = common::string_format(
           "%s [%+03d,%+03d]", info->det().c_str(), arr3[0], arr3[1]);
       data.insert({{xlabel, ylabel}, d.value});
-      _max = std::max(_max, d.value);
     }
   }
   writers::Gnuplot2DWriter writer(data);
   writer.setOutput("Gain.png");
   writer.setPalette(colors::PaletteSets::Heatmap);
-  if (_max > 0)
-    writer.setZ(0, _max);
-  writer.setZTick(10);
+  writer.setZ(0, 1);
+  writer.setZTick(0.1);
   writer.setTitle("Gain");
   writer.setLogscale("cb");
   ofstream out("Gain.plt");
@@ -79,6 +76,14 @@ void plot(const vector<ECAL::RunChannelData>& rundata) {
 
 bool skipFn(const ECAL::ChannelData& cd) {
   return cd.value < MINVALUETOSKIP;
+}
+
+void normalise(std::vector<ECAL::ChannelData>& cdv) {
+  const auto _max =
+      common::maximum(cdv, [](const ECAL::ChannelData& q) { return q.value; });
+  for (auto& e : cdv) {
+    e.value /= _max;
+  }
 }
 
 }  // namespace
@@ -101,6 +106,7 @@ void dqmcpp::plugins::Gain::Process() {
     chdata.data.erase(
         std::remove_if(chdata.data.begin(), chdata.data.end(), skipFn),
         chdata.data.end());
+    normalise(chdata.data);
     rundata.push_back(chdata);
   }
   plot(rundata);
