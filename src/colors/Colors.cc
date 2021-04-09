@@ -26,6 +26,8 @@ const HEXColor black = "#0e1111";
 namespace PaletteSets {
 
 const Palette Heatmap = {{0.0, ColorSets::white},
+                         {0.0, "#add8e6"},
+                         {0.05, colors::ColorSets::yellow},
                          {0.25, "#fdc70c"},
                          {0.5, "#f3903f"},
                          {0.75, "#ed683c"},
