@@ -68,7 +68,6 @@ void plot(const vector<ECAL::RunChannelData>& rundata) {
   writer.setZ(0, 1);
   writer.setZTick(0.1);
   writer.setTitle("Gain");
-  writer.setLogscale("cb");
   ofstream out("Gain.plt");
   out << writer;
   out.close();
