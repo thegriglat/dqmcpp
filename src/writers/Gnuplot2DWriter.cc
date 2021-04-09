@@ -123,6 +123,7 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
      << "set my2tics 2" << std::endl
      << "set x2range[-0.5:" << gw.nrows() - 0.5 << "]" << std::endl
      << "set y2range[-0.5:" << gw.ncolumns() - 0.5 << "]" << std::endl
+     << "set yrange[-0.5:" << gw.ncolumns() - 0.5 << "]" << std::endl
      << "set grid front mx2tics my2tics lw 1"
      << std::endl
      // remove x/y tics, keep labels
@@ -148,6 +149,17 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
       }
       os << std::endl;
     }
+    /*
+     * in case of 1 row data I have to hack gnuplot and insert dummy data which
+     * won't be displayed
+     */
+    if (gw.ncolumns() == 1) {
+      os << "\"dummy\"";
+      for (unsigned int ix = 0; ix < gw.nrows(); ++ix)
+        os << " 0";
+      os << std::endl;
+    }
+    //  end of hack
     os << std::endl;
     os << "EOD" << std::endl;
     os << "plot '$map1' matrix rowheaders columnheaders with image notitle"
