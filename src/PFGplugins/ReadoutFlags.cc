@@ -107,7 +107,7 @@ void ReadoutFlags::plot(const vector<ECAL::RunTTData>& rundata,
   writer.setTitle(name);
   writer.setZ(0, 1);
   writer.setZTick(0.1);
-  auto palette = colors::PaletteSets::Rainbow;
+  auto palette = colors::PaletteSets::Heatmap;
   // palette.push_back({0.0, "white"});
   // palette.push_back({LOWLIMIT, "white"});
   writer.setPalette(palette);
