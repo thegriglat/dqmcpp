@@ -26,9 +26,10 @@ const HEXColor black = "#0e1111";
 namespace PaletteSets {
 
 const Palette Heatmap = {{0.0, ColorSets::white},
-                         {0.0, ColorSets::yellow},
-                         {0.5, ColorSets::orange},
-                         {1.0, ColorSets::red}};
+                         {0.25, "#fdc70c"},
+                         {0.5, "#f3903f"},
+                         {0.75, "#ed683c"},
+                         {1.0, colors::ColorSets::red}};
 const Palette RMSHeatMap = {{0.0, ColorSets::white},  {0.0, ColorSets::blue},
                             {0.2, ColorSets::white},  {0.4, ColorSets::yellow},
                             {0.6, ColorSets::orange}, {1.0, ColorSets::red}};
