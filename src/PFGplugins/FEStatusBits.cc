@@ -144,7 +144,7 @@ void plot(const std::vector<RunTTInfo>& rundata,
       "FEStatusBits_" + common::join(status_list, "_") + ".plt";
   ofstream out(filename);
   writer.setZ(0, 1);
-  writer.setPalette(colors::PaletteSets::Rainbow);
+  writer.setPalette(colors::PaletteSets::Heatmap);
   writer.setTitle(title);
   writer.setOutput(filename + ".png");
   writer.setZTick(0.1);
