@@ -140,9 +140,8 @@ void plot(const std::vector<RunTTInfo>& rundata,
   for (auto& i : statuses)
     status_list.push_back(dqmcpp::plugins::FEStatusBits::STATUSES.at(i));
   const string title = "ECAL FEStatusBits " + common::join(status_list, "+");
-  const string filename =
-      "FEStatusBits_" + common::join(status_list, "_") + ".plt";
-  ofstream out(filename);
+  const string filename = "FEStatusBits_" + common::join(status_list, "_");
+  ofstream out(filename + ".plt");
   writer.setZ(0, 1);
   writer.setPalette(colors::PaletteSets::Heatmap);
   writer.setTitle(title);
