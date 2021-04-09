@@ -33,7 +33,7 @@ void dqmcpp::plugins::NoiseClusters::Process() {
   int _maxsize = -1;
   for (int det = -1; det <= 1; ++det) {
     // EB == 0, EE == +-1
-    const double limit = (det == 0) ? 3.0 : 5.0;
+    const double limit = (det == 0) ? 3.5 : 5.0;
     std::vector<ECAL::RunChannelData> detrmsdata(rmsdata.begin(),
                                                  rmsdata.end());
     for (auto& d : detrmsdata) {
