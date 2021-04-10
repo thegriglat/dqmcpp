@@ -76,7 +76,7 @@ int ccu(const ECAL::TT& tt) {
 std::string ChannelInfo::det() const {
   switch (fed) {
     case 601:
-      return "EE-7";
+      return "EE-07";
     case 602:
       return "EE-08";
     case 603:
