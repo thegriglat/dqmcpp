@@ -3,16 +3,17 @@
 #include <algorithm>
 #include <array>
 #include <vector>
-#include "../common/lists.hh"
-#include "../common/math.hh"
+#include "functional.hh"
+#include "lists.hh"
+#include "math.hh"
 
 namespace {
 
 template <typename T, typename BinaryOp>
-std::vector<std::array<T, 2>> get_pairs(const std::vector<T>& data,
-                                        const double maxdistance,
-                                        BinaryOp distance_fn) {
-  std::vector<std::array<T, 2>> points;
+std::vector<std::array<const T*, 2>> get_pairs(const std::vector<T>& data,
+                                               const double maxdistance,
+                                               BinaryOp distance_fn) {
+  std::vector<std::array<const T*, 2>> points;
   if (data.size() == 0)
     return points;
   const auto len = data.size();
@@ -24,32 +25,25 @@ std::vector<std::array<T, 2>> get_pairs(const std::vector<T>& data,
       const auto distance = distance_fn(*pi, *pj);
       if (distance > maxdistance)
         continue;
-      points.push_back({*pi, *pj});
+      points.push_back({pi, pj});
     }
   return points;
 }
 
-template <typename T, typename BinaryOp>
-std::vector<std::vector<T>> clusterize(std::vector<std::array<T, 2>>& pairs,
-                                       BinaryOp distance_fn) {
+template <typename T>
+std::vector<std::vector<T>> clusterize(
+    std::vector<std::array<const T*, 2>>& pairs) {
   std::vector<std::vector<T>> clusters;
   if (pairs.size() == 0)
     return clusters;
   do {
-    std::vector<T> current_cluster = {pairs.at(0).at(0), pairs.at(0).at(1)};
+    std::vector<const T*> current_cluster = {pairs.at(0).at(0),
+                                             pairs.at(0).at(1)};
     for (auto it = pairs.begin() + 1; it != pairs.end(); ++it) {
-      const T& p1 = it->at(0);
-      const T& p2 = it->at(1);
-      auto pos1 =
-          std::find_if(current_cluster.begin(), current_cluster.end(),
-                       [&p1, distance_fn](const T& e) {
-                         return dqmcpp::common::isZero(distance_fn(e, p1));
-                       });
-      auto pos2 =
-          std::find_if(current_cluster.begin(), current_cluster.end(),
-                       [&p2, distance_fn](const T& e) {
-                         return dqmcpp::common::isZero(distance_fn(p2, e));
-                       });
+      const T* p1 = it->at(0);
+      const T* p2 = it->at(1);
+      auto pos1 = std::find(current_cluster.begin(), current_cluster.end(), p1);
+      auto pos2 = std::find(current_cluster.begin(), current_cluster.end(), p2);
       const bool match1 = pos1 != current_cluster.end();
       const bool match2 = pos2 != current_cluster.end();
       if (match1 || match2) {
@@ -61,18 +55,16 @@ std::vector<std::vector<T>> clusterize(std::vector<std::array<T, 2>>& pairs,
           current_cluster.push_back(p2);
       }
     }
-    clusters.push_back(current_cluster);
-    // remove added points
     auto removeit = std::remove_if(
         pairs.begin(), pairs.end(),
-        [&current_cluster, distance_fn](const std::array<T, 2>& pts) {
-          return dqmcpp::common::has(
-              current_cluster, [&pts, distance_fn](const T& e) {
-                return dqmcpp::common::isZero(distance_fn(pts.at(0), e) *
-                                              distance_fn(pts.at(1), e));
-              });
+        [&current_cluster](const std::array<const T*, 2>& pts) {
+          return dqmcpp::common::has(current_cluster, [&pts](const T* e) {
+            return pts[0] == e || pts[1] == e;
+          });
         });
     pairs.erase(removeit, pairs.end());
+    clusters.push_back(dqmcpp::common::map<const T*, T>(
+        current_cluster, [](const T* e) -> T { return *e; }));
   } while (pairs.size() > 0);
   return clusters;
 }
@@ -98,7 +90,7 @@ std::vector<std::vector<T>> clusters(const std::vector<T>& data,
                                      const double maxdistance,
                                      BinaryOp distance_fn) {
   auto pairs = get_pairs(data, maxdistance, distance_fn);
-  return clusterize(pairs, distance_fn);
+  return clusterize(pairs);
 }
 
 }  // namespace common
