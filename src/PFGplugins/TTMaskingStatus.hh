@@ -16,7 +16,7 @@ namespace plugins {
 
 class TTMaskingStatus : public Plugin {
  private:
-  std::vector<ECAL::RunTTData> Init(void);
+  std::vector<ECAL::RunTTData> Init(void) const;
 
  public:
   void Process();

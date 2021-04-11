@@ -17,6 +17,7 @@
 #include "net/DQMURLProvider.hh"
 #include "readers/JSONReader.hh"
 #include "writers/Gnuplot2DWriter.hh"
+#include "writers/ProgressBar.hh"
 
 using namespace dqmcpp::ECAL;
 using namespace dqmcpp;
@@ -99,14 +100,16 @@ namespace dqmcpp {
 namespace plugins {
 
 using namespace dqmcpp;
-std::vector<RunTTData> TTMaskingStatus::Init() {
+std::vector<RunTTData> TTMaskingStatus::Init() const {
   vector<RunTTData> rundata;
+  writers::ProgressBar pb(runListReader->runs().size());
   const auto all_channels = ECALChannels::list();
   for (auto r : runListReader->runs()) {
+    pb.setLabel(r.runnumber);
+    pb.increment();
     std::vector<TTData> data;
     data.reserve(2500);  // approx ~3k
     for (auto url : urls(r.runnumber, r.dataset)) {
-      cout << url.url << endl;
       vector<TTData> data_tt;
       if (url.isEB) {
         // parse as tt
