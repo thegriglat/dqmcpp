@@ -12645,7 +12645,7 @@ template<typename CharType>
 class output_vector_adapter : public output_adapter_protocol<CharType>
 {
   public:
-    explicit output_vector_adapter(std::vector<CharType>& vec) noexcept
+    explicit output_vector_adapter(const std::vector<CharType>& vec) noexcept
         : v(vec)
     {}
 

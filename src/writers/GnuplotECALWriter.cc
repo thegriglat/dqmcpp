@@ -20,7 +20,7 @@ inline void drawLine(std::ostream& os,
                      int y1,
                      int x2,
                      int y2,
-                     const std::string color = "black") {
+                     const std::string& color = "black") {
   os << "set arrow front nohead from " << x1 << "," << y1 << " to " << x2 << ","
      << y2 << "lc rgb \"" << color << "\"" << std::endl;
 }

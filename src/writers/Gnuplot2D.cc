@@ -6,11 +6,12 @@ namespace dqmcpp {
 namespace writers {
 
 using colors::PaletteColor;
-void Gnuplot2D::setPalette(Palette palette) {
+void Gnuplot2D::setPalette(const Palette& palette) {
   _palette = palette;
-  std::sort(
-      _palette.begin(), _palette.end(),
-      [](PaletteColor& a, PaletteColor& b) { return a.position < b.position; });
+  std::sort(_palette.begin(), _palette.end(),
+            [](const PaletteColor& a, const PaletteColor& b) {
+              return a.position < b.position;
+            });
 }
 
 std::string Gnuplot2D::palette_str() const {

@@ -25,7 +25,8 @@ struct URLType {
   bool isEB;
   int sm;
   std::string url;
-  URLType(bool isEB, int sm, std::string url) : isEB(isEB), sm(sm), url(url){};
+  URLType(bool isEB, int sm, const std::string& url)
+      : isEB(isEB), sm(sm), url(url){};
 };
 
 struct TTInfo {

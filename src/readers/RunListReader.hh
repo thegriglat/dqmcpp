@@ -16,7 +16,7 @@ class RunListReader {
   std::vector<ECAL::Run> _runs;
 
  public:
-  RunListReader(const std::string filename);
+  RunListReader(const std::string& filename);
   /**
    * @brief Returns (run, dataset) vector
    *

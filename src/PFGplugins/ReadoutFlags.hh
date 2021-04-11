@@ -14,7 +14,7 @@ class ReadoutFlags : public Plugin {
   std::vector<ECAL::RunTTData> getRundata() const;
   virtual std::string geturl(const ECAL::Run& run, const int iz) const;
   static void plot(const std::vector<ECAL::RunTTData>& rundata,
-                   const std::string name);
+                   const std::string& name);
 
   virtual bool removeFn(const ECAL::TTData& ttd) const;
 

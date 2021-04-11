@@ -83,7 +83,7 @@ std::vector<ECAL::RunTTData> ReadoutFlags::getRundata() const {
 }
 
 void ReadoutFlags::plot(const vector<ECAL::RunTTData>& rundata,
-                        const string name) {
+                        const string& name) {
   writers::Gnuplot2DWriter::Data2D data;
   vector<string> allruns;
   for (auto& rd : rundata) {

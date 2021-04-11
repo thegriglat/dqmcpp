@@ -103,7 +103,7 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
     return;
   writers::Gnuplot2DWriter::Data2D data;
   std::vector<std::pair<std::string, std::string>> boxes;
-  auto& lastrun = rundata.back().run;
+  const auto& lastrun = rundata.back().run;
   writers::ProgressBar progress(rundata.size());
   progress.setLabel("plotting...");
   std::set<ECAL::Channel> badchannels;

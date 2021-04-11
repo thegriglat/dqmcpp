@@ -30,7 +30,7 @@ namespace {
 struct URLType {
   std::string url;
   bool isEB = false;
-  URLType(const std::string _s, bool eb) : url(_s), isEB(eb){};
+  URLType(const std::string& _s, bool eb) : url(_s), isEB(eb){};
 };
 
 std::vector<URLType> urls(const unsigned int runnumber,

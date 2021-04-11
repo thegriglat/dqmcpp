@@ -36,7 +36,7 @@ using FitParameters = std::vector<FitParameter>;
 struct Fit {
   std::string equation;
   FitParameters parameters;
-  Fit(const std::string equation, const FitParameters& parameters)
+  Fit(const std::string& equation, const FitParameters& parameters)
       : equation(equation), parameters(parameters){};
   const FitParameter& getParameter(const std::string& name) const;
 };

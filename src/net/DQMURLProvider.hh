@@ -35,7 +35,7 @@ std::string dqmurl(const ECAL::Run& run, const std::string& plotname);
  * @return std::vector<std::string>
  */
 std::vector<dqmcpp::ECAL::Run> runs(const unsigned int run,
-                                    const std::string mask,
+                                    const std::string& mask,
                                     const bool useLast = true);
 
 }  // namespace DQMURL

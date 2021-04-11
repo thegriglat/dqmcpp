@@ -49,7 +49,7 @@ void eraseMain(vector<ECAL::Data1D>& list) {
   list.erase(std::remove_if(list.begin(), list.end(), isRemoved), list.end());
 }
 
-void plot(const vector<ECAL::RunData1D>& rundata, const std::string name) {
+void plot(const vector<ECAL::RunData1D>& rundata, const std::string& name) {
   writers::Gnuplot1DWriter::Data1D data;
   for (auto& rd : rundata) {
     const auto xlabel = to_string(rd.run.runnumber);

@@ -71,7 +71,6 @@ bool has(const std::string& url) {
 }
 
 struct URLMTInfo {
-  size_t pos;
   bool cached;
   std::string url;
 };
@@ -96,7 +95,7 @@ std::vector<std::string> URLCache::get(const std::vector<std::string>& urls) {
   vector<URLMTInfo> urlsinfo;
   urlsinfo.reserve(urls.size());
   for (size_t i = 0; i < urls.size(); ++i) {
-    urlsinfo.push_back({i, has(urls.at(i)), urls.at(i)});
+    urlsinfo.push_back({has(urls.at(i)), urls.at(i)});
   }
   const auto info2download = common::filter(
       urlsinfo, [](const URLMTInfo& info) { return !info.cached; });

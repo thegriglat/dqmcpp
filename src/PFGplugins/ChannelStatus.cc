@@ -61,7 +61,7 @@ int getChannelTT(const ECAL::ChannelData& cd) {
     return cinfo->ccu;
 }
 
-void dump(dqmcpp::writers::Gnuplot2DWriter& writer,
+void dump(const dqmcpp::writers::Gnuplot2DWriter& writer,
           const std::string& filename) {
   ofstream out(filename);
   out << writer;

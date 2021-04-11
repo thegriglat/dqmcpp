@@ -43,7 +43,7 @@ int getECALDetector(const std::string& title) {
  * @return true
  * @return false
  */
-bool isValid(nlohmann::json& j) {
+bool isValid(const nlohmann::json& j) {
   const auto hist = j["hist"];
   // {"hist": "unsupported type"}
   if (hist.empty() || hist.is_string())
@@ -131,7 +131,6 @@ std::vector<ECAL::Data1D> parse1D(nlohmann::json& j, bool skipZeroes) {
   if (!isValid(j))
     return std::vector<ECAL::Data1D>();
   const auto xaxis = j["hist"]["xaxis"];
-  const auto yaxis = j["hist"]["yaxis"];
   const auto xnbins =
       xaxis["last"]["id"].get<int>() - xaxis["first"]["id"].get<int>() + 1;
   const auto xfirst = xaxis["first"]["value"].get<double>();

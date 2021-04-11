@@ -15,7 +15,7 @@
 namespace {
 
 int sortCh(const dqmcpp::ECALChannels::ChannelInfo& a,
-           dqmcpp::ECALChannels::ChannelInfo& b) {
+           const dqmcpp::ECALChannels::ChannelInfo& b) {
   /*
   sort by z
   iphi

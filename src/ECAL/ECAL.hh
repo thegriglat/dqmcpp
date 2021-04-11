@@ -60,7 +60,8 @@ struct TT {
 struct Run {
   int runnumber;
   std::string dataset;
-  Run(int _run, std::string _dataset) : runnumber(_run), dataset(_dataset){};
+  Run(int _run, const std::string& _dataset)
+      : runnumber(_run), dataset(_dataset){};
   friend bool operator==(const Run& a, const Run& b);
   friend std::ostream& operator<<(std::ostream& os, const Run& run);
 };

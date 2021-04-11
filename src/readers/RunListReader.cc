@@ -22,7 +22,7 @@ bool runSorter(const dqmcpp::ECAL::Run& a, const dqmcpp::ECAL::Run& b) {
 namespace dqmcpp {
 namespace readers {
 
-RunListReader::RunListReader(const std::string filename) {
+RunListReader::RunListReader(const std::string& filename) {
   ifstream in(filename);
   if (!in.good()) {
     std::cout << "Cannot open runlist file" << std::endl;

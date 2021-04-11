@@ -32,7 +32,7 @@ namespace {
  * @param s
  * @return std::string
  */
-std::string urlencode(const std::string value) {
+std::string urlencode(const std::string& value) {
   ostringstream escaped;
   escaped.fill('0');
   escaped << hex;
@@ -147,7 +147,7 @@ std::string dqmurl(const unsigned int run,
 }
 
 std::vector<ECAL::Run> runs(const unsigned int runnumber,
-                            const std::string mask,
+                            const std::string& mask,
                             const bool useLast) {
   auto session = DQMSession::get();
   // firstly we need to GET chooseSample to init ??? in DQM
