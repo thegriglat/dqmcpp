@@ -17,8 +17,7 @@ template <typename T, typename K, typename unop>
 std::vector<K> map(const std::vector<T>& col, unop op) {
   std::vector<K> _tmp;
   _tmp.reserve(col.size());
-  for (auto& e : col)
-    _tmp.push_back(op(e));
+  std::transform(col.begin(), col.end(), std::back_inserter(_tmp), op);
   return _tmp;
 }
 

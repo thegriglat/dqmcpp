@@ -116,8 +116,12 @@ void TTF4Occupancy::Process() {
   occupancy_tt = filterZeroTT(occupancy_tt);
   // scale to max
   for (auto& ttrun : occupancy_tt) {
-    auto max = common::maximum(ttrun.data,
-                               [](const ECAL::TTData& e) { return e.value; });
+    auto maxe =
+        std::max_element(ttrun.data.begin(), ttrun.data.end(),
+                         [](const ECAL::TTData& a, const ECAL::TTData& b) {
+                           return a.value < b.value;
+                         });
+    auto max = maxe->value;
     for (auto& ee : ttrun.data) {
       ee.value /= max;
     }

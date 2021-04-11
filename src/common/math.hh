@@ -25,64 +25,6 @@ inline double sum(const Collection& list) {
   return std::accumulate(list.begin(), list.end(), 0.0);
 }
 
-template <typename Iterator, typename BinaryOp>
-double maximum(Iterator begin, Iterator end, BinaryOp getfn) {
-  if (begin == end)
-    return 0;
-  double max = getfn(*begin);
-  for (auto it = begin + 1; it != end; ++it) {
-    const auto _tmp = getfn(*it);
-    if (_tmp > max) {
-      max = _tmp;
-    }
-  }
-  return max;
-}
-
-template <typename Collection, typename BinaryOp>
-inline double maximum(const Collection& list, BinaryOp getter) {
-  return maximum(list.begin(), list.end(), getter);
-}
-
-template <typename Collection>
-double maximum(const Collection& list) {
-  if (list.size() == 0)
-    return 0;
-  double m = list.at(0);
-  for (auto it = list.begin() + 1; it != list.end(); ++it)
-    m = std::max(m, *it);
-  return m;
-}
-
-template <typename Iterator, typename BinaryOp>
-double minimum(Iterator begin, Iterator end, BinaryOp getfn) {
-  if (begin == end)
-    return 0;
-  double min = getfn(*begin);
-  for (auto it = begin + 1; it != end; ++it) {
-    const auto _tmp = getfn(*it);
-    if (_tmp < min) {
-      min = _tmp;
-    }
-  }
-  return min;
-}
-
-template <typename Collection, typename BinaryOp>
-inline double minimum(const Collection& list, BinaryOp getter) {
-  return minimum(list.begin(), list.end(), getter);
-}
-
-template <typename Collection>
-double minimum(const Collection& list) {
-  if (list.size() == 0)
-    return 0;
-  double m = list.at(0);
-  for (auto it = list.begin() + 1; it != list.end(); ++it)
-    m = std::min(m, *it);
-  return m;
-}
-
 template <typename T>
 int sign(const T& value) {
   if (value == 0)

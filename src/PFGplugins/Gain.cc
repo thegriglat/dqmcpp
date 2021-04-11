@@ -78,10 +78,13 @@ bool skipFn(const ECAL::ChannelData& cd) {
 }
 
 void normalise(std::vector<ECAL::ChannelData>& cdv) {
-  const auto _max =
-      common::maximum(cdv, [](const ECAL::ChannelData& q) { return q.value; });
+  const auto maxe = std::max_element(
+      cdv.begin(), cdv.end(),
+      [](const ECAL::ChannelData& a, const ECAL::ChannelData& b) {
+        return a.value < b.value;
+      });
   for (auto& e : cdv) {
-    e.value /= _max;
+    e.value /= maxe->value;
   }
 }
 
