@@ -44,6 +44,8 @@ struct ChannelInfo {
   uint8_t iphigct;  // 0..17
   // std::string crate;
   std::string det() const;
+  std::string part() const;
+  int sm() const;
 };
 
 using ECALChannelsList = std::array<dqmcpp::ECALChannels::ChannelInfo, 75848>;
