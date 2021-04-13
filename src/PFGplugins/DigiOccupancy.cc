@@ -1,14 +1,21 @@
 #include "DigiOccupancy.hh"
 
+#include <algorithm>
+#include <array>
 #include <fstream>
 #include <iostream>
+#include <map>
+#include <set>
 #include <string>
 #include <vector>
+#include "common/clusters.hh"
 #include "common/common.hh"
+#include "ecalchannels/ECALChannels.hh"
 #include "net/DQMURLProvider.hh"
 #include "net/URLCache.hh"
 #include "readers/JSONReader.hh"
 #include "writers/Gnuplot2DWriter.hh"
+#include "writers/GnuplotECALWriter.hh"
 #include "writers/ProgressBar.hh"
 
 REGISTER_PLUGIN(DigiOccupancy);
@@ -60,6 +67,26 @@ void plot(const vector<ECAL::RunChannelData>& rundata) {
   out.close();
 }
 
+int LinearSquare(const std::vector<ECAL::ChannelData>& cd) {
+  int maxx = -1000;
+  int maxy = -1000;
+  int minx = 1000;
+  int miny = 1000;
+  for (auto& c : cd) {
+    maxx = std::max(maxx, c.base.ix_iphi);
+    maxy = std::max(maxy, c.base.iy_ieta);
+    minx = std::min(minx, c.base.ix_iphi);
+    miny = std::min(miny, c.base.iy_ieta);
+  }
+  const int dx = std::abs(maxx - minx) + 1;
+  const int dy = std::abs(maxy - miny) + 1;
+  return dx * dy;
+}
+
+double LinearDensity(const std::vector<ECAL::ChannelData>& cd) {
+  return static_cast<double>(cd.size()) / LinearSquare(cd);
+}
+
 }  // namespace
 
 void dqmcpp::plugins::DigiOccupancy::Process() {
@@ -80,29 +107,66 @@ void dqmcpp::plugins::DigiOccupancy::Process() {
         // now we have all EB for run
         /* 1. get iphi median
          * 2. scale to median
-         * 3. get channels > 20% of median
          */
-        for (int iphi = 1; iphi <= 360; ++iphi) {
+        for (int ieta = -85; ieta <= 85; ++ieta) {
+          if (ieta == 0)
+            continue;
           // get iphi channels (first part of -> std::partition)
           const auto it = std::partition(cd.begin(), cd.end(),
-                                         [iphi](const ECAL::ChannelData& c) {
-                                           return c.base.ix_iphi == iphi;
+                                         [ieta](const ECAL::ChannelData& c) {
+                                           return c.base.iy_ieta == ieta;
                                          });
-          // get median
           const auto median = common::median(
               cd.begin(), it,
               [](const ECAL::ChannelData& c) { return c.value; });
-          // scale
           std::for_each(cd.begin(), it,
                         [median](ECAL::ChannelData& c) { c.value /= median; });
         }
-        // filter
-        auto rmit = std::remove_if(
-            cd.begin(), cd.end(),
-            [](const ECAL::ChannelData& c) { return c.value < 2.0; });
-        cd.erase(rmit, cd.end());
         rundata.emplace_back(run, cd);
         pb.increment();
       });
+  // clusters
+  pb.finish();
+  std::for_each(rundata.begin(), rundata.end(), [](ECAL::RunChannelData& rd) {
+    rd.data.erase(std::remove_if(
+                      rd.data.begin(), rd.data.end(),
+                      [](const ECAL::ChannelData& c) { return c.value < 1.2; }),
+                  rd.data.end());
+    {
+      vector<ECAL::RunChannelData> _tmp = {rd};
+      writers::GnuplotECALWriter writer(_tmp);
+      writer.setZ(0.8, 2);
+      ofstream out(to_string(rd.run.runnumber) + ".plt");
+      out << writer;
+      out.close();
+    }
+    auto clusters = common::clusters(
+        rd.data, 1, [](const ECAL::ChannelData& a, const ECAL::ChannelData& b) {
+          const auto dx = a.base.ix_iphi - b.base.ix_iphi;
+          const auto dy = a.base.iy_ieta - b.base.iy_ieta;
+          return dx * dx + dy * dy;
+        });
+    clusters.erase(std::remove_if(clusters.begin(), clusters.end(),
+                                  [](const vector<ECAL::ChannelData>& cv) {
+                                    return cv.size() < 20 ||
+                                           LinearDensity(cv) < 20.0 / 25;
+                                  }),
+                   clusters.end());
+    for (auto& c : clusters) {
+      const int mx = common::mean(
+          c, [](const ECAL::ChannelData& c) { return c.base.iy_ieta; });
+      const int my = common::mean(
+          c, [](const ECAL::ChannelData& c) { return c.base.ix_iphi; });
+      cout << rd.run.runnumber << "\tsize = " << c.size() << "\tcenter[x,y] = ["
+           << mx << ", " << my << "]" << endl;
+    }
+  });
+  // remove for ordinar plot
+  std::for_each(rundata.begin(), rundata.end(), [](ECAL::RunChannelData& rd) {
+    rd.data.erase(
+        std::remove_if(rd.data.begin(), rd.data.end(),
+                       [](const ECAL::ChannelData& c) { return c.value < 2.; }),
+        rd.data.end());
+  });
   plot(rundata);
 }
