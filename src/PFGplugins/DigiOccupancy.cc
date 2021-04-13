@@ -179,14 +179,14 @@ void dqmcpp::plugins::DigiOccupancy::Process() {
       out.close();
     }
     for (int iz = -1; iz <= 1; ++iz) {
-      const auto d = common::filter(rd.data, [iz](const ECAL::ChannelData& e) {
-        return e.base.iz == iz;
-      });
+      auto detit = std::partition(
+          rd.data.begin(), rd.data.end(),
+          [iz](const ECAL::ChannelData& cd) { return cd.base.iz == iz; });
       auto clusters = common::clusters(
-          d, 1, [](const ECAL::ChannelData& a, const ECAL::ChannelData& b) {
+          rd.data.begin(), detit, 1,
+          [](const ECAL::ChannelData& a, const ECAL::ChannelData& b) {
             const auto dx = a.base.ix_iphi - b.base.ix_iphi;
             const auto dy = a.base.iy_ieta - b.base.iy_ieta;
-            // 10 doesn't matter, but dz != 0 gives very large distance
             return dx * dx + dy * dy;
           });
       clusters.erase(std::remove_if(clusters.begin(), clusters.end(),
