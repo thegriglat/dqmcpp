@@ -8,6 +8,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include "colors/Colors.hh"
 #include "common/clusters.hh"
 #include "common/common.hh"
 #include "ecalchannels/ECALChannels.hh"
@@ -19,6 +20,8 @@
 #include "writers/ProgressBar.hh"
 
 REGISTER_PLUGIN(DigiOccupancy);
+
+#define RADIUSSTEP (1)
 
 using namespace std;
 using namespace dqmcpp;
@@ -35,6 +38,13 @@ vector<string> get_urls(const ECAL::Run& run) {
     s.push_back(net::DQMURL::dqmurl(
         run, common::string_format(
                  "EcalBarrel/EBOccupancyTask/EBOT digi occupancy EB%+03d", i)));
+  }
+  for (int i = -9; i <= 9; ++i) {
+    if (i == 0)
+      continue;
+    s.push_back(net::DQMURL::dqmurl(
+        run, common::string_format(
+                 "EcalEndcap/EEOccupancyTask/EEOT digi occupancy EE%+03d", i)));
   }
   return s;
 }
@@ -108,19 +118,41 @@ void dqmcpp::plugins::DigiOccupancy::Process() {
         /* 1. get iphi median
          * 2. scale to median
          */
+        // eb
         for (int ieta = -85; ieta <= 85; ++ieta) {
           if (ieta == 0)
             continue;
           // get iphi channels (first part of -> std::partition)
-          const auto it = std::partition(cd.begin(), cd.end(),
-                                         [ieta](const ECAL::ChannelData& c) {
-                                           return c.base.iy_ieta == ieta;
-                                         });
+          const auto it = std::partition(
+              cd.begin(), cd.end(), [ieta](const ECAL::ChannelData& c) {
+                return c.base.iy_ieta == ieta && c.base.isEB();
+              });
           const auto median = common::median(
               cd.begin(), it,
               [](const ECAL::ChannelData& c) { return c.value; });
           std::for_each(cd.begin(), it,
                         [median](ECAL::ChannelData& c) { c.value /= median; });
+        }
+        // ee
+        for (int iz = -1; iz <= 1; ++iz) {
+          if (iz == 0)
+            continue;
+          for (int r = 0; r < 50; r += RADIUSSTEP) {
+            auto channelCut = [r, iz](const ECAL::ChannelData& c) {
+              const auto x = std::abs(c.base.ix_iphi - 50);
+              const auto y = std::abs(c.base.iy_ieta - 50);
+              const auto r2 = x * x + y * y;
+              const auto rmax = r + RADIUSSTEP;
+              return (c.base.iz == iz && r2 >= r * r && r2 < rmax * rmax);
+            };
+            const auto it = std::partition(cd.begin(), cd.end(), channelCut);
+            const auto median = common::median(
+                cd.begin(), it,
+                [](const ECAL::ChannelData& c) { return c.value; });
+            std::for_each(cd.begin(), it, [median](ECAL::ChannelData& c) {
+              c.value /= median;
+            });
+          }
         }
         rundata.emplace_back(run, cd);
         pb.increment();
@@ -135,33 +167,48 @@ void dqmcpp::plugins::DigiOccupancy::Process() {
     {
       vector<ECAL::RunChannelData> _tmp = {rd};
       writers::GnuplotECALWriter writer(_tmp);
-      writer.setZ(0.8, 2);
+      writer.setZ(0, 5);
+      writer.setPalette({{0., "white"},
+                         {0.0, colors::ColorSets::blue},
+                         {1. / 5., "white"},
+                         {1. / 5., colors::ColorSets::yellow},
+                         {2. / 5, colors::ColorSets::red},
+                         {1.0, "black"}});
       ofstream out(to_string(rd.run.runnumber) + ".plt");
       out << writer;
       out.close();
     }
-    auto clusters = common::clusters(
-        rd.data, 1, [](const ECAL::ChannelData& a, const ECAL::ChannelData& b) {
-          const auto dx = a.base.ix_iphi - b.base.ix_iphi;
-          const auto dy = a.base.iy_ieta - b.base.iy_ieta;
-          return dx * dx + dy * dy;
-        });
-    clusters.erase(std::remove_if(clusters.begin(), clusters.end(),
-                                  [](const vector<ECAL::ChannelData>& cv) {
-                                    return cv.size() < 20 ||
-                                           LinearDensity(cv) < 20.0 / 25;
-                                  }),
-                   clusters.end());
-    for (auto& c : clusters) {
-      const int mx = common::mean(
-          c, [](const ECAL::ChannelData& c) { return c.base.iy_ieta; });
-      const int my = common::mean(
-          c, [](const ECAL::ChannelData& c) { return c.base.ix_iphi; });
-      cout << rd.run.runnumber << "\tsize = " << c.size() << "\tcenter[x,y] = ["
-           << mx << ", " << my << "]" << endl;
+    for (int iz = -1; iz <= 1; ++iz) {
+      const auto d = common::filter(rd.data, [iz](const ECAL::ChannelData& e) {
+        return e.base.iz == iz;
+      });
+      auto clusters = common::clusters(
+          d, 1, [](const ECAL::ChannelData& a, const ECAL::ChannelData& b) {
+            const auto dx = a.base.ix_iphi - b.base.ix_iphi;
+            const auto dy = a.base.iy_ieta - b.base.iy_ieta;
+            // 10 doesn't matter, but dz != 0 gives very large distance
+            return dx * dx + dy * dy;
+          });
+      clusters.erase(std::remove_if(clusters.begin(), clusters.end(),
+                                    [](const vector<ECAL::ChannelData>& cv) {
+                                      return cv.size() < 20 ||
+                                             LinearDensity(cv) < 20.0 / 25;
+                                    }),
+                     clusters.end());
+      for (auto& c : clusters) {
+        const int mx = common::mean(
+            c, [](const ECAL::ChannelData& c) { return c.base.ix_iphi; });
+        const int my = common::mean(
+            c, [](const ECAL::ChannelData& c) { return c.base.iy_ieta; });
+        const std::string det =
+            std::array<std::string, 3>({"EE-", "EB", "EE+"}).at(iz + 1);
+        cout << rd.run.runnumber << "\t" << det << "\tsize = " << c.size()
+             << "\tcenter[x,y] = [" << mx << ", " << my << "]" << endl;
+      }
     }
   });
   // remove for ordinar plot
+  /*
   std::for_each(rundata.begin(), rundata.end(), [](ECAL::RunChannelData& rd) {
     rd.data.erase(
         std::remove_if(rd.data.begin(), rd.data.end(),
@@ -169,4 +216,5 @@ void dqmcpp::plugins::DigiOccupancy::Process() {
         rd.data.end());
   });
   plot(rundata);
+  */
 }
