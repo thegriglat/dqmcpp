@@ -9,24 +9,25 @@
 
 namespace {
 
-template <typename T, typename BinaryOp>
-std::vector<std::array<const T*, 2>> get_pairs(const std::vector<T>& data,
-                                               const double maxdistance,
-                                               BinaryOp distance_fn) {
-  std::vector<std::array<const T*, 2>> points;
-  if (data.size() == 0)
+template <typename It, typename BinaryOp>
+std::vector<std::array<const typename It::value_type*, 2>>
+get_pairs(It begin, It end, const double maxdistance, BinaryOp distance_fn) {
+  using Ptr = const typename It::value_type*;
+  std::vector<std::array<Ptr, 2>> points;
+  if (std::distance(begin, end) == 0)
     return points;
-  const auto len = data.size();
-  const T* first = &(data[0]);
-  for (unsigned int i = 0; i < len; ++i)
-    for (unsigned int j = i + 1; j < len; ++j) {
-      const T* pi = first + i;
-      const T* pj = first + j;
+  Ptr first = &(*begin);
+  const auto len = std::distance(begin, end);
+  for (auto i = 0; i < len; ++i) {
+    Ptr pi = first + i;
+    for (auto j = i + 1; j < len; ++j) {
+      Ptr pj = first + j;
       const auto distance = distance_fn(*pi, *pj);
       if (distance > maxdistance)
         continue;
       points.push_back({pi, pj});
     }
+  }
   return points;
 }
 
@@ -85,11 +86,19 @@ namespace common {
  * are equal
  * @return std::vector<std::vector<const T*>> list of lists of const T*
  */
+
+template <typename It, typename BinaryOp>
+std::vector<std::vector<typename It::value_type>>
+clusters(It begin, It end, const double maxdistance, BinaryOp distance_fn) {
+  auto pairs = get_pairs(begin, end, maxdistance, distance_fn);
+  return clusterize(pairs);
+}
+
 template <typename T, typename BinaryOp>
 std::vector<std::vector<T>> clusters(const std::vector<T>& data,
                                      const double maxdistance,
                                      BinaryOp distance_fn) {
-  auto pairs = get_pairs(data, maxdistance, distance_fn);
+  auto pairs = get_pairs(data.begin(), data.end(), maxdistance, distance_fn);
   return clusterize(pairs);
 }
 
