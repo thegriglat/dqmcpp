@@ -219,7 +219,6 @@ void dqmcpp::plugins::DigiOccupancy::Process() {
   });
 #ifdef DIGIPLOT
   // remove for ordinar plot
-  /*
   std::for_each(rundata.begin(), rundata.end(), [](ECAL::RunChannelData& rd) {
     rd.data.erase(
         std::remove_if(rd.data.begin(), rd.data.end(),
