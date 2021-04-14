@@ -37,10 +37,11 @@ std::vector<std::vector<T>> clusterize(
   std::vector<std::vector<T>> clusters;
   if (pairs.size() == 0)
     return clusters;
+  auto pend = pairs.end();
   do {
     std::vector<const T*> current_cluster = {pairs.at(0).at(0),
                                              pairs.at(0).at(1)};
-    for (auto it = pairs.begin() + 1; it != pairs.end(); ++it) {
+    for (auto it = pairs.begin() + 1; it != pend; ++it) {
       const T* p1 = it->at(0);
       const T* p2 = it->at(1);
       auto pos1 = std::find(current_cluster.begin(), current_cluster.end(), p1);
@@ -52,21 +53,20 @@ std::vector<std::vector<T>> clusterize(
         if (!match1) {
           current_cluster.push_back(p1);
         }
-        if (!match2)
+        if (!match2) {
           current_cluster.push_back(p2);
+        }
       }
     }
-    auto removeit = std::remove_if(
-        pairs.begin(), pairs.end(),
-        [&current_cluster](const std::array<const T*, 2>& pts) {
-          return dqmcpp::common::has(current_cluster, [&pts](const T* e) {
-            return pts[0] == e || pts[1] == e;
-          });
-        });
-    pairs.erase(removeit, pairs.end());
+    for (auto& p : current_cluster) {
+      pend = std::remove_if(pairs.begin(), pend,
+                            [&p](const std::array<const T*, 2>& pts) {
+                              return pts.at(0) == p || pts.at(1) == p;
+                            });
+    }
     clusters.push_back(dqmcpp::common::map<const T*, T>(
         current_cluster, [](const T* e) -> T { return *e; }));
-  } while (pairs.size() > 0);
+  } while (pairs.begin() != pend);
   return clusters;
 }
 
@@ -82,24 +82,22 @@ namespace common {
  * @tparam BinaryOp
  * @param data input std::vector<T>
  * @param maxdistance Distance which means that two elements are together
- * @param distance_fn Function to compute distance from T, 0 means that elements
- * are equal
+ * @param distance_fn Function to compute distance from T
  * @return std::vector<std::vector<const T*>> list of lists of const T*
  */
 
 template <typename It, typename BinaryOp>
 std::vector<std::vector<typename It::value_type>>
 clusters(It begin, It end, const double maxdistance, BinaryOp distance_fn) {
-  auto pairs = get_pairs(begin, end, maxdistance, distance_fn);
-  return clusterize(pairs);
+  auto p = get_pairs(begin, end, maxdistance, distance_fn);
+  return clusterize(p);
 }
 
 template <typename T, typename BinaryOp>
 std::vector<std::vector<T>> clusters(const std::vector<T>& data,
                                      const double maxdistance,
                                      BinaryOp distance_fn) {
-  auto pairs = get_pairs(data.begin(), data.end(), maxdistance, distance_fn);
-  return clusterize(pairs);
+  return clusters(data.begin(), data.end(), maxdistance, distance_fn);
 }
 
 }  // namespace common
