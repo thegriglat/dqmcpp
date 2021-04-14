@@ -33,25 +33,6 @@ namespace {
 using namespace std;
 using namespace dqmcpp;
 
-vector<string> get_urls(const ECAL::Run& run) {
-  vector<string> s;
-  for (int i = -18; i <= 18; ++i) {
-    if (i == 0)
-      continue;
-    s.push_back(net::DQMURL::dqmurl(
-        run, common::string_format(
-                 "EcalBarrel/EBOccupancyTask/EBOT digi occupancy EB%+03d", i)));
-  }
-  for (int i = -9; i <= 9; ++i) {
-    if (i == 0)
-      continue;
-    s.push_back(net::DQMURL::dqmurl(
-        run, common::string_format(
-                 "EcalEndcap/EEOccupancyTask/EEOT digi occupancy EE%+03d", i)));
-  }
-  return s;
-}
-
 #ifdef DIGIPLOT
 void plot(const vector<ECAL::RunChannelData>& rundata) {
   writers::Gnuplot2DWriter::Data2D data;
@@ -106,12 +87,36 @@ double LinearDensity(const std::vector<ECAL::ChannelData>& cd) {
 
 }  // namespace
 
+std::string dqmcpp::plugins::DigiOccupancy::getPrefix() const {
+  return "digi_";
+}
+
+std::vector<std::string> dqmcpp::plugins::DigiOccupancy::get_urls(
+    const ECAL::Run& run) const {
+  vector<string> s;
+  for (int i = -18; i <= 18; ++i) {
+    if (i == 0)
+      continue;
+    s.push_back(net::DQMURL::dqmurl(
+        run, common::string_format(
+                 "EcalBarrel/EBOccupancyTask/EBOT digi occupancy EB%+03d", i)));
+  }
+  for (int i = -9; i <= 9; ++i) {
+    if (i == 0)
+      continue;
+    s.push_back(net::DQMURL::dqmurl(
+        run, common::string_format(
+                 "EcalEndcap/EEOccupancyTask/EEOT digi occupancy EE%+03d", i)));
+  }
+  return s;
+}
+
 void dqmcpp::plugins::DigiOccupancy::Process() {
   auto runs = runListReader->runs();
   vector<ECAL::RunChannelData> rundata;
   writers::ProgressBar pb(runs.size());
   std::for_each(
-      runs.begin(), runs.end(), [&rundata, &pb](const ECAL::Run& run) {
+      runs.begin(), runs.end(), [&rundata, &pb, this](const ECAL::Run& run) {
         pb.setLabel(run.runnumber);
         const auto content = net::URLCache::get(get_urls(run));
         vector<ECAL::ChannelData> cd;
@@ -166,57 +171,61 @@ void dqmcpp::plugins::DigiOccupancy::Process() {
       });
   // clusters
   pb.finish();
-  std::for_each(rundata.begin(), rundata.end(), [](ECAL::RunChannelData& rd) {
-    rd.data.erase(std::remove_if(
-                      rd.data.begin(), rd.data.end(),
-                      [](const ECAL::ChannelData& c) { return c.value < 1.1; }),
-                  rd.data.end());
-    {
-      vector<ECAL::RunChannelData> _tmp = {rd};
-      writers::GnuplotECALWriter writer(_tmp);
-      writer.setZ(0, 5);
-      writer.setPalette({{0., "white"},
-                         {0.0, colors::ColorSets::blue},
-                         {1. / 5., "white"},
-                         {1.1 / 5., "white"},
-                         {1.1 / 5., colors::ColorSets::yellow},
-                         {2. / 5, colors::ColorSets::red},
-                         {1.0, "black"}});
-      ofstream out("digi_" + to_string(rd.run.runnumber) + ".plt");
-      out << writer;
-      out.close();
-    }
+  std::for_each(
+      rundata.begin(), rundata.end(), [this](ECAL::RunChannelData& rd) {
+        rd.data.erase(std::remove_if(rd.data.begin(), rd.data.end(),
+                                     [](const ECAL::ChannelData& c) {
+                                       return c.value < 1.1;
+                                     }),
+                      rd.data.end());
+        {
+          vector<ECAL::RunChannelData> _tmp = {rd};
+          writers::GnuplotECALWriter writer(_tmp);
+          writer.setZ(0, 5);
+          writer.setPalette({{0., "white"},
+                             {0.0, colors::ColorSets::blue},
+                             {1. / 5., "white"},
+                             {1.1 / 5., "white"},
+                             {1.1 / 5., colors::ColorSets::yellow},
+                             {2. / 5, colors::ColorSets::red},
+                             {1.0, "black"}});
+          writer.setOutput(getPrefix());
+          ofstream out(getPrefix() + to_string(rd.run.runnumber) + ".plt");
+          out << writer;
+          out.close();
+        }
 #ifdef DIGICLUSTERS
-    for (int iz = -1; iz <= 1; ++iz) {
-      auto detit = std::partition(
-          rd.data.begin(), rd.data.end(),
-          [iz](const ECAL::ChannelData& cd) { return cd.base.iz == iz; });
-      auto clusters = common::clusters(
-          rd.data.begin(), detit, 1,
-          [](const ECAL::ChannelData& a, const ECAL::ChannelData& b) {
-            const auto dx = a.base.ix_iphi - b.base.ix_iphi;
-            const auto dy = a.base.iy_ieta - b.base.iy_ieta;
-            return dx * dx + dy * dy;
-          });
-      clusters.erase(std::remove_if(clusters.begin(), clusters.end(),
-                                    [](const vector<ECAL::ChannelData>& cv) {
-                                      return cv.size() < 20 ||
-                                             LinearDensity(cv) < 20.0 / 25;
-                                    }),
-                     clusters.end());
-      for (auto& c : clusters) {
-        const int mx = common::mean(
-            c, [](const ECAL::ChannelData& c) { return c.base.ix_iphi; });
-        const int my = common::mean(
-            c, [](const ECAL::ChannelData& c) { return c.base.iy_ieta; });
-        const std::string det =
-            std::array<std::string, 3>({"EE-", "EB", "EE+"}).at(iz + 1);
-        cout << rd.run.runnumber << "\t" << det << "\tsize = " << c.size()
-             << "\tcenter[x,y] = [" << mx << ", " << my << "]" << endl;
-      }
-    }
+        for (int iz = -1; iz <= 1; ++iz) {
+          auto detit = std::partition(
+              rd.data.begin(), rd.data.end(),
+              [iz](const ECAL::ChannelData& cd) { return cd.base.iz == iz; });
+          auto clusters = common::clusters(
+              rd.data.begin(), detit, 1,
+              [](const ECAL::ChannelData& a, const ECAL::ChannelData& b) {
+                const auto dx = a.base.ix_iphi - b.base.ix_iphi;
+                const auto dy = a.base.iy_ieta - b.base.iy_ieta;
+                return dx * dx + dy * dy;
+              });
+          clusters.erase(
+              std::remove_if(clusters.begin(), clusters.end(),
+                             [](const vector<ECAL::ChannelData>& cv) {
+                               return cv.size() < 20 ||
+                                      LinearDensity(cv) < 20.0 / 25;
+                             }),
+              clusters.end());
+          for (auto& c : clusters) {
+            const int mx = common::mean(
+                c, [](const ECAL::ChannelData& c) { return c.base.ix_iphi; });
+            const int my = common::mean(
+                c, [](const ECAL::ChannelData& c) { return c.base.iy_ieta; });
+            const std::string det =
+                std::array<std::string, 3>({"EE-", "EB", "EE+"}).at(iz + 1);
+            cout << rd.run.runnumber << "\t" << det << "\tsize = " << c.size()
+                 << "\tcenter[x,y] = [" << mx << ", " << my << "]" << endl;
+          }
+        }
 #endif
-  });
+      });
 #ifdef DIGIPLOT
   // remove for ordinar plot
   std::for_each(rundata.begin(), rundata.end(), [](ECAL::RunChannelData& rd) {
