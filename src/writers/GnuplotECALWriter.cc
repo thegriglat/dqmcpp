@@ -38,6 +38,7 @@ struct Point {
 };
 
 void writeBarrel(std::ostream& os,
+                 const GnuplotECALWriter& gw,
                  ECAL::RunChannelData& rd,
                  const int numdata) {
   auto barrel = common::filter(
@@ -90,11 +91,13 @@ void writeBarrel(std::ostream& os,
   }
   delete[] points;
   os << "EOD" << std::endl;
-  os << "set output \"eb_" << rd.run.runnumber << ".png\"" << std::endl;
+  os << "set output \"eb_" << gw.getOutput() << "_" << rd.run.runnumber
+     << ".png\"" << std::endl;
   os << "plot '$map" << numdata << "' using 1:2:3 w image notitle" << std::endl;
 }
 
 void writeEndcap(std::ostream& os,
+                 const GnuplotECALWriter& gw,
                  ECAL::RunChannelData& rd,
                  const int numdata,
                  const int iz) {
@@ -134,8 +137,8 @@ void writeEndcap(std::ostream& os,
   delete[] points;
   os << "EOD" << std::endl;
   const std::string filename = (iz == 1) ? "eeplus" : "eeminus";
-  os << "set output \"" << filename << "_" << rd.run.runnumber << ".png\""
-     << std::endl;
+  os << "set output \"" << filename << "_" << gw.getOutput() << "_"
+     << rd.run.runnumber << ".png\"" << std::endl;
   os << "plot '$map" << numdata << "' using 1:2:3 w image notitle" << std::endl;
 }
 
@@ -155,13 +158,13 @@ static void writeGnuplot(std::ostream& os,
      << "set palette defined " << gw.palette_str() << std::endl;
   for (unsigned int i = 0; i < rd.size(); ++i) {
     auto r = rd.at(i);
-    writeBarrel(os, r, 3 * i);
+    writeBarrel(os, gw, r, 3 * i);
     os << "unset label" << std::endl;
 
-    writeEndcap(os, r, 3 * i + 1, 1);
+    writeEndcap(os, gw, r, 3 * i + 1, 1);
     os << "unset label" << std::endl;
 
-    writeEndcap(os, r, 3 * i + 2, -1);
+    writeEndcap(os, gw, r, 3 * i + 2, -1);
     os << "unset label" << std::endl;
   };
 }
