@@ -23,6 +23,9 @@ REGISTER_PLUGIN(DigiOccupancy);
 
 #define RADIUSSTEP (1)
 
+// #define DIGICLUSTERS
+// #define DIGIPLOT
+
 using namespace std;
 using namespace dqmcpp;
 
@@ -49,6 +52,7 @@ vector<string> get_urls(const ECAL::Run& run) {
   return s;
 }
 
+#ifdef DIGIPLOT
 void plot(const vector<ECAL::RunChannelData>& rundata) {
   writers::Gnuplot2DWriter::Data2D data;
   std::for_each(
@@ -76,7 +80,9 @@ void plot(const vector<ECAL::RunChannelData>& rundata) {
   out << writer;
   out.close();
 }
+#endif
 
+#ifdef DIGICLUSTERS
 int LinearSquare(const std::vector<ECAL::ChannelData>& cd) {
   int maxx = -1000;
   int maxy = -1000;
@@ -96,6 +102,7 @@ int LinearSquare(const std::vector<ECAL::ChannelData>& cd) {
 double LinearDensity(const std::vector<ECAL::ChannelData>& cd) {
   return static_cast<double>(cd.size()) / LinearSquare(cd);
 }
+#endif
 
 }  // namespace
 
@@ -162,7 +169,7 @@ void dqmcpp::plugins::DigiOccupancy::Process() {
   std::for_each(rundata.begin(), rundata.end(), [](ECAL::RunChannelData& rd) {
     rd.data.erase(std::remove_if(
                       rd.data.begin(), rd.data.end(),
-                      [](const ECAL::ChannelData& c) { return c.value < 1.2; }),
+                      [](const ECAL::ChannelData& c) { return c.value < 1.1; }),
                   rd.data.end());
     {
       vector<ECAL::RunChannelData> _tmp = {rd};
@@ -171,13 +178,15 @@ void dqmcpp::plugins::DigiOccupancy::Process() {
       writer.setPalette({{0., "white"},
                          {0.0, colors::ColorSets::blue},
                          {1. / 5., "white"},
-                         {1. / 5., colors::ColorSets::yellow},
+                         {1.1 / 5., "white"},
+                         {1.1 / 5., colors::ColorSets::yellow},
                          {2. / 5, colors::ColorSets::red},
                          {1.0, "black"}});
       ofstream out(to_string(rd.run.runnumber) + ".plt");
       out << writer;
       out.close();
     }
+#ifdef DIGICLUSTERS
     for (int iz = -1; iz <= 1; ++iz) {
       auto detit = std::partition(
           rd.data.begin(), rd.data.end(),
@@ -206,7 +215,9 @@ void dqmcpp::plugins::DigiOccupancy::Process() {
              << "\tcenter[x,y] = [" << mx << ", " << my << "]" << endl;
       }
     }
+#endif
   });
+#ifdef DIGIPLOT
   // remove for ordinar plot
   /*
   std::for_each(rundata.begin(), rundata.end(), [](ECAL::RunChannelData& rd) {
@@ -216,5 +227,5 @@ void dqmcpp::plugins::DigiOccupancy::Process() {
         rd.data.end());
   });
   plot(rundata);
-  */
+#endif
 }
