@@ -182,7 +182,7 @@ void dqmcpp::plugins::DigiOccupancy::Process() {
                          {1.1 / 5., colors::ColorSets::yellow},
                          {2. / 5, colors::ColorSets::red},
                          {1.0, "black"}});
-      ofstream out(to_string(rd.run.runnumber) + ".plt");
+      ofstream out("digi_" + to_string(rd.run.runnumber) + ".plt");
       out << writer;
       out.close();
     }
