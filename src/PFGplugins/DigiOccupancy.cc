@@ -171,7 +171,7 @@ void dqmcpp::plugins::DigiOccupancy::Process() {
       });
   // clusters
   pb.finish();
-  std::for_each(
+  common::foreach_mt(
       rundata.begin(), rundata.end(), [this](ECAL::RunChannelData& rd) {
         rd.data.erase(std::remove_if(rd.data.begin(), rd.data.end(),
                                      [](const ECAL::ChannelData& c) {
