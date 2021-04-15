@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <functional>
 #include <vector>
+#include "ThreadPool.hh"
 
 namespace dqmcpp {
 namespace common {
@@ -90,6 +91,14 @@ std::vector<std::vector<T>> chunks(const std::vector<T>& list,
   const std::vector<T> slicetail(list.begin() + (i)*n, list.end());
   res.push_back(slicetail);
   return res;
+}
+
+template <typename It, typename BinaryOp>
+void foreach_mt(It begin, It end, BinaryOp op) {
+  ThreadPool pool;
+  while (begin != end) {
+    pool.enqueue(op, *begin++);
+  };
 }
 
 }  // namespace common
