@@ -27,10 +27,7 @@ using namespace std;
 namespace {
 
 std::string getYlabel(const ECAL::Channel& channel, const int status) {
-  auto channel_info = ECALChannels::find(channel);
-  string s = channel_info->det() + " TT" + std::to_string(channel_info->tower) +
-             " [" + std::to_string(channel.ix_iphi) + "," +
-             std::to_string(channel.iy_ieta) + "]";
+  auto s = std::string(channel);
   if (status > 0) {
     s += " ^{" + to_string(status) + "}";
   }

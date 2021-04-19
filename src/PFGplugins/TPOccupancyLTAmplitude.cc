@@ -216,8 +216,7 @@ void TPOccupancyLTAmplitude::Process() {
           });
       for (auto& c : badxyfiltered) {
         const string xlabel = to_string(rd.run.runnumber);
-        const string ylabel = common::string_format(
-            "EB%+03d [%d:%d]", sm, c.base.ix_iphi, c.base.iy_ieta);
+        const string ylabel = std::string(c.base);
         const auto value = c.value;
         _maxvalue = std::max(_maxvalue, value);
         gdata.insert({{xlabel, ylabel}, value});
@@ -260,8 +259,7 @@ void TPOccupancyLTAmplitude::Process() {
           });
       for (auto& c : badxyfiltered) {
         const string xlabel = to_string(rd.run.runnumber);
-        const string ylabel = common::string_format(
-            "EE%+03d [%d:%d]", sm, c.base.ix_iphi, c.base.iy_ieta);
+        const string ylabel = std::string(c.base);
         const auto value = c.value;
         _maxvalueee = std::max(_maxvalueee, value);
         gdataee.insert({{xlabel, ylabel}, value});
