@@ -45,19 +45,13 @@ vector<string> get_urls(const ECAL::Run& run, const int iz) {
   return s;
 }
 
-void plot(const vector<ECAL::RunTTData>& rundata) {
+void plot(const vector<ECAL::RunTTCCUData>& rundata) {
   writers::Gnuplot2DWriter::Data2D data;
   double _max = -1;
   for (auto& rd : rundata) {
     const string xlabel = to_string(rd.run.runnumber);
     for (auto& d : rd.data) {
-      // const string det = ECALChannels::det(d.base);
       string ylabel = std::string(d.base);
-      // if (d.base.iz != 0) {
-      // ylabel = common::string_format("%s CCU%02d", det.c_str(), d.base.tt);
-      // } else {
-      // ylabel = common::string_format("%s TT%02d", det.c_str(), d.base.tt);
-      // }
       data.insert({{xlabel, ylabel}, d.value});
       _max = std::max(_max, d.value);
     }
@@ -79,19 +73,19 @@ void plot(const vector<ECAL::RunTTData>& rundata) {
 
 void dqmcpp::plugins::TTid::Process() {
   writers::ProgressBar pb(runListReader->runs().size());
-  std::vector<ECAL::RunTTData> rundata;
+  std::vector<ECAL::RunTTCCUData> rundata;
   const auto channels = ECALChannels::list();
   for (auto& run : runListReader->runs()) {
     pb.setLabel(to_string(run.runnumber));
     pb.increment();
-    ECAL::RunTTData ttdata(run, {});
+    ECAL::RunTTCCUData ttdata(run, {});
     for (int iz = -1; iz <= 1; ++iz) {
       const auto urls = get_urls(run, iz);
       const auto contents = net::URLCache::get(urls);
       for (auto& content : contents) {
         if (iz != 0) {
           const auto d2d = readers::JSONReader::parse2D(content);
-          vector<ECAL::TTData> _localtt;
+          vector<ECAL::TTCCUData> _localtt;
           for (auto& d : d2d) {
             auto it = std::find_if(
                 channels->begin(), channels->end(),
@@ -100,10 +94,9 @@ void dqmcpp::plugins::TTid::Process() {
                          std::abs(ci.iy - d.base.y) < 2.5 && ci.iz == iz;
                 });
             if (it == channels->end()) {
-              cout << endl
-                   << run << " cannot determine tower" << d.base << endl;
+              cout << endl << run << " cannot determine ccu" << d.base << endl;
             } else {
-              _localtt.emplace_back(ECAL::TT(it->tower, it->tcc, iz), d.value);
+              _localtt.emplace_back(ECAL::CCU(it->ccu, it->tcc, iz), d.value);
             }
           }
           ttdata.data.insert(ttdata.data.end(), _localtt.begin(),
@@ -112,7 +105,9 @@ void dqmcpp::plugins::TTid::Process() {
         } else {
           const auto ttd =
               ECAL::channel2TT(readers::JSONReader::parse(content));
-          ttdata.data.insert(ttdata.data.end(), ttd.begin(), ttd.end());
+          for (auto& e : ttd) {
+            ttdata.data.emplace_back(e.base, e.value);
+          }
         }
       }
     }
