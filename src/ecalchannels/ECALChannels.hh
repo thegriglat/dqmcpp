@@ -62,9 +62,7 @@ const std::string detByTTTTC(const int tt, const int tcc);
 const std::string detByCCUTCC(const int ccu, const int tcc);
 
 inline const std::string det(const ECAL::TT& tt) {
-  if (tt.iz == 0)
-    return detByTTTTC(tt.tt, tt.tcc);
-  return detByCCUTCC(tt.tt, tt.tcc);
+  return detByTTTTC(tt.tt, tt.tcc);
 }
 int ccu(const ECAL::TT& tt);
 
