@@ -158,8 +158,7 @@ vector<ECAL::RunChannelData> ChannelPlugin::getRunData(void) {
     const auto contents = net::URLCache::get(urls(run));
     for (auto& c : contents) {
       auto data_tt = readers::JSONReader::parse(c);
-      for (auto& e : data_tt)
-        data.push_back(e);
+      data.insert(data.end(), data_tt.begin(), data_tt.end());
       progress.increment();
     }
     ECAL::RunChannelData rd(run, data);
