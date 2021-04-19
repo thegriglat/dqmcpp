@@ -108,8 +108,9 @@ void plot(const std::vector<RunTTInfo>& rundata,
           return (common::has(statuses, ttinfo.status));
         });
     for (auto& ttdata : filtered_tt) {
-      std::string ttlabel = (ttdata.isEB) ? "EB" : "EE";
-      ttlabel += to_string(ttdata.sm) + ":TT" + to_string(ttdata.tt);
+      std::string det = (ttdata.isEB) ? "EB" : "EE";
+      auto ttlabel = common::string_format("%s%+03d TT%02d", det.c_str(),
+                                           ttdata.sm, ttdata.tt);
       // if data has this tt -- +status
       // else insert
       std::pair<string, string> data_key = {runlabel, ttlabel};
@@ -201,14 +202,17 @@ void FEStatusBits::Process() {
     for (auto& tti : rd.data)
       uniq_statuses.insert({tti.status});
   }
-  for (auto& statuslist : uniq_statuses) {
-    // skip ENABLED
-    if (common::has(statuslist, common::index(STATUSES, string("ENABLED"))))
-      continue;
-    if (common::has(statuslist, common::index(STATUSES, string("SUPPRESSED"))))
-      continue;
-    plot(rundata, statuslist);
-  }
+  common::foreach_mt(
+      uniq_statuses.begin(), uniq_statuses.end(),
+      [&rundata](const std::vector<int>& statuslist) {
+        // skip ENABLED
+        if (common::has(statuslist, common::index(STATUSES, string("ENABLED"))))
+          return;
+        if (common::has(statuslist,
+                        common::index(STATUSES, string("SUPPRESSED"))))
+          return;
+        plot(rundata, statuslist);
+      });
 }
 
 }  // namespace plugins
