@@ -36,16 +36,15 @@ using namespace dqmcpp;
 #ifdef DIGIPLOT
 void plot(const vector<ECAL::RunChannelData>& rundata) {
   writers::Gnuplot2DWriter::Data2D data;
-  std::for_each(
-      rundata.begin(), rundata.end(), [&data](const ECAL::RunChannelData& rd) {
-        const auto xlabel = to_string(rd.run.runnumber);
-        std::for_each(rd.data.begin(), rd.data.end(),
-                      [&data, &xlabel](const ECAL::ChannelData& cd) {
-                        const auto ylabel = common::string_format(
-                            "EB [%d,%d]", cd.base.ix_iphi, cd.base.iy_ieta);
-                        data.insert({{xlabel, ylabel}, cd.value});
-                      });
-      });
+  std::for_each(rundata.begin(), rundata.end(),
+                [&data](const ECAL::RunChannelData& rd) {
+                  const auto xlabel = to_string(rd.run.runnumber);
+                  std::for_each(rd.data.begin(), rd.data.end(),
+                                [&data, &xlabel](const ECAL::ChannelData& cd) {
+                                  const auto ylabel = std::string(cd.base);
+                                  data.insert({{xlabel, ylabel}, cd.value});
+                                });
+                });
   vector<string> allruns(rundata.size());
   std::transform(rundata.begin(), rundata.end(), allruns.begin(),
                  [](const ECAL::RunChannelData& rd) {

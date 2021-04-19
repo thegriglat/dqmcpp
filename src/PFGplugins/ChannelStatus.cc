@@ -174,8 +174,7 @@ void ChannelStatus::Process() {
       auto info = ECALChannels::find(ch.base);
       string xlabel = to_string(pair.first);
       string det = (info) ? info->det() : "NONE?";
-      string ylabel = common::string_format("%s [%+03d, %+03d]", det.c_str(),
-                                            ch.base.ix_iphi, ch.base.iy_ieta);
+      string ylabel = std::string(ch.base);
       data.insert({{xlabel, ylabel}, ch.value});
     }
     writers::Gnuplot2DWriter writer(data);

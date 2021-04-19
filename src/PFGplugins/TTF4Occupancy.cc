@@ -14,6 +14,7 @@
 #include "net/DQMURLProvider.hh"
 #include "readers/JSONReader.hh"
 #include "writers/Gnuplot2DWriter.hh"
+#include "writers/ProgressBar.hh"
 
 using namespace std;
 using namespace dqmcpp;
@@ -32,20 +33,21 @@ std::vector<URLType> urls(const unsigned int runnumber,
                           const std::string& dataset) {
   std::vector<URLType> urls;
   for (int i = -1; i < 2; ++i) {
-    string det = "Barrel";
-    string d = "EB";
-    string suf = "";
-    if (i != 0) {
-      // endcap
-      det = "Endcap";
-      d = "EE";
-      suf = (i == 1) ? " EE +" : " EE -";
+    if (i == 0) {
+      // eb
+      urls.push_back(
+          URLType(net::DQMURL::dqmurl(
+                      runnumber, dataset,
+                      "EcalBarrel/EBTriggerTowerTask/EBTTT TTF4 Occupancy"),
+                  true));
+    } else {
+      const std::string pm = (i == 1) ? "EE +" : "EE -";
+      urls.push_back(URLType(
+          net::DQMURL::dqmurl(
+              runnumber, dataset,
+              "EcalEndcap/EETriggerTowerTask/EETTT TTF4 Occupancy " + pm),
+          false));
     }
-    string eeplot = "Ecal";
-    eeplot +=
-        det + "/" + d + "TriggerTowerTask/" + d + "TTT TTF4 Occupancy" + suf;
-    urls.push_back(
-        URLType(net::DQMURL::dqmurl(runnumber, dataset, eeplot), i == 0));
   }
   return urls;
 };
@@ -65,12 +67,13 @@ namespace plugins {
 std::vector<ECAL::RunTTData> TTF4Occupancy::readTT() {
   using namespace ECAL;
   vector<RunTTData> rundata;
+  writers::ProgressBar pb(runListReader->runs().size());
   const auto all_channels = ECALChannels::list();
   for (auto r : runListReader->runs()) {
+    pb.setLabel(r.runnumber);
     std::vector<TTData> data;
     data.reserve(2500);  // approx ~3k
     for (auto url : urls(r.runnumber, r.dataset)) {
-      cout << url.url << endl;
       vector<TTData> data_tt;
       if (url.isEB) {
         // parse as tt
@@ -105,6 +108,7 @@ std::vector<ECAL::RunTTData> TTF4Occupancy::readTT() {
       }
     }
     rundata.push_back(RunTTData(r, data));
+    pb.increment();
   }
   return rundata;
 };
@@ -157,10 +161,7 @@ void TTF4Occupancy::Process() {
   for (auto& r : occupancy_tt) {
     std::string xlabel = std::to_string(r.run.runnumber);
     for (auto& tt : r.data) {
-      std::string det = ECALChannels::det(tt.base);
-      std::string ylabel = det + " TCC" + std::to_string(tt.base.tcc) + " TT" +
-                           (tt.base.tt < 10 ? "0" : "") +
-                           std::to_string(tt.base.tt);
+      std::string ylabel = std::string(tt.base);
       data.insert({{xlabel, ylabel}, tt.value});
     }
   }

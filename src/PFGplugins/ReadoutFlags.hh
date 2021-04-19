@@ -11,12 +11,12 @@ namespace plugins {
 class ReadoutFlags : public Plugin {
  private:
   virtual inline std::string pluginName() const { return "ReadoutFlags"; };
-  std::vector<ECAL::RunTTData> getRundata() const;
+  std::vector<ECAL::RunTTCCUData> getRundata() const;
   virtual std::string geturl(const ECAL::Run& run, const int iz) const;
-  static void plot(const std::vector<ECAL::RunTTData>& rundata,
+  static void plot(const std::vector<ECAL::RunTTCCUData>& rundata,
                    const std::string& name);
 
-  virtual bool removeFn(const ECAL::TTData& ttd) const;
+  virtual bool removeFn(const ECAL::TTCCUData& ttd) const;
 
  public:
   void Process();

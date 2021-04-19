@@ -39,9 +39,7 @@ void plot(const vector<ECAL::RunTTData>& rundata) {
   for (auto& rd : rundata) {
     const auto xlabel = to_string(rd.run.runnumber);
     for (auto& tt : rd.data) {
-      const auto det = ECALChannels::det(tt.base);
-      const auto ylabel =
-          common::string_format("%s TT%02d", det.c_str(), tt.base.tt);
+      const auto ylabel = std::string(tt.base);
       data.insert({{xlabel, ylabel}, tt.value});
     }
     progress.increment();

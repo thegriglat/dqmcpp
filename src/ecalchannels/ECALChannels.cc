@@ -17,32 +17,6 @@
 
 using namespace std;
 
-namespace {
-
-using namespace dqmcpp;
-const dqmcpp::ECALChannels::ChannelInfo* infoeb(const int tt, const int tcc) {
-  const auto channels = ECALChannels::ChannelsDB::channels();
-  auto it = std::find_if(channels->begin(), channels->end(),
-                         [tt, tcc](const ECALChannels::ChannelInfo& c) {
-                           return c.tower == tt && c.tcc == tcc;
-                         });
-  if (it != channels->end())
-    return &(*it);
-  return nullptr;
-}
-
-const dqmcpp::ECALChannels::ChannelInfo* infoee(const int ccu, const int tcc) {
-  const auto channels = ECALChannels::ChannelsDB::channels();
-  auto it = std::find_if(channels->begin(), channels->end(),
-                         [ccu, tcc](const ECALChannels::ChannelInfo& c) {
-                           return c.ccu == ccu && c.tcc == tcc;
-                         });
-  if (it != channels->end())
-    return &(*it);
-  return nullptr;
-}
-}  // namespace
-
 namespace dqmcpp {
 namespace ECALChannels {
 const ChannelInfo* find(const ECAL::Channel& c) {
@@ -51,27 +25,6 @@ const ChannelInfo* find(const ECAL::Channel& c) {
 
 const ECALChannelsList* list() {
   return ChannelsDB::channels();
-}
-
-const std::string detByTTTTC(const int tt, const int tcc) {
-  auto i = infoeb(tt, tcc);
-  if (i)
-    return i->det();
-  return "";
-}
-
-const std::string detByCCUTCC(const int ccu, const int tcc) {
-  auto i = infoee(ccu, tcc);
-  if (i)
-    return i->det();
-  return "";
-}
-
-int ccu(const ECAL::TT& tt) {
-  auto i = infoeb(tt.tt, tt.tcc);
-  if (i)
-    return i->ccu;
-  return 0;
 }
 
 int ChannelInfo::sm() const {
@@ -88,14 +41,22 @@ int ChannelInfo::sm() const {
   return 0;
 }
 
-std::string ChannelInfo::part() const {
+int ChannelInfo::det_iz() const {
   if (fed >= 610 && fed <= 645)
+    return 0;
+  if (iz > 0)
+    return 1;
+  return -1;
+}
+
+std::string ChannelInfo::part() const {
+  if (det_iz() == 0)
     return "EB";
   return "EE";
 }
 
 std::string ChannelInfo::det() const {
-  return common::string_format("%s%+02d", part().c_str(), sm());
+  return common::string_format("%s%+03d", part().c_str(), sm());
 }
 
 }  // namespace ECALChannels

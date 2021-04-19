@@ -4,6 +4,7 @@
  * @brief Functions to get Plugin* by name
  */
 #include "Plugins.hh"
+#include <iostream>
 
 using namespace dqmcpp::plugins;
 
@@ -21,6 +22,11 @@ void PluginFactory::Register(IPluginRegistrar* registrar, std::string name) {
 
 std::unique_ptr<Plugin> PluginFactory::GetPlugin(std::string name) {
   /* throws out_of_range if plugin unknown */
+  auto it = registry_.find(name);
+  if (it == registry_.end()) {
+    std::cerr << "Cannot find plugin '" << name << "'" << std::endl;
+    exit(1);
+  }
   IPluginRegistrar* registrar = registry_.at(name);
   return registrar->GetPlugin();
 }

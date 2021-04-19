@@ -44,6 +44,7 @@ struct ChannelInfo {
   uint8_t iphigct;  // 0..17
   // std::string crate;
   std::string det() const;
+  int det_iz() const;
   std::string part() const;
   int sm() const;
 };
@@ -58,15 +59,6 @@ using ECALChannelsList = std::array<dqmcpp::ECALChannels::ChannelInfo, 75848>;
  */
 const ChannelInfo* find(const ECAL::Channel& channel);
 const ECALChannelsList* list(void);
-const std::string detByTTTTC(const int tt, const int tcc);
-const std::string detByCCUTCC(const int ccu, const int tcc);
-
-inline const std::string det(const ECAL::TT& tt) {
-  if (tt.iz == 0)
-    return detByTTTTC(tt.tt, tt.tcc);
-  return detByCCUTCC(tt.tt, tt.tcc);
-}
-int ccu(const ECAL::TT& tt);
 
 }  // namespace ECALChannels
 }  // namespace dqmcpp
