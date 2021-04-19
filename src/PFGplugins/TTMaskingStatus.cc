@@ -38,20 +38,21 @@ std::vector<URLType> urls(const unsigned int runnumber,
                           const std::string& dataset) {
   std::vector<URLType> urls;
   for (int i = -1; i < 2; ++i) {
-    string det = "Barrel";
-    string d = "EB";
-    string suf = "";
-    if (i != 0) {
-      // endcap
-      det = "Endcap";
-      d = "EE";
-      suf = (i == 1) ? " EE +" : " EE -";
+    if (i == 0) {
+      // eb
+      urls.push_back(
+          URLType(net::DQMURL::dqmurl(
+                      runnumber, dataset,
+                      "EcalBarrel/EBTriggerTowerTask/EBTTT TT Masking Status"),
+                  true));
+    } else {
+      const std::string pm = (i == 1) ? "EE +" : "EE -";
+      urls.push_back(URLType(
+          net::DQMURL::dqmurl(
+              runnumber, dataset,
+              "EcalEndcap/EETriggerTowerTask/EETTT TT Masking Status " + pm),
+          false));
     }
-    string eeplot = "Ecal";
-    eeplot +=
-        det + "/" + d + "TriggerTowerTask/" + d + "TTT TT Masking Status" + suf;
-    urls.push_back(URLType(
-        dqmcpp::net::DQMURL::dqmurl(runnumber, dataset, eeplot), i == 0));
   }
   return urls;
 };
