@@ -56,7 +56,7 @@ std::string ChannelInfo::part() const {
 }
 
 std::string ChannelInfo::det() const {
-  return common::string_format("%s%+02d", part().c_str(), sm());
+  return common::string_format("%s%+03d", part().c_str(), sm());
 }
 
 }  // namespace ECALChannels
