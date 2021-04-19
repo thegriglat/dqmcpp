@@ -90,14 +90,8 @@ void ReadoutFlags::plot(const vector<ECAL::RunTTData>& rundata,
     string xlabel = to_string(rd.run.runnumber);
     allruns.push_back(xlabel);
     for (auto& ttd : rd.data) {
-      const auto det = ECALChannels::det(ttd.base);
-      int ttccu = ttd.base.tt;
-      string tts = "TT";
-      if (ttd.base.iz != 0) {
-        tts = "CCU";
-      }
-      const string ylabel =
-          common::string_format("%s %s%02d", det.c_str(), tts.c_str(), ttccu);
+      // TODO: CCU
+      const string ylabel = std::string(ttd.base);
       data.insert({{xlabel, ylabel}, ttd.value});
     }
   }

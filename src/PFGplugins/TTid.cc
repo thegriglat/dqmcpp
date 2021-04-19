@@ -51,13 +51,13 @@ void plot(const vector<ECAL::RunTTData>& rundata) {
   for (auto& rd : rundata) {
     const string xlabel = to_string(rd.run.runnumber);
     for (auto& d : rd.data) {
-      const string det = ECALChannels::det(d.base);
-      string ylabel;
-      if (d.base.iz != 0) {
-        ylabel = common::string_format("%s CCU%02d", det.c_str(), d.base.tt);
-      } else {
-        ylabel = common::string_format("%s TT%02d", det.c_str(), d.base.tt);
-      }
+      // const string det = ECALChannels::det(d.base);
+      string ylabel = std::string(d.base);
+      // if (d.base.iz != 0) {
+      // ylabel = common::string_format("%s CCU%02d", det.c_str(), d.base.tt);
+      // } else {
+      // ylabel = common::string_format("%s TT%02d", det.c_str(), d.base.tt);
+      // }
       data.insert({{xlabel, ylabel}, d.value});
       _max = std::max(_max, d.value);
     }
@@ -100,9 +100,10 @@ void dqmcpp::plugins::TTid::Process() {
                          std::abs(ci.iy - d.base.y) < 2.5 && ci.iz == iz;
                 });
             if (it == channels->end()) {
-              cout << endl << run << " cannot determine ccu" << d.base << endl;
+              cout << endl
+                   << run << " cannot determine tower" << d.base << endl;
             } else {
-              _localtt.emplace_back(ECAL::TT(it->ccu, it->tcc, iz), d.value);
+              _localtt.emplace_back(ECAL::TT(it->tower, it->tcc, iz), d.value);
             }
           }
           ttdata.data.insert(ttdata.data.end(), _localtt.begin(),

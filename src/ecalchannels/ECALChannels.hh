@@ -59,13 +59,6 @@ using ECALChannelsList = std::array<dqmcpp::ECALChannels::ChannelInfo, 75848>;
  */
 const ChannelInfo* find(const ECAL::Channel& channel);
 const ECALChannelsList* list(void);
-const std::string detByTTTTC(const int tt, const int tcc);
-const std::string detByCCUTCC(const int ccu, const int tcc);
-
-inline const std::string det(const ECAL::TT& tt) {
-  return detByTTTTC(tt.tt, tt.tcc);
-}
-int ccu(const ECAL::TT& tt);
 
 }  // namespace ECALChannels
 }  // namespace dqmcpp

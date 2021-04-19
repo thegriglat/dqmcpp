@@ -157,10 +157,7 @@ void TTF4Occupancy::Process() {
   for (auto& r : occupancy_tt) {
     std::string xlabel = std::to_string(r.run.runnumber);
     for (auto& tt : r.data) {
-      std::string det = ECALChannels::det(tt.base);
-      std::string ylabel = det + " TCC" + std::to_string(tt.base.tcc) + " TT" +
-                           (tt.base.tt < 10 ? "0" : "") +
-                           std::to_string(tt.base.tt);
+      std::string ylabel = std::string(tt.base);
       data.insert({{xlabel, ylabel}, tt.value});
     }
   }
