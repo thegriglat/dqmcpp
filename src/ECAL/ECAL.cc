@@ -4,7 +4,7 @@
  * @brief Various functions to convert ECAL data
  */
 #include "ECAL.hh"
-#include "../common/math.hh"
+#include "../common/common.hh"
 #include "../ecalchannels/ECALChannels.hh"
 
 #include <algorithm>
@@ -166,10 +166,19 @@ bool operator<(const TT& a, const TT& b) {
 }
 
 std::ostream& operator<<(std::ostream& os, const TT& elem) {
-  os << "TT[" << elem.tt << "," << elem.tcc << "," << elem.iz << "]";
+  os << std::string(elem);
   return os;
 }
 
+TT::operator std::string() const {
+  const auto _l = ECALChannels::list();
+  auto it = std::find_if(
+      _l->begin(), _l->end(), [this](const ECALChannels::ChannelInfo& ci) {
+        return ci.tower == tt && ci.tcc == tcc && ci.det_iz() == iz;
+      });
+  std::string det = (it != _l->end()) ? it->det() : "UNKNOWN";
+  return common::string_format("%s TCC%02d TT%02d", det.c_str(), tcc, tt);
+}
 bool operator==(const Run& a, const Run& b) {
   return a.dataset == b.dataset && a.runnumber == b.runnumber;
 }

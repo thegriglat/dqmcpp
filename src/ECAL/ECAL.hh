@@ -52,6 +52,7 @@ struct TT {
   int iz;
   TT(const int tt, const int tcc, const int iz) : tt(tt), tcc(tcc), iz(iz){};
   TT(const Channel& channel);
+  operator std::string() const;
   friend bool operator==(const TT& a, const TT& b);
   friend bool operator<(const TT& a, const TT& b);
   friend std::ostream& operator<<(std::ostream& os, const TT& elem);
