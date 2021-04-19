@@ -39,6 +39,7 @@ struct Channel {
   inline bool isEEP() const { return iz == 1; };
   inline bool isEEM() const { return iz == -1; };
   std::array<int, 3> asArray() const;
+  operator std::string() const;
   friend bool operator<(const Channel& a, const Channel& b);
   friend bool operator==(const Channel& a, const Channel& b);
   friend std::ostream& operator<<(std::ostream& os, const Channel& c);

@@ -141,8 +141,15 @@ bool operator<(const Channel& a, const Channel& b) {
 }
 
 std::ostream& operator<<(std::ostream& os, const Channel& c) {
-  os << "{x: " << c.ix_iphi << ", y: " << c.iy_ieta << ", z:" << c.iz << "}";
+  os << std::string(c);
   return os;
+}
+
+Channel::operator std::string() const {
+  auto it = ECALChannels::find(*this);
+  const std::string det = (it != nullptr) ? it->det() : "UNKNOWN";
+  return common::string_format("%s [%+03d,%+03d]", det.c_str(), ix_iphi,
+                               iy_ieta);
 }
 
 bool operator==(const Channel& a, const Channel& b) {
