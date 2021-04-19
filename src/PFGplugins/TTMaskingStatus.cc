@@ -77,10 +77,7 @@ void plot(const vector<RunTTData>& rundata) {
   for (auto& r : rundata) {
     std::string xlabel = std::to_string(r.run.runnumber);
     for (auto& tt : r.data) {
-      std::string det =
-          ((tt.base.iz == 0) ? "EB  " : ((tt.base.iz == 1) ? "EE+ " : "EE- "));
-      std::string ylabel = det + "TT" + (tt.base.tt < 10 ? "0" : "") +
-                           std::to_string(tt.base.tt);
+      std::string ylabel = std::string(tt.base);
       data.insert({{xlabel, ylabel}, tt.value});
     }
   }
