@@ -88,8 +88,16 @@ int ChannelInfo::sm() const {
   return 0;
 }
 
-std::string ChannelInfo::part() const {
+int ChannelInfo::det_iz() const {
   if (fed >= 610 && fed <= 645)
+    return 0;
+  if (iz > 0)
+    return 1;
+  return -1;
+}
+
+std::string ChannelInfo::part() const {
+  if (det_iz() == 0)
     return "EB";
   return "EE";
 }

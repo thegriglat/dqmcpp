@@ -44,6 +44,7 @@ struct ChannelInfo {
   uint8_t iphigct;  // 0..17
   // std::string crate;
   std::string det() const;
+  int det_iz() const;
   std::string part() const;
   int sm() const;
 };
