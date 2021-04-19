@@ -14,6 +14,7 @@
 #include "net/DQMURLProvider.hh"
 #include "readers/JSONReader.hh"
 #include "writers/Gnuplot2DWriter.hh"
+#include "writers/ProgressBar.hh"
 
 using namespace std;
 using namespace dqmcpp;
@@ -65,12 +66,13 @@ namespace plugins {
 std::vector<ECAL::RunTTData> TTF4Occupancy::readTT() {
   using namespace ECAL;
   vector<RunTTData> rundata;
+  writers::ProgressBar pb(runListReader->runs().size());
   const auto all_channels = ECALChannels::list();
   for (auto r : runListReader->runs()) {
+    pb.setLabel(r.runnumber);
     std::vector<TTData> data;
     data.reserve(2500);  // approx ~3k
     for (auto url : urls(r.runnumber, r.dataset)) {
-      cout << url.url << endl;
       vector<TTData> data_tt;
       if (url.isEB) {
         // parse as tt
@@ -105,6 +107,7 @@ std::vector<ECAL::RunTTData> TTF4Occupancy::readTT() {
       }
     }
     rundata.push_back(RunTTData(r, data));
+    pb.increment();
   }
   return rundata;
 };
