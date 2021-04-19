@@ -22,7 +22,7 @@ std::string ZeroSuppression::geturl(const ECAL::Run& run, const int iz) const {
   return "";
 }
 
-bool ZeroSuppression::removeFn(const ECAL::TTData& ttdata) const {
+bool ZeroSuppression::removeFn(const ECAL::TTCCUData& ttdata) const {
   return ttdata.value > 0.98;
 }
 

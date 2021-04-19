@@ -23,7 +23,7 @@ std::string ReadoutFlagsForced::geturl(const ECAL::Run& run,
   return "";
 }
 
-bool ReadoutFlagsForced::removeFn(const ECAL::TTData& ttdata) const {
+bool ReadoutFlagsForced::removeFn(const ECAL::TTCCUData& ttdata) const {
   return ttdata.value < 0.05;
 }
 

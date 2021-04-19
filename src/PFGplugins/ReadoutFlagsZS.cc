@@ -22,7 +22,7 @@ std::string ReadoutFlagsZS::geturl(const ECAL::Run& run, const int iz) const {
   return "";
 }
 
-bool ReadoutFlagsZS::removeFn(const ECAL::TTData& ttdata) const {
+bool ReadoutFlagsZS::removeFn(const ECAL::TTCCUData& ttdata) const {
   return ttdata.value < 0.05;
 }
 
