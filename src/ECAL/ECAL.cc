@@ -186,6 +186,38 @@ TT::operator std::string() const {
   std::string det = (it != _l->end()) ? it->det() : "UNKNOWN";
   return common::string_format("%s TCC%02d TT%02d", det.c_str(), tcc, tt);
 }
+
+bool operator==(const CCU& a, const CCU& b) {
+  return a.ccu == b.ccu && a.iz == b.iz && a.tcc == b.tcc;
+}
+
+bool operator<(const CCU& a, const CCU& b) {
+  if (a.iz == b.iz) {
+    if (a.tcc == b.tcc) {
+      return a.ccu < b.ccu;
+    } else {
+      return a.tcc < b.tcc;
+    }
+  } else {
+    return a.iz < b.iz;
+  }
+}
+
+std::ostream& operator<<(std::ostream& os, const CCU& elem) {
+  os << std::string(elem);
+  return os;
+}
+
+CCU::operator std::string() const {
+  const auto _l = ECALChannels::list();
+  auto it = std::find_if(
+      _l->begin(), _l->end(), [this](const ECALChannels::ChannelInfo& ci) {
+        return ci.ccu == ccu && ci.tcc == tcc && ci.det_iz() == iz;
+      });
+  std::string det = (it != _l->end()) ? it->det() : "UNKNOWN";
+  return common::string_format("%s TCC%02d CCU%02d", det.c_str(), tcc, ccu);
+}
+
 bool operator==(const Run& a, const Run& b) {
   return a.dataset == b.dataset && a.runnumber == b.runnumber;
 }

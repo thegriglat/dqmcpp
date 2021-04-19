@@ -15,6 +15,7 @@ namespace ECAL {
 constexpr unsigned int NEBChannels = 61200;
 constexpr unsigned int NEEChannels = 14648;
 constexpr unsigned int NTotalChannels = NEBChannels + NEEChannels;
+enum class ECALElement : int { TT, CCU };
 
 struct Point1D {
   double x;
@@ -53,10 +54,54 @@ struct TT {
   int iz;
   TT(const int tt, const int tcc, const int iz) : tt(tt), tcc(tcc), iz(iz){};
   TT(const Channel& channel);
+  TT(const std::array<int, 4>& vec4) : tt(vec4[0]), tcc(vec4[1]), iz(vec4[2]){};
   operator std::string() const;
+  inline std::array<int, 4> asArray() const {
+    std::array<int, 4> tmp = {tt, tcc, iz, (int)ECALElement::TT};
+    return tmp;
+  }
   friend bool operator==(const TT& a, const TT& b);
   friend bool operator<(const TT& a, const TT& b);
   friend std::ostream& operator<<(std::ostream& os, const TT& elem);
+};
+
+struct CCU {
+  // CCU number
+  int ccu;
+  int tcc;
+  // EB = 0 ; EE+ = 1; EE- = -1;
+  int iz;
+  CCU(const int ccu, const int tcc, const int iz)
+      : ccu(ccu), tcc(tcc), iz(iz){};
+  CCU(const Channel& channel);
+  CCU(const std::array<int, 4>& vec4)
+      : ccu(vec4[0]), tcc(vec4[1]), iz(vec4[2]){};
+  operator std::string() const;
+  inline std::array<int, 4> asArray() const {
+    std::array<int, 4> tmp = {ccu, tcc, iz, (int)ECALElement::CCU};
+    return tmp;
+  }
+  friend bool operator==(const CCU& a, const CCU& b);
+  friend bool operator<(const CCU& a, const CCU& b);
+  friend std::ostream& operator<<(std::ostream& os, const CCU& elem);
+};
+
+class TTCCU {
+ private:
+  std::array<int, 4> data;
+
+ public:
+  TTCCU(const TT& tt) : data(tt.asArray()){};
+  TTCCU(const CCU& ccu) : data(ccu.asArray()){};
+  inline bool isTT() const { return data.at(3) == (int)ECALElement::TT; }
+  inline bool isCCU() const { return data.at(3) == (int)ECALElement::CCU; }
+  inline operator std::string() const {
+    if (isTT())
+      return std::string(TT(data));
+    if (isCCU())
+      return std::string(CCU(data));
+    return "unknown type";
+  }
 };
 
 struct Run {
@@ -88,10 +133,14 @@ struct Data {
 
 using ChannelData = Data<Channel>;
 using TTData = Data<TT>;
+using CCUData = Data<CCU>;
+using TTCCUData = Data<TTCCU>;
 using Data1D = Data<Point1D>;
 using Data2D = Data<Point2D>;
 
 using RunTTData = RunData<std::vector<TTData>>;
+using RunCCUData = RunData<std::vector<CCUData>>;
+using RunTTCCUData = RunData<std::vector<TTCCUData>>;
 using RunChannelData = RunData<std::vector<ChannelData>>;
 using RunData2D = RunData<std::vector<Data2D>>;
 using RunData1D = RunData<std::vector<Data1D>>;
