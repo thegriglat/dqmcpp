@@ -19,6 +19,7 @@ class ProgressBar {
   ProgressBar(const int maxSteps = 1);
   void finish(void) const;
   void increment(const int increment = 1.0);
+  inline int getMaxValue() const { return maxProgressValue; };
   void setMaxValue(const int maxvalue);
   void setLabel(const std::string& newlabel);
   inline void setLabel(const int run) { setLabel(std::to_string(run)); }

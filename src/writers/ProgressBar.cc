@@ -42,6 +42,8 @@ ProgressBar::ProgressBar(const int maxSteps) : maxProgressValue(maxSteps){};
 
 void ProgressBar::setMaxValue(const int maxvalue) {
   maxProgressValue = maxvalue;
+  // just to update
+  increment(0);
 }
 
 void ProgressBar::update(int value) {
