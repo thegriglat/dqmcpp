@@ -48,43 +48,32 @@ std::vector<ECAL::RunChannelData> ChannelPlugin::analyze(
 
     const std::vector<ECAL::RunChannelData>& rundata,
     std::function<bool(double)> checkfn) {
-  vector<BadChannel> badchannels_list;
-  badchannels_list.reserve(100);
-  writers::ProgressBar progress(rundata.size());
+  std::map<ECAL::Channel, int> badchannels_map;
+  writers::ProgressBar progress(rundata.size() * 2);
   progress.setLabel("analyzing...");
   for (auto& e : rundata) {
     progress.increment();
     for (auto& channeldata : e.data) {
       if (checkfn(channeldata.value)) {
-        auto it = std::find_if(badchannels_list.begin(), badchannels_list.end(),
-                               [&channeldata](const BadChannel& bc) {
-                                 return bc.first == channeldata.base;
-                               });
-        if (it == badchannels_list.end()) {
-          // channel not recorded
-          badchannels_list.push_back({channeldata.base, 1});
-        } else {
-          // increment number;
-          it->second++;
-        }
+        badchannels_map[channeldata.base]++;
       }
     }
   }
-  auto it = std::remove_if(badchannels_list.begin(), badchannels_list.end(),
-                           [](const BadChannel& c) { return c.second == 1; });
-  badchannels_list.erase(it, badchannels_list.end());
+  set<ECAL::Channel> badchannels;
 
-  vector<ECAL::Channel> badchannels = common::map<BadChannel, ECAL::Channel>(
-      badchannels_list, [](const BadChannel& bc) { return bc.first; });
-
+  for (auto& pair : badchannels_map) {
+    if (pair.second > 1)
+      badchannels.insert(pair.first);
+  }
+  progress.setLabel("copying ...");
   std::vector<ECAL::RunChannelData> rd;
   rd.reserve(rundata.size());
   for (auto& e : rundata) {
     std::vector<ECAL::ChannelData> bd;
+    bd.reserve(badchannels.size());
     std::copy_if(e.data.begin(), e.data.end(), std::back_inserter(bd),
                  [&badchannels](const ECAL::ChannelData& ecd) {
-                   return std::find(badchannels.begin(), badchannels.end(),
-                                    ecd.base) != badchannels.end();
+                   return badchannels.find(ecd.base) != badchannels.end();
                  });
     rd.push_back(ECAL::RunChannelData(e.run, bd));
   }
