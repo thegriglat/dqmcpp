@@ -61,6 +61,9 @@ float ProgressBar::progress() const {
 }
 
 void ProgressBar::draw(void) const {
+#ifdef NOPROGRESS
+  return;
+#endif
   const auto termwidth = getTermSize().width;
   unsigned int labelWidth = std::max(label.size(), (size_t)termwidth / 12);
   if (label.size() == 0)
