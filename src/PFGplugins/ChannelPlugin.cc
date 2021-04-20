@@ -76,6 +76,7 @@ std::vector<ECAL::RunChannelData> ChannelPlugin::analyze(
                    return badchannels.find(ecd.base) != badchannels.end();
                  });
     rd.push_back(ECAL::RunChannelData(e.run, bd));
+    progress.increment();
   }
   return rd;
 }
@@ -91,19 +92,23 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
   std::vector<std::pair<std::string, std::string>> boxes;
   const auto& lastrun = rundata.back().run;
   writers::ProgressBar progress(rundata.size());
-  progress.setLabel("plotting...");
+  progress.setLabel("plot: status");
   std::set<ECAL::Channel> badchannels;
   std::map<ECAL::Channel, int> channelstatus;
   for (auto& rd : rundata) {
     for (auto& chd : rd.data) {
       badchannels.insert(chd.base);
     }
+    progress.increment();
   }
+  progress.setMaxValue(progress.getMaxValue() + badchannels.size());
   for (auto& b : badchannels) {
     channelstatus[b] = plugins::ChannelStatus::getChannelStatus(lastrun, b);
-  }
-  for (auto& rd : rundata) {
     progress.increment();
+  }
+  progress.setMaxValue(progress.getMaxValue() + rundata.size());
+  progress.setLabel("plot: boxes");
+  for (auto& rd : rundata) {
     const auto xlabel = std::to_string(rd.run.runnumber);
     for (auto& b : badchannels) {
       int channel_status = channelstatus.at(b);
@@ -117,6 +122,7 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
         data.insert({{xlabel, ylabel}, rd.data.at(idx).value});
       }
     }
+    progress.increment();
   }
   std::ofstream out(filename + ".plt");
   writers::Gnuplot2DWriter writer(data);
