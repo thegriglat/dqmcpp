@@ -89,12 +89,18 @@ void ProgressBar::draw(void) const {
 }
 
 void ProgressBar::setLabel(const std::string& newlabel) {
-  label = newlabel;
-  draw();
+  if (label != newlabel) {
+    label = newlabel;
+    draw();
+  }
 }
 
 void ProgressBar::increment(const int increment) {
-  update(currentProgress + increment);
+  const auto i1 = currentProgress * 100 / maxProgressValue;
+  const auto i2 = (currentProgress + increment) * 100 / maxProgressValue;
+  currentProgress += increment;
+  if (std::abs(i1 - i2) != 0)
+    update(currentProgress);
 };
 
 }  // namespace writers
