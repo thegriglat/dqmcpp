@@ -113,6 +113,7 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
     for (auto& b : badchannels) {
       int channel_status = channelstatus.at(b);
       const auto ylabel = getYlabel(b, channel_status);
+      channel_status = plugins::ChannelStatus::getChannelStatus(rd.run, b);
       if (channel_status > MAXSTATUS4BOX) {
         boxes.emplace_back(xlabel, ylabel);
       }
