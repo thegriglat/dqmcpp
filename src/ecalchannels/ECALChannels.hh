@@ -6,6 +6,7 @@
  */
 #include <array>
 #include <string>
+#include <utility>
 #include "../ECAL/ECAL.hh"
 
 namespace dqmcpp {
@@ -57,8 +58,10 @@ using ECALChannelsList = std::array<dqmcpp::ECALChannels::ChannelInfo, 75848>;
  * @param channel Channel to be matched
  * @return const ChannelInfo* | nullptr
  */
-const ChannelInfo* find(const ECAL::Channel& channel);
-const ECALChannelsList* list(void);
+ECALChannelsList::const_iterator find(const ECAL::Channel& channel);
+
+std::pair<ECALChannelsList::const_iterator, ECALChannelsList::const_iterator>
+list(void);
 
 }  // namespace ECALChannels
 }  // namespace dqmcpp

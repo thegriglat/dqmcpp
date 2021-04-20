@@ -19,12 +19,14 @@ using namespace std;
 
 namespace dqmcpp {
 namespace ECALChannels {
-const ChannelInfo* find(const ECAL::Channel& c) {
+ECALChannelsList::const_iterator find(const ECAL::Channel& c) {
   return ChannelsDB::find(c.ix_iphi, c.iy_ieta, c.iz);
 };
 
-const ECALChannelsList* list() {
-  return ChannelsDB::channels();
+std::pair<ECALChannelsList::const_iterator, ECALChannelsList::const_iterator>
+list() {
+  auto l = ChannelsDB::channels();
+  return {l->begin(), l->end()};
 }
 
 int ChannelInfo::sm() const {

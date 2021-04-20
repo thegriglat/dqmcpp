@@ -86,11 +86,11 @@ std::vector<ECAL::RunTTData> TTF4Occupancy::readTT() {
           const int xch = (int)e.base.x;
           const int ych = (int)e.base.y;
           auto f =
-              std::find_if(all_channels->begin(), all_channels->end(),
+              std::find_if(all_channels.first, all_channels.second,
                            [xch, ych](const ECALChannels::ChannelInfo& ch) {
                              return ch.iphi == xch && ch.ieta == ych;
                            });
-          if (f == all_channels->end()) {
+          if (f == all_channels.second) {
             std::cout << "Cannot find channel !" << std::endl;
             std::cout << "x: " << xch << " y: " << ych << std::endl;
           }

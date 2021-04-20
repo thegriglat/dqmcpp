@@ -180,7 +180,7 @@ std::ostream& operator<<(std::ostream& os, const TT& elem) {
 TT::operator std::string() const {
   const auto _l = ECALChannels::list();
   auto it = std::find_if(
-      _l->begin(), _l->end(), [this](const ECALChannels::ChannelInfo& ci) {
+      _l.first, _l.second, [this](const ECALChannels::ChannelInfo& ci) {
         return ci.tower == tt && ci.tcc == tcc && ci.det_iz() == iz;
       });
   std::string det = it->det();
@@ -211,10 +211,10 @@ std::ostream& operator<<(std::ostream& os, const CCU& elem) {
 CCU::operator std::string() const {
   const auto _l = ECALChannels::list();
   auto it = std::find_if(
-      _l->begin(), _l->end(), [this](const ECALChannels::ChannelInfo& ci) {
+      _l.first, _l.second, [this](const ECALChannels::ChannelInfo& ci) {
         return ci.ccu == ccu && ci.tcc == tcc && ci.det_iz() == iz;
       });
-  auto det = it->det();
+  std::string det = it->det();
   return common::string_format("%s TCC%02d CCU%02d", det.c_str(), tcc, ccu);
 }
 

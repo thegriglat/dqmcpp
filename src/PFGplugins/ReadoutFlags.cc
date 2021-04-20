@@ -65,13 +65,13 @@ std::vector<ECAL::RunTTCCUData> ReadoutFlags::getRundata() const {
         const int y = std::trunc(e.base.y);
         const auto list = ECALChannels::list();
         auto it = std::find_if(
-            list->begin(), list->end(),
+            list.first, list.second,
             [x, y](const dqmcpp::ECALChannels::ChannelInfo& e) {
               if (std::abs(e.ix - x) <= 2.5 && std::abs(e.iy - y) <= 2.5)
                 return true;
               return false;
             });
-        if (it != list->end()) {
+        if (it != list.second) {
           const ECAL::CCU ccu(it->ccu, it->tcc, iz);
           const ECAL::TTCCUData ccud(ccu, e.value);
           if (!removeFn(ccud)) {

@@ -88,12 +88,12 @@ void dqmcpp::plugins::TTid::Process() {
           vector<ECAL::TTCCUData> _localtt;
           for (auto& d : d2d) {
             auto it = std::find_if(
-                channels->begin(), channels->end(),
+                channels.first, channels.second,
                 [&d, iz](const ECALChannels::ChannelInfo& ci) {
                   return std::abs(ci.ix - d.base.x) < 2.5 &&
                          std::abs(ci.iy - d.base.y) < 2.5 && ci.iz == iz;
                 });
-            if (it == channels->end()) {
+            if (it == channels.second) {
               cout << endl << run << " cannot determine ccu" << d.base << endl;
             } else {
               _localtt.emplace_back(ECAL::CCU(it->ccu, it->tcc, iz), d.value);
