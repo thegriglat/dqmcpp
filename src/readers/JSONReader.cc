@@ -9,7 +9,6 @@
 #include <cmath>
 #include <vector>
 #include "../common/JSONParser.hh"
-#include "../common/json.hh"
 #include "../common/logging.hh"
 #include "../common/math.hh"
 #include "../net/URLCache.hh"
@@ -17,6 +16,7 @@
 namespace {
 using namespace dqmcpp::ECAL;
 using namespace dqmcpp;
+using namespace rapidjson;
 /**
  * @brief Get iz of ECAL from histo title
  *
@@ -43,43 +43,41 @@ int getECALDetector(const std::string& title) {
  * @return true
  * @return false
  */
-bool isValid(const nlohmann::json& j) {
-  const auto hist = j["hist"];
+bool isValid(const Document& j) {
+  const auto& hist = j["hist"];
   // {"hist": "unsupported type"}
-  if (hist.empty() || hist.is_string())
-    return false;
-  return true;
+  return hist.IsObject();
 }
 
-std::vector<ECAL::Data2D> parse2D(nlohmann::json& j, bool skipZeroes = true) {
+std::vector<ECAL::Data2D> parse2D(Document& j, bool skipZeroes = true) {
   // TODO:: make it common with parse ..
   using namespace std;
-  using BinContentList = vector<vector<double>>;
   // check validity of json
   if (!isValid(j))
     return std::vector<ECAL::Data2D>();
-  const auto xaxis = j["hist"]["xaxis"];
-  const auto yaxis = j["hist"]["yaxis"];
+  const auto& xaxis = j["hist"]["xaxis"];
+  const auto& yaxis = j["hist"]["yaxis"];
   const auto xnbins =
-      xaxis["last"]["id"].get<int>() - xaxis["first"]["id"].get<int>() + 1;
-  const auto xfirst = xaxis["first"]["value"].get<double>();
-  const auto xlast = xaxis["last"]["value"].get<double>();
+      xaxis["last"]["id"].GetInt() - xaxis["first"]["id"].GetInt() + 1;
+  const auto xfirst = xaxis["first"]["value"].GetDouble();
+  const auto xlast = xaxis["last"]["value"].GetDouble();
   const auto xstep = (xlast - xfirst) / xnbins;
 
   const auto ynbins =
-      yaxis["last"]["id"].get<int>() - yaxis["first"]["id"].get<int>() + 1;
-  const auto yfirst = yaxis["first"]["value"].get<double>();
-  const auto ylast = yaxis["last"]["value"].get<double>();
+      yaxis["last"]["id"].GetInt() - yaxis["first"]["id"].GetInt() + 1;
+  const auto yfirst = yaxis["first"]["value"].GetDouble();
+  const auto ylast = yaxis["last"]["value"].GetDouble();
   const auto ystep = (ylast - yfirst) / ynbins;
 
   // bin increment always == 1 as it is channel
-  const auto content = j["hist"]["bins"]["content"].get<BinContentList>();
+  const auto& content = j["hist"]["bins"]["content"].GetArray();
   std::vector<ECAL::Data2D> channel_data;
   for (int ybin = 0; ybin < ynbins; ++ybin) {
     double y = yfirst + ystep * 0.5 + ystep * ybin;
+    auto xarray = content[ybin].GetArray();
     for (int xbin = 0; xbin < xnbins; ++xbin) {
       double x = xfirst + xstep * 0.5 + xstep * xbin;
-      const auto value = content.at(ybin).at(xbin);
+      const auto value = xarray[xbin].GetDouble();
       ECAL::Data2D c(Point2D(x, y), value);
       const bool skip = common::isZero(value) && skipZeroes;
       if (!skip) {
@@ -91,16 +89,16 @@ std::vector<ECAL::Data2D> parse2D(nlohmann::json& j, bool skipZeroes = true) {
   return channel_data;
 }
 
-std::vector<dqmcpp::ECAL::ChannelData> parse(nlohmann::json& j) {
+std::vector<dqmcpp::ECAL::ChannelData> parse(Document& j) {
   using namespace std;
   // check validity of json
   const auto data2d = parse2D(j);
   if (data2d.size() == 0)
     return std::vector<ECAL::ChannelData>();
-  const auto iz = getECALDetector(j["hist"]["title"].get<string>());
+  const auto iz = getECALDetector(j["hist"]["title"].GetString());
   vector<ECAL::ChannelData> channel_data;
-  const auto xaxis = j["hist"]["xaxis"];
-  const auto xtitle = xaxis["title"].get<string>();
+  const auto& xaxis = j["hist"]["xaxis"];
+  const std::string xtitle = xaxis["title"].GetString();
   const char xsign = (xtitle.find('-') != xtitle.npos) ? -1 : 1;
   for (auto& datapoint : data2d) {
     const int x = std::trunc(datapoint.base.x);
@@ -123,26 +121,25 @@ std::vector<dqmcpp::ECAL::ChannelData> parse(nlohmann::json& j) {
   return channel_data;
 }
 
-std::vector<ECAL::Data1D> parse1D(nlohmann::json& j, bool skipZeroes) {
+std::vector<ECAL::Data1D> parse1D(Document& j, bool skipZeroes) {
   // TODO:: make it common with parse ..
   using namespace std;
-  using BinContentList = vector<double>;
   // check validity of json
   if (!isValid(j))
     return std::vector<ECAL::Data1D>();
-  const auto xaxis = j["hist"]["xaxis"];
+  const auto& xaxis = j["hist"]["xaxis"];
   const auto xnbins =
-      xaxis["last"]["id"].get<int>() - xaxis["first"]["id"].get<int>() + 1;
-  const auto xfirst = xaxis["first"]["value"].get<double>();
-  const auto xlast = xaxis["last"]["value"].get<double>();
+      xaxis["last"]["id"].GetInt() - xaxis["first"]["id"].GetInt() + 1;
+  const auto xfirst = xaxis["first"]["value"].GetDouble();
+  const auto xlast = xaxis["last"]["value"].GetDouble();
   const auto xstep = (xlast - xfirst) / xnbins;
 
   // bin increment always == 1 as it is channel
-  const auto content = j["hist"]["bins"]["content"].get<BinContentList>();
+  const auto content = j["hist"]["bins"]["content"].GetArray();
   std::vector<ECAL::Data1D> channel_data;
   for (int xbin = 0; xbin < xnbins; ++xbin) {
     double x = xfirst + xstep * 0.5 + xstep * xbin;
-    const auto value = content.at(xbin);
+    const auto value = content[xbin].GetDouble();
     ECAL::Data1D c(x, value);
     const bool skip = common::isZero(value) && skipZeroes;
     if (!skip) {

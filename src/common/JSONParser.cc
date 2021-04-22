@@ -1,13 +1,13 @@
 #include "JSONParser.hh"
 
-#include "json.hh"
-
 namespace dqmcpp {
 namespace common {
 
-nlohmann::json parseJSON(const std::string& content) {
-  auto j = nlohmann::json::parse(content);
-  return j;
+rapidjson::Document parseJSON(const std::string& str) {
+  using namespace rapidjson;
+  Document document;
+  document.Parse(str.c_str());
+  return document;
 }
 
 }  // namespace common
