@@ -167,12 +167,14 @@ std::vector<ECAL::Run> runs(const unsigned int runnumber,
       c = '\"';
 
   auto json_content = dqmcpp::common::parseJSON(content);
-  auto j = json_content[1];
-  auto j1 = j["items"][0]["items"];
+  auto& j = json_content[1];
+  auto& j1 = j["items"][0]["items"];
   vector<ECAL::Run> runs;
-  for (auto& e : j1) {
-    auto ds = e["dataset"].get<string>();
-    auto run = std::atoi(e["run"].get<string>().c_str());
+  for (rapidjson::Value::ConstValueIterator itr = j1.Begin(); itr != j1.End();
+       ++itr) {
+    const std::string ds = (*itr)["dataset"].GetString();
+    const std::string runstr = (*itr)["run"].GetString();
+    auto run = std::atoi(runstr.c_str());
     runs.push_back(ECAL::Run(run, ds));
   }
 
