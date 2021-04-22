@@ -74,13 +74,13 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   for (unsigned int i = 0; i < gw.ncolumns() * gw.nrows(); ++i) {
     all[i] = DEFAULT_VALUE;
   }
-  for (unsigned int iy = 0; iy < gw._ylabels.size(); ++iy) {
-    const auto ylabel = gw._ylabels.at(iy);
-    for (unsigned int ix = 0; ix < gw._xlabels.size(); ++ix) {
-      const auto xlabel = gw._xlabels.at(ix);
-      if (gw._data->find({xlabel, ylabel}) != gw._data->end())
-        all[index(ix, iy)] = gw.get(xlabel, ylabel);
-    }
+  for (auto& pair : *(gw._data)) {
+    const auto& xl = pair.first.first;
+    const auto& yl = pair.first.second;
+    const auto value = pair.second;
+    const auto ix = common::index(gw._xlabels, xl);
+    const auto iy = common::index(gw._ylabels, yl);
+    all[index(ix, iy)] = value;
   }
   // print x labels
   /*
