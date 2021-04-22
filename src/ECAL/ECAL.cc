@@ -32,6 +32,19 @@ TT::TT(const Channel& channel) {
   tcc = info->tcc;
 }
 
+CCU::CCU(const Channel& channel) {
+  const auto info = ECALChannels::find(channel);
+  if (!info) {
+    std::cerr << std::endl << "Cannot find channel!" << channel << std::endl;
+    exit(1);
+  }
+  iz = 0;
+  if (info->ix != -999)
+    iz = info->iz;
+  ccu = info->ccu;
+  tcc = info->tcc;
+}
+
 std::vector<TTData> channel2TT(
     const std::vector<ECAL::ChannelData>& channelData) {
   vector<TTData> ttdata;
