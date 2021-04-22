@@ -48,7 +48,7 @@ void writeBarrel(std::ostream& os,
      << "set size ratio 0.472" << std::endl
      << "set xlabel \"iphi\"" << std::endl
      << "set ylabel \"ieta\"" << std::endl
-     << "set title \"ECAL Barrel\"" << std::endl
+     << "set title \"ECAL Barrel " << gw.getTitle() << "\"" << std::endl
      << "set xtics 20" << std::endl
      << "set ytics 100" << std::endl;
   // labels
@@ -103,14 +103,14 @@ void writeEndcap(std::ostream& os,
                  const int iz) {
   const auto endcap = common::filter(
       rd.data, [iz](const ECAL::ChannelData& cd) { return cd.base.iz == iz; });
-  const std::string title = (iz == 1) ? "ECAL EE+" : "ECAL EE-";
+  std::string title = (iz == 1) ? "ECAL EE+" : "ECAL EE-";
   os << "set xrange [0:100]" << std::endl
      << "set yrange [0:100]" << std::endl
      << "set xtics 5" << std::endl
      << "set ytics 5" << std::endl
      << "set xlabel \"ix\"" << std::endl
      << "set ylabel \"iy\"" << std::endl
-     << "set title \"" << title << "\"" << std::endl
+     << "set title \"" << title << " " << gw.getTitle() << "\"" << std::endl
      << "set size square" << std::endl;
   drawEELines(os);
   drawEESM(os, iz);
