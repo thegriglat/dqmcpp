@@ -20,7 +20,7 @@ class Gnuplot {
   Axis _xaxis = {"*", "*"};
   Axis _yaxis = {"*", "*"};
   std::string _output = "output";
-  std::string _title = "title";
+  std::string _title = "";
 
  public:
   inline void setOutput(const std::string& outfile) { _output = outfile; }
