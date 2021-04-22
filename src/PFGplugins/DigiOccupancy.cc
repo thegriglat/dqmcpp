@@ -181,6 +181,7 @@ void dqmcpp::plugins::DigiOccupancy::Process() {
           vector<ECAL::RunChannelData> _tmp = {rd};
           writers::GnuplotECALWriter writer(_tmp);
           writer.setZ(0, 5);
+          writer.setTitle(to_string(rd.run.runnumber));
           writer.setPalette({{0., "white"},
                              {0.0, colors::ColorSets::blue},
                              {1. / 5., "white"},

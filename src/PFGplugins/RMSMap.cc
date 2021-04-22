@@ -59,6 +59,8 @@ void RMSMap::plot(const std::vector<ECAL::RunChannelData>& rundata) {
     writers::GnuplotECALWriter writer(rd);
     writer.setPalette(colors::PaletteSets::RMSHeatMap);
     writer.setZ(0, 10);
+    writer.setOutput("rms");
+    writer.setTitle(std::to_string(run));
     writer.setZTick(1);
     out << writer << std::endl;
     out.close();
