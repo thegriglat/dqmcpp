@@ -107,7 +107,8 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
 
   os << "scale = " << scale << std::endl
      << "pagescale = " << pagescale << std::endl
-     << "set term pngcairo size pagescale * 1024,768*scale * pagescale"
+     << "set term pngcairo size pagescale * 1024,768*scale * pagescale "
+        "fontscale pagescale"
      << std::endl
      << "set palette defined " << gw.palette_str() << std::endl;
   os << "set cbrange [" << gw.getZ().min << ":" << gw.getZ().max << "]"
