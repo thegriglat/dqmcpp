@@ -167,9 +167,11 @@ std::vector<ECAL::Run> runs(const unsigned int runnumber,
       c = '\"';
 
   auto json_content = dqmcpp::common::parseJSON(content);
-  auto& j = json_content[1];
-  auto& j1 = j["items"][0]["items"];
+  const auto& j = json_content.GetArray()[1]["items"].GetArray();
   vector<ECAL::Run> runs;
+  if (j.Size() == 0)
+    return runs;
+  const auto& j1 = j[0]["items"].GetArray();
   for (rapidjson::Value::ConstValueIterator itr = j1.Begin(); itr != j1.End();
        ++itr) {
     const std::string ds = (*itr)["dataset"].GetString();
