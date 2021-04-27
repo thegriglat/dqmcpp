@@ -16,15 +16,16 @@ using namespace dqmcpp;
 
 int main(int argc, char** argv) {
   auto& factory = plugins::PluginFactory::Instance();
-  if (argc != 3) {
-    std::cout << "Usage: " << argv[0] << " <plugin list | all> <runlist file>"
-              << std::endl;
+  if (argc < 2 || argc > 3) {
+    std::cout << "Usage: " << argv[0]
+              << " plugin list|all [ <runlist file> | - ]" << std::endl;
     std::cout << "Plugins: " << std::endl;
     for (auto& name : factory.list()) {
       std::cout << "  " << name << std::endl;
     }
     return 0;
   }
+  const std::string infile = (argc == 3) ? argv[2] : "-";
   auto plugin_names = common::split(argv[1], ",");
 
   if (common::has(plugin_names, std::string("all")))
@@ -35,7 +36,7 @@ int main(int argc, char** argv) {
     if (!plugin) {
       exit(1);
     }
-    readers::RunListReader rlr(argv[2]);
+    readers::RunListReader rlr(infile);
     plugin->setRunListReader(&rlr);
     plugin->Process();
     std::cout << "##### END " << plugin_name << " #####" << std::endl;
