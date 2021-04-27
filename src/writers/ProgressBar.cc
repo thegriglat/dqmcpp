@@ -61,7 +61,9 @@ float ProgressBar::progress() const {
 }
 
 void ProgressBar::draw(void) const {
+  const std::string percents = formatPercent(progress() * 100.0);
 #ifdef NOPROGRESS
+  std::cout << label << " " << percents << "%" << std::endl;
   return;
 #endif
   const auto termwidth = getTermSize().width;
@@ -69,7 +71,6 @@ void ProgressBar::draw(void) const {
   if (label.size() == 0)
     // don't show empty space if no label
     labelWidth = 0;
-  const std::string percents = formatPercent(progress() * 100.0);
   const unsigned int barWidth = termwidth - labelWidth - percents.size() - 5;
   if (labelWidth != 0) {
     const auto padding = (labelWidth - label.size()) / 2;
