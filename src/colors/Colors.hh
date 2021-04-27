@@ -46,5 +46,5 @@ extern const Palette Rainbow;
 }  // namespace colors
 }  // namespace dqmcpp
 
-#define COLORS_HH #endif  // !COLORS_HH
+#define COLORS_HH
 #endif
