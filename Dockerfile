@@ -14,11 +14,19 @@ COPY --from=build /libdqmcpp.so /usr/lib/
 COPY --from=build /dqm /usr/bin/
 RUN mkdir /results
 WORKDIR /results
+ENTRYPOINT ["/usr/bin/dqm"]
 
 FROM alpine as findDataset
 MAINTAINER Grigory Latyshev
 RUN apk update && apk add --no-cache libcurl libstdc++
 COPY --from=build /libdqmcpp.so /usr/lib/
 COPY --from=build /findDataset /usr/bin/
-
 ENTRYPOINT ["/usr/bin/findDataset"]
+
+FROM alpine as onlineRuns
+MAINTAINER Grigory Latyshev
+RUN apk update && apk add --no-cache libcurl libstdc++
+COPY --from=build /libdqmcpp.so /usr/lib/
+COPY --from=build /onlineRuns /usr/bin/
+
+ENTRYPOINT ["/usr/bin/onlineRuns"]
