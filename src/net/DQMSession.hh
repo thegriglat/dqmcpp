@@ -15,7 +15,7 @@ namespace DQMSession {
  *
  * @return std::string
  */
-std::string get();
+std::string get(const bool offline = true);
 
 }  // namespace DQMSession
 }  // namespace net
