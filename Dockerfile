@@ -9,7 +9,7 @@ RUN make -j `grep -c proc /proc/cpuinfo`
 
 FROM alpine as dqm
 MAINTAINER Grigory Latyshev
-RUN apk update && apk add --no-cache libcurl libstdc++
+RUN apk update && apk add --no-cache libcurl libstdc++ gnuplot
 COPY --from=build /libdqmcpp.so /usr/lib/
 COPY --from=build /dqm /usr/bin/
 RUN mkdir /results
