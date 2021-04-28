@@ -205,6 +205,36 @@ std::string dqmurl(const ECAL::Run& run, const std::string& plotname) {
   return dqmurl(run.runnumber, run.dataset, plotname);
 }
 
+std::vector<dqmcpp::ECAL::Run> runs_online(void) {
+  auto session = DQMSession::get(false);
+  // firstly we need to GET chooseSample to init ??? in DQM
+  auto content =
+      net::URLCache::get("https://cmsweb.cern.ch/dqm/online/session/" +
+                         session + "/chooseSample?vary=run;order=dataset");
+
+  // erase first and last ( )
+  content.erase(0, 1);
+  content.erase(content.size() - 1, 1);
+  // replace ' with "
+  for (auto& c : content)
+    if (c == '\'')
+      c = '\"';
+
+  auto json_content = dqmcpp::common::parseJSON(content);
+  const auto& j = json_content.GetArray()[1]["items"].GetArray();
+  vector<ECAL::Run> runs;
+  if (j.Size() == 0)
+    return runs;
+  const auto& j1 = j[1]["items"].GetArray();
+  for (rapidjson::Value::ConstValueIterator itr = j1.Begin(); itr != j1.End();
+       ++itr) {
+    const std::string runstr = (*itr)["run"].GetString();
+    auto run = std::atoi(runstr.c_str());
+    runs.push_back(ECAL::Run(run, "online"));
+  }
+  return runs;
+}
+
 }  // namespace DQMURL
 }  // namespace net
 }  // namespace dqmcpp

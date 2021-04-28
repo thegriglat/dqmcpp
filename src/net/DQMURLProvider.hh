@@ -38,6 +38,8 @@ std::vector<dqmcpp::ECAL::Run> runs(const unsigned int run,
                                     const std::string& mask,
                                     const bool useLast = true);
 
+std::vector<dqmcpp::ECAL::Run> runs_online(void);
+
 }  // namespace DQMURL
 }  // namespace net
 }  // namespace dqmcpp
