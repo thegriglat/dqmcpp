@@ -11,3 +11,6 @@ cd ..
 
 python3 hugo_generate.py pngmap.json build/ > site/content/index.md
 cp build/*.png site/content/
+
+cd site
+hugo -D
