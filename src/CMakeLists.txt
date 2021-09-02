@@ -40,6 +40,7 @@ set (libdqmcpplibs
   plugins
   colors
   ecalchannels
+  cxxopts
 )
 
 if (PFGPLUGINS)
