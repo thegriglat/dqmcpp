@@ -6,6 +6,9 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+
+#include "cxxopts/cxxopts.hpp"
+
 #include "../common/common.hh"
 #include "../plugins/Plugins.hh"
 #include "../readers/JSONReader.hh"
@@ -16,17 +19,51 @@ using namespace dqmcpp;
 
 int main(int argc, char** argv) {
   auto& factory = plugins::PluginFactory::Instance();
-  if (argc < 2 || argc > 3) {
-    std::cout << "Usage: " << argv[0]
-              << " plugin list|all [ <runlist file> | - ]" << std::endl;
-    std::cout << "Plugins: " << std::endl;
+
+  // === CLI PARSER ===
+  cxxopts::Options cliopts("dqm", "A PFG DQM analysis tool");
+
+  cliopts.add_options()("h,help", "Print usage")(
+      "p,plugin", "List of plugins to run | all",
+      cxxopts::value<
+          std::vector<std::string>>())("r,runfile",
+                                       "Runlist file | '-' for stdin",
+                                       cxxopts::value<std::string>());
+  cliopts.parse_positional({"runfile", "plugin"});
+  cliopts.positional_help("runlist plugins|all");
+  cliopts.show_positional_help();
+
+  // helper function
+  auto showhelp = [&cliopts, &factory]() {
+    cout << cliopts.help() << endl;
+    cout << "Plugins: " << endl;
     for (auto& name : factory.list()) {
       std::cout << "  " << name << std::endl;
     }
-    return 0;
+  };
+
+  auto cli_result = cliopts.parse(argc, argv);
+
+  if (cli_result.count("help") || cli_result.arguments().size() == 0) {
+    showhelp();
+    exit(0);
   }
-  const std::string infile = (argc == 3) ? argv[2] : "-";
-  auto plugin_names = common::split(argv[1], ",");
+
+  if (!cli_result.count("plugin")) {
+    showhelp();
+    cout << "Plugin to run not specified! " << endl;
+    exit(0);
+  }
+
+  if (!cli_result.count("runfile")) {
+    showhelp();
+    cout << "Run file  not specified! " << endl;
+    exit(0);
+  }
+  // === END CLI PARSER ===
+
+  const std::string infile = cli_result["runfile"].as<std::string>();
+  auto plugin_names = cli_result["plugin"].as<std::vector<std::string>>();
 
   if (common::has(plugin_names, std::string("all")))
     plugin_names = factory.list();
