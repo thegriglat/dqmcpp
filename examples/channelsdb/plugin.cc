@@ -32,7 +32,7 @@ ECALChannelsList::const_iterator> list(void);
   cout << "=== list() method ===" << endl;
 
   auto channels = ECALChannels::list();
-  /** here it.begin points to the start of channels list and it.end
+  /** here channels.begin points to the start of channels list and channels.end
    * then you can use standard C++ STL function to find channels matching
    * condition
    * NOTE: Use det_iz() function to retrieve iz value.
