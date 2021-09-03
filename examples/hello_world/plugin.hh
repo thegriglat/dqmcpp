@@ -1,4 +1,4 @@
-#ifndef EX0_HH
+#ifndef HelloWorldEx_HH
 
 // include plugin common header
 #include "plugins/Plugins.hh"
@@ -16,12 +16,12 @@ namespace plugins {
  * All extra functions can be safely added if needed.
  * 
  */
-class Example0 : public Plugin {
+class HelloWorldEx : public Plugin {
  public:
   void Process();
 };
 }  // namespace plugins
 }  // namespace dqmcpp
 
-#define EX0_HH
+#define HelloWorldEx_HH
 #endif

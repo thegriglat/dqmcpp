@@ -1,4 +1,4 @@
-#include "ex0.hh"
+#include "plugin.hh"
 #include <iostream>
 
 /**
@@ -12,10 +12,10 @@
 */
 
 // do registration
-REGISTER_PLUGIN(Example0)
+REGISTER_PLUGIN(HelloWorldEx)
 
 // change line below to see how plugin name changes
-// REGISTER_PLUGIN(Example0, ex0)
+// REGISTER_PLUGIN(HelloWorldEx, ex0)
 
 using namespace std;
 using namespace dqmcpp;
@@ -24,7 +24,7 @@ namespace dqmcpp {
 
 namespace plugins {
 
-void Example0::Process() { cout << "Hello, DQMCpp!" << endl; }
+void HelloWorldEx::Process() { cout << "Hello, DQMCpp!" << endl; }
 } // namespace plugins
 
 } // namespace dqmcpp
