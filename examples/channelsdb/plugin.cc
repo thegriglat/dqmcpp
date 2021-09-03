@@ -22,8 +22,7 @@ void ChannelsDBEx::Process() {
 channel db
    *     ECALChannelsList::const_iterator find(const ECAL::Channel& channel);
    * and
-   *     std::pair<ECALChannelsList::const_iterator,
-ECALChannelsList::const_iterator> list(void);
+   *     ChannelIteratorPair list(void);
 */
 
   // most general way to access channel db is use list() method which returns
@@ -32,10 +31,11 @@ ECALChannelsList::const_iterator> list(void);
   cout << "=== list() method ===" << endl;
 
   auto channels = ECALChannels::list();
-  /** here channels.begin points to the start of channels list and channels.end
+  /** 
+   * Here channels.begin points to the start of channels list and channels.end
    * then you can use standard C++ STL function to find channels matching
    * condition
-   * NOTE: Use det_iz() function to retrieve iz value.
+   * NOTE: Use det_iz() function to retrieve/compare iz value.
    */
 
   /**
