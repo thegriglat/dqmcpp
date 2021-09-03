@@ -38,12 +38,6 @@ set (libdqmcpplibs
   cxxopts
 )
 
-if (NOT PLUGINDIR)
-list(APPEND libdqmcpplibs "../PFGplugins")
-else()
-list(APPEND libdqmcpplibs "${PLUGINDIR}")
-endif()
-
 set (ldqm_sources)
 foreach(d ${libdqmcpplibs})
   file(GLOB_RECURSE SRC_FILES ${PROJECT_SOURCE_DIR}/${d}/*.cc)
@@ -52,7 +46,15 @@ foreach(d ${libdqmcpplibs})
   endforeach()
 endforeach()
 
+set (lplugin_sources)
+if (NOT PLUGINDIR)
+  set(PLUGINDIR "../PFGplugins")
+endif()
+file(GLOB_RECURSE PLUGIN_SRC_FILES ${PLUGINDIR}/*.cc)
+
 add_library(dqmcpp SHARED ${ldqm_sources})
+add_library(dqmplugins SHARED ${PLUGIN_SRC_FILES})
+
 target_link_libraries(dqmcpp ${CURL_LIBRARIES})
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
@@ -62,7 +64,7 @@ file(GLOB CLI_FILES ${PROJECT_SOURCE_DIR}/cli/*.cc)
 foreach(cli ${CLI_FILES})
   get_filename_component(name ${cli} NAME_WE)
   add_executable(${name} ${cli})
-  target_link_libraries(${name} dqmcpp)
+  target_link_libraries(${name} dqmcpp dqmplugins)
 endforeach(cli)
 
 # Install headers
