@@ -37,3 +37,7 @@ List of examples:
  * [Parallel processing](https://gitlab.cern.ch/ECALPFG/DQMCpp/-/tree/master/examples/parallel)
 
     Plugin to learn how to easily run your functions in parallel.
+
+To be added ...
+
+Of course the best examples are [real plugins](https://gitlab.cern.ch/ECALPFG/DQMCpp/-/tree/master/PFGplugins)
