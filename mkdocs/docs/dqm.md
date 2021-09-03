@@ -22,7 +22,7 @@ To process low-level request you have to use `URLHandler` object
     #include <string>
     #include "URLHandler.hh"
 
-    dqmcpp::net::URLHandler urlhdlr; // will be automatically and properly closed and deleted
+    dqmcpp::net::URLHandler urlhdlr; // will be automatically and properly closed and deleted after quitting scope
     std::string url = "http://foo.bar";
     std::string content = urlhdlr.get(url); // make synchronous request
 
