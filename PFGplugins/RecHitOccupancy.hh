@@ -1,7 +1,7 @@
 #ifndef RECHITOCCUPANCY_HH
 #include <string>
 #include <vector>
-#include "../ECAL/ECAL.hh"
+#include "ECAL/ECAL.hh"
 #include "DigiOccupancy.hh"
 #include "plugins/Plugins.hh"
 
