@@ -29,3 +29,11 @@ List of examples:
  * [Making HTTP requests](https://gitlab.cern.ch/ECALPFG/DQMCpp/-/tree/master/examples/requests)
     
     Plugin to learn how to get content by URL in different ways.
+
+ * [Channel database](https://gitlab.cern.ch/ECALPFG/DQMCpp/-/tree/master/examples/channelsdb)
+
+    Plugin to learn how to operate with ECAL channel database.
+
+ * [Parallel processing](https://gitlab.cern.ch/ECALPFG/DQMCpp/-/tree/master/examples/parallel)
+
+    Plugin to learn how to easily run your functions in parallel.
