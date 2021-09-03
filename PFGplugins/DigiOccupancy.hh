@@ -1,7 +1,7 @@
 #ifndef DIGIOCCUPANCY_HH
 #include <string>
 #include <vector>
-#include "../ECAL/ECAL.hh"
+#include "ECAL/ECAL.hh"
 #include "plugins/Plugins.hh"
 
 namespace dqmcpp {

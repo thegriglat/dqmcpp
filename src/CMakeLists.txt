@@ -14,13 +14,8 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
-if(NOT PFGPLUGINS )
-  message(STATUS "Will not build PFG plugins as -DPFGPLUGINS not specified ")
-  set(PFGPLUGINS "OFF" CACHE
-      STRING "Build PFG plugins" FORCE)
-  # Set the possible values of build type for cmake-gui
-  set_property(CACHE PFGPLUGINS PROPERTY STRINGS
-    "ON" "OFF")
+if(NOT PLUGINDIR )
+  message(STATUS "Will build PFG plugins as -DPLUGINDIR not specified ")
 endif()
 
 # CURL
@@ -43,8 +38,10 @@ set (libdqmcpplibs
   cxxopts
 )
 
-if (PFGPLUGINS)
-list(APPEND libdqmcpplibs "PFGplugins")
+if (NOT PLUGINDIR)
+list(APPEND libdqmcpplibs "../PFGplugins")
+else()
+list(APPEND libdqmcpplibs "${PLUGINDIR}")
 endif()
 
 set (ldqm_sources)
