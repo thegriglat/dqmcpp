@@ -52,6 +52,11 @@ struct ChannelInfo {
 
 using ECALChannelsList = std::array<dqmcpp::ECALChannels::ChannelInfo, 75848>;
 
+struct ChannelIteratorPair {
+  ECALChannelsList::const_iterator begin;
+  ECALChannelsList::const_iterator end;
+};
+
 /**
  * @brief Find channel in static database. Returns nullptr if not found
  *
@@ -60,8 +65,7 @@ using ECALChannelsList = std::array<dqmcpp::ECALChannels::ChannelInfo, 75848>;
  */
 ECALChannelsList::const_iterator find(const ECAL::Channel& channel);
 
-std::pair<ECALChannelsList::const_iterator, ECALChannelsList::const_iterator>
-list(void);
+ChannelIteratorPair list(void);
 
 }  // namespace ECALChannels
 }  // namespace dqmcpp

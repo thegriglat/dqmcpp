@@ -193,10 +193,10 @@ std::ostream& operator<<(std::ostream& os, const TT& elem) {
 TT::operator std::string() const {
   const auto _l = ECALChannels::list();
   auto it = std::find_if(
-      _l.first, _l.second, [this](const ECALChannels::ChannelInfo& ci) {
+      _l.begin, _l.end, [this](const ECALChannels::ChannelInfo& ci) {
         return ci.tower == tt && ci.tcc == tcc && ci.det_iz() == iz;
       });
-  const std::string det = (it != _l.second) ? it->det() : "unknown";
+  const std::string det = (it != _l.end) ? it->det() : "unknown";
   return common::string_format("%s TCC%02d TT%02d", det.c_str(), tcc, tt);
 }
 
@@ -224,10 +224,10 @@ std::ostream& operator<<(std::ostream& os, const CCU& elem) {
 CCU::operator std::string() const {
   const auto _l = ECALChannels::list();
   auto it = std::find_if(
-      _l.first, _l.second, [this](const ECALChannels::ChannelInfo& ci) {
+      _l.begin, _l.end, [this](const ECALChannels::ChannelInfo& ci) {
         return ci.ccu == ccu && ci.tcc == tcc && ci.det_iz() == iz;
       });
-  const std::string det = (it != _l.second) ? it->det() : "unknown";
+  const std::string det = (it != _l.end) ? it->det() : "unknown";
   return common::string_format("%s TCC%02d CCU%02d", det.c_str(), tcc, ccu);
 }
 

@@ -22,16 +22,16 @@ namespace {
 using namespace std;
 using namespace dqmcpp;
 
-}  // namespace
+} // namespace
 
 namespace dqmcpp {
 namespace plugins {
 
-bool ReadoutFlags::removeFn(const ECAL::TTCCUData& ttdata) const {
+bool ReadoutFlags::removeFn(const ECAL::TTCCUData &ttdata) const {
   return ttdata.value < 0.05;
 }
 
-string ReadoutFlags::geturl(const ECAL::Run& run, const int iz) const {
+string ReadoutFlags::geturl(const ECAL::Run &run, const int iz) const {
   return net::DQMURL::dqmurl(run, common::string_format("%d", iz));
 }
 
@@ -40,7 +40,7 @@ std::vector<ECAL::RunTTCCUData> ReadoutFlags::getRundata() const {
   writers::ProgressBar pb(runs.size());
   vector<ECAL::RunTTCCUData> rundata;
   rundata.reserve(runs.size());
-  for (auto& run : runs) {
+  for (auto &run : runs) {
     pb.setLabel(to_string(run.runnumber));
     vector<ECAL::TTCCUData> ttdata;
     for (int iz = -1; iz <= 1; ++iz) {
@@ -50,7 +50,7 @@ std::vector<ECAL::RunTTCCUData> ReadoutFlags::getRundata() const {
             readers::JSONReader::parse2D(
                 readers::JSONReader::get(geturl(run, 0))),
             iz));
-        for (auto& c : content) {
+        for (auto &c : content) {
           if (!removeFn(ECAL::TTCCUData(c.base, c.value))) {
             ttdata.emplace_back(c.base, c.value);
           }
@@ -60,17 +60,17 @@ std::vector<ECAL::RunTTCCUData> ReadoutFlags::getRundata() const {
       // ee
       const auto d2dv = readers::JSONReader::parse2D(
           readers::JSONReader::get(geturl(run, iz)));
-      for (auto& e : d2dv) {
+      for (auto &e : d2dv) {
         const int x = std::trunc(e.base.x);
         const int y = std::trunc(e.base.y);
         const auto list = ECALChannels::list();
         auto it = std::find_if(
-            list.first, list.second,
-            [x, y, iz](const dqmcpp::ECALChannels::ChannelInfo& e) {
+            list.begin, list.end,
+            [x, y, iz](const dqmcpp::ECALChannels::ChannelInfo &e) {
               return std::abs(x - e.ix) <= 2.5 && std::abs(y - e.iy) <= 2.5 &&
                      e.det_iz() == iz;
             });
-        if (it != list.second) {
+        if (it != list.end) {
           const ECAL::CCU ccu(it->ccu, it->tcc, iz);
           const ECAL::TTCCUData ccud(ccu, e.value);
           if (!removeFn(ccud)) {
@@ -85,14 +85,14 @@ std::vector<ECAL::RunTTCCUData> ReadoutFlags::getRundata() const {
   return rundata;
 }
 
-void ReadoutFlags::plot(const vector<ECAL::RunTTCCUData>& rundata,
-                        const string& name) {
+void ReadoutFlags::plot(const vector<ECAL::RunTTCCUData> &rundata,
+                        const string &name) {
   writers::Gnuplot2DWriter::Data2D data;
   vector<string> allruns;
-  for (auto& rd : rundata) {
+  for (auto &rd : rundata) {
     string xlabel = to_string(rd.run.runnumber);
     allruns.push_back(xlabel);
-    for (auto& ttd : rd.data) {
+    for (auto &ttd : rd.data) {
       // TODO: CCU
       const string ylabel = std::string(ttd.base);
       data.insert({{xlabel, ylabel}, ttd.value});
@@ -118,5 +118,5 @@ void ReadoutFlags::Process() {
   plot(rundata, pluginName());
 }
 
-}  // namespace plugins
-}  // namespace dqmcpp
+} // namespace plugins
+} // namespace dqmcpp

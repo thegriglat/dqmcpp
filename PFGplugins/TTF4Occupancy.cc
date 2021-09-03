@@ -4,10 +4,6 @@
  * @brief TTF4Occupancy implementation
  */
 #include "TTF4Occupancy.hh"
-#include <algorithm>
-#include <fstream>
-#include <map>
-#include <string>
 #include "TTMaskingStatus.hh"
 #include "common/common.hh"
 #include "ecalchannels/ECALChannels.hh"
@@ -15,6 +11,10 @@
 #include "readers/JSONReader.hh"
 #include "writers/Gnuplot2DWriter.hh"
 #include "writers/ProgressBar.hh"
+#include <algorithm>
+#include <fstream>
+#include <map>
+#include <string>
 
 using namespace std;
 using namespace dqmcpp;
@@ -26,11 +26,11 @@ namespace {
 struct URLType {
   std::string url;
   bool isEB = false;
-  URLType(const std::string& _s, bool eb) : url(_s), isEB(eb){};
+  URLType(const std::string &_s, bool eb) : url(_s), isEB(eb){};
 };
 
 std::vector<URLType> urls(const unsigned int runnumber,
-                          const std::string& dataset) {
+                          const std::string &dataset) {
   std::vector<URLType> urls;
   for (int i = -1; i < 2; ++i) {
     if (i == 0) {
@@ -52,14 +52,14 @@ std::vector<URLType> urls(const unsigned int runnumber,
   return urls;
 };
 
-vector<ECAL::RunTTData> getMaskedChannels(
-    dqmcpp::readers::RunListReader* runlistreader) {
+vector<ECAL::RunTTData>
+getMaskedChannels(dqmcpp::readers::RunListReader *runlistreader) {
   dqmcpp::plugins::TTMaskingStatus ttmasking;
   ttmasking.setRunListReader(runlistreader);
   return ttmasking.get();
 };
 
-}  // namespace
+} // namespace
 
 namespace dqmcpp {
 namespace plugins {
@@ -72,7 +72,7 @@ std::vector<ECAL::RunTTData> TTF4Occupancy::readTT() {
   for (auto r : runListReader->runs()) {
     pb.setLabel(r.runnumber);
     std::vector<TTData> data;
-    data.reserve(2500);  // approx ~3k
+    data.reserve(2500); // approx ~3k
     for (auto url : urls(r.runnumber, r.dataset)) {
       vector<TTData> data_tt;
       if (url.isEB) {
@@ -81,16 +81,16 @@ std::vector<ECAL::RunTTData> TTF4Occupancy::readTT() {
         auto q =
             readers::JSONReader::parse2D(readers::JSONReader::get(url.url));
 
-        for (auto& e : q) {
+        for (auto &e : q) {
           // find tt by channel coord
           const int xch = (int)e.base.x;
           const int ych = (int)e.base.y;
           auto f =
-              std::find_if(all_channels.first, all_channels.second,
-                           [xch, ych](const ECALChannels::ChannelInfo& ch) {
+              std::find_if(all_channels.begin, all_channels.end,
+                           [xch, ych](const ECALChannels::ChannelInfo &ch) {
                              return ch.iphi == xch && ch.ieta == ych;
                            });
-          if (f == all_channels.second) {
+          if (f == all_channels.end) {
             std::cout << "Cannot find channel !" << std::endl;
             std::cout << "x: " << xch << " y: " << ych << std::endl;
           }
@@ -103,7 +103,7 @@ std::vector<ECAL::RunTTData> TTF4Occupancy::readTT() {
             readers::JSONReader::parse(readers::JSONReader::get(url.url));
         data_tt = channel2TT(data_det);
       }
-      for (auto& e : data_tt) {
+      for (auto &e : data_tt) {
         data.push_back(e);
       }
     }
@@ -119,23 +119,23 @@ void TTF4Occupancy::Process() {
   auto occupancy_tt = readTT();
   occupancy_tt = filterZeroTT(occupancy_tt);
   // scale to max
-  for (auto& ttrun : occupancy_tt) {
+  for (auto &ttrun : occupancy_tt) {
     auto maxe =
         std::max_element(ttrun.data.begin(), ttrun.data.end(),
-                         [](const ECAL::TTData& a, const ECAL::TTData& b) {
+                         [](const ECAL::TTData &a, const ECAL::TTData &b) {
                            return a.value < b.value;
                          });
     auto max = maxe->value;
-    for (auto& ee : ttrun.data) {
+    for (auto &ee : ttrun.data) {
       ee.value /= max;
     }
   }
   // remove all masked tt
-  for (auto& occtt : occupancy_tt) {
+  for (auto &occtt : occupancy_tt) {
     // find masked run
     auto masked_it = std::find_if(
         maskedtt.begin(), maskedtt.end(),
-        [&occtt](const ECAL::RunTTData& rd) { return occtt.run == rd.run; });
+        [&occtt](const ECAL::RunTTData &rd) { return occtt.run == rd.run; });
     if (masked_it == maskedtt.end()) {
       // not found
       std::cout << "Masked run " << occtt.run.runnumber << " not found!"
@@ -145,10 +145,10 @@ void TTF4Occupancy::Process() {
     // iterate over tt and remove masked
     occtt.data.erase(
         std::remove_if(occtt.data.begin(), occtt.data.end(),
-                       [masked_it](const ECAL::TTData& ttdata) {
+                       [masked_it](const ECAL::TTData &ttdata) {
                          auto pos = std::find_if(
                              masked_it->data.begin(), masked_it->data.end(),
-                             [&ttdata](const ECAL::TTData& maskedtt) {
+                             [&ttdata](const ECAL::TTData &maskedtt) {
                                return maskedtt.base == ttdata.base;
                              });
                          return (pos != masked_it->data.end());
@@ -158,9 +158,9 @@ void TTF4Occupancy::Process() {
 
   // plot
   std::map<std::pair<std::string, std::string>, double> data;
-  for (auto& r : occupancy_tt) {
+  for (auto &r : occupancy_tt) {
     std::string xlabel = std::to_string(r.run.runnumber);
-    for (auto& tt : r.data) {
+    for (auto &tt : r.data) {
       std::string ylabel = std::string(tt.base);
       data.insert({{xlabel, ylabel}, tt.value});
     }
@@ -175,5 +175,5 @@ void TTF4Occupancy::Process() {
   out.close();
 }
 
-}  // namespace plugins
-}  // namespace dqmcpp
+} // namespace plugins
+} // namespace dqmcpp
