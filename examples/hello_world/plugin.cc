@@ -12,10 +12,10 @@
 */
 
 // do registration
-REGISTER_PLUGIN(HelloWorldEx)
+REGISTER_PLUGIN(HelloWorldEx, hello_world)
 
 // change line below to see how plugin name changes
-// REGISTER_PLUGIN(HelloWorldEx, ex0)
+// REGISTER_PLUGIN(HelloWorldEx)
 
 using namespace std;
 using namespace dqmcpp;

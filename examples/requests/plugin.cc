@@ -13,7 +13,7 @@
 #include "net/URLHandlerMT.hh"
 
 // do registration
-REGISTER_PLUGIN(RequestEx)
+REGISTER_PLUGIN(RequestEx, requests)
 
 using namespace std;
 using namespace dqmcpp;
