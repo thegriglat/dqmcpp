@@ -121,11 +121,18 @@ std::unique_ptr<Plugin> PluginRegistrar<TPlugin>::GetPlugin() {
  * An unnamed namespace is used to enclose this later unused variable in the
  * compilation unit.
  */
-#define REGISTER_PLUGIN(CLASSNAME)                                           \
-  namespace {                                                                \
-  using namespace dqmcpp::plugins;                                           \
-  static dqmcpp::plugins::PluginRegistrar<CLASSNAME> _registrar(#CLASSNAME); \
+#define REGISTER_PLUGIN0(CLASSNAME, PLUGINNAME)                               \
+  namespace {                                                                 \
+  using namespace dqmcpp::plugins;                                            \
+  static dqmcpp::plugins::PluginRegistrar<CLASSNAME> _registrar(#PLUGINNAME); \
   };
+
+#define REGISTER_PLUGIN1(CLASSNAME)   REGISTER_PLUGIN0(CLASSNAME, CLASSNAME)                                        \
+
+
+#define GET_REGISTRATION_MACRO(_1,_2,NAME,...) NAME
+#define REGISTER_PLUGIN(...) GET_REGISTRATION_MACRO(__VA_ARGS__, REGISTER_PLUGIN0, REGISTER_PLUGIN1)(__VA_ARGS__)
+
 
 #define PLUGINFACTORY_HH
 #endif

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-REGISTER_PLUGIN(Example0)
+REGISTER_PLUGIN(Example0, ex0)
 
 using namespace std;
 using namespace dqmcpp;
