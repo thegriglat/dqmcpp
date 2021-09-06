@@ -8,11 +8,29 @@
 namespace dqmcpp {
 namespace common {
 
+/**
+ * @brief Simple std::for_each for std collections
+ *
+ * @tparam Collection
+ * @tparam unop
+ * @param col
+ * @param op
+ */
 template <typename Collection, typename unop>
 void for_each(Collection col, unop op) {
   std::for_each(col.begin(), col.end(), op);
 }
 
+/**
+ * @brief Map function which converts std::vector<T> to std::vector<K>
+ *
+ * @tparam T
+ * @tparam K
+ * @tparam unop
+ * @param col
+ * @param op
+ * @return std::vector<K>
+ */
 template <typename T, typename K, typename unop>
 std::vector<K> map(const std::vector<T>& col, unop op) {
   std::vector<K> _tmp;
@@ -21,12 +39,31 @@ std::vector<K> map(const std::vector<T>& col, unop op) {
   return _tmp;
 }
 
+/**
+ * @brief Zip function
+ *
+ * @tparam Collection
+ * @tparam binop
+ * @param fc
+ * @param sc
+ * @param op
+ * @return Collection
+ */
 template <typename Collection, typename binop>
 Collection zip(Collection fc, Collection sc, binop op) {
   std::transform(fc.begin(), fc.end(), sc.begin(), fc.begin(), op);
   return fc;
 }
 
+/**
+ * @brief Negative filter, needed for filter function
+ *
+ * @tparam Collection
+ * @tparam Predicate
+ * @param col Input collection
+ * @param predicate filtering function
+ * @return Collection
+ */
 template <typename Collection, typename Predicate>
 Collection filterNot(Collection col, Predicate predicate) {
   auto returnIterator = std::remove_if(col.begin(), col.end(), predicate);
@@ -34,6 +71,15 @@ Collection filterNot(Collection col, Predicate predicate) {
   return col;
 }
 
+/**
+ * @brief Filter function
+ *
+ * @tparam Collection
+ * @tparam Predicate
+ * @param col  Input collection
+ * @param predicate filtering function
+ * @return Collection
+ */
 template <typename Collection, typename Predicate>
 Collection filter(Collection col, Predicate predicate) {
   auto fnCol = filterNot(col, [predicate](typename Collection::value_type i) {

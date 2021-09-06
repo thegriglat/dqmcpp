@@ -93,6 +93,16 @@ clusters(It begin, It end, const double maxdistance, BinaryOp distance_fn) {
   return clusterize(p);
 }
 
+/**
+ * @brief  Groups input vector to "clusters" based on distance between elements
+ *
+ * @tparam T
+ * @tparam BinaryOp
+ * @param data std::vector<T>
+ * @param maxdistance   Distance which means that two elements are together
+ * @param distance_fn  Function to compute distance from T
+ * @return std::vector<std::vector<T>>
+ */
 template <typename T, typename BinaryOp>
 std::vector<std::vector<T>> clusters(const std::vector<T>& data,
                                      const double maxdistance,

@@ -11,6 +11,12 @@ namespace dqmcpp {
 namespace common {
 namespace gnuplot {
 
+/**
+ * @brief Execute gnuplot instructions
+ *
+ * @param content Gnuplot input
+ * @return std::string
+ */
 std::string exec(const std::string& content) {
   using namespace std;
   redi::pstream gnuplot("gnuplot", redi::pstreams::pstdout |
@@ -23,12 +29,28 @@ std::string exec(const std::string& content) {
   return ss.str();
 };
 
+/**
+ * @brief Returns gauss fit function for gnuplot
+ *
+ * @param a
+ * @param mu
+ * @param sigma
+ * @return Fit
+ */
 Fit gauss(double a, double mu, double sigma) {
   return Fit("a/(sigma*sqrt(2.*pi))*exp(-(x-mu)**2./(2.*sigma**2))",
              {FitParameter("a", a), FitParameter("mu", mu),
               FitParameter("sigma", sigma)});
 }
 
+/**
+ * @brief Fit [x,y] points with provided fit function
+ *
+ * @param x x values
+ * @param y y values
+ * @param fit fitting function object
+ * @return Fit
+ */
 Fit fit(const std::vector<double>& x,
         const std::vector<double>& y,
         const Fit& fit) {
@@ -69,6 +91,12 @@ Fit fit(const std::vector<double>& x,
   return newFit;
 }
 
+/**
+ * @brief Retrieve fitted parameters after fit()
+ *
+ * @param name Parameter name
+ * @return const FitParameter&
+ */
 const FitParameter& Fit::getParameter(const std::string& name) const {
   auto idx = dqmcpp::common::index(
       parameters, [&name](const FitParameter& e) { return e.name == name; });

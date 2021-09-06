@@ -24,6 +24,10 @@ std::string exec(const T& t) {
   return exec(ss.str());
 }
 
+/**
+ * @brief Struct to keep fit parameter, name and value
+ *
+ */
 struct FitParameter {
   std::string name;
   double value = 1.0;
@@ -33,6 +37,11 @@ struct FitParameter {
 };
 
 using FitParameters = std::vector<FitParameter>;
+/**
+ * @brief Class to match equation and FitParameter. It's used as input object
+ * for fitting.
+ *
+ */
 struct Fit {
   std::string equation;
   FitParameters parameters;

@@ -13,8 +13,16 @@
 namespace dqmcpp {
 namespace writers {
 
+/**
+ * @brief Write two-dimensional gnuplot plot
+ *
+ */
 class Gnuplot2DWriter : public Gnuplot2D {
  public:
+  /**
+   * @brief Class to draw rectangle on plot
+   *
+   */
   struct Rectangle {
     unsigned int xbin;
     unsigned int ybin;

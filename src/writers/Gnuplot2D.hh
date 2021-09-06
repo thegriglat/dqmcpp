@@ -10,6 +10,10 @@ namespace writers {
 
 using Palette = std::vector<dqmcpp::colors::PaletteColor>;
 
+/**
+ * @brief Base class for two-dimensional gnuplot plots
+ *
+ */
 class Gnuplot2D : public Gnuplot {
  private:
   Axis _zaxis = {"*", "*"};

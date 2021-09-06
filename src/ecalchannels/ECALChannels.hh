@@ -52,6 +52,10 @@ struct ChannelInfo {
 
 using ECALChannelsList = std::array<dqmcpp::ECALChannels::ChannelInfo, 75848>;
 
+/**
+ * @brief Iterator structure to use in std:: algorithm function
+ *
+ */
 struct ChannelIteratorPair {
   ECALChannelsList::const_iterator begin;
   ECALChannelsList::const_iterator end;

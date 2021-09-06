@@ -10,6 +10,10 @@
 namespace dqmcpp {
 namespace writers {
 
+/**
+ * @brief Write ECAL (Barrel and EE-/EE+)
+ *
+ */
 class GnuplotECALWriter : public Gnuplot2D {
  private:
   std::vector<ECAL::RunChannelData>* rd = nullptr;

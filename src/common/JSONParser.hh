@@ -5,6 +5,12 @@
 namespace dqmcpp {
 namespace common {
 
+/**
+ * @brief Parses string JSON to rapidjson::Document
+ *
+ * @param content
+ * @return rapidjson::Document
+ */
 rapidjson::Document parseJSON(const std::string& content);
 
 }  // namespace common

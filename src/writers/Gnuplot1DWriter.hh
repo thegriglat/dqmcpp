@@ -9,6 +9,10 @@
 namespace dqmcpp {
 namespace writers {
 
+/**
+ * @brief Write one-dimensional gnuplot plot
+ *
+ */
 class Gnuplot1DWriter : public Gnuplot {
  public:
   using Data1D = std::vector<std::pair<std::string, double>>;

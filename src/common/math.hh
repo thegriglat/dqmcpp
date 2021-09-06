@@ -7,6 +7,16 @@
 namespace dqmcpp {
 namespace common {
 
+/**
+ * @brief Returns sum of array elements with given function fn (T&)->double
+ *
+ * @tparam Iterator
+ * @tparam BinaryOp
+ * @param begin
+ * @param end
+ * @param fn
+ * @return double
+ */
 template <typename Iterator, typename BinaryOp>
 double sum(Iterator begin, Iterator end, BinaryOp fn) {
   double s = 0;
@@ -15,16 +25,39 @@ double sum(Iterator begin, Iterator end, BinaryOp fn) {
   return s;
 }
 
+/**
+ * @brief Returns sum of array elements with given function fn (T&)->double
+ *
+ * @tparam Collection
+ * @tparam BinaryOp
+ * @param d
+ * @param fn
+ * @return double
+ */
 template <typename Collection, typename BinaryOp>
 inline double sum(const Collection& d, BinaryOp fn) {
   return sum(d.begin(), d.end(), fn);
 }
 
+/**
+ * @brief Returns sum of array elements
+ *
+ * @tparam Collection
+ * @param list
+ * @return double
+ */
 template <typename Collection>
 inline double sum(const Collection& list) {
   return std::accumulate(list.begin(), list.end(), 0.0);
 }
 
+/**
+ * @brief Return sign of value
+ *
+ * @tparam T
+ * @param value
+ * @return int
+ */
 template <typename T>
 int sign(const T& value) {
   if (value == 0)
@@ -32,23 +65,57 @@ int sign(const T& value) {
   return ((value > 0) ? 1 : -1);
 }
 
-// Mean
+/**
+ * @brief Return mean of list calculated by function op
+ *
+ * @tparam Iterator
+ * @tparam BinaryOp
+ * @param begin
+ * @param end
+ * @param op
+ * @return double
+ */
 template <typename Iterator, typename BinaryOp>
 inline double mean(Iterator begin, Iterator end, BinaryOp op) {
   return sum(begin, end, op) / std::distance(begin, end);
 }
 
+/**
+ * @brief Return mean of list calculated by function
+ *
+ * @tparam Collection
+ * @tparam BinaryOp
+ * @param list
+ * @param op
+ * @return double
+ */
 template <typename Collection, typename BinaryOp>
 inline double mean(const Collection& list, BinaryOp op) {
   return sum(list, op) / list.size();
 }
 
+/**
+ * @brief Return mean of list
+ *
+ * @tparam Collection
+ * @param list
+ * @return double
+ */
 template <typename Collection>
 inline double mean(const Collection& list) {
   return sum(list) / list.size();
 }
 
-// RMS
+/**
+ * @brief Return RMS of list calculated by function
+ *
+ * @tparam Iterator
+ * @tparam BinaryOp
+ * @param begin
+ * @param end
+ * @param op
+ * @return double
+ */
 template <typename Iterator, typename BinaryOp>
 double rms(Iterator begin, Iterator end, BinaryOp op) {
   if (std::distance(begin, end) == 0)
@@ -63,11 +130,27 @@ double rms(Iterator begin, Iterator end, BinaryOp op) {
   return std::sqrt(_sum / n);
 }
 
+/**
+ * @brief Return RMS of list calculated by function
+ *
+ * @tparam Collection
+ * @tparam BinaryOp
+ * @param list
+ * @param op
+ * @return double
+ */
 template <typename Collection, typename BinaryOp>
 inline double rms(const Collection& list, BinaryOp op) {
   return rms(list.begin(), list.end(), op);
 }
 
+/**
+ * @brief Return RMS of list
+ *
+ * @tparam Collection
+ * @param list
+ * @return double
+ */
 template <typename Collection>
 double rms(const Collection& list) {
   if (list.size() == 0)
@@ -80,7 +163,16 @@ double rms(const Collection& list) {
   return std::sqrt(_sum / n);
 }
 
-// median
+/**
+ * @brief Return median of list calculated by function
+ *
+ * @tparam It
+ * @tparam BinaryOp
+ * @param begin
+ * @param end
+ * @param op
+ * @return double
+ */
 template <typename It, typename BinaryOp>
 double median(It begin, It end, BinaryOp op) {
   if (std::distance(begin, end) == 0)
@@ -96,11 +188,27 @@ double median(It begin, It end, BinaryOp op) {
   return tmp.at((tmp.size() - 1) / 2);
 }
 
+/**
+ * @brief Return median of list calculated by function
+ *
+ * @tparam Collection
+ * @tparam BinaryOp
+ * @param list
+ * @param op
+ * @return double
+ */
 template <typename Collection, typename BinaryOp>
 inline double median(const Collection& list, BinaryOp op) {
   return dqmcpp::common::median(list.begin(), list.end(), op);
 }
 
+/**
+ * @brief Return median of list
+ *
+ * @tparam Collection
+ * @param list
+ * @return double
+ */
 template <typename Collection>
 inline double median(const Collection& list) {
   return dqmcpp::common::median(
@@ -108,7 +216,7 @@ inline double median(const Collection& list) {
 }
 
 /**
- * @brief For float/double types
+ * @brief For float/double types. Useful for comparing float/double with 0
  *
  * @tparam T
  * @param value
@@ -120,6 +228,14 @@ inline bool isNotZero(const T& value) {
   return value > 0 || value < 0;
 }
 
+/**
+ * @brief Return true if value is zero. Useful for comparing float/double with 0
+ *
+ * @tparam T
+ * @param value
+ * @return true
+ * @return false
+ */
 template <typename T>
 inline bool isZero(const T& value) {
   return !isNotZero(value);

@@ -10,6 +10,10 @@
 
 namespace dqmcpp {
 namespace net {
+/**
+ * @brief Functions to construct DQM urls
+ *
+ */
 namespace DQMURL {
 
 /**
@@ -38,6 +42,11 @@ std::vector<dqmcpp::ECAL::Run> runs(const unsigned int run,
                                     const std::string& mask,
                                     const bool useLast = true);
 
+/**
+ * @brief Get all online runs from DQM online
+ *
+ * @return std::vector<dqmcpp::ECAL::Run>
+ */
 std::vector<dqmcpp::ECAL::Run> runs_online(void);
 
 }  // namespace DQMURL

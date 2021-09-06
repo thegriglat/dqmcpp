@@ -130,6 +130,15 @@ std::unique_ptr<Plugin> PluginRegistrar<TPlugin>::GetPlugin() {
 #define REGISTER_PLUGIN1(CLASSNAME) REGISTER_PLUGIN0(CLASSNAME, CLASSNAME)
 
 #define GET_REGISTRATION_MACRO(_1, _2, NAME, ...) NAME
+
+/**
+ * @brief Register plugin macro
+ * use
+ *  REGISTER_PLUGIN (classname, pluginname)
+ * or
+ *  REGISTER_PLUGIN(classname)
+ *
+ */
 #define REGISTER_PLUGIN(...)                                              \
   GET_REGISTRATION_MACRO(__VA_ARGS__, REGISTER_PLUGIN0, REGISTER_PLUGIN1) \
   (__VA_ARGS__)

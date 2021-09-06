@@ -13,7 +13,20 @@ namespace net {
 
 namespace URLCache {
 
+/**
+ * @brief Get sync URL content with caching
+ *
+ * @param url
+ * @return std::string
+ */
 std::string get(const std::string& url);
+
+/**
+ * @brief Get sync URLs content with caching
+ *
+ * @param urls
+ * @return std::vector<std::string>
+ */
 std::vector<std::string> get(const std::vector<std::string>& urls);
 
 };  // namespace URLCache

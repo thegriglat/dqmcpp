@@ -5,6 +5,10 @@
 namespace dqmcpp {
 namespace ECALChannels {
 
+/**
+ * @brief Namespace to operate with in-memory ECAL channels database
+ *
+ */
 namespace ChannelsDB {
 const ECALChannelsList* channels();
 const ChannelInfo* find(const int ix_iphi, const int iy_ieta, const int iz);

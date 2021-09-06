@@ -17,18 +17,30 @@ constexpr unsigned int NEEChannels = 14648;
 constexpr unsigned int NTotalChannels = NEBChannels + NEEChannels;
 enum class ECALElement : int { TT, CCU };
 
+/**
+ * @brief One-dimensional point
+ *
+ */
 struct Point1D {
   double x;
   Point1D(const double x) : x(x){};
   friend std::ostream& operator<<(std::ostream& os, const Point1D& c);
 };
 
+/**
+ * @brief Two-dimensional point
+ *
+ */
 struct Point2D : public Point1D {
   double y;
   Point2D(const double x, const double y) : Point1D(x), y(y){};
   friend std::ostream& operator<<(std::ostream& os, const Point2D& c);
 };
 
+/**
+ * @brief ECAL Channel struct
+ *
+ */
 struct Channel {
   // unsigned long channel_id;
   int ix_iphi;
@@ -36,9 +48,32 @@ struct Channel {
   int iz;
   Channel(const int x, const int y, const int z)
       : ix_iphi(x), iy_ieta(y), iz(z){};
+  /**
+   * @brief True if channel in ECAL Barrel
+   *
+   * @return true
+   * @return false
+   */
   inline bool isEB() const { return iz == 0; };
+  /**
+   * @brief True if channel in ECAL EE+
+   *
+   * @return true
+   * @return false
+   */
   inline bool isEEP() const { return iz == 1; };
+  /**
+   * @brief True if channel in ECAL EE-
+   *
+   * @return true
+   * @return false
+   */
   inline bool isEEM() const { return iz == -1; };
+  /**
+   * @brief Returns channel as (ix, iy, iz)
+   *
+   * @return std::array<int, 3>
+   */
   std::array<int, 3> asArray() const;
   operator std::string() const;
   friend bool operator<(const Channel& a, const Channel& b);
@@ -46,6 +81,10 @@ struct Channel {
   friend std::ostream& operator<<(std::ostream& os, const Channel& c);
 };
 
+/**
+ * @brief TT class
+ *
+ */
 struct TT {
   // TT number
   int tt;
@@ -56,6 +95,11 @@ struct TT {
   TT(const Channel& channel);
   TT(const std::array<int, 4>& vec4) : tt(vec4[0]), tcc(vec4[1]), iz(vec4[2]){};
   operator std::string() const;
+  /**
+   * @brief Returns TT as (tt, tcc, iz, <tt or ccu as int>)
+   *
+   * @return std::array<int, 4>
+   */
   inline std::array<int, 4> asArray() const {
     std::array<int, 4> tmp = {tt, tcc, iz, (int)ECALElement::TT};
     return tmp;
@@ -65,6 +109,10 @@ struct TT {
   friend std::ostream& operator<<(std::ostream& os, const TT& elem);
 };
 
+/**
+ * @brief CCU class
+ *
+ */
 struct CCU {
   // CCU number
   int ccu;
@@ -77,6 +125,11 @@ struct CCU {
   CCU(const std::array<int, 4>& vec4)
       : ccu(vec4[0]), tcc(vec4[1]), iz(vec4[2]){};
   operator std::string() const;
+  /**
+   * @brief Returns CCU as (ccu, tcc, iz, <tt orccu as int>)
+   *
+   * @return std::array<int, 4>
+   */
   inline std::array<int, 4> asArray() const {
     std::array<int, 4> tmp = {ccu, tcc, iz, (int)ECALElement::CCU};
     return tmp;
@@ -86,6 +139,10 @@ struct CCU {
   friend std::ostream& operator<<(std::ostream& os, const CCU& elem);
 };
 
+/**
+ * @brief Class for storing TT and CCU in STL lists
+ *
+ */
 class TTCCU {
  private:
   std::array<int, 4> data;
@@ -93,7 +150,19 @@ class TTCCU {
  public:
   TTCCU(const TT& tt) : data(tt.asArray()){};
   TTCCU(const CCU& ccu) : data(ccu.asArray()){};
+  /**
+   * @brief Is object TT
+   *
+   * @return true
+   * @return false
+   */
   inline bool isTT() const { return data.at(3) == (int)ECALElement::TT; }
+  /**
+   * @brief Is object CCU
+   *
+   * @return true
+   * @return false
+   */
   inline bool isCCU() const { return data.at(3) == (int)ECALElement::CCU; }
   inline operator std::string() const {
     if (isTT())
@@ -104,6 +173,10 @@ class TTCCU {
   }
 };
 
+/**
+ * @brief Run class
+ *
+ */
 struct Run {
   int runnumber;
   std::string dataset;
@@ -113,6 +186,11 @@ struct Run {
   friend std::ostream& operator<<(std::ostream& os, const Run& run);
 };
 
+/**
+ * @brief Class to keep templated run data
+ *
+ * @tparam T
+ */
 template <typename T>
 struct RunData {
   Run run;
@@ -120,6 +198,11 @@ struct RunData {
   RunData(const Run& _run, const T& _data) : run(_run), data(_data){};
 };
 
+/**
+ * @brief Templated data class.
+ *
+ * @tparam T
+ */
 template <typename T>
 struct Data {
   T base;
@@ -145,12 +228,48 @@ using RunChannelData = RunData<std::vector<ChannelData>>;
 using RunData2D = RunData<std::vector<Data2D>>;
 using RunData1D = RunData<std::vector<Data1D>>;
 
+/**
+ * @brief Removes TT with all values == 0
+ *
+ * @param rundata
+ * @return std::vector<RunTTData>
+ */
 std::vector<RunTTData> filterZeroTT(std::vector<RunTTData>& rundata);
+
+/**
+ * @brief Convects list of channels to list of TT
+ *
+ * @param channelData
+ * @return std::vector<TTData>
+ */
 std::vector<TTData> channel2TT(
     const std::vector<ECAL::ChannelData>& channelData);
 
+/**
+ * @brief Converts Point2D to channel with given iz
+ *
+ * @param p
+ * @param iz
+ * @return Channel
+ */
 Channel Point2D2Channel(const Point2D& p, const int iz);
+
+/**
+ * @brief Converts Data2D to channel with given iz
+ *
+ * @param d2d
+ * @param iz
+ * @return ChannelData
+ */
 ChannelData Data2D2Channel(const Data2D& d2d, const int iz = 0);
+
+/**
+ * @brief Data2D to channelData
+ *
+ * @param d2d
+ * @param iz
+ * @return std::vector<ChannelData>
+ */
 std::vector<ChannelData> Data2D2ChannelData(const std::vector<Data2D>& d2d,
                                             const int iz = 0);
 };  // namespace ECAL

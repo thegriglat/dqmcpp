@@ -8,6 +8,10 @@
 
 namespace dqmcpp {
 namespace net {
+/**
+ * @brief Functions to operate with DQM sessions
+ *
+ */
 namespace DQMSession {
 
 /**

@@ -10,6 +10,10 @@
 namespace dqmcpp {
 namespace net {
 
+/**
+ * @brief cURL wrapper
+ *
+ */
 class URLHandler {
  private:
   CURL* _curl = nullptr;

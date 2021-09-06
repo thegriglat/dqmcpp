@@ -11,6 +11,10 @@
 namespace dqmcpp {
 namespace readers {
 
+/**
+ * @brief Class to read and parse runfile
+ *
+ */
 class RunListReader {
  private:
   std::vector<ECAL::Run> _runs;

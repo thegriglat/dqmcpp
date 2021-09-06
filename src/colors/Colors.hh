@@ -12,7 +12,7 @@ namespace colors {
 
 using HEXColor = std::string;
 /**
- * @brief Palette struct. Position is relative to [0,1]
+ * @brief Palette struct. Position is relative to [0,1]. HEXColor is std::string
  *
  */
 struct PaletteColor {
@@ -22,6 +22,10 @@ struct PaletteColor {
 
 typedef std::vector<PaletteColor> Palette;
 
+/**
+ * @brief Predefined colors
+ *
+ */
 namespace ColorSets {
 extern const HEXColor red;
 extern const HEXColor white;
@@ -34,6 +38,10 @@ extern const HEXColor black;
 
 }  // namespace ColorSets
 
+/**
+ * @brief Predefined palettes
+ *
+ */
 namespace PaletteSets {
 
 extern const Palette Heatmap;
