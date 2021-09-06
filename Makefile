@@ -8,4 +8,4 @@ docs:
 	cd src && doxygen Doxyfile
 
 docs-pdf: docs
-	cd src/docs/latex && pdflatex refman.tex && pdflatex refman.tex && cp -v refman.pdf ../../../DQMCpp-docs.pdf
+	cd doxygen/latex && pdflatex refman.tex && pdflatex refman.tex && cp -v refman.pdf ../../DQMCpp-docs.pdf
