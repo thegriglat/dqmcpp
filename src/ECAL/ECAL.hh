@@ -96,7 +96,7 @@ struct TT {
   TT(const std::array<int, 4>& vec4) : tt(vec4[0]), tcc(vec4[1]), iz(vec4[2]){};
   operator std::string() const;
   /**
-   * @brief Returns TT as (tt, tcc, iz, <tt or ccu as int>)
+   * @brief Returns TT as (tt, tcc, iz, tt or ccu as int)
    *
    * @return std::array<int, 4>
    */
@@ -126,7 +126,7 @@ struct CCU {
       : ccu(vec4[0]), tcc(vec4[1]), iz(vec4[2]){};
   operator std::string() const;
   /**
-   * @brief Returns CCU as (ccu, tcc, iz, <tt orccu as int>)
+   * @brief Returns CCU as (ccu, tcc, iz, tt or ccu as int)
    *
    * @return std::array<int, 4>
    */
