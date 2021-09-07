@@ -52,8 +52,7 @@ if (NOT PLUGINDIR)
 endif()
 file(GLOB_RECURSE PLUGIN_SRC_FILES ${PLUGINDIR}/*.cc)
 
-add_library(dqmcpp SHARED ${ldqm_sources})
-add_library(dqmplugins SHARED ${PLUGIN_SRC_FILES})
+add_library(dqmcpp SHARED ${ldqm_sources} ${PLUGIN_SRC_FILES})
 
 target_link_libraries(dqmcpp ${CURL_LIBRARIES})
 
@@ -64,7 +63,7 @@ file(GLOB CLI_FILES ${PROJECT_SOURCE_DIR}/cli/*.cc)
 foreach(cli ${CLI_FILES})
   get_filename_component(name ${cli} NAME_WE)
   add_executable(${name} ${cli})
-  target_link_libraries(${name} dqmcpp dqmplugins)
+  target_link_libraries(${name} dqmcpp)
 endforeach(cli)
 
 # Install headers
