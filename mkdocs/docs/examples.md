@@ -22,22 +22,22 @@ Comments and explanations to code are inlined (mostly in `plugin.cc` files). Ple
 
 List of examples:
 
- * [Hello world](https://gitlab.cern.ch/ECALPFG/DQMCpp/-/tree/master/examples/hello_world)
+ * [Hello world](https://github.com/thegriglat/dqmcpp/tree/main/examples/hello_world)
     
     Simple "Hello world" plugin which does nothing. Just to see how to use namespaces, plugin registration and write mandatory C++ code.
 
- * [Making HTTP requests](https://gitlab.cern.ch/ECALPFG/DQMCpp/-/tree/master/examples/requests)
+ * [Making HTTP requests](https://github.com/thegriglat/dqmcpp/tree/main/xamples/requests)
     
     Plugin to learn how to get content by URL in different ways.
 
- * [Channel database](https://gitlab.cern.ch/ECALPFG/DQMCpp/-/tree/master/examples/channelsdb)
+ * [Channel database](https://github.com/thegriglat/dqmcpp/tree/main/examples/channelsdb)
 
     Plugin to learn how to operate with ECAL channel database.
 
- * [Parallel processing](https://gitlab.cern.ch/ECALPFG/DQMCpp/-/tree/master/examples/parallel)
+ * [Parallel processing](https://github.com/thegriglat/dqmcpp/tree/main/examples/parallel)
 
     Plugin to learn how to easily run your functions in parallel.
 
 To be added ...
 
-Of course the best examples are [real plugins](https://gitlab.cern.ch/ECALPFG/DQMCpp/-/tree/master/PFGplugins)
+Of course the best examples are [real plugins](https://github.com/thegriglat/dqmcpp/tree/main/PFGplugins)

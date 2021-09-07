@@ -10,12 +10,29 @@ We provide relative low level functions to make request as well as high level pa
 
 For parsing JSON [nlohmann json library](https://github.com/nlohmann/json) is used.
 
+# DQM URL
+
+Usually url is obtained from CMS DQM online or offline web pages. Url is constructed from `runnumber`, `dataset` and plot-specific path.
+
+To construct url with given EB/EE number use `dqmcpp::common::string_format()`:
+
+    std::string formatted_url = common::string_format(
+        "EcalEndcap/EEPedestalOnlineTask/Gain12/EEPOT pedestal EE%+03d G12",
+        +5);
+    
+where `+5` is SM (super module) number.
+
+Then pass this `formatted_url` to `dqmcpp::net::DQMURL::dqmurl()` to get DQM url for given `runnumber` and `dataset`:
+
+    std::string dqm_url = net::DQMURL::dqmurl(runnumber, dataset, formatted_url)
 
 # HTTP requests
 
 ** ALL REQUESTS ARE SYNCHRONOUS **
 
-## Non-cached low-level requests
+cURL library is used to process requests.
+
+## Non-cached requests
 
 To process low-level request you have to use `URLHandler` object
 
@@ -26,8 +43,7 @@ To process low-level request you have to use `URLHandler` object
     std::string url = "http://foo.bar";
     std::string content = urlhdlr.get(url); // make synchronous request
 
-## Cached low-level requests
-
+## Cached requests
 
 To process low-level request you have to use `URLCache` object
     

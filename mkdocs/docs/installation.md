@@ -25,7 +25,7 @@ At the moment we don't provide built packages, so you have to build DQMCpp from 
 
 Here a copy-paste snippet to clone and build default DQMCpp libraries (with ECAL PFG plugins).
 
-    git clone https://gitlab.cern.ch/ECALPFG/DQMCpp.git
+    git clone https://github.com/thegriglat/dqmcpp.git
     cd DQMCpp
     mkdir build
     cd build

@@ -2,4 +2,5 @@ site_name: DQMCpp
 nav:
     - Home: index.md
     - Installation: installation.md
+    - Documentation: documentation/index.md
     - Examples: examples.md
