@@ -7,15 +7,15 @@
         
         
         
-        <link rel="shortcut icon" href="../img/favicon.ico">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>Working with CMS DQM - DQMCpp</title>
-        <link href="../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../css/font-awesome.min.css" rel="stylesheet">
-        <link href="../css/base.css" rel="stylesheet">
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
 
-        <script src="../js/jquery-1.10.2.min.js" defer></script>
-        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
@@ -23,7 +23,7 @@
     <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="..">DQMCpp</a>
+                <a class="navbar-brand" href="../..">DQMCpp</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
@@ -34,13 +34,16 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li class="navitem">
-                                <a href=".." class="nav-link">Home</a>
+                                <a href="../.." class="nav-link">Home</a>
                             </li>
                             <li class="navitem">
-                                <a href="../installation/" class="nav-link">Installation</a>
+                                <a href="../../installation/" class="nav-link">Installation</a>
                             </li>
                             <li class="navitem">
-                                <a href="../examples/" class="nav-link">Examples</a>
+                                <a href="../" class="nav-link">Documentation</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../../examples/" class="nav-link">Examples</a>
                             </li>
                         </ul>
 
@@ -73,13 +76,18 @@
               </ul>
             </li>
             
-            <li class="nav-item" data-level="1"><a href="#http-requests" class="nav-link">HTTP requests</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#non-cached-low-level-requests" class="nav-link">Non-cached low-level requests</a>
+            <li class="nav-item" data-level="1"><a href="#dqm-url" class="nav-link">DQM URL</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#cached-low-level-requests" class="nav-link">Cached low-level requests</a>
+            
+            <li class="nav-item" data-level="1"><a href="#http-requests" class="nav-link">HTTP requests</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#non-cached-requests" class="nav-link">Non-cached requests</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#cached-requests" class="nav-link">Cached requests</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -101,9 +109,21 @@
 <p>By default all HTTP requests are cached. Non-caching request are also possible.</p>
 <p>We provide relative low level functions to make request as well as high level parsers for DQM JSON for ECAL <strong>channels</strong>, <strong>trigger towers</strong>, <strong>CCU</strong>.</p>
 <p>For parsing JSON <a href="https://github.com/nlohmann/json">nlohmann json library</a> is used.</p>
+<h1 id="dqm-url">DQM URL</h1>
+<p>Usually url is obtained from CMS DQM online or offline web pages. Url is constructed from <code>runnumber</code>, <code>dataset</code> and plot-specific path.</p>
+<p>To construct url with given EB/EE number use <code>dqmcpp::common::string_format()</code>:</p>
+<pre><code>std::string formatted_url = common::string_format(
+    "EcalEndcap/EEPedestalOnlineTask/Gain12/EEPOT pedestal EE%+03d G12",
+    +5);
+</code></pre>
+<p>where <code>+5</code> is SM (super module) number.</p>
+<p>Then pass this <code>formatted_url</code> to <code>dqmcpp::net::DQMURL::dqmurl()</code> to get DQM url for given <code>runnumber</code> and <code>dataset</code>:</p>
+<pre><code>std::string dqm_url = net::DQMURL::dqmurl(runnumber, dataset, formatted_url)
+</code></pre>
 <h1 id="http-requests">HTTP requests</h1>
 <p><strong> ALL REQUESTS ARE SYNCHRONOUS </strong></p>
-<h2 id="non-cached-low-level-requests">Non-cached low-level requests</h2>
+<p>cURL library is used to process requests.</p>
+<h2 id="non-cached-requests">Non-cached requests</h2>
 <p>To process low-level request you have to use <code>URLHandler</code> object</p>
 <pre><code>#include &lt;string&gt;
 #include "URLHandler.hh"
@@ -112,7 +132,7 @@ dqmcpp::net::URLHandler urlhdlr; // will be automatically and properly closed an
 std::string url = "http://foo.bar";
 std::string content = urlhdlr.get(url); // make synchronous request
 </code></pre>
-<h2 id="cached-low-level-requests">Cached low-level requests</h2>
+<h2 id="cached-requests">Cached requests</h2>
 <p>To process low-level request you have to use <code>URLCache</code> object</p>
 <pre><code>#include &lt;string&gt;
 #include "net/URLCache.hh"
@@ -138,11 +158,11 @@ std::vector&lt;std::string&gt; contents = dqmcpp::net::URLCache::get(urls);
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
         <script>
-            var base_url = "..",
+            var base_url = "../..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="../js/base.js" defer></script>
-        <script src="../search/main.js" defer></script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">

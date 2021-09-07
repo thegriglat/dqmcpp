@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Writing your own plugin - DQMCpp</title>
+        <title>Documentation - DQMCpp</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
@@ -39,6 +39,9 @@
                             <li class="navitem">
                                 <a href="../installation/" class="nav-link">Installation</a>
                             </li>
+                            <li class="navitem active">
+                                <a href="./" class="nav-link">Documentation</a>
+                            </li>
                             <li class="navitem">
                                 <a href="../examples/" class="nav-link">Examples</a>
                             </li>
@@ -50,6 +53,16 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../installation/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../examples/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -68,8 +81,28 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#writing-your-own-plugin" class="nav-link">Writing your own plugin</a>
+            <li class="nav-item" data-level="1"><a href="#documentation" class="nav-link">Documentation</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#common-overview" class="nav-link">Common overview</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#doxygen-documentation" class="nav-link">Doxygen documentation</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#first-plugin" class="nav-link">First plugin</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#getting-data-from-cms-dqm" class="nav-link">Getting data from CMS DQM</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#data-structures" class="nav-link">Data structures</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -77,8 +110,76 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="writing-your-own-plugin">Writing your own plugin</h1>
-<p>in progress ...</p></div>
+<h1 id="documentation">Documentation</h1>
+<h2 id="common-overview">Common overview</h2>
+<p>DQMCpp is written to respect modularity. Each plugin is simular to standalone program, the difference is <code>Process(void)</code> function is called instead of <code>main(int, char**)</code>.</p>
+<p>To read list of runs a plugin has access to <code>runListReader</code> private pointer:</p>
+<pre><code>runListReader-&gt;runs() # will return std::vector&lt;dqmcpp::ECAL::Run&gt;
+</code></pre>
+<p>Reading, parsing and analysing data has to be done by plugin itself. There are no restrictions or helpers for that.</p>
+<h2 id="doxygen-documentation">Doxygen documentation</h2>
+<p>Prepare doxygen docs vith</p>
+<pre><code>cd DQMCpp
+make docs
+# see 'doxygen' directory
+</code></pre>
+<h2 id="first-plugin">First plugin</h2>
+<p>Copy <a href="https://github.com/thegriglat/dqmcpp/tree/main/examples/hello_world">hello_world example</a> to a new directory, run <code>cmake -DPLUGINDIR=&lt;your example dir&gt;</code> and build project.</p>
+<p>Also check <a href="../examples/">examples</a> page.</p>
+<p>You will be able to see your plugin in <code>dqm</code> help output</p>
+<pre><code>dqm
+# or
+dqm -h
+# or
+dqm --help
+</code></pre>
+<p>!!! All plugins must be in <code>dqmcpp::plugins</code> namespace !!!</p>
+<h2 id="getting-data-from-cms-dqm">Getting data from CMS DQM</h2>
+<p>See <a href="dqm/">here</a></p>
+<h2 id="data-structures">Data structures</h2>
+<p>By default DQMCpp provides a few data structures for analysis. All of them can be found in <a href="https://github.com/thegriglat/dqmcpp/blob/main/src/ECAL/ECAL.hh">src/ECAL.hh</a></p>
+<p>They are:</p>
+<ul>
+<li><strong>Point1D</strong> <em>for one-dimenstional histograms</em></li>
+<li><strong>Point2D</strong> <em>for two-dimensional histograms</em></li>
+<li><strong>Channel</strong> <em>for ECAL channels</em></li>
+<li><strong>TT</strong> (trigger tower) <em>for ECAL TTs</em></li>
+<li><strong>CCU</strong> <em>for ECAL CCUs</em></li>
+<li><strong>TTCCU</strong> <em>to handle TT and CCU both in STL containers</em></li>
+<li><strong>Run</strong> <em>to keep runnumber and dataset in one struct</em></li>
+<li>Templated types:<ul>
+<li><strong>Data&lt;T></strong> (templated key and <code>double</code> value)</li>
+<li><strong>RunData&lt;T></strong> (Run with templated Data)</li>
+</ul>
+</li>
+</ul>
+<p>Here a list of some predefined types:</p>
+<pre><code class="language-C++">template &lt;typename T&gt;
+struct Data {
+  T base;
+  double value;
+};
+
+template &lt;typename T&gt;
+struct RunData {
+  Run run;
+  T data;
+};
+
+using ChannelData = Data&lt;Channel&gt;;
+using TTData = Data&lt;TT&gt;;
+using CCUData = Data&lt;CCU&gt;;
+using TTCCUData = Data&lt;TTCCU&gt;;
+using Data1D = Data&lt;Point1D&gt;;
+using Data2D = Data&lt;Point2D&gt;;
+
+using RunTTData = RunData&lt;std::vector&lt;TTData&gt;&gt;;
+using RunCCUData = RunData&lt;std::vector&lt;CCUData&gt;&gt;;
+using RunTTCCUData = RunData&lt;std::vector&lt;TTCCUData&gt;&gt;;
+using RunChannelData = RunData&lt;std::vector&lt;ChannelData&gt;&gt;;
+using RunData2D = RunData&lt;std::vector&lt;Data2D&gt;&gt;;
+using RunData1D = RunData&lt;std::vector&lt;Data1D&gt;&gt;;
+</code></pre></div>
             </div>
         </div>
 
