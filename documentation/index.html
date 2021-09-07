@@ -112,11 +112,11 @@
 
 <h1 id="documentation">Documentation</h1>
 <h2 id="common-overview">Common overview</h2>
-<p>DQMCpp is written to respect modularity. Each plugin is simular to standalone program, the difference is <code>Process(void)</code> function is called instead of <code>main(int, char**)</code>.</p>
+<p>DQMCpp is written to respect modularity. Each plugin is simular to standalone program, the only difference is <code>Process(void)</code> function which is called instead of <code>main(int, char**)</code>.</p>
 <p>To read list of runs a plugin has access to <code>runListReader</code> private pointer:</p>
 <pre><code>runListReader-&gt;runs() # will return std::vector&lt;dqmcpp::ECAL::Run&gt;
 </code></pre>
-<p>Reading, parsing and analysing data has to be done by plugin itself. There are no restrictions or helpers for that.</p>
+<p>Reading, parsing and analysing data has to be done by plugin itself. There are no restrictions for that.</p>
 <h2 id="doxygen-documentation">Doxygen documentation</h2>
 <p>Prepare doxygen docs vith</p>
 <pre><code>cd DQMCpp
@@ -132,6 +132,9 @@ make docs
 dqm -h
 # or
 dqm --help
+
+# then run
+dqm runfile &lt;plugin name&gt;
 </code></pre>
 <p>!!! All plugins must be in <code>dqmcpp::plugins</code> namespace !!!</p>
 <h2 id="getting-data-from-cms-dqm">Getting data from CMS DQM</h2>

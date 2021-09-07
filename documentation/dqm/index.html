@@ -106,25 +106,32 @@
 <h1 id="working-with-cms-dqm">Working with CMS DQM</h1>
 <p>DQMCpp uses cURL library to request JSON (really JSON-like) data from CMS DQM.</p>
 <p>Also to avoid DDoS of DQM we populate own cache with DQM data (by default in <code>$TMP</code> directory). The cache directory can be overridden by <code>CACHEDIR</code> environment variable.</p>
-<p>By default all HTTP requests are cached. Non-caching request are also possible.</p>
-<p>We provide relative low level functions to make request as well as high level parsers for DQM JSON for ECAL <strong>channels</strong>, <strong>trigger towers</strong>, <strong>CCU</strong>.</p>
+<p>By default all HTTP requests are cached and called sync. Non-caching request are also possible.</p>
+<p>We provide relative low level functions to make request as well as high level parsers for DQM JSON for ECAL <strong>channels</strong>, <strong>trigger towers</strong>, <strong>CCU</strong> and custom 1/2-D histograms.</p>
 <p>For parsing JSON <a href="https://github.com/nlohmann/json">nlohmann json library</a> is used.</p>
 <h1 id="dqm-url">DQM URL</h1>
-<p>Usually url is obtained from CMS DQM online or offline web pages. Url is constructed from <code>runnumber</code>, <code>dataset</code> and plot-specific path.</p>
-<p>To construct url with given EB/EE number use <code>dqmcpp::common::string_format()</code>:</p>
-<pre><code>std::string formatted_url = common::string_format(
+<p>Usually url is obtained from CMS DQM online or offline web pages by hand. Url consists of from <code>runnumber</code>, <code>dataset</code> and plot-specific path.</p>
+<p>To construct url with given EB/EE number use <code>dqmcpp::common::string_format()</code> (it's like <code>printf</code> on steroids):</p>
+<pre><code>std::string formatted_url = dqmcpp::common::string_format(
     "EcalEndcap/EEPedestalOnlineTask/Gain12/EEPOT pedestal EE%+03d G12",
     +5);
 </code></pre>
 <p>where <code>+5</code> is SM (super module) number.</p>
 <p>Then pass this <code>formatted_url</code> to <code>dqmcpp::net::DQMURL::dqmurl()</code> to get DQM url for given <code>runnumber</code> and <code>dataset</code>:</p>
-<pre><code>std::string dqm_url = net::DQMURL::dqmurl(runnumber, dataset, formatted_url)
+<pre><code>std::string dqm_url = dqmcpp::net::DQMURL::dqmurl(runnumber, dataset, formatted_url)
+</code></pre>
+<p>Also using <code>dqmcpp::ECAL::Run</code> object is possible</p>
+<pre><code>auto run = dqmcpp::ECAL::Run(123456, "online");
+std::string dqm_url = dqmcpp::net::DQMURL::dqmurl(run, 
+                      dqmcpp::common::string_format(
+                        "EcalEndcap/EEPedestalOnlineTask/Gain12/EEPOT pedestal EE%+03d G12",
+                      +5);)
 </code></pre>
 <h1 id="http-requests">HTTP requests</h1>
 <p><strong> ALL REQUESTS ARE SYNCHRONOUS </strong></p>
 <p>cURL library is used to process requests.</p>
 <h2 id="non-cached-requests">Non-cached requests</h2>
-<p>To process low-level request you have to use <code>URLHandler</code> object</p>
+<p>To process request you have to use <code>URLHandler</code> object</p>
 <pre><code>#include &lt;string&gt;
 #include "URLHandler.hh"
 
@@ -133,7 +140,7 @@ std::string url = "http://foo.bar";
 std::string content = urlhdlr.get(url); // make synchronous request
 </code></pre>
 <h2 id="cached-requests">Cached requests</h2>
-<p>To process low-level request you have to use <code>URLCache</code> object</p>
+<p>To process cached request you have to use <code>URLCache</code> object</p>
 <pre><code>#include &lt;string&gt;
 #include "net/URLCache.hh"
 
