@@ -3,25 +3,25 @@
 // include plugin common header
 #include "plugins/Plugins.hh"
 
-// we prefer to use namespaces instead of writing dump dqmcpp::plugins:: everywhere
+// we prefer to use namespaces instead of writing dqmcpp::plugins:: everywhere
 
 namespace dqmcpp {
 namespace plugins {
 
 /**
- * Your plugin class must be derived from dqmcpp::plugins::Plugin class
+ * Plugin class must be derived from dqmcpp::plugins::Plugin class
  * and have to implement one function
  *   void Process(void);
- * 
- * All extra functions can be safely added if needed.
- * 
+ *
+ * All extra functions/class members can be safely added if needed.
+ *
  */
 class HelloWorldEx : public Plugin {
- public:
+public:
   void Process();
 };
-}  // namespace plugins
-}  // namespace dqmcpp
+} // namespace plugins
+} // namespace dqmcpp
 
 #define HelloWorldEx_HH
 #endif

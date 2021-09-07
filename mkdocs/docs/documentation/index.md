@@ -2,13 +2,13 @@
 
 ## Common overview
 
-DQMCpp is written to respect modularity. Each plugin is simular to standalone program, the difference is `Process(void)` function is called instead of `main(int, char**)`.
+DQMCpp is written to respect modularity. Each plugin is simular to standalone program, the only difference is `Process(void)` function which is called instead of `main(int, char**)`.
 
 To read list of runs a plugin has access to `runListReader` private pointer:
 
     runListReader->runs() # will return std::vector<dqmcpp::ECAL::Run>
 
-Reading, parsing and analysing data has to be done by plugin itself. There are no restrictions or helpers for that.
+Reading, parsing and analysing data has to be done by plugin itself. There are no restrictions for that.
 
 ## Doxygen documentation
 
@@ -31,6 +31,9 @@ You will be able to see your plugin in `dqm` help output
     dqm -h
     # or
     dqm --help
+
+    # then run
+    dqm runfile <plugin name>
 
 !!! All plugins must be in `dqmcpp::plugins` namespace !!!
 

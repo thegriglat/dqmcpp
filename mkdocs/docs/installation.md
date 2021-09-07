@@ -2,7 +2,7 @@
 
 ## Required packages
 
-DQMCpp is C++ library, you need:
+To compile and use DQMCpp you need:
 
  * C++ compiler with at least C++11 support (GCC and Clang usually) 
  * [CMake](https://cmake.org/)
@@ -21,7 +21,7 @@ DQMCpp is C++ library, you need:
 
 ## Build from source
 
-At the moment we don't provide built packages, so you have to build DQMCpp from source.
+At the moment we don't provide pre-built packages, so you have to build DQMCpp from source.
 
 Here a copy-paste snippet to clone and build default DQMCpp libraries (with ECAL PFG plugins).
 

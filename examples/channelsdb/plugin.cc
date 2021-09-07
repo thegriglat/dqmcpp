@@ -25,17 +25,17 @@ channel db
    *     ChannelIteratorPair list(void);
 */
 
-  // most general way to access channel db is use list() method which returns
+  // most general way to access channel db is to use list() method which returns
   // two iterators like STL begin() and end()
 
   cout << "=== list() method ===" << endl;
 
   auto channels = ECALChannels::list();
-  /** 
+  /**
    * Here channels.begin points to the start of channels list and channels.end
-   * then you can use standard C++ STL function to find channels matching
-   * condition
-   * NOTE: Use det_iz() function to retrieve/compare iz value.
+   * to the end respectively you can use standard C++ STL function to find
+   * channels matching condition NOTE: Use det_iz() function to retrieve/compare
+   * iz value.
    */
 
   /**
@@ -60,9 +60,9 @@ channel db
          << " det = " << channel.det() << endl;
 
   /**
-   * Other way to use channels database is call find() function
+   * Other way to use channels database is to call find() function
    * It tries to find full channel information by channel coordinates
-   * This is useful as in most cases plugins operates just channel coordinates
+   * This is useful as in most cases plugins operate just channel coordinates
    * and it is needed to get channel info (det, tt, ccu,...) for given
    * coordinates
    */

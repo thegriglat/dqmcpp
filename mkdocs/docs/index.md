@@ -1,8 +1,10 @@
 # Welcome to DQMCpp
 
-DQMCpp is a C++ library for operating and analysing CMS DQM data. Source code is available on [github.com](https://github.com/thegriglat/dqmcpp).
+DQMCpp is a C++ library for operating and analysing CMS DQM data.
 
-To learn how to start with DQMCpp:
+Source code is available on [github.com](https://github.com/thegriglat/dqmcpp).
+
+How to start with DQMCpp:
 
  * [Installation and configuration](installation.md)
  * [Documentation](documentation/index.md)

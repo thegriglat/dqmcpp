@@ -17,7 +17,7 @@ To run:
     ./dqm dummy <example plugin name>
     # for example ./dqm dummy hello_world
 
-Comments and explanations to code are inlined (mostly in `plugin.cc` files). Please see file contents.
+Comments and explanations to code are inlined (mostly in `plugin.cc` files).
 
 
 List of examples:
@@ -26,7 +26,7 @@ List of examples:
     
     Simple "Hello world" plugin which does nothing. Just to see how to use namespaces, plugin registration and write mandatory C++ code.
 
- * [Making HTTP requests](https://github.com/thegriglat/dqmcpp/tree/main/xamples/requests)
+ * [Making HTTP requests](https://github.com/thegriglat/dqmcpp/tree/main/examples/requests)
     
     Plugin to learn how to get content by URL in different ways.
 
@@ -40,4 +40,4 @@ List of examples:
 
 To be added ...
 
-Of course the best examples are [real plugins](https://github.com/thegriglat/dqmcpp/tree/main/PFGplugins)
+Of course the best examples are [real PFG plugins](https://github.com/thegriglat/dqmcpp/tree/main/PFGplugins)

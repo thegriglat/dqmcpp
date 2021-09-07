@@ -17,7 +17,9 @@ namespace plugins {
 void ParallelEx::Process() {
 
   /** DQMCpp provides one function for parallel processing
-   * foreach_mt(begin, end, function)
+   *
+   *   foreach_mt(begin, end, function)
+   * 
    * by default it uses as much CPU as possible
    *
    * !!! DQMCpp DON'T CONTROL DATA RACES !!!

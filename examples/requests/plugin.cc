@@ -28,17 +28,17 @@ void RequestEx::Process() {
 
   // === Non-cached requests ===
   {
-    // initialize non-cached low-level handler
+    // initialize non-cached handler
     // It's simple wrapper about cURL library
     net::URLHandler hldr;
 
-    // get sync request
+    // do sync request
     auto content = hldr.get(url);
 
     cout << "Content of " << url << " by URLHandler is " << endl;
     cout << "======" << endl << content << endl << "======" << endl;
 
-    // here "hldr" will be destroyed as scope ends
+    // here "hldr" will be destroyed at scope ends
     // no need to clean resources
   }
 
@@ -46,7 +46,7 @@ void RequestEx::Process() {
   {
     /**
      * By default cache uses $TMP directory (/tmp in most systems)
-     * To change this set CACHEDIR environment variable
+     * To change this -- set CACHEDIR environment variable
      */
 
     auto content = net::URLCache::get(url);
@@ -62,10 +62,10 @@ void RequestEx::Process() {
      * 1: Use  dqmcpp::net::URLCache::get(std::vector<std::string>>)
      * 2: Use dqmcpp::net::URLHandlerMT::get(std::vector<std::string>>)
      *
-     * Using URLHandlerMT is sense if you requests large number of urls (more
-     * than ~100) at one time in other cases there are no differences in
-     * performance (or it will be ever less) URLHandlerMT uses threads within
-     * thread pool (default pool size is 4)
+     * Using URLHandlerMT is matter when you request large number of urls (more
+     * than ~100) at one time. In other cases there are no differences in
+     * performance (or it will be ever worse).
+     * URLHandlerMT uses thread pool (default is max CPU as possible)
      */
 
     cout << "Multiple requests ..." << endl;
