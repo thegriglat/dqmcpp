@@ -1,6 +1,8 @@
 cmake_minimum_required (VERSION 2.8.11)
 project (DQMCpp)
 
+find_package(Threads REQUIRED)
+
 # 
 add_definitions("-Wall -Wextra")
 set(default_build_type "Release")
@@ -54,7 +56,7 @@ file(GLOB_RECURSE PLUGIN_SRC_FILES ${PLUGINDIR}/*.cc)
 
 add_library(dqmcpp SHARED ${ldqm_sources} ${PLUGIN_SRC_FILES})
 
-target_link_libraries(dqmcpp ${CURL_LIBRARIES})
+target_link_libraries(dqmcpp ${CURL_LIBRARIES} Threads::Threads)
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
