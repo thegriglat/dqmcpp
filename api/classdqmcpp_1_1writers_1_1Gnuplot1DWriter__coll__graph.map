@@ -1,0 +1,5 @@
+<map id="dqmcpp::writers::Gnuplot1DWriter" name="dqmcpp::writers::Gnuplot1DWriter">
+<area shape="rect" id="node1" title="Write one&#45;dimensional gnuplot plot." alt="" coords="5,185,200,227"/>
+<area shape="rect" id="node2" href="$classdqmcpp_1_1writers_1_1Gnuplot.html" title="Base gnuplot wrapper class." alt="" coords="9,109,196,136"/>
+<area shape="rect" id="node3" href="$structdqmcpp_1_1writers_1_1Axis.html" title="Gnuplot axis class." alt="" coords="21,5,184,32"/>
+</map>

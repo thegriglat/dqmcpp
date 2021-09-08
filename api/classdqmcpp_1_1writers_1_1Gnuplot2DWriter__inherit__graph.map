@@ -1,0 +1,5 @@
+<map id="dqmcpp::writers::Gnuplot2DWriter" name="dqmcpp::writers::Gnuplot2DWriter">
+<area shape="rect" id="node1" title="Write two&#45;dimensional gnuplot plot." alt="" coords="10,155,205,196"/>
+<area shape="rect" id="node2" href="$classdqmcpp_1_1writers_1_1Gnuplot2D.html" title="Base class for two&#45;dimensional gnuplot plots." alt="" coords="5,80,209,107"/>
+<area shape="rect" id="node3" href="$classdqmcpp_1_1writers_1_1Gnuplot.html" title="Base gnuplot wrapper class." alt="" coords="14,5,201,32"/>
+</map>

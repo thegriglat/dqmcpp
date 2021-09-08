@@ -1,0 +1,6 @@
+<map id="readers/JSONReader.hh" name="readers/JSONReader.hh">
+<area shape="rect" id="node1" title="Reading JSON data from DQM." alt="" coords="120,5,293,32"/>
+<area shape="rect" id="node2" href="$dqm_8cc.html" title="Main file for running plugins." alt="" coords="5,80,93,107"/>
+<area shape="rect" id="node3" href="$DQMURLProvider_8cc.html" title="DQMURLProvider source." alt="" coords="118,80,295,107"/>
+<area shape="rect" id="node4" href="$JSONReader_8cc.html" title="JSONReader code." alt="" coords="320,80,491,107"/>
+</map>

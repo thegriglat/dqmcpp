@@ -1,0 +1,21 @@
+<map id="ECAL/ECAL.hh" name="ECAL/ECAL.hh">
+<area shape="rect" id="node1" title="ECAL data structure namespace." alt="" coords="886,5,998,32"/>
+<area shape="rect" id="node2" href="$ECAL_8cc.html" title="Various functions to convert ECAL data." alt="" coords="5,162,116,189"/>
+<area shape="rect" id="node3" href="$ECALChannels_8hh.html" title="Access to ECAL channels database." alt="" coords="158,80,382,107"/>
+<area shape="rect" id="node7" href="$DQMURLProvider_8hh.html" title="Provide simple functions for DQM urls." alt="" coords="601,80,779,107"/>
+<area shape="rect" id="node11" href="$JSONReader_8hh.html" title="Reading JSON data from DQM." alt="" coords="855,80,1029,107"/>
+<area shape="rect" id="node14" href="$RunListReader_8cc.html" title="RunListReader code." alt="" coords="1174,162,1361,189"/>
+<area shape="rect" id="node15" href="$RunListReader_8hh.html" title="Parsing input file." alt="" coords="1226,80,1415,107"/>
+<area shape="rect" id="node18" href="$GnuplotECALWriter_8hh.html" title="Write ECAL plots in gnuplot format." alt="" coords="1545,80,1760,107"/>
+<area shape="rect" id="node4" href="$ECALChannels_8cc.html" title="ECAL channels database functions." alt="" coords="43,251,265,278"/>
+<area shape="rect" id="node5" href="$ecalchannels__db_8hh_source.html" title=" " alt="" coords="192,155,388,196"/>
+<area shape="rect" id="node6" href="$ecalchannels__db_8cc_source.html" title=" " alt="" coords="289,244,485,285"/>
+<area shape="rect" id="node8" href="$findDataset_8cc.html" title="Find and output Offline DQM dataset for given list of runs." alt="" coords="412,162,547,189"/>
+<area shape="rect" id="node9" href="$onlineRuns_8cc.html" title="Get run numbers from online DQM." alt="" coords="571,162,702,189"/>
+<area shape="rect" id="node10" href="$DQMURLProvider_8cc.html" title="DQMURLProvider source." alt="" coords="727,162,904,189"/>
+<area shape="rect" id="node12" href="$dqm_8cc.html" title="Main file for running plugins." alt="" coords="1339,251,1427,278"/>
+<area shape="rect" id="node13" href="$JSONReader_8cc.html" title="JSONReader code." alt="" coords="979,162,1150,189"/>
+<area shape="rect" id="node16" href="$Plugins_8hh.html" title="Namespace to get Plugin* by name." alt="" coords="1436,162,1576,189"/>
+<area shape="rect" id="node17" href="$Plugins_8cc.html" title="Functions to get Plugin* by name." alt="" coords="1451,251,1590,278"/>
+<area shape="rect" id="node19" href="$GnuplotECALWriter_8cc.html" title="GnuplotECALWriter implementation." alt="" coords="1600,162,1812,189"/>
+</map>
