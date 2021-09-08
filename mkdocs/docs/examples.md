@@ -34,6 +34,10 @@ List of examples:
 
     Plugin to learn how to operate with ECAL channel database.
 
+ * [Reading channels](https://github.com/thegriglat/dqmcpp/tree/main/examples/reading_channels)
+
+    Plugin to learn how to read channels from DQM.
+
  * [Parallel processing](https://github.com/thegriglat/dqmcpp/tree/main/examples/parallel)
 
     Plugin to learn how to easily run your functions in parallel.
