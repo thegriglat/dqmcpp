@@ -9,6 +9,7 @@ How to start with DQMCpp:
  * [Installation and configuration](installation.md)
  * [Documentation](documentation/index.md)
  * [List of examples](examples.md)
+ * [Doxygen documentation](api/)
 
 Contacts:
 
