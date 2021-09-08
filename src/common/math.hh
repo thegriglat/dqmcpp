@@ -12,9 +12,9 @@ namespace common {
  *
  * @tparam Iterator
  * @tparam BinaryOp
- * @param begin
- * @param end
- * @param fn
+ * @param begin begin iterator
+ * @param end end iterator
+ * @param fn binary convertion to double function
  * @return double
  */
 template <typename Iterator, typename BinaryOp>
@@ -30,8 +30,8 @@ double sum(Iterator begin, Iterator end, BinaryOp fn) {
  *
  * @tparam Collection
  * @tparam BinaryOp
- * @param d
- * @param fn
+ * @param d collection
+ * @param fn binary convertion to double function
  * @return double
  */
 template <typename Collection, typename BinaryOp>
@@ -43,7 +43,7 @@ inline double sum(const Collection& d, BinaryOp fn) {
  * @brief Returns sum of array elements
  *
  * @tparam Collection
- * @param list
+ * @param list input list
  * @return double
  */
 template <typename Collection>

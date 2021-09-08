@@ -51,10 +51,28 @@ class Gnuplot2DWriter : public Gnuplot2D {
   Gnuplot2DWriter(const Data2D& data);
   void setSortYFn(std::function<bool(const std::string&, const std::string&)>
                       sort_function);
+  /**
+   * @brief Explicitly set x labels vector
+   *
+   * @param xlabels
+   */
   void setXlabels(const std::vector<std::string>& xlabels);
+  /**
+   * @brief Add box in cell [xlabel, ylabel] with draw 'pattern'
+   *
+   * @param xlabel x coordinate
+   * @param ylabel y coordinate
+   * @param pattern gnuplot box draw pattern
+   */
   void addBox(const std::string& xlabel,
               const std::string& ylabel,
               const unsigned int pattern = 5);
+  /**
+   * @brief Add boxes in input coordinates
+   *
+   * @param labels box coordinate
+   * @param pattern gnuplot draw pattern
+   */
   inline void addBox(const std::pair<std::string, std::string>& labels,
                      const unsigned int pattern = 5) {
     addBox(labels.first, labels.second, pattern);

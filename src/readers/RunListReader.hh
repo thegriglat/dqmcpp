@@ -22,7 +22,7 @@ class RunListReader {
  public:
   RunListReader(const std::string& filename);
   /**
-   * @brief Returns (run, dataset) vector
+   * @brief Returns (run, dataset) std::vector
    *
    * @return std::vector<ECAL::Run>
    */

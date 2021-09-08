@@ -20,6 +20,10 @@ class Plugin {
   dqmcpp::readers::RunListReader* runListReader = nullptr;
 
  public:
+  /**
+   * @brief Destroy the Plugin object
+   *
+   */
   virtual ~Plugin(){};
   /**
    * @brief Main function for Plugin

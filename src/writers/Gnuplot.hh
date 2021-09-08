@@ -76,19 +76,52 @@ class Gnuplot {
    * @return Axis
    */
   inline Axis getX() const { return _xaxis; };
+  /**
+   * @brief Set Y axis
+   *
+   * @param min number or "*"
+   * @param max number or "*"
+   */
   inline void setY(const std::string& min, const std::string& max) {
     _yaxis = {min, max};
   }
+  /**
+   * @brief Set Y axis
+   *
+   * @param y Axis object
+   */
   inline void setY(const Axis& y) { _yaxis = y; };
+  /**
+   * @brief Create Axis object from min and max values
+   *
+   * @param min number
+   * @param max number
+   * @return Axis
+   */
   Axis axis(const double min, const double max);
-
+  /**
+   * @brief Set X axis
+   *
+   * @param min number
+   * @param max number
+   */
   inline void setX(const double min, const double max) {
     _xaxis = axis(min, max);
   }
+  /**
+   * @brief Set Y axis
+   *
+   * @param min number
+   * @param max number
+   */
   inline void setY(const double min, const double max) {
     _yaxis = axis(min, max);
   }
-
+  /**
+   * @brief Get Y axis
+   *
+   * @return Axis
+   */
   inline Axis getY() const { return _yaxis; };
 };
 

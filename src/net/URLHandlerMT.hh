@@ -10,7 +10,7 @@ namespace URLHandlerMT {
 /**
  * @brief Multithreaded cURL
  *
- * @param urls
+ * @param urls URLs to request
  * @return std::vector<std::string>
  */
 std::vector<std::string> get(const std::vector<std::string>& urls);

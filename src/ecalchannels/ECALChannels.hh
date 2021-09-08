@@ -62,13 +62,18 @@ struct ChannelIteratorPair {
 };
 
 /**
- * @brief Find channel in static database. Returns nullptr if not found
+ * @brief Find first matching channel in database. Returns nullptr if not found.
  *
  * @param channel Channel to be matched
  * @return const ChannelInfo* | nullptr
  */
 ECALChannelsList::const_iterator find(const ECAL::Channel& channel);
 
+/**
+ * @brief Returns begin() and end() iterator pair
+ *
+ * @return ChannelIteratorPair
+ */
 ChannelIteratorPair list(void);
 
 }  // namespace ECALChannels

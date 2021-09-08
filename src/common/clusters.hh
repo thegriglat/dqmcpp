@@ -79,9 +79,10 @@ namespace common {
  * @brief Groups input vector to "clusters" based on distance between elements
  *
  * @tparam T std::vector's element type
- * @tparam BinaryOp
+ * @tparam BinaryOp function to compute distance between two points: (T&,T&) ->
+ * double
  * @param data input std::vector<T>
- * @param maxdistance Distance which means that two elements are together
+ * @param maxdistance Distance which means that two elements are in one pair
  * @param distance_fn Function to compute distance from T
  * @return std::vector<std::vector<const T*>> list of lists of const T*
  */
@@ -96,10 +97,11 @@ clusters(It begin, It end, const double maxdistance, BinaryOp distance_fn) {
 /**
  * @brief  Groups input vector to "clusters" based on distance between elements
  *
- * @tparam T
- * @tparam BinaryOp
+ * @tparam T data type
+ * @tparam BinaryOp function to compute distance between two points: (T&,T&) ->
+ * double
  * @param data std::vector<T>
- * @param maxdistance   Distance which means that two elements are together
+ * @param maxdistance   Distance which means that two elements are in one pair
  * @param distance_fn  Function to compute distance from T
  * @return std::vector<std::vector<T>>
  */

@@ -28,6 +28,11 @@ class Gnuplot1DWriter : public Gnuplot {
     _data.resize(list.size());
     std::transform(list.begin(), list.end(), _data.begin(), binaryOp);
   }
+  /**
+   * @brief Append "with" gnuplot keyword
+   *
+   * @param with
+   */
   inline void with(const std::string& with) { with_option = with; }
   friend std::ostream& operator<<(std::ostream& os, const Gnuplot1DWriter& gw);
 };

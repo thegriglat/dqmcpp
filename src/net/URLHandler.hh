@@ -21,12 +21,20 @@ class URLHandler {
   std::string pKeyFile;
 
  public:
+  /**
+   * @brief Construct a new URLHandler object
+   *
+   */
   URLHandler();
+  /**
+   * @brief Destroy the URLHandler object
+   *
+   */
   ~URLHandler() { curl_easy_cleanup(_curl); }
   /**
    * @brief Call operator to get URL content
    *
-   * @param url URL
+   * @param url URL to request
    * @return std::string
    */
   std::string get(const std::string& url);

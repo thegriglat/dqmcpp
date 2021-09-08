@@ -231,7 +231,7 @@ using RunData1D = RunData<std::vector<Data1D>>;
 /**
  * @brief Removes TT with all values == 0
  *
- * @param rundata
+ * @param rundata RunTTData input vector
  * @return std::vector<RunTTData>
  */
 std::vector<RunTTData> filterZeroTT(std::vector<RunTTData>& rundata);
@@ -239,7 +239,7 @@ std::vector<RunTTData> filterZeroTT(std::vector<RunTTData>& rundata);
 /**
  * @brief Convects list of channels to list of TT
  *
- * @param channelData
+ * @param channelData ECAL::ChannelData input vector
  * @return std::vector<TTData>
  */
 std::vector<TTData> channel2TT(
@@ -248,8 +248,8 @@ std::vector<TTData> channel2TT(
 /**
  * @brief Converts Point2D to channel with given iz
  *
- * @param p
- * @param iz
+ * @param p Point2D input
+ * @param iz (0, +1, -1) for (EB, EE+, EE-)
  * @return Channel
  */
 Channel Point2D2Channel(const Point2D& p, const int iz);
@@ -257,8 +257,8 @@ Channel Point2D2Channel(const Point2D& p, const int iz);
 /**
  * @brief Converts Data2D to channel with given iz
  *
- * @param d2d
- * @param iz
+ * @param d2d Data2D input
+ * @param iz (0, +1, -1) for (EB, EE+, EE-)
  * @return ChannelData
  */
 ChannelData Data2D2Channel(const Data2D& d2d, const int iz = 0);
@@ -266,8 +266,8 @@ ChannelData Data2D2Channel(const Data2D& d2d, const int iz = 0);
 /**
  * @brief Data2D to channelData
  *
- * @param d2d
- * @param iz
+ * @param d2d Data2D input vector
+ * @param iz (0, +1, -1) for (EB, EE+, EE-)
  * @return std::vector<ChannelData>
  */
 std::vector<ChannelData> Data2D2ChannelData(const std::vector<Data2D>& d2d,

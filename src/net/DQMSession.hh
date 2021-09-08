@@ -15,8 +15,9 @@ namespace net {
 namespace DQMSession {
 
 /**
- * @brief Returns DQM session ID. Keeps session between calls.
+ * @brief Returns DQM session ID
  *
+ * @param offline true if offline session is needed
  * @return std::string
  */
 std::string get(const bool offline = true);

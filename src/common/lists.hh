@@ -18,9 +18,9 @@ namespace common {
  *
  * @tparam Iterator
  * @tparam BinaryOp
- * @param begin
- * @param end
- * @param index_fn
+ * @param begin start iterator
+ * @param end end iterator
+ * @param index_fn Function (T) -> bool
  * @return int
  */
 template <typename Iterator, typename BinaryOp>

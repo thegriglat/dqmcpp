@@ -33,7 +33,7 @@ std::string dqmurl(const ECAL::Run& run, const std::string& plotname);
 /**
  * @brief Get list of datasets for given run and mask
  *
- * @param run Run
+ * @param run Run number
  * @param mask Dataset mask, wildcards allowed
  * @param useLast if True will return only last version of simular datasets
  * @return std::vector<std::string>

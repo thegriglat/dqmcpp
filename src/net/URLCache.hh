@@ -16,7 +16,7 @@ namespace URLCache {
 /**
  * @brief Get sync URL content with caching
  *
- * @param url
+ * @param url URL to request
  * @return std::string
  */
 std::string get(const std::string& url);
@@ -24,7 +24,7 @@ std::string get(const std::string& url);
 /**
  * @brief Get sync URLs content with caching
  *
- * @param urls
+ * @param urls URLs to request
  * @return std::vector<std::string>
  */
 std::vector<std::string> get(const std::vector<std::string>& urls);

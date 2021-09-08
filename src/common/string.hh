@@ -9,19 +9,19 @@ namespace dqmcpp {
 namespace common {
 
 /**
- * @brief Splits std::string by delimiter
+ * @brief Split std::string by delimiter
  *
- * @param str
- * @param delimiter
+ * @param str input string
+ * @param delimiter delimiter
  * @return std::vector<std::string>
  */
 std::vector<std::string> split(const std::string& str,
                                const std::string& delimiter = " ");
 /**
- * @brief Joins vector of strings with delimiter
+ * @brief Join vector of strings with delimiter
  *
- * @param list
- * @param delimiter
+ * @param list input list
+ * @param delimiter delimiter
  * @return std::string
  */
 std::string join(const std::vector<std::string>& list,
@@ -30,7 +30,7 @@ std::string join(const std::vector<std::string>& list,
 /**
  * @brief Remove trailing whitespaces
  *
- * @param text
+ * @param text input string
  * @return std::string
  */
 std::string rtrim(const std::string& text);
@@ -38,7 +38,7 @@ std::string rtrim(const std::string& text);
 /**
  * @brief Remove leading whitespaces
  *
- * @param text
+ * @param text input string
  * @return std::string
  */
 std::string ltrim(const std::string& text);
@@ -46,13 +46,21 @@ std::string ltrim(const std::string& text);
 /**
  * @brief Remove trailing and leading whitespaces
  *
- * @param text
+ * @param text input string
  * @return std::string
  */
 inline std::string trim(const std::string& text) {
   return rtrim(ltrim(text));
 };
 
+/**
+ * @brief Format string by pattern like printf function
+ *
+ * @tparam Args
+ * @param format format string
+ * @param args arguments
+ * @return std::string
+ */
 template <typename... Args>
 std::string string_format(const std::string& format, Args... args) {
   // https://stackoverflow.com/questions/2342162/stdstring-formatting-like-sprintf

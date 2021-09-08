@@ -53,10 +53,10 @@ struct Fit {
 /**
  * @brief Fit x/y data with Fit structure.
  *
- * @param x x coord
- * @param y y coord
- * @param fit Fit structure
- * @return void
+ * @param x x coordinate
+ * @param y y coordinate
+ * @param fit Fit object
+ * @return Fit
  */
 Fit fit(const std::vector<double>& x,
         const std::vector<double>& y,
@@ -65,11 +65,11 @@ Fit fit(const std::vector<double>& x,
 /**
  * @brief Fit with function which should returs std::pair of x/x
  *
- * @tparam T
- * @tparam BinaryOp
- * @param list
- * @param op
- * @param fit
+ * @tparam T data type
+ * @tparam BinaryOp Function (T) -> std::pair<double,double> of coordinates
+ * @param list input list
+ * @param op convert function
+ * @param fit Fit object
  * @return Fit
  */
 template <typename T, typename BinaryOp>
