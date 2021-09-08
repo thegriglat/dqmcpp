@@ -95,9 +95,9 @@ $(function() {
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;std::string join(<span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; list,</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                 <span class="keyword">const</span> std::string&amp; delimiter) {</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  std::string result;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> len = list.size();</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> len = <a class="code" href="ECALChannels_8cc.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.size();</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; len; ++i) {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    result += list.at(i);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    result += <a class="code" href="ECALChannels_8cc.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.at(i);</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordflow">if</span> (i != len - 1)</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;      result += delimiter;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  }</div>
@@ -123,6 +123,7 @@ $(function() {
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}  <span class="comment">// namespace common</span></div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
+<div class="ttc" id="aECALChannels_8cc_html_a447860cb7aa0ce2286fd9ad7ae5082c8"><div class="ttname"><a href="ECALChannels_8cc.html#a447860cb7aa0ce2286fd9ad7ae5082c8">dqmcpp::ECALChannels::list</a></div><div class="ttdeci">ChannelIteratorPair list()</div><div class="ttdoc">Returns begin() and end() iterator pair.</div><div class="ttdef"><b>Definition:</b> <a href="ECALChannels_8cc_source.html#l00026">ECALChannels.cc:26</a></div></div>
 <div class="ttc" id="anamespacedqmcpp_html"><div class="ttname"><a href="namespacedqmcpp.html">dqmcpp</a></div><div class="ttdoc">File contains list specific templates.</div><div class="ttdef"><b>Definition:</b> <a href="Colors_8cc_source.html#l00010">Colors.cc:10</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

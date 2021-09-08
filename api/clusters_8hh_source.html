@@ -147,25 +147,25 @@ $(function() {
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacedqmcpp.html">dqmcpp</a> {</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">namespace </span>common {</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> It, <span class="keyword">typename</span> BinaryOp&gt;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;std::vector&lt;std::vector&lt;typename It::value_type&gt;&gt;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;clusters(It begin, It end, <span class="keyword">const</span> <span class="keywordtype">double</span> maxdistance, BinaryOp distance_fn) {</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <span class="keyword">auto</span> p = get_pairs(begin, end, maxdistance, distance_fn);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <span class="keywordflow">return</span> clusterize(p);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;}</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> BinaryOp&gt;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;std::vector&lt;std::vector&lt;T&gt;&gt; clusters(<span class="keyword">const</span> std::vector&lt;T&gt;&amp; data,</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                                     <span class="keyword">const</span> <span class="keywordtype">double</span> maxdistance,</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                                     BinaryOp distance_fn) {</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  <span class="keywordflow">return</span> clusters(data.begin(), data.end(), maxdistance, distance_fn);</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;}</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}  <span class="comment">// namespace common</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="preprocessor">#define COMMONCLUSTERS_HH</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> It, <span class="keyword">typename</span> BinaryOp&gt;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;std::vector&lt;std::vector&lt;typename It::value_type&gt;&gt;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;clusters(It begin, It end, <span class="keyword">const</span> <span class="keywordtype">double</span> maxdistance, BinaryOp distance_fn) {</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <span class="keyword">auto</span> p = get_pairs(begin, end, maxdistance, distance_fn);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <span class="keywordflow">return</span> clusterize(p);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;}</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> BinaryOp&gt;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;std::vector&lt;std::vector&lt;T&gt;&gt; clusters(<span class="keyword">const</span> std::vector&lt;T&gt;&amp; data,</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                                     <span class="keyword">const</span> <span class="keywordtype">double</span> maxdistance,</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                                     BinaryOp distance_fn) {</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <span class="keywordflow">return</span> clusters(data.begin(), data.end(), maxdistance, distance_fn);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}  <span class="comment">// namespace common</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="preprocessor">#define COMMONCLUSTERS_HH</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="anamespacedqmcpp_html"><div class="ttname"><a href="namespacedqmcpp.html">dqmcpp</a></div><div class="ttdoc">File contains list specific templates.</div><div class="ttdef"><b>Definition:</b> <a href="Colors_8cc_source.html#l00010">Colors.cc:10</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

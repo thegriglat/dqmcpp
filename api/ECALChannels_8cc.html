@@ -137,11 +137,11 @@ Namespaces</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a1a50f0959e175ad85bbe7f4c8db8b539"><td class="memItemLeft" align="right" valign="top">ECALChannelsList::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ECALChannels_8cc.html#a1a50f0959e175ad85bbe7f4c8db8b539">dqmcpp::ECALChannels::find</a> (const ECAL::Channel &amp;channel)</td></tr>
-<tr class="memdesc:a1a50f0959e175ad85bbe7f4c8db8b539"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find channel in static database. Returns nullptr if not found.  <a href="ECALChannels_8cc.html#a1a50f0959e175ad85bbe7f4c8db8b539">More...</a><br /></td></tr>
+<tr class="memdesc:a1a50f0959e175ad85bbe7f4c8db8b539"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find first matching channel in database. Returns nullptr if not found.  <a href="ECALChannels_8cc.html#a1a50f0959e175ad85bbe7f4c8db8b539">More...</a><br /></td></tr>
 <tr class="separator:a1a50f0959e175ad85bbe7f4c8db8b539"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28b75d78ece535ad21aac74ec570e120"><td class="memItemLeft" align="right" valign="top"><a id="a28b75d78ece535ad21aac74ec570e120"></a>
-ChannelIteratorPair&#160;</td><td class="memItemRight" valign="bottom"><b>dqmcpp::ECALChannels::list</b> ()</td></tr>
-<tr class="separator:a28b75d78ece535ad21aac74ec570e120"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a447860cb7aa0ce2286fd9ad7ae5082c8"><td class="memItemLeft" align="right" valign="top">ChannelIteratorPair&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ECALChannels_8cc.html#a447860cb7aa0ce2286fd9ad7ae5082c8">dqmcpp::ECALChannels::list</a> (void)</td></tr>
+<tr class="memdesc:a447860cb7aa0ce2286fd9ad7ae5082c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns begin() and end() iterator pair.  <a href="ECALChannels_8cc.html#a447860cb7aa0ce2286fd9ad7ae5082c8">More...</a><br /></td></tr>
+<tr class="separator:a447860cb7aa0ce2286fd9ad7ae5082c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>ECAL channels database functions. </p>
@@ -165,7 +165,7 @@ ChannelIteratorPair&#160;</td><td class="memItemRight" valign="bottom"><b>dqmcpp
       </table>
 </div><div class="memdoc">
 
-<p>Find channel in static database. Returns nullptr if not found. </p>
+<p>Find first matching channel in database. Returns nullptr if not found. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">channel</td><td>Channel to be matched </td></tr>
@@ -175,6 +175,29 @@ ChannelIteratorPair&#160;</td><td class="memItemRight" valign="bottom"><b>dqmcpp
 <dl class="section return"><dt>Returns</dt><dd>const ChannelInfo* | nullptr </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="ECALChannels_8cc_source.html#l00022">22</a> of file <a class="el" href="ECALChannels_8cc_source.html">ECALChannels.cc</a>.</p>
+
+</div>
+</div>
+<a id="a447860cb7aa0ce2286fd9ad7ae5082c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a447860cb7aa0ce2286fd9ad7ae5082c8">&#9670;&nbsp;</a></span>list()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ChannelIteratorPair dqmcpp::ECALChannels::list </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns begin() and end() iterator pair. </p>
+<dl class="section return"><dt>Returns</dt><dd>ChannelIteratorPair </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ECALChannels_8cc_source.html#l00026">26</a> of file <a class="el" href="ECALChannels_8cc_source.html">ECALChannels.cc</a>.</p>
 
 </div>
 </div>

@@ -209,7 +209,7 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>dqmcpp:
 <p>Convects list of channels to list of TT. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">channelData</td><td></td></tr>
+    <tr><td class="paramname">channelData</td><td>ECAL::ChannelData input vector </td></tr>
   </table>
   </dd>
 </dl>
@@ -248,8 +248,8 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>dqmcpp:
 <p>Converts Data2D to channel with given iz. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">d2d</td><td></td></tr>
-    <tr><td class="paramname">iz</td><td></td></tr>
+    <tr><td class="paramname">d2d</td><td>Data2D input </td></tr>
+    <tr><td class="paramname">iz</td><td>(0, +1, -1) for (EB, EE+, EE-) </td></tr>
   </table>
   </dd>
 </dl>
@@ -288,8 +288,8 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>dqmcpp:
 <p>Data2D to channelData. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">d2d</td><td></td></tr>
-    <tr><td class="paramname">iz</td><td></td></tr>
+    <tr><td class="paramname">d2d</td><td>Data2D input vector </td></tr>
+    <tr><td class="paramname">iz</td><td>(0, +1, -1) for (EB, EE+, EE-) </td></tr>
   </table>
   </dd>
 </dl>
@@ -328,8 +328,8 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>dqmcpp:
 <p>Converts Point2D to channel with given iz. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">p</td><td></td></tr>
-    <tr><td class="paramname">iz</td><td></td></tr>
+    <tr><td class="paramname">p</td><td>Point2D input </td></tr>
+    <tr><td class="paramname">iz</td><td>(0, +1, -1) for (EB, EE+, EE-) </td></tr>
   </table>
   </dd>
 </dl>

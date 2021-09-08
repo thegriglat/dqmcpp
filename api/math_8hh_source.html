@@ -94,7 +94,7 @@ $(function() {
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Collection&gt;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">double</span> sum(<span class="keyword">const</span> Collection&amp; list) {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordflow">return</span> std::accumulate(list.begin(), list.end(), 0.0);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keywordflow">return</span> std::accumulate(<a class="code" href="ECALChannels_8cc.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.begin(), <a class="code" href="ECALChannels_8cc.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.end(), 0.0);</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
@@ -111,12 +111,12 @@ $(function() {
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Collection, <span class="keyword">typename</span> BinaryOp&gt;</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">double</span> mean(<span class="keyword">const</span> Collection&amp; list, BinaryOp op) {</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <span class="keywordflow">return</span> sum(list, op) / list.size();</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <span class="keywordflow">return</span> sum(list, op) / <a class="code" href="ECALChannels_8cc.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.size();</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;}</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Collection&gt;</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">double</span> mean(<span class="keyword">const</span> Collection&amp; list) {</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  <span class="keywordflow">return</span> sum(list) / list.size();</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  <span class="keywordflow">return</span> sum(list) / <a class="code" href="ECALChannels_8cc.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.size();</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;}</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iterator, <span class="keyword">typename</span> BinaryOp&gt;</div>
@@ -135,15 +135,15 @@ $(function() {
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Collection, <span class="keyword">typename</span> BinaryOp&gt;</div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">double</span> rms(<span class="keyword">const</span> Collection&amp; list, BinaryOp op) {</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;  <span class="keywordflow">return</span> rms(list.begin(), list.end(), op);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;  <span class="keywordflow">return</span> rms(<a class="code" href="ECALChannels_8cc.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.begin(), <a class="code" href="ECALChannels_8cc.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.end(), op);</div>
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;}</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Collection&gt;</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="keywordtype">double</span> rms(<span class="keyword">const</span> Collection&amp; list) {</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;  <span class="keywordflow">if</span> (list.size() == 0)</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="ECALChannels_8cc.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.size() == 0)</div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;  <span class="keyword">auto</span> _mean = mean(list);</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  <span class="keyword">auto</span> n = list.size();</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  <span class="keyword">auto</span> n = <a class="code" href="ECALChannels_8cc.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.size();</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  <span class="keyword">auto</span> _sum = sum(list, [_mean](<span class="keyword">const</span> <span class="keyword">typename</span> Collection::value_type&amp; _xi) {</div>
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordflow">return</span> (_xi - _mean) * (_xi - _mean);</div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  });</div>
@@ -167,7 +167,7 @@ $(function() {
 <div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Collection, <span class="keyword">typename</span> BinaryOp&gt;</div>
 <div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">double</span> median(<span class="keyword">const</span> Collection&amp; list, BinaryOp op) {</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;  <span class="keywordflow">return</span> dqmcpp::common::median(list.begin(), list.end(), op);</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;  <span class="keywordflow">return</span> dqmcpp::common::median(<a class="code" href="ECALChannels_8cc.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.begin(), <a class="code" href="ECALChannels_8cc.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.end(), op);</div>
 <div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;}</div>
 <div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160; </div>
 <div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Collection&gt;</div>
@@ -196,6 +196,7 @@ $(function() {
 <div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160; </div>
 <div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="preprocessor">#define COMMON_MATH_HH</span></div>
 <div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;<span class="preprocessor">#endif  </span><span class="comment">// !COMMON_MATH_HH</span></div>
+<div class="ttc" id="aECALChannels_8cc_html_a447860cb7aa0ce2286fd9ad7ae5082c8"><div class="ttname"><a href="ECALChannels_8cc.html#a447860cb7aa0ce2286fd9ad7ae5082c8">dqmcpp::ECALChannels::list</a></div><div class="ttdeci">ChannelIteratorPair list()</div><div class="ttdoc">Returns begin() and end() iterator pair.</div><div class="ttdef"><b>Definition:</b> <a href="ECALChannels_8cc_source.html#l00026">ECALChannels.cc:26</a></div></div>
 <div class="ttc" id="anamespacedqmcpp_html"><div class="ttname"><a href="namespacedqmcpp.html">dqmcpp</a></div><div class="ttdoc">File contains list specific templates.</div><div class="ttdef"><b>Definition:</b> <a href="Colors_8cc_source.html#l00010">Colors.cc:10</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

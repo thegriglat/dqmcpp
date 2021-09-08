@@ -114,10 +114,10 @@ Namespaces</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:aa150dc20ca199e60edfef3d5443110a5"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">ECAL::ChannelData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="JSONReader_8hh.html#aa150dc20ca199e60edfef3d5443110a5">dqmcpp::readers::JSONReader::parse</a> (const std::string &amp;content)</td></tr>
-<tr class="memdesc:aa150dc20ca199e60edfef3d5443110a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse DQM JSON to ECAL::ChannelData. For ECAL channels histograms.  <a href="JSONReader_8hh.html#aa150dc20ca199e60edfef3d5443110a5">More...</a><br /></td></tr>
+<tr class="memdesc:aa150dc20ca199e60edfef3d5443110a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse DQM JSON to ECAL::ChannelData. For ECAL channels SM histograms.  <a href="JSONReader_8hh.html#aa150dc20ca199e60edfef3d5443110a5">More...</a><br /></td></tr>
 <tr class="separator:aa150dc20ca199e60edfef3d5443110a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3cb736141b55fa3ab9390b5e3a344b5d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">ECAL::Data2D</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="JSONReader_8hh.html#a3cb736141b55fa3ab9390b5e3a344b5d">dqmcpp::readers::JSONReader::parse2D</a> (const std::string &amp;content, bool skipZeroes=true)</td></tr>
-<tr class="memdesc:a3cb736141b55fa3ab9390b5e3a344b5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse DQM JSON to ECAL::Data2D. For two-dimensional histograms and TT/CCU histograms.  <a href="JSONReader_8hh.html#a3cb736141b55fa3ab9390b5e3a344b5d">More...</a><br /></td></tr>
+<tr class="memdesc:a3cb736141b55fa3ab9390b5e3a344b5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse DQM JSON to ECAL::Data2D. For two-dimensional histograms, TT/CCU and full detector histograms.  <a href="JSONReader_8hh.html#a3cb736141b55fa3ab9390b5e3a344b5d">More...</a><br /></td></tr>
 <tr class="separator:a3cb736141b55fa3ab9390b5e3a344b5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a484e3e67fe233e0b6b3b252d49ed3fbd"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">ECAL::Data1D</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="JSONReader_8hh.html#a484e3e67fe233e0b6b3b252d49ed3fbd">dqmcpp::readers::JSONReader::parse1D</a> (const std::string &amp;content, bool skipZeroes=true)</td></tr>
 <tr class="memdesc:a484e3e67fe233e0b6b3b252d49ed3fbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse DQM JSON to ECAL::Data1D. For one-dimensional histograms.  <a href="JSONReader_8hh.html#a484e3e67fe233e0b6b3b252d49ed3fbd">More...</a><br /></td></tr>
@@ -150,7 +150,7 @@ Functions</h2></td></tr>
 <p>Get content by URL. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">url</td><td></td></tr>
+    <tr><td class="paramname">url</td><td>URL </td></tr>
   </table>
   </dd>
 </dl>
@@ -176,10 +176,10 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Parse DQM JSON to ECAL::ChannelData. For ECAL channels histograms. </p>
+<p>Parse DQM JSON to ECAL::ChannelData. For ECAL channels SM histograms. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">content</td><td></td></tr>
+    <tr><td class="paramname">content</td><td>JSON text </td></tr>
   </table>
   </dd>
 </dl>
@@ -218,8 +218,8 @@ Functions</h2></td></tr>
 <p>Parse DQM JSON to ECAL::Data1D. For one-dimensional histograms. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">content</td><td></td></tr>
-    <tr><td class="paramname">skipZeroes</td><td></td></tr>
+    <tr><td class="paramname">content</td><td>JSON text </td></tr>
+    <tr><td class="paramname">skipZeroes</td><td>exclude zero values </td></tr>
   </table>
   </dd>
 </dl>
@@ -255,11 +255,11 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Parse DQM JSON to ECAL::Data2D. For two-dimensional histograms and TT/CCU histograms. </p>
+<p>Parse DQM JSON to ECAL::Data2D. For two-dimensional histograms, TT/CCU and full detector histograms. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">content</td><td></td></tr>
-    <tr><td class="paramname">skipZeroes</td><td></td></tr>
+    <tr><td class="paramname">content</td><td>JSON text </td></tr>
+    <tr><td class="paramname">skipZeroes</td><td>exclude zero values </td></tr>
   </table>
   </dd>
 </dl>
