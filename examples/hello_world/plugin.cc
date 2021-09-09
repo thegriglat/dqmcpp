@@ -24,7 +24,9 @@ namespace dqmcpp {
 
 namespace plugins {
 
-void HelloWorldEx::Process() { cout << "Hello, DQMCpp!" << endl; }
-} // namespace plugins
+void HelloWorldEx::Process() {
+  cout << "Hello, DQMCpp!" << endl;
+}
+}  // namespace plugins
 
-} // namespace dqmcpp
+}  // namespace dqmcpp

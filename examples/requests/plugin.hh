@@ -5,11 +5,11 @@ namespace dqmcpp {
 namespace plugins {
 
 class RequestEx : public Plugin {
-public:
+ public:
   void Process();
 };
-} // namespace plugins
-} // namespace dqmcpp
+}  // namespace plugins
+}  // namespace dqmcpp
 
 #define RequestEx_HH
 #endif

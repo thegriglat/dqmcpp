@@ -5,6 +5,12 @@
  */
 #include "TTMaskingStatus.hh"
 
+#include <algorithm>
+#include <fstream>
+#include <iostream>
+#include <map>
+#include <string>
+#include <vector>
 #include "ECAL/ECAL.hh"
 #include "common/common.hh"
 #include "ecalchannels/ECALChannels.hh"
@@ -12,12 +18,6 @@
 #include "readers/JSONReader.hh"
 #include "writers/Gnuplot2DWriter.hh"
 #include "writers/ProgressBar.hh"
-#include <algorithm>
-#include <fstream>
-#include <iostream>
-#include <map>
-#include <string>
-#include <vector>
 
 using namespace dqmcpp::ECAL;
 using namespace dqmcpp;
@@ -31,11 +31,11 @@ namespace {
 struct URLType {
   std::string url;
   bool isEB = false;
-  URLType(const std::string &_s, bool eb) : url(_s), isEB(eb){};
+  URLType(const std::string& _s, bool eb) : url(_s), isEB(eb){};
 };
 
 std::vector<URLType> urls(const unsigned int runnumber,
-                          const std::string &dataset) {
+                          const std::string& dataset) {
   std::vector<URLType> urls;
   for (int i = -1; i < 2; ++i) {
     if (i == 0) {
@@ -57,27 +57,27 @@ std::vector<URLType> urls(const unsigned int runnumber,
   return urls;
 };
 
-vector<RunTTData> analyze(vector<RunTTData> &rundata) {
+vector<RunTTData> analyze(vector<RunTTData>& rundata) {
   // filter tt which all have 0 in all runs
   rundata = filterZeroTT(rundata);
   // normalize TT value
-  for (auto &e : rundata) {
+  for (auto& e : rundata) {
     auto maxe = std::max_element(
         e.data.begin(), e.data.end(),
-        [](const TTData &a, const TTData &b) { return a.value < b.value; });
-    for (auto &ee : e.data) {
+        [](const TTData& a, const TTData& b) { return a.value < b.value; });
+    for (auto& ee : e.data) {
       ee.value /= maxe->value;
     }
   }
   return rundata;
 };
 
-void plot(const vector<RunTTData> &rundata) {
+void plot(const vector<RunTTData>& rundata) {
   // output in Gnuplot
   std::map<std::pair<std::string, std::string>, double> data;
-  for (auto &r : rundata) {
+  for (auto& r : rundata) {
     std::string xlabel = std::to_string(r.run.runnumber);
-    for (auto &tt : r.data) {
+    for (auto& tt : r.data) {
       std::string ylabel = std::string(tt.base);
       data.insert({{xlabel, ylabel}, tt.value});
     }
@@ -92,7 +92,7 @@ void plot(const vector<RunTTData> &rundata) {
   out.close();
 }
 
-} // namespace
+}  // namespace
 
 namespace dqmcpp {
 namespace plugins {
@@ -106,7 +106,7 @@ std::vector<RunTTData> TTMaskingStatus::Init() const {
     pb.setLabel(r.runnumber);
     pb.increment();
     std::vector<TTData> data;
-    data.reserve(2500); // approx ~3k
+    data.reserve(2500);  // approx ~3k
     for (auto url : urls(r.runnumber, r.dataset)) {
       vector<TTData> data_tt;
       if (url.isEB) {
@@ -115,13 +115,13 @@ std::vector<RunTTData> TTMaskingStatus::Init() const {
         auto q =
             readers::JSONReader::parse2D(readers::JSONReader::get(url.url));
 
-        for (auto &e : q) {
+        for (auto& e : q) {
           // find tt by channel coord
           const int xch = e.base.x;
           const int ych = e.base.y;
           auto f =
               std::find_if(all_channels.begin, all_channels.end,
-                           [xch, ych](const ECALChannels::ChannelInfo &ch) {
+                           [xch, ych](const ECALChannels::ChannelInfo& ch) {
                              return ch.iphi == xch && ch.ieta == ych;
                            });
           if (f == all_channels.end) {
@@ -137,7 +137,7 @@ std::vector<RunTTData> TTMaskingStatus::Init() const {
             readers::JSONReader::parse(readers::JSONReader::get(url.url));
         data_tt = channel2TT(data_det);
       }
-      for (auto &e : data_tt) {
+      for (auto& e : data_tt) {
         data.push_back(e);
       }
     }
@@ -156,5 +156,5 @@ std::vector<RunTTData> TTMaskingStatus::get() {
   return rundata;
 }
 
-} // namespace plugins
-} // namespace dqmcpp
+}  // namespace plugins
+}  // namespace dqmcpp

@@ -22,7 +22,6 @@ namespace dqmcpp {
 namespace plugins {
 
 void ReadingChannels::Process() {
-
   const int run = 321396;
   const auto dataset = "online";
   const auto path_sm = "EcalBarrel/EBOccupancyTask/EBOT digi occupancy EB-17";
@@ -37,7 +36,7 @@ void ReadingChannels::Process() {
   // iterate over data to see what is inside
 
   cout << "===== START EB-17 OUTPUT =====" << endl;
-  for (auto &element : data_sm) {
+  for (auto& element : data_sm) {
     // using overloaded operator<<() for ECAL::Channel
     cout << element << endl;
   }
@@ -63,12 +62,12 @@ void ReadingChannels::Process() {
    * Let's do something "useful"...
    * Drop all points with value less mean
    */
-  const auto mean = common::mean(data_eb, [](const ECAL::Data2D &d2d) {
+  const auto mean = common::mean(data_eb, [](const ECAL::Data2D& d2d) {
     // function to get double from custom type (Data2D in that case)
     return d2d.value;
   });
   cout << "data_eb size (before filter) = " << data_eb.size() << endl;
-  data_eb = common::filter(data_eb, [mean](const ECAL::Data2D &d2d) {
+  data_eb = common::filter(data_eb, [mean](const ECAL::Data2D& d2d) {
     // keep only points with value > mean
     return d2d.value > mean;
   });
@@ -79,7 +78,7 @@ void ReadingChannels::Process() {
    *   data_eb size (before filter) = 60838
    *   data_eb size (after filter) = 26941
    */
-  for (auto &element : data_eb) {
+  for (auto& element : data_eb) {
     // 0 is ECAL Barrel (iz == 0)
     auto channel = ECAL::Data2D2Channel(element, 0);
     cout << "mean: " << mean << " Data2D: " << element
@@ -87,6 +86,6 @@ void ReadingChannels::Process() {
   }
   cout << "===== END EB OUTPUT =====" << endl;
 }
-} // namespace plugins
+}  // namespace plugins
 
-} // namespace dqmcpp
+}  // namespace dqmcpp

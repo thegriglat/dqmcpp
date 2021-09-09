@@ -1,5 +1,9 @@
 #include "TTid.hh"
 
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
 #include "colors/Colors.hh"
 #include "common/common.hh"
 #include "ecalchannels/ECALChannels.hh"
@@ -8,10 +12,6 @@
 #include "readers/JSONReader.hh"
 #include "writers/Gnuplot2DWriter.hh"
 #include "writers/ProgressBar.hh"
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <vector>
 
 REGISTER_PLUGIN(TTid)
 
@@ -21,7 +21,7 @@ using namespace dqmcpp;
 namespace {
 using namespace std;
 using namespace dqmcpp;
-vector<string> get_urls(const ECAL::Run &run, const int iz) {
+vector<string> get_urls(const ECAL::Run& run, const int iz) {
   vector<string> s;
   int low = -18;
   int high = 18;
@@ -45,12 +45,12 @@ vector<string> get_urls(const ECAL::Run &run, const int iz) {
   return s;
 }
 
-void plot(const vector<ECAL::RunTTCCUData> &rundata) {
+void plot(const vector<ECAL::RunTTCCUData>& rundata) {
   writers::Gnuplot2DWriter::Data2D data;
   double _max = -1;
-  for (auto &rd : rundata) {
+  for (auto& rd : rundata) {
     const string xlabel = to_string(rd.run.runnumber);
-    for (auto &d : rd.data) {
+    for (auto& d : rd.data) {
       string ylabel = std::string(d.base);
       data.insert({{xlabel, ylabel}, d.value});
       _max = std::max(_max, d.value);
@@ -69,31 +69,30 @@ void plot(const vector<ECAL::RunTTCCUData> &rundata) {
   out.close();
 }
 
-} // namespace
+}  // namespace
 
 void dqmcpp::plugins::TTid::Process() {
   writers::ProgressBar pb(runListReader->runs().size());
   std::vector<ECAL::RunTTCCUData> rundata;
   const auto channels = ECALChannels::list();
-  for (auto &run : runListReader->runs()) {
+  for (auto& run : runListReader->runs()) {
     pb.setLabel(to_string(run.runnumber));
     pb.increment();
     ECAL::RunTTCCUData ttdata(run, {});
     for (int iz = -1; iz <= 1; ++iz) {
       const auto urls = get_urls(run, iz);
       const auto contents = net::URLCache::get(urls);
-      for (auto &content : contents) {
+      for (auto& content : contents) {
         if (iz != 0) {
           const auto d2d = readers::JSONReader::parse2D(content);
           vector<ECAL::TTCCUData> _localtt;
-          for (auto &d : d2d) {
-            auto it =
-                std::find_if(channels.begin, channels.end,
-                             [&d, iz](const ECALChannels::ChannelInfo &ci) {
-                               return std::abs(ci.ix - d.base.x) < 2.5 &&
-                                      std::abs(ci.iy - d.base.y) < 2.5 &&
-                                      ci.iz == iz;
-                             });
+          for (auto& d : d2d) {
+            auto it = std::find_if(
+                channels.begin, channels.end,
+                [&d, iz](const ECALChannels::ChannelInfo& ci) {
+                  return std::abs(ci.ix - d.base.x) < 2.5 &&
+                         std::abs(ci.iy - d.base.y) < 2.5 && ci.iz == iz;
+                });
             if (it == channels.end) {
               cout << endl << run << " cannot determine ccu" << d.base << endl;
             } else {
@@ -106,7 +105,7 @@ void dqmcpp::plugins::TTid::Process() {
         } else {
           const auto ttd =
               ECAL::channel2TT(readers::JSONReader::parse(content));
-          for (auto &e : ttd) {
+          for (auto& e : ttd) {
             ttdata.data.emplace_back(e.base, e.value);
           }
         }

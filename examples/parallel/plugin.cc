@@ -15,11 +15,10 @@ namespace dqmcpp {
 namespace plugins {
 
 void ParallelEx::Process() {
-
   /** DQMCpp provides one function for parallel processing
    *
    *   foreach_mt(begin, end, function)
-   * 
+   *
    * by default it uses as much CPU as possible
    *
    * !!! DQMCpp DON'T CONTROL DATA RACES !!!
@@ -31,14 +30,14 @@ void ParallelEx::Process() {
     vec.push_back(i);
 
   cout << "Initial values" << endl;
-  for (auto &e : vec)
+  for (auto& e : vec)
     cout << e << endl;
 
   cout << "Parallel print, should be messed up" << endl;
   // should print numbers in random order
   common::foreach_mt(vec.begin(), vec.end(),
-                     [](const int &i) { cout << i << endl; });
+                     [](const int& i) { cout << i << endl; });
 }
-} // namespace plugins
+}  // namespace plugins
 
-} // namespace dqmcpp
+}  // namespace dqmcpp

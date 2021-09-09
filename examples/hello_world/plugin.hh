@@ -17,11 +17,11 @@ namespace plugins {
  *
  */
 class HelloWorldEx : public Plugin {
-public:
+ public:
   void Process();
 };
-} // namespace plugins
-} // namespace dqmcpp
+}  // namespace plugins
+}  // namespace dqmcpp
 
 #define HelloWorldEx_HH
 #endif

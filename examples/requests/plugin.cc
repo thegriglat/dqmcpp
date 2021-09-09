@@ -88,6 +88,6 @@ void RequestEx::Process() {
     }
   }
 }
-} // namespace plugins
+}  // namespace plugins
 
-} // namespace dqmcpp
+}  // namespace dqmcpp

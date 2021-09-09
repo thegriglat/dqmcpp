@@ -2,16 +2,15 @@
 
 #include "plugins/Plugins.hh"
 
-
 namespace dqmcpp {
 namespace plugins {
 
 class ReadingChannels : public Plugin {
-public:
+ public:
   void Process();
 };
-} // namespace plugins
-} // namespace dqmcpp
+}  // namespace plugins
+}  // namespace dqmcpp
 
 #define ReadChannelsEx_HH
 #endif

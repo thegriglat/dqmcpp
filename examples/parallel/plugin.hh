@@ -6,11 +6,11 @@ namespace dqmcpp {
 namespace plugins {
 
 class ParallelEx : public Plugin {
-public:
+ public:
   void Process();
 };
-} // namespace plugins
-} // namespace dqmcpp
+}  // namespace plugins
+}  // namespace dqmcpp
 
 #define ParallelEx_HH
 #endif

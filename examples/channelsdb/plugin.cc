@@ -16,7 +16,6 @@ namespace dqmcpp {
 namespace plugins {
 
 void ChannelsDBEx::Process() {
-
   /**
    * DQMCpp channels database interface provides just two methods to access
 channel db
@@ -42,19 +41,19 @@ channel db
    * For example we have to find all channels with ix = 43 in EE+
    */
 
-  const int iz = 1; // EE+
+  const int iz = 1;  // EE+
   const int ix = 43;
 
   std::vector<ECALChannels::ChannelInfo> matched_channels;
   std::for_each(channels.begin, channels.end,
-                [&matched_channels](const ECALChannels::ChannelInfo &c_info) {
+                [&matched_channels](const ECALChannels::ChannelInfo& c_info) {
                   // called for every channel
                   if (c_info.det_iz() == iz && c_info.ix == ix)
                     matched_channels.push_back(c_info);
                 });
 
   // print matched channels
-  for (auto &channel : matched_channels)
+  for (auto& channel : matched_channels)
     cout << "(ix == 43 &&  EE+) is [" << channel.ix << ", " << channel.iy
          << ", " << channel.det_iz() << "] with dbid = " << channel.dbid
          << " det = " << channel.det() << endl;
@@ -77,6 +76,6 @@ channel db
   cout << "Channel [43,80,1] is in " << ECALChannels::find({43, 80, 1})->det()
        << endl;
 }
-} // namespace plugins
+}  // namespace plugins
 
-} // namespace dqmcpp
+}  // namespace dqmcpp

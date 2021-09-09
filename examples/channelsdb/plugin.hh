@@ -6,11 +6,11 @@ namespace dqmcpp {
 namespace plugins {
 
 class ChannelsDBEx : public Plugin {
-public:
+ public:
   void Process();
 };
-} // namespace plugins
-} // namespace dqmcpp
+}  // namespace plugins
+}  // namespace dqmcpp
 
 #define Channelsdbex_hh
 #endif

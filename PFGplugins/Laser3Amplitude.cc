@@ -153,10 +153,10 @@ std::vector<pair<int, int>> getBadXY(
       const auto median_upper = median_over_runs * MEDIANUP;
       const auto median_lower = median_over_runs * MEDIANLOW;
       if (std::any_of(values.begin(), values.end(),
-                    [median_upper, median_lower](const double v) {
-                      return v > median_upper || v < median_lower;
-                    })) {
-      badxy.push_back({x, y});
+                      [median_upper, median_lower](const double v) {
+                        return v > median_upper || v < median_lower;
+                      })) {
+        badxy.push_back({x, y});
       }
     }
   }
@@ -176,9 +176,8 @@ vector<int> getSM() {
 namespace dqmcpp {
 namespace plugins {
 
-vector<Laser3Amplitude::RunL1Data> Laser3Amplitude::getRunData(
-    const int sm,
-    bool eb) {
+vector<Laser3Amplitude::RunL1Data> Laser3Amplitude::getRunData(const int sm,
+                                                               bool eb) {
   vector<RunL1Data> rundata;
   rundata.reserve(runListReader->runs().size());
   const auto getter = (eb) ? geturl : geturl_ee;
