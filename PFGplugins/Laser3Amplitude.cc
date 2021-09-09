@@ -120,11 +120,11 @@ std::vector<pair<int, int>> getBadXY_EE(
     const auto median_over_runs = common::median(values);
     const auto median_upper = median_over_runs * MEDIANUPEE;
     const auto median_lower = median_over_runs * MEDIANLOWEE;
-    for (auto& v : values) {
-      if (v > median_upper || v < median_lower) {
-        badxy.push_back({x, y});
-        break;
-      }
+    if (std::any_of(values.begin(), values.end(),
+                    [median_upper, median_lower](const double v) {
+                      return v > median_upper || v < median_lower;
+                    })) {
+      badxy.push_back({x, y});
     }
   }
   return badxy;
@@ -152,11 +152,11 @@ std::vector<pair<int, int>> getBadXY(
       const auto median_over_runs = common::median(values);
       const auto median_upper = median_over_runs * MEDIANUP;
       const auto median_lower = median_over_runs * MEDIANLOW;
-      for (auto& v : values) {
-        if (v > median_upper || v < median_lower) {
-          badxy.push_back({x, y});
-          break;
-        }
+      if (std::any_of(values.begin(), values.end(),
+                    [median_upper, median_lower](const double v) {
+                      return v > median_upper || v < median_lower;
+                    })) {
+      badxy.push_back({x, y});
       }
     }
   }
