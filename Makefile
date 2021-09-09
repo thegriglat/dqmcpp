@@ -2,7 +2,7 @@ all: style
 .PHONE: style docs docs-pdf mkdocs
 
 style:
-	cd src && find . -name '*.cc' -o -name '*.hh' | grep -v 'json.hh'  | grep -v ecalchannels_db.cc | xargs -n 1 clang-format --style=file -i
+	cd src && find . ../PFGplugins ../examples -name '*.cc' -o -name '*.hh' | grep -v 'json.hh'  | grep -v ecalchannels_db.cc | xargs -n 1 clang-format --style=file -i
 
 docs:
 	rm -rf doxygen
