@@ -60,8 +60,8 @@
 	   "images":"TPOccupancyL1.png"
 	},
 	{
-	   "group":"TPOccupancyLTAmplitude",
-	   "images":"TPOccupancyLTAmplitude*.png"
+	   "group":"L3Amplitude",
+	   "images":"L3Amplitude*.png"
 	},
 	{
 	   "group":"TTF4Occupancy",

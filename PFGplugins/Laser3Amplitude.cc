@@ -1,4 +1,4 @@
-#include "TPOccupancyLTAmplitude.hh"
+#include "Laser3Amplitude.hh"
 
 #include <algorithm>
 #include <iostream>
@@ -25,7 +25,7 @@
 using namespace std;
 using namespace dqmcpp;
 
-REGISTER_PLUGIN(TPOccupancyLTAmplitude)
+REGISTER_PLUGIN(Laser3Amplitude)
 
 namespace {
 
@@ -99,7 +99,7 @@ void scaleSM_EE(std::vector<ECAL::ChannelData>& data) {
 }
 
 std::vector<pair<int, int>> getBadXY_EE(
-    const vector<plugins::TPOccupancyLTAmplitude::RunL1Data>& rundata) {
+    const vector<plugins::Laser3Amplitude::RunL1Data>& rundata) {
   set<pair<int, int>> allxy;
   vector<pair<int, int>> badxy;
   for (auto& rd : rundata)
@@ -131,7 +131,7 @@ std::vector<pair<int, int>> getBadXY_EE(
 }
 
 std::vector<pair<int, int>> getBadXY(
-    const vector<plugins::TPOccupancyLTAmplitude::RunL1Data>& rundata,
+    const vector<plugins::Laser3Amplitude::RunL1Data>& rundata,
     const int sm) {
   using ECAL::ChannelData;
   vector<pair<int, int>> badxy;
@@ -176,7 +176,7 @@ vector<int> getSM() {
 namespace dqmcpp {
 namespace plugins {
 
-vector<TPOccupancyLTAmplitude::RunL1Data> TPOccupancyLTAmplitude::getRunData(
+vector<Laser3Amplitude::RunL1Data> Laser3Amplitude::getRunData(
     const int sm,
     bool eb) {
   vector<RunL1Data> rundata;
@@ -193,7 +193,7 @@ vector<TPOccupancyLTAmplitude::RunL1Data> TPOccupancyLTAmplitude::getRunData(
   return rundata;
 }
 
-void TPOccupancyLTAmplitude::Process() {
+void Laser3Amplitude::Process() {
   writers::ProgressBar progress(18 * 2 + 9 * 2);
   writers::Gnuplot2DWriter::Data2D gdata;
   double _maxvalue = -1;
@@ -225,8 +225,8 @@ void TPOccupancyLTAmplitude::Process() {
     progress.increment();
   }
   writers::Gnuplot2DWriter writer(gdata);
-  writer.setOutput("TPOccupancyLTAmplitude_EB.png");
-  writer.setTitle("TPOccupancyLTAmplitude EB");
+  writer.setOutput("Laser3Amplitude_EB.png");
+  writer.setTitle("Laser3Amplitude EB");
   writer.setZ(0, _maxvalue);
   writer.setZTick(0.1);
   writer.setPalette({{0.0, colors::ColorSets::black},
@@ -235,7 +235,7 @@ void TPOccupancyLTAmplitude::Process() {
                      {MEDIANUP / _maxvalue, colors::ColorSets::white},
                      {MEDIANUP / _maxvalue, colors::ColorSets::yellow},
                      {1.0, colors::ColorSets::red}});
-  ofstream out("TPOccupancyLTAmplitude_EB.plt");
+  ofstream out("Laser3Amplitude_EB.plt");
   out << writer;
   out.close();
   // ECAL Endcap
@@ -269,8 +269,8 @@ void TPOccupancyLTAmplitude::Process() {
   }
 
   writers::Gnuplot2DWriter writeree(gdataee);
-  writeree.setOutput("TPOccupancyLTAmplitude_EE.png");
-  writeree.setTitle("TPOccupancyLTAmplitude EE");
+  writeree.setOutput("Laser3Amplitude_EE.png");
+  writeree.setTitle("Laser3Amplitude EE");
   writeree.setZ(0, _maxvalueee);
   writeree.setZTick(0.1);
   writeree.setPalette({{0.0, colors::ColorSets::black},
@@ -281,7 +281,7 @@ void TPOccupancyLTAmplitude::Process() {
                        {1.0, colors::ColorSets::red}});
   // gnuplot
 
-  ofstream outee("TPOccupancyLTAmplitude_EE.plt");
+  ofstream outee("Laser3Amplitude_EE.plt");
   outee << writeree;
   outee.close();
   return;

@@ -1,4 +1,4 @@
-#ifndef TPOCCUPANCYLTAMPLITUDE_HH
+#ifndef Laser3Amplitude_HH
 
 #include <vector>
 #include "ECAL/ECAL.hh"
@@ -7,7 +7,7 @@
 namespace dqmcpp {
 namespace plugins {
 
-class TPOccupancyLTAmplitude : public Plugin {
+class Laser3Amplitude : public Plugin {
  public:
   using RunL1Data = ECAL::RunData<std::vector<ECAL::ChannelData>>;
 
@@ -21,5 +21,5 @@ class TPOccupancyLTAmplitude : public Plugin {
 }  // namespace plugins
 }  // namespace dqmcpp
 
-#define TPOCCUPANCYLTAMPLITUDE_HH
-#endif  // !TPOCCUPANCYLTAMPLITUDE_HH
+#define Laser3Amplitude_HH
+#endif  // !Laser3Amplitude_HH
