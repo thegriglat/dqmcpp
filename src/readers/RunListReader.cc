@@ -26,10 +26,17 @@ std::pair<bool, dqmcpp::ECAL::Run> parse(std::string line) {
     line.erase(pos);
   line = dqmcpp::common::trim(line);
   auto tokens = dqmcpp::common::split(line);
-  if (tokens.size() < 2) {
+  if (tokens.size() == 0 || line.size() == 0) {
+    // dummy output
     return {false, dqmcpp::ECAL::Run(0, "")};
   }
-  return {true, dqmcpp::ECAL::Run(atoi(tokens.at(0).c_str()), tokens.at(1))};
+  const auto runnumber = atoi(tokens.at(0).c_str());
+  if (tokens.size() == 1) {
+    cout << "No dataset specified for run '" << runnumber
+         << "'. Online DQM is assumed." << endl;
+    return {true, dqmcpp::ECAL::Run(runnumber, "online")};
+  }
+  return {true, dqmcpp::ECAL::Run(runnumber, tokens.at(1))};
 }
 
 }  // namespace
