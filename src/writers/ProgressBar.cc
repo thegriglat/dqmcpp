@@ -19,18 +19,13 @@ std::string formatPercent(float value) {
   return ss.str();
 }
 
-struct TerminalSize {
-  unsigned int width;
-  unsigned int height;
-};
-
 // get terminal size
 // https://stackoverflow.com/questions/23369503/get-size-of-terminal-window-rows-columns
 
-TerminalSize getTermSize() {
+unsigned int getTerminalWidth() {
   struct winsize size;
   ioctl(STDOUT_FILENO, TIOCGWINSZ, &size);
-  return {size.ws_col, size.ws_row};
+  return size.ws_col;
 }
 
 }  // namespace
@@ -66,7 +61,7 @@ void ProgressBar::draw(void) const {
   std::cout << label << " " << percents << "%" << std::endl;
   return;
 #endif
-  const auto termwidth = getTermSize().width;
+  const auto termwidth = getTerminalWidth();
   unsigned int labelWidth = std::max(label.size(), (size_t)termwidth / 12);
   if (label.size() == 0)
     // don't show empty space if no label
