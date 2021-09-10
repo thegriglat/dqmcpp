@@ -1,3 +1,8 @@
+/**
+ * @file Gnuplot1DWriter.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ *
+ */
 #include "Gnuplot1DWriter.hh"
 
 #include <iostream>

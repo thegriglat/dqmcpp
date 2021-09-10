@@ -1,3 +1,8 @@
+/**
+ * @file Gnuplot2D.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ *
+ */
 #include "Gnuplot2D.hh"
 
 #include <algorithm>

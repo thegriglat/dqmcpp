@@ -1,3 +1,10 @@
+/**
+ * @file URLHandlerMT.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Multithreaded cURL requests
+ *
+ *
+ */
 #include "URLHandlerMT.hh"
 
 #include <string>

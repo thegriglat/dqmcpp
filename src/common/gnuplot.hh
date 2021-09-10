@@ -1,5 +1,11 @@
 #ifndef DQMCPPSYSTEM_HH
-
+/**
+ * @file gnuplot.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Gnuplot functions
+ *
+ *
+ */
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -7,6 +13,10 @@
 
 namespace dqmcpp {
 namespace common {
+/**
+ * @brief Gnuplot functions
+ *
+ */
 namespace gnuplot {
 
 /**

@@ -1,3 +1,10 @@
+/**
+ * @file ProgressBar.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief ProgressBar implementation
+ *
+ *
+ */
 #include "ProgressBar.hh"
 
 #include <cmath>

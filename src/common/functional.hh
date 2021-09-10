@@ -1,11 +1,21 @@
 #ifndef COMMON_FUNCTIONAL_HH
-
+/**
+ * @file functional.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief C++ helpers for functional programming
+ *
+ *
+ */
 #include <algorithm>
 #include <vector>
 
 // copied from https://gist.github.com/phatak-dev/766eccf8c72484ad623b
 
 namespace dqmcpp {
+/**
+ * @brief Common functions
+ *
+ */
 namespace common {
 
 /**

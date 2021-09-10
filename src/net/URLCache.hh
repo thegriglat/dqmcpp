@@ -11,6 +11,10 @@
 namespace dqmcpp {
 namespace net {
 
+/**
+ * @brief Cached cURL request functions
+ *
+ */
 namespace URLCache {
 
 /**

@@ -1,3 +1,10 @@
+/**
+ * @file gnuplot.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Gnuplot.hh implementation
+ *
+ *
+ */
 #include "gnuplot.hh"
 #include <algorithm>
 #include <fstream>

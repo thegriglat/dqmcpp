@@ -1,10 +1,20 @@
 #ifndef URLHANDLERMT_HH
-
+/**
+ * @file URLHandlerMT.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Multithreaded cURL requests
+ *
+ *
+ */
 #include <string>
 #include <vector>
 
 namespace dqmcpp {
 namespace net {
+/**
+ * @brief Multithreaded cURL requests
+ *
+ */
 namespace URLHandlerMT {
 
 /**

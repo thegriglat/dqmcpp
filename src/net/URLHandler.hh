@@ -8,6 +8,10 @@
 #include "curl/curl.h"
 
 namespace dqmcpp {
+/**
+ * @brief Network functions and classes
+ *
+ */
 namespace net {
 
 /**

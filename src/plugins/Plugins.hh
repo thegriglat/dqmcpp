@@ -13,9 +13,16 @@
 #include "../readers/RunListReader.hh"
 
 namespace dqmcpp {
+/**
+ * @brief Main namespace for user defined plugins
+ *
+ */
 namespace plugins {
 
-/* Base class for plugins */
+/**
+ * @brief Base class for all user's plugins
+ *
+ */
 class Plugin {
  protected:
   dqmcpp::readers::RunListReader* runListReader = nullptr;

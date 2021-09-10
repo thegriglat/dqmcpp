@@ -1,5 +1,11 @@
 #ifndef PROGRESSBAR_HH
-
+/**
+ * @file ProgressBar.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief ProgressBarclass
+ *
+ *
+ */
 #include <sstream>
 #include <string>
 

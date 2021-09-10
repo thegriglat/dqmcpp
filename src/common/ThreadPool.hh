@@ -1,4 +1,10 @@
 #ifndef THREAD_POOL_H
+/**
+ * @file ThreadPool.hh
+ * @brief ThreadPool class, stealed from StackOverflow )
+ *
+ *
+ */
 #define THREAD_POOL_H
 
 #include <condition_variable>
@@ -14,6 +20,10 @@
 namespace dqmcpp {
 namespace common {
 
+/**
+ * @brief Threading class, copyed from the internet.... :-)
+ *
+ */
 class ThreadPool {
  public:
   ThreadPool(size_t = std::thread::hardware_concurrency());

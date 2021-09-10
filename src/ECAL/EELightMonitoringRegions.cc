@@ -1,3 +1,10 @@
+/**
+ * @file EELightMonitoringRegions.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Light Monitoring regions
+ *
+ *
+ */
 #include "EELightMonitoringRegions.hh"
 
 #include <array>

@@ -1,8 +1,18 @@
 #ifndef GNUPLOT_HH
-
+/**
+ * @file Gnuplot.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Gnuplot, ... class
+ *
+ *
+ */
 #include <string>
 
 namespace dqmcpp {
+/**
+ * @brief Writing functions/classes
+ *
+ */
 namespace writers {
 
 /**

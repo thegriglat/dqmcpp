@@ -1,5 +1,11 @@
 #ifndef EELIGHTMONITORINGREGIONS_HH
-
+/**
+ * @file EELightMonitoringRegions.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Light Monitoring regions
+ *
+ *
+ */
 #include <map>
 #include <vector>
 

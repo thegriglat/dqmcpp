@@ -1,3 +1,10 @@
+/**
+ * @file io.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief I/O implementation
+ *
+ *
+ */
 #include "io.hh"
 
 #include "string.hh"

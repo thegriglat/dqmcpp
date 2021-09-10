@@ -1,5 +1,11 @@
 #ifndef COMMON_MATH_HH
-
+/**
+ * @file math.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Math templated functions
+ *
+ *
+ */
 #include <algorithm>
 #include <cmath>
 #include <numeric>

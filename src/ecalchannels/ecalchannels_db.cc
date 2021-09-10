@@ -1,3 +1,10 @@
+/**
+ * @file ecalchannels_db.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief 
+ * 
+ * 
+ */
 #include "ecalchannels_db.hh"
 
 #include <algorithm>

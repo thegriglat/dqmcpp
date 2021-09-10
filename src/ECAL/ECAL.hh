@@ -10,6 +10,10 @@
 #include <vector>
 
 namespace dqmcpp {
+/**
+ * @brief Namespace for ECAL specific data types
+ *
+ */
 namespace ECAL {
 
 constexpr unsigned int NEBChannels = 61200;

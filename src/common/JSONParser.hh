@@ -1,5 +1,11 @@
 #ifndef JSONPARSER_HH
-
+/**
+ * @file JSONParser.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief RapidJSON wrapper
+ *
+ *
+ */
 #include <string>
 #include "../rapidjson/document.h"
 namespace dqmcpp {

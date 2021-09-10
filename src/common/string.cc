@@ -1,3 +1,10 @@
+/**
+ * @file string.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief String functions
+ *
+ *
+ */
 #include "string.hh"
 
 #include <algorithm>

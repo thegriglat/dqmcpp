@@ -1,5 +1,11 @@
 #ifndef COMMON_IO_HH
-
+/**
+ * @file io.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief I/O and OS functions
+ *
+ *
+ */
 #include <string>
 
 namespace dqmcpp {

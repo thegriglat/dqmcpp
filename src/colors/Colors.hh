@@ -8,6 +8,10 @@
 #include <vector>
 
 namespace dqmcpp {
+/**
+ * @brief Predefined colors
+ *
+ */
 namespace colors {
 
 using HEXColor = std::string;

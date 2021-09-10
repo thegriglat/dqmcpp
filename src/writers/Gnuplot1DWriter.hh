@@ -1,5 +1,11 @@
 #ifndef GNUPLOT1DWRITER_HH
-
+/**
+ * @file Gnuplot1DWriter.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Writer for 1D histograms
+ *
+ *
+ */
 #include <algorithm>
 #include <map>
 #include <string>

@@ -1,5 +1,11 @@
 #ifndef GNUPLOT2D_HH
-
+/**
+ * @file Gnuplot2D.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Base class for gnuplot output
+ *
+ *
+ */
 #include <map>
 #include <vector>
 #include "../colors/Colors.hh"

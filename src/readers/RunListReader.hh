@@ -9,6 +9,10 @@
 #include "../ECAL/ECAL.hh"
 
 namespace dqmcpp {
+/**
+ * @brief Namespace for reading functions/classes
+ *
+ */
 namespace readers {
 
 /**

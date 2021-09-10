@@ -10,6 +10,10 @@
 #include "../ECAL/ECAL.hh"
 
 namespace dqmcpp {
+/**
+ * @brief Access to ECAL channels database
+ *
+ */
 namespace ECALChannels {
 
 /**

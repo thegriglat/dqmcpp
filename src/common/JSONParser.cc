@@ -1,3 +1,10 @@
+/**
+ * @file JSONParser.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief RapidJSON wrapper
+ *
+ *
+ */
 #include "JSONParser.hh"
 
 namespace dqmcpp {

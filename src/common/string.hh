@@ -1,5 +1,11 @@
 #ifndef COMMON_STRING_HH
-
+/**
+ * @file string.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief String functions
+ *
+ *
+ */
 #include <memory>
 #include <stdexcept>
 #include <string>

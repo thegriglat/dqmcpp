@@ -1,6 +1,9 @@
 #ifndef COMMON_LISTS_HH
 /**
- * @brief File contains list specific templates
+ * @file lists.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Operating with STL containers
+ *
  *
  */
 #include <algorithm>

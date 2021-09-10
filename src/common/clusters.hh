@@ -1,5 +1,13 @@
 #ifndef COMMONCLUSTERS_HH
-
+/**
+ * @file clusters.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Clusterising function
+ * @version 0.1
+ * @date 2021-09-10
+ *
+ *
+ */
 #include <algorithm>
 #include <array>
 #include <vector>

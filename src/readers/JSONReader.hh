@@ -8,6 +8,10 @@
 
 namespace dqmcpp {
 namespace readers {
+/**
+ * @brief JSON parsing functions
+ *
+ */
 namespace JSONReader {
 
 /**

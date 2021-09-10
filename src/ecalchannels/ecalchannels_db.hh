@@ -1,5 +1,11 @@
 #ifndef ECALCHANNELS_DB_HH
-
+/**
+ * @file ecalchannels_db.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief Channel database functions
+ *
+ *
+ */
 #include "ECALChannels.hh"
 
 namespace dqmcpp {
