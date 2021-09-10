@@ -70,95 +70,97 @@ $(function() {
 <div class="title">ecalchannels_db.cc</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;ecalchannels_db.hh&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;../common/math.hh&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;ecalchannels_db.cppt&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define SORTBY(A, B, X, C)         \</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">  if (A.X == B.X) {                \</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">    C;                             \</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">  } else {                         \</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">    return ((A.X &lt; B.X) ? 1 : -1); \</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">  }</span></div>
+<a href="ecalchannels__db_8cc.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="ecalchannels__db_8hh.html">ecalchannels_db.hh</a>&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;../common/math.hh&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;ecalchannels_db.cppt&quot;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span>{</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordtype">int</span> sortCh(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">dqmcpp::ECALChannels::ChannelInfo</a>&amp; a,</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;           <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">dqmcpp::ECALChannels::ChannelInfo</a>&amp; b) {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <span class="comment">/*</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">  sort by z</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">  iphi</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">  ieta</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">  ix</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">  iy</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">  */</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  SORTBY(</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;      a, b, iz,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;      SORTBY(a, b, iphi,</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;             SORTBY(a, b, ieta, SORTBY(a, b, ix, SORTBY(a, b, iy, <span class="keywordflow">return</span> 0)))));</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordtype">int</span> sortChC(<span class="keyword">const</span> <span class="keywordtype">void</span>* a, <span class="keyword">const</span> <span class="keywordtype">void</span>* b) {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">dqmcpp::ECALChannels::ChannelInfo</a>* ac = (<a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">dqmcpp::ECALChannels::ChannelInfo</a>*)a;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">dqmcpp::ECALChannels::ChannelInfo</a>* bc = (<a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">dqmcpp::ECALChannels::ChannelInfo</a>*)b;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <span class="keywordflow">return</span> sortCh(*ac, *bc);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keywordtype">bool</span> isInit = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">void</span> Init() {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">if</span> (isInit)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  std::qsort((<span class="keywordtype">void</span>*)(&amp;(_channels[0])), _channels.size(), <span class="keyword">sizeof</span>(_channels[0]),</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;             sortChC);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  isInit = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}  <span class="comment">// namespace</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacedqmcpp.html">dqmcpp</a> {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">namespace </span>ECALChannels {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html">   51</a></span>&#160;<span class="keyword">namespace </span>ChannelsDB {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html#af2c63f2b23fb04dc03fc0fc0eac14e79">   53</a></span>&#160;<span class="keyword">const</span> ECALChannelsList* <a class="code" href="namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html#af2c63f2b23fb04dc03fc0fc0eac14e79">channels</a>() {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  Init();</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">return</span> &amp;_channels;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#define SORTBY(A, B, X, C)         \</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">  if (A.X == B.X) {                \</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">    C;                             \</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">  } else {                         \</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">    return ((A.X &lt; B.X) ? 1 : -1); \</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">  }</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span>{</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keywordtype">int</span> sortCh(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">dqmcpp::ECALChannels::ChannelInfo</a>&amp; a,</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;           <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">dqmcpp::ECALChannels::ChannelInfo</a>&amp; b) {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="comment">/*</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">  sort by z</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">  iphi</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">  ieta</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">  ix</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">  iy</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">  */</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  SORTBY(</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      a, b, iz,</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;      SORTBY(a, b, iphi,</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;             SORTBY(a, b, ieta, SORTBY(a, b, ix, SORTBY(a, b, iy, <span class="keywordflow">return</span> 0)))));</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">int</span> sortChC(<span class="keyword">const</span> <span class="keywordtype">void</span>* a, <span class="keyword">const</span> <span class="keywordtype">void</span>* b) {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">dqmcpp::ECALChannels::ChannelInfo</a>* ac = (<a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">dqmcpp::ECALChannels::ChannelInfo</a>*)a;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">dqmcpp::ECALChannels::ChannelInfo</a>* bc = (<a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">dqmcpp::ECALChannels::ChannelInfo</a>*)b;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">return</span> sortCh(*ac, *bc);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">bool</span> isInit = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordtype">void</span> Init() {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">if</span> (isInit)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  std::qsort((<span class="keywordtype">void</span>*)(&amp;(_channels[0])), _channels.size(), <span class="keyword">sizeof</span>(_channels[0]),</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;             sortChC);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  isInit = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}  <span class="comment">// namespace</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">namespace </span>dqmcpp {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">namespace </span>ECALChannels {</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html#a5d121c5b1b4f1920edb55d60012ed38f">   58</a></span>&#160;<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">ChannelInfo</a>* <a class="code" href="namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html#a5d121c5b1b4f1920edb55d60012ed38f">find</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> ix_iphi, <span class="keyword">const</span> <span class="keywordtype">int</span> iy_ieta, <span class="keyword">const</span> <span class="keywordtype">int</span> iz) {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  Init();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">ChannelInfo</a> key;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordflow">if</span> (iz == 0) {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    key.iz = common::sign(iy_ieta);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    key.ix = -999;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    key.iy = -999;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    key.iphi = ix_iphi;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    key.ieta = iy_ieta;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    key.ix = ix_iphi;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    key.iy = iy_ieta;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    key.iphi = -999;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    key.ieta = -999;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    key.iz = iz;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  }</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">ChannelInfo</a>* ptr = (<a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">ChannelInfo</a>*)std::bsearch(&amp;key, (<span class="keywordtype">void</span>*)(&amp;(_channels[0])),</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                                _channels.size(),</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                                                <span class="keyword">sizeof</span>(_channels[0]), sortChC);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="keywordflow">if</span> (ptr)</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordflow">return</span> ptr;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;};  <span class="comment">// namespace ChannelsDB</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}  <span class="comment">// namespace ECALChannels</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html">   58</a></span>&#160;<span class="keyword">namespace </span>ChannelsDB {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html#af2c63f2b23fb04dc03fc0fc0eac14e79">   60</a></span>&#160;<span class="keyword">const</span> ECALChannelsList* <a class="code" href="namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html#af2c63f2b23fb04dc03fc0fc0eac14e79">channels</a>() {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  Init();</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordflow">return</span> &amp;_channels;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html#a5d121c5b1b4f1920edb55d60012ed38f">   65</a></span>&#160;<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">ChannelInfo</a>* <a class="code" href="namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html#a5d121c5b1b4f1920edb55d60012ed38f">find</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> ix_iphi, <span class="keyword">const</span> <span class="keywordtype">int</span> iy_ieta, <span class="keyword">const</span> <span class="keywordtype">int</span> iz) {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  Init();</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">ChannelInfo</a> key;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordflow">if</span> (iz == 0) {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    key.iz = <a class="code" href="namespacedqmcpp_1_1common.html#a02feb89a3c6f699e6205ccc8f1eb9dd3">common::sign</a>(iy_ieta);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    key.ix = -999;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    key.iy = -999;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    key.iphi = ix_iphi;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    key.ieta = iy_ieta;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    key.ix = ix_iphi;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    key.iy = iy_ieta;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    key.iphi = -999;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    key.ieta = -999;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    key.iz = iz;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">ChannelInfo</a>* ptr = (<a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">ChannelInfo</a>*)std::bsearch(&amp;key, (<span class="keywordtype">void</span>*)(&amp;(_channels[0])),</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                                                _channels.size(),</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                                                <span class="keyword">sizeof</span>(_channels[0]), sortChC);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keywordflow">if</span> (ptr)</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">return</span> ptr;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;};  <span class="comment">// namespace ChannelsDB</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}  <span class="comment">// namespace ECALChannels</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="anamespacedqmcpp_1_1ECALChannels_1_1ChannelsDB_html_af2c63f2b23fb04dc03fc0fc0eac14e79"><div class="ttname"><a href="namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html#af2c63f2b23fb04dc03fc0fc0eac14e79">dqmcpp::ECALChannels::ChannelsDB::channels</a></div><div class="ttdeci">const ECALChannelsList * channels()</div><div class="ttdoc">Raw pointer to channel database.</div><div class="ttdef"><b>Definition:</b> <a href="ecalchannels__db_8cc_source.html#l00053">ecalchannels_db.cc:53</a></div></div>
-<div class="ttc" id="astructdqmcpp_1_1ECALChannels_1_1ChannelInfo_html"><div class="ttname"><a href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">dqmcpp::ECALChannels::ChannelInfo</a></div><div class="ttdoc">Static channel list structure Dumped from DQM a long long time ago ...</div><div class="ttdef"><b>Definition:</b> <a href="ECALChannels_8hh_source.html#l00019">ECALChannels.hh:19</a></div></div>
-<div class="ttc" id="anamespacedqmcpp_html"><div class="ttname"><a href="namespacedqmcpp.html">dqmcpp</a></div><div class="ttdoc">File contains list specific templates.</div><div class="ttdef"><b>Definition:</b> <a href="Colors_8cc_source.html#l00010">Colors.cc:10</a></div></div>
-<div class="ttc" id="anamespacedqmcpp_1_1ECALChannels_1_1ChannelsDB_html_a5d121c5b1b4f1920edb55d60012ed38f"><div class="ttname"><a href="namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html#a5d121c5b1b4f1920edb55d60012ed38f">dqmcpp::ECALChannels::ChannelsDB::find</a></div><div class="ttdeci">const ChannelInfo * find(const int ix_iphi, const int iy_ieta, const int iz)</div><div class="ttdoc">Find ECAL channel by coordinates.</div><div class="ttdef"><b>Definition:</b> <a href="ecalchannels__db_8cc_source.html#l00058">ecalchannels_db.cc:58</a></div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1common_html_a02feb89a3c6f699e6205ccc8f1eb9dd3"><div class="ttname"><a href="namespacedqmcpp_1_1common.html#a02feb89a3c6f699e6205ccc8f1eb9dd3">dqmcpp::common::sign</a></div><div class="ttdeci">int sign(const T &amp;value)</div><div class="ttdoc">Return sign of value.</div><div class="ttdef"><b>Definition:</b> <a href="math_8hh_source.html#l00068">math.hh:68</a></div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1ECALChannels_1_1ChannelsDB_html_af2c63f2b23fb04dc03fc0fc0eac14e79"><div class="ttname"><a href="namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html#af2c63f2b23fb04dc03fc0fc0eac14e79">dqmcpp::ECALChannels::ChannelsDB::channels</a></div><div class="ttdeci">const ECALChannelsList * channels()</div><div class="ttdoc">Raw pointer to channel database.</div><div class="ttdef"><b>Definition:</b> <a href="ecalchannels__db_8cc_source.html#l00060">ecalchannels_db.cc:60</a></div></div>
+<div class="ttc" id="astructdqmcpp_1_1ECALChannels_1_1ChannelInfo_html"><div class="ttname"><a href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">dqmcpp::ECALChannels::ChannelInfo</a></div><div class="ttdoc">Static channel list structure Dumped from DQM a long long time ago ...</div><div class="ttdef"><b>Definition:</b> <a href="ECALChannels_8hh_source.html#l00023">ECALChannels.hh:23</a></div></div>
+<div class="ttc" id="aecalchannels__db_8hh_html"><div class="ttname"><a href="ecalchannels__db_8hh.html">ecalchannels_db.hh</a></div><div class="ttdoc">Channel database functions.</div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1ECALChannels_1_1ChannelsDB_html_a5d121c5b1b4f1920edb55d60012ed38f"><div class="ttname"><a href="namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html#a5d121c5b1b4f1920edb55d60012ed38f">dqmcpp::ECALChannels::ChannelsDB::find</a></div><div class="ttdeci">const ChannelInfo * find(const int ix_iphi, const int iy_ieta, const int iz)</div><div class="ttdoc">Find ECAL channel by coordinates.</div><div class="ttdef"><b>Definition:</b> <a href="ecalchannels__db_8cc_source.html#l00065">ecalchannels_db.cc:65</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

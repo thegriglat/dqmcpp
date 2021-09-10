@@ -70,44 +70,45 @@ $(function() {
 <div class="title">Gnuplot2D.cc</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Gnuplot2D.hh&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacedqmcpp.html">dqmcpp</a> {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>writers {</div>
+<a href="Gnuplot2D_8cc.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="Gnuplot2D_8hh.html">Gnuplot2D.hh</a>&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">using</span> colors::PaletteColor;</div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#a93454b301a516f65e341ca9c116e0f42">    9</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#a93454b301a516f65e341ca9c116e0f42">Gnuplot2D::setPalette</a>(<span class="keyword">const</span> Palette&amp; palette) {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;  _palette = palette;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;  std::sort(_palette.begin(), _palette.end(),</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            [](<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1colors_1_1PaletteColor.html">PaletteColor</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1colors_1_1PaletteColor.html">PaletteColor</a>&amp; b) {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;              return a.position &lt; b.position;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            });</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;}</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#af8b9a6313c4dca59c7747f02bd6fb117">   17</a></span>&#160;std::string <a class="code" href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#af8b9a6313c4dca59c7747f02bd6fb117">Gnuplot2D::palette_str</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  std::string s = <span class="stringliteral">&quot;(&quot;</span>;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; _palette.size(); ++i) {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">auto</span>&amp; e = _palette.at(i);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> palette_pos =</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <a class="code" href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#ab20afdf8f47e2044638679386cb426ff">getZ</a>().mind() + e.position * (<a class="code" href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#ab20afdf8f47e2044638679386cb426ff">getZ</a>().maxd() - <a class="code" href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#ab20afdf8f47e2044638679386cb426ff">getZ</a>().mind());</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    s += std::to_string(palette_pos) + <span class="stringliteral">&quot; \&quot;&quot;</span> + e.color + <span class="stringliteral">&quot;\&quot;&quot;</span>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">if</span> (i != _palette.size() - 1)</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;      s += <span class="stringliteral">&quot;, &quot;</span>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  }</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  s += <span class="stringliteral">&quot;)&quot;</span>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="keywordflow">return</span> s;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;}  <span class="comment">// namespace writers</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>dqmcpp {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span>writers {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">using</span> colors::PaletteColor;</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#a93454b301a516f65e341ca9c116e0f42">   14</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#a93454b301a516f65e341ca9c116e0f42">Gnuplot2D::setPalette</a>(<span class="keyword">const</span> Palette&amp; palette) {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  _palette = palette;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  std::sort(_palette.begin(), _palette.end(),</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            [](<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1colors_1_1PaletteColor.html">PaletteColor</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1colors_1_1PaletteColor.html">PaletteColor</a>&amp; b) {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;              return a.position &lt; b.position;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            });</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#af8b9a6313c4dca59c7747f02bd6fb117">   22</a></span>&#160;std::string <a class="code" href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#af8b9a6313c4dca59c7747f02bd6fb117">Gnuplot2D::palette_str</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  std::string s = <span class="stringliteral">&quot;(&quot;</span>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; _palette.size(); ++i) {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keyword">auto</span>&amp; e = _palette.at(i);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> palette_pos =</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <a class="code" href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#ab20afdf8f47e2044638679386cb426ff">getZ</a>().mind() + e.position * (<a class="code" href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#ab20afdf8f47e2044638679386cb426ff">getZ</a>().maxd() - <a class="code" href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#ab20afdf8f47e2044638679386cb426ff">getZ</a>().mind());</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    s += std::to_string(palette_pos) + <span class="stringliteral">&quot; \&quot;&quot;</span> + e.color + <span class="stringliteral">&quot;\&quot;&quot;</span>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordflow">if</span> (i != _palette.size() - 1)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;      s += <span class="stringliteral">&quot;, &quot;</span>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  }</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  s += <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="keywordflow">return</span> s;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}  <span class="comment">// namespace writers</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclassdqmcpp_1_1writers_1_1Gnuplot2D_html_af8b9a6313c4dca59c7747f02bd6fb117"><div class="ttname"><a href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#af8b9a6313c4dca59c7747f02bd6fb117">dqmcpp::writers::Gnuplot2D::palette_str</a></div><div class="ttdeci">std::string palette_str() const</div><div class="ttdoc">Get Palette gnuplot representation.</div><div class="ttdef"><b>Definition:</b> <a href="Gnuplot2D_8cc_source.html#l00017">Gnuplot2D.cc:17</a></div></div>
-<div class="ttc" id="anamespacedqmcpp_html"><div class="ttname"><a href="namespacedqmcpp.html">dqmcpp</a></div><div class="ttdoc">File contains list specific templates.</div><div class="ttdef"><b>Definition:</b> <a href="Colors_8cc_source.html#l00010">Colors.cc:10</a></div></div>
-<div class="ttc" id="astructdqmcpp_1_1colors_1_1PaletteColor_html"><div class="ttname"><a href="structdqmcpp_1_1colors_1_1PaletteColor.html">dqmcpp::colors::PaletteColor</a></div><div class="ttdoc">Palette struct. Position is relative to [0,1]. HEXColor is std::string.</div><div class="ttdef"><b>Definition:</b> <a href="Colors_8hh_source.html#l00018">Colors.hh:18</a></div></div>
-<div class="ttc" id="aclassdqmcpp_1_1writers_1_1Gnuplot2D_html_ab20afdf8f47e2044638679386cb426ff"><div class="ttname"><a href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#ab20afdf8f47e2044638679386cb426ff">dqmcpp::writers::Gnuplot2D::getZ</a></div><div class="ttdeci">Axis getZ() const</div><div class="ttdoc">Get Z axis.</div><div class="ttdef"><b>Definition:</b> <a href="Gnuplot2D_8hh_source.html#l00046">Gnuplot2D.hh:46</a></div></div>
-<div class="ttc" id="aclassdqmcpp_1_1writers_1_1Gnuplot2D_html_a93454b301a516f65e341ca9c116e0f42"><div class="ttname"><a href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#a93454b301a516f65e341ca9c116e0f42">dqmcpp::writers::Gnuplot2D::setPalette</a></div><div class="ttdeci">void setPalette(const Palette &amp;palette)</div><div class="ttdoc">Set the Palette object.</div><div class="ttdef"><b>Definition:</b> <a href="Gnuplot2D_8cc_source.html#l00009">Gnuplot2D.cc:9</a></div></div>
+<div class="ttc" id="aclassdqmcpp_1_1writers_1_1Gnuplot2D_html_af8b9a6313c4dca59c7747f02bd6fb117"><div class="ttname"><a href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#af8b9a6313c4dca59c7747f02bd6fb117">dqmcpp::writers::Gnuplot2D::palette_str</a></div><div class="ttdeci">std::string palette_str() const</div><div class="ttdoc">Get Palette gnuplot representation.</div><div class="ttdef"><b>Definition:</b> <a href="Gnuplot2D_8cc_source.html#l00022">Gnuplot2D.cc:22</a></div></div>
+<div class="ttc" id="aGnuplot2D_8hh_html"><div class="ttname"><a href="Gnuplot2D_8hh.html">Gnuplot2D.hh</a></div><div class="ttdoc">Base class for gnuplot output.</div></div>
+<div class="ttc" id="astructdqmcpp_1_1colors_1_1PaletteColor_html"><div class="ttname"><a href="structdqmcpp_1_1colors_1_1PaletteColor.html">dqmcpp::colors::PaletteColor</a></div><div class="ttdoc">Palette struct. Position is relative to [0,1]. HEXColor is std::string.</div><div class="ttdef"><b>Definition:</b> <a href="Colors_8hh_source.html#l00022">Colors.hh:22</a></div></div>
+<div class="ttc" id="aclassdqmcpp_1_1writers_1_1Gnuplot2D_html_ab20afdf8f47e2044638679386cb426ff"><div class="ttname"><a href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#ab20afdf8f47e2044638679386cb426ff">dqmcpp::writers::Gnuplot2D::getZ</a></div><div class="ttdeci">Axis getZ() const</div><div class="ttdoc">Get Z axis.</div><div class="ttdef"><b>Definition:</b> <a href="Gnuplot2D_8hh_source.html#l00052">Gnuplot2D.hh:52</a></div></div>
+<div class="ttc" id="aclassdqmcpp_1_1writers_1_1Gnuplot2D_html_a93454b301a516f65e341ca9c116e0f42"><div class="ttname"><a href="classdqmcpp_1_1writers_1_1Gnuplot2D.html#a93454b301a516f65e341ca9c116e0f42">dqmcpp::writers::Gnuplot2D::setPalette</a></div><div class="ttdeci">void setPalette(const Palette &amp;palette)</div><div class="ttdoc">Set the Palette object.</div><div class="ttdef"><b>Definition:</b> <a href="Gnuplot2D_8cc_source.html#l00014">Gnuplot2D.cc:14</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

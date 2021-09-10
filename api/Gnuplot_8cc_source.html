@@ -70,35 +70,36 @@ $(function() {
 <div class="title">Gnuplot.cc</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Gnuplot.hh&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>{</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;std::string dbl2str(<span class="keyword">const</span> <span class="keywordtype">double</span> d) {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;  std::ostringstream ss;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;  ss &lt;&lt; d;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;  <span class="keywordflow">return</span> ss.str();</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;}</div>
+<a href="Gnuplot_8cc.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="Gnuplot_8hh.html">Gnuplot.hh</a>&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;}  <span class="comment">// namespace</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacedqmcpp.html">dqmcpp</a> {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span>writers {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classdqmcpp_1_1writers_1_1Gnuplot.html#af0e7706ae7ab0627a4c347a2833b9660">   18</a></span>&#160;<a class="code" href="structdqmcpp_1_1writers_1_1Axis.html">Axis</a> <a class="code" href="classdqmcpp_1_1writers_1_1Gnuplot.html#af0e7706ae7ab0627a4c347a2833b9660">Gnuplot::axis</a>(<span class="keyword">const</span> <span class="keywordtype">double</span> min, <span class="keyword">const</span> <span class="keywordtype">double</span> max) {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <span class="keywordtype">double</span> _min = std::min(min, max);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keywordtype">double</span> _max = std::max(min, max);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keywordflow">return</span> {dbl2str(_min), dbl2str(_max)};</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;}</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}  <span class="comment">// namespace writers</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>{</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;std::string dbl2str(<span class="keyword">const</span> <span class="keywordtype">double</span> d) {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  std::ostringstream ss;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  ss &lt;&lt; d;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <span class="keywordflow">return</span> ss.str();</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;}</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}  <span class="comment">// namespace</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span>dqmcpp {</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1writers.html">   23</a></span>&#160;<span class="keyword">namespace </span>writers {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classdqmcpp_1_1writers_1_1Gnuplot.html#af0e7706ae7ab0627a4c347a2833b9660">   25</a></span>&#160;<a class="code" href="structdqmcpp_1_1writers_1_1Axis.html">Axis</a> <a class="code" href="classdqmcpp_1_1writers_1_1Gnuplot.html#af0e7706ae7ab0627a4c347a2833b9660">Gnuplot::axis</a>(<span class="keyword">const</span> <span class="keywordtype">double</span> min, <span class="keyword">const</span> <span class="keywordtype">double</span> max) {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="keywordtype">double</span> _min = std::min(min, max);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keywordtype">double</span> _max = std::max(min, max);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="keywordflow">return</span> {dbl2str(_min), dbl2str(_max)};</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;}  <span class="comment">// namespace writers</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclassdqmcpp_1_1writers_1_1Gnuplot_html_af0e7706ae7ab0627a4c347a2833b9660"><div class="ttname"><a href="classdqmcpp_1_1writers_1_1Gnuplot.html#af0e7706ae7ab0627a4c347a2833b9660">dqmcpp::writers::Gnuplot::axis</a></div><div class="ttdeci">Axis axis(const double min, const double max)</div><div class="ttdoc">Create Axis object from min and max values.</div><div class="ttdef"><b>Definition:</b> <a href="Gnuplot_8cc_source.html#l00018">Gnuplot.cc:18</a></div></div>
-<div class="ttc" id="astructdqmcpp_1_1writers_1_1Axis_html"><div class="ttname"><a href="structdqmcpp_1_1writers_1_1Axis.html">dqmcpp::writers::Axis</a></div><div class="ttdoc">Gnuplot axis class.</div><div class="ttdef"><b>Definition:</b> <a href="Gnuplot_8hh_source.html#l00012">Gnuplot.hh:12</a></div></div>
-<div class="ttc" id="anamespacedqmcpp_html"><div class="ttname"><a href="namespacedqmcpp.html">dqmcpp</a></div><div class="ttdoc">File contains list specific templates.</div><div class="ttdef"><b>Definition:</b> <a href="Colors_8cc_source.html#l00010">Colors.cc:10</a></div></div>
+<div class="ttc" id="aclassdqmcpp_1_1writers_1_1Gnuplot_html_af0e7706ae7ab0627a4c347a2833b9660"><div class="ttname"><a href="classdqmcpp_1_1writers_1_1Gnuplot.html#af0e7706ae7ab0627a4c347a2833b9660">dqmcpp::writers::Gnuplot::axis</a></div><div class="ttdeci">Axis axis(const double min, const double max)</div><div class="ttdoc">Create Axis object from min and max values.</div><div class="ttdef"><b>Definition:</b> <a href="Gnuplot_8cc_source.html#l00025">Gnuplot.cc:25</a></div></div>
+<div class="ttc" id="aGnuplot_8hh_html"><div class="ttname"><a href="Gnuplot_8hh.html">Gnuplot.hh</a></div><div class="ttdoc">Gnuplot, ... class.</div></div>
+<div class="ttc" id="astructdqmcpp_1_1writers_1_1Axis_html"><div class="ttname"><a href="structdqmcpp_1_1writers_1_1Axis.html">dqmcpp::writers::Axis</a></div><div class="ttdoc">Gnuplot axis class.</div><div class="ttdef"><b>Definition:</b> <a href="Gnuplot_8hh_source.html#l00022">Gnuplot.hh:22</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

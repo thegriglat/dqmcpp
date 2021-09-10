@@ -82,7 +82,7 @@ $(function() {
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#define DEFAULT_VALUE (0)</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacedqmcpp.html">dqmcpp</a> {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">namespace </span>dqmcpp {</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span>writers {</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;Gnuplot2DWriter::Gnuplot2DWriter(<span class="keyword">const</span> Data2D&amp; data) : _data(&amp;data) {</div>
@@ -111,8 +111,8 @@ $(function() {
 <div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classdqmcpp_1_1writers_1_1Gnuplot2DWriter.html#a68e897630b3a68c51deaa0ce70654c89">   43</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classdqmcpp_1_1writers_1_1Gnuplot2DWriter.html#a68e897630b3a68c51deaa0ce70654c89">Gnuplot2DWriter::addBox</a>(<span class="keyword">const</span> std::string&amp; xlabel,</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                             <span class="keyword">const</span> std::string&amp; ylabel,</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                             <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> pattern) {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> xbin = common::index(_xlabels, xlabel);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> ybin = common::index(_ylabels, ylabel);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> xbin = <a class="code" href="namespacedqmcpp_1_1common.html#ac7bf0aeec3b74c83a5c0a0de954e3816">common::index</a>(_xlabels, xlabel);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> ybin = <a class="code" href="namespacedqmcpp_1_1common.html#ac7bf0aeec3b74c83a5c0a0de954e3816">common::index</a>(_ylabels, ylabel);</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordflow">if</span> (xbin &lt; 0 || ybin &lt; 0)</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  boxes.emplace_back(xbin, ybin, pattern);</div>
@@ -134,7 +134,7 @@ $(function() {
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="comment">// prepare default map</span></div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordtype">double</span>* all = <span class="keyword">new</span> <span class="keywordtype">double</span>[gw.nrows() * gw.ncolumns()];</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keyword">auto</span> index = [&amp;gw](<span class="keyword">const</span> <span class="keywordtype">int</span> x, <span class="keyword">const</span> <span class="keywordtype">int</span> y) {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keyword">auto</span> <a class="code" href="namespacedqmcpp_1_1common.html#ac7bf0aeec3b74c83a5c0a0de954e3816">index</a> = [&amp;gw](<span class="keyword">const</span> <span class="keywordtype">int</span> x, <span class="keyword">const</span> <span class="keywordtype">int</span> y) {</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">return</span> gw.ncolumns() * x + y;</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  };</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; gw.ncolumns() * gw.nrows(); ++i) {</div>
@@ -144,9 +144,9 @@ $(function() {
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; xl = pair.first.first;</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; yl = pair.first.second;</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> value = pair.second;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> ix = common::index(gw._xlabels, xl);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> iy = common::index(gw._ylabels, yl);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    all[index(ix, iy)] = value;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> ix = <a class="code" href="namespacedqmcpp_1_1common.html#ac7bf0aeec3b74c83a5c0a0de954e3816">common::index</a>(gw._xlabels, xl);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> iy = <a class="code" href="namespacedqmcpp_1_1common.html#ac7bf0aeec3b74c83a5c0a0de954e3816">common::index</a>(gw._ylabels, yl);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    all[<a class="code" href="namespacedqmcpp_1_1common.html#ac7bf0aeec3b74c83a5c0a0de954e3816">index</a>(ix, iy)] = value;</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  }</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="comment">// print x labels</span></div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="comment">/*</span></div>
@@ -212,7 +212,7 @@ $(function() {
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span> ylabel = gw._ylabels.at(iy);</div>
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;      os &lt;&lt; <span class="stringliteral">&quot;\&quot;&quot;</span> &lt;&lt; ylabel &lt;&lt; <span class="stringliteral">&quot;\&quot; &quot;</span>;</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;      <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> ix = 0; ix &lt; gw.nrows(); ++ix) {</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        os &lt;&lt; all[index(ix, iy)] &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        os &lt;&lt; all[<a class="code" href="namespacedqmcpp_1_1common.html#ac7bf0aeec3b74c83a5c0a0de954e3816">index</a>(ix, iy)] &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
 <div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;      }</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;      os &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    }</div>
@@ -246,11 +246,11 @@ $(function() {
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;}  <span class="comment">// namespace writers</span></div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="anamespacedqmcpp_1_1common_html_ac7bf0aeec3b74c83a5c0a0de954e3816"><div class="ttname"><a href="namespacedqmcpp_1_1common.html#ac7bf0aeec3b74c83a5c0a0de954e3816">dqmcpp::common::index</a></div><div class="ttdeci">int index(Iterator begin, Iterator end, BinaryOp index_fn)</div><div class="ttdoc">Returns index of first matched element in list.</div><div class="ttdef"><b>Definition:</b> <a href="lists_8hh_source.html#l00030">lists.hh:30</a></div></div>
 <div class="ttc" id="aclassdqmcpp_1_1writers_1_1Gnuplot2DWriter_html_a68e897630b3a68c51deaa0ce70654c89"><div class="ttname"><a href="classdqmcpp_1_1writers_1_1Gnuplot2DWriter.html#a68e897630b3a68c51deaa0ce70654c89">dqmcpp::writers::Gnuplot2DWriter::addBox</a></div><div class="ttdeci">void addBox(const std::string &amp;xlabel, const std::string &amp;ylabel, const unsigned int pattern=5)</div><div class="ttdoc">Add box in cell [xlabel, ylabel] with draw 'pattern'.</div><div class="ttdef"><b>Definition:</b> <a href="Gnuplot2DWriter_8cc_source.html#l00043">Gnuplot2DWriter.cc:43</a></div></div>
 <div class="ttc" id="aGnuplot2DWriter_8hh_html"><div class="ttname"><a href="Gnuplot2DWriter_8hh.html">Gnuplot2DWriter.hh</a></div><div class="ttdoc">Output 2D histograms.</div></div>
 <div class="ttc" id="astructdqmcpp_1_1writers_1_1Gnuplot2DWriter_1_1Rectangle_html"><div class="ttname"><a href="structdqmcpp_1_1writers_1_1Gnuplot2DWriter_1_1Rectangle.html">dqmcpp::writers::Gnuplot2DWriter::Rectangle</a></div><div class="ttdoc">Class to draw rectangle on plot.</div><div class="ttdef"><b>Definition:</b> <a href="Gnuplot2DWriter_8hh_source.html#l00026">Gnuplot2DWriter.hh:26</a></div></div>
 <div class="ttc" id="aclassdqmcpp_1_1writers_1_1Gnuplot2DWriter_html_adac850d8c9c2955d39c96d29c3755f06"><div class="ttname"><a href="classdqmcpp_1_1writers_1_1Gnuplot2DWriter.html#adac850d8c9c2955d39c96d29c3755f06">dqmcpp::writers::Gnuplot2DWriter::setXlabels</a></div><div class="ttdeci">void setXlabels(const std::vector&lt; std::string &gt; &amp;xlabels)</div><div class="ttdoc">Explicitly set x labels vector.</div><div class="ttdef"><b>Definition:</b> <a href="Gnuplot2DWriter_8cc_source.html#l00173">Gnuplot2DWriter.cc:173</a></div></div>
-<div class="ttc" id="anamespacedqmcpp_html"><div class="ttname"><a href="namespacedqmcpp.html">dqmcpp</a></div><div class="ttdoc">File contains list specific templates.</div><div class="ttdef"><b>Definition:</b> <a href="Colors_8cc_source.html#l00010">Colors.cc:10</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

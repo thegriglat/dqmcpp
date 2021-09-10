@@ -70,104 +70,109 @@ $(function() {
 <div class="title">clusters.hh</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef COMMONCLUSTERS_HH</span></div>
+<a href="clusters_8hh.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef COMMONCLUSTERS_HH</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;array&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;functional.hh&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;lists.hh&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;math.hh&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>{</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> It, <span class="keyword">typename</span> BinaryOp&gt;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;std::vector&lt;std::array&lt;const typename It::value_type*, 2&gt;&gt;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;get_pairs(It begin, It end, <span class="keyword">const</span> <span class="keywordtype">double</span> maxdistance, BinaryOp distance_fn) {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  <span class="keyword">using</span> Ptr = <span class="keyword">const</span> <span class="keyword">typename</span> It::value_type*;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  std::vector&lt;std::array&lt;Ptr, 2&gt;&gt; points;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <span class="keywordflow">if</span> (std::distance(begin, end) == 0)</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordflow">return</span> points;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  Ptr first = &amp;(*begin);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> len = std::distance(begin, end);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span> i = 0; i &lt; len; ++i) {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    Ptr pi = first + i;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> j = i + 1; j &lt; len; ++j) {</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;      Ptr pj = first + j;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span> distance = distance_fn(*pi, *pj);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;      <span class="keywordflow">if</span> (distance &gt; maxdistance)</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;      points.push_back({pi, pj});</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    }</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  }</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <span class="keywordflow">return</span> points;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;std::vector&lt;std::vector&lt;T&gt;&gt; clusterize(</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    std::vector&lt;std::array&lt;const T*, 2&gt;&gt;&amp; pairs) {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  std::vector&lt;std::vector&lt;T&gt;&gt; clusters;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span> (pairs.size() == 0)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> clusters;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keyword">auto</span> pend = pairs.end();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">do</span> {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    std::vector&lt;const T*&gt; current_cluster = {pairs.at(0).at(0),</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                                             pairs.at(0).at(1)};</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = pairs.begin() + 1; it != pend; ++it) {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      <span class="keyword">const</span> T* p1 = it-&gt;at(0);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      <span class="keyword">const</span> T* p2 = it-&gt;at(1);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      <span class="keyword">auto</span> pos1 = std::find(current_cluster.begin(), current_cluster.end(), p1);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      <span class="keyword">auto</span> pos2 = std::find(current_cluster.begin(), current_cluster.end(), p2);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">bool</span> match1 = pos1 != current_cluster.end();</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">bool</span> match2 = pos2 != current_cluster.end();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordflow">if</span> (match1 || match2) {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="comment">// some of point connected with current cluster</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">if</span> (!match1) {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;          current_cluster.push_back(p1);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        }</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">if</span> (!match2) {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;          current_cluster.push_back(p2);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        }</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      }</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    }</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; p : current_cluster) {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      pend = std::remove_if(pairs.begin(), pend,</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                            [&amp;p](<span class="keyword">const</span> std::array&lt;const T*, 2&gt;&amp; pts) {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                              return pts.at(0) == p || pts.at(1) == p;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                            });</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    clusters.push_back(dqmcpp::common::map&lt;const T*, T&gt;(</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        current_cluster, [](<span class="keyword">const</span> T* e) -&gt; T { <span class="keywordflow">return</span> *e; }));</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  } <span class="keywordflow">while</span> (pairs.begin() != pend);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="keywordflow">return</span> clusters;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}  <span class="comment">// namespace</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacedqmcpp.html">dqmcpp</a> {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">namespace </span>common {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> It, <span class="keyword">typename</span> BinaryOp&gt;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;std::vector&lt;std::vector&lt;typename It::value_type&gt;&gt;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;clusters(It begin, It end, <span class="keyword">const</span> <span class="keywordtype">double</span> maxdistance, BinaryOp distance_fn) {</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <span class="keyword">auto</span> p = get_pairs(begin, end, maxdistance, distance_fn);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <span class="keywordflow">return</span> clusterize(p);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;}</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> BinaryOp&gt;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;std::vector&lt;std::vector&lt;T&gt;&gt; clusters(<span class="keyword">const</span> std::vector&lt;T&gt;&amp; data,</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                                     <span class="keyword">const</span> <span class="keywordtype">double</span> maxdistance,</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                                     BinaryOp distance_fn) {</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <span class="keywordflow">return</span> clusters(data.begin(), data.end(), maxdistance, distance_fn);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}  <span class="comment">// namespace common</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="preprocessor">#define COMMONCLUSTERS_HH</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;array&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="functional_8hh.html">functional.hh</a>&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="lists_8hh.html">lists.hh</a>&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="math_8hh.html">math.hh</a>&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span>{</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> It, <span class="keyword">typename</span> BinaryOp&gt;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;std::vector&lt;std::array&lt;const typename It::value_type*, 2&gt;&gt;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;get_pairs(It begin, It end, <span class="keyword">const</span> <span class="keywordtype">double</span> maxdistance, BinaryOp distance_fn) {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="keyword">using</span> Ptr = <span class="keyword">const</span> <span class="keyword">typename</span> It::value_type*;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  std::vector&lt;std::array&lt;Ptr, 2&gt;&gt; points;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <span class="keywordflow">if</span> (std::distance(begin, end) == 0)</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">return</span> points;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  Ptr first = &amp;(*begin);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> len = std::distance(begin, end);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span> i = 0; i &lt; len; ++i) {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    Ptr pi = first + i;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> j = i + 1; j &lt; len; ++j) {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;      Ptr pj = first + j;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;      <span class="keyword">const</span> <span class="keyword">auto</span> distance = distance_fn(*pi, *pj);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      <span class="keywordflow">if</span> (distance &gt; maxdistance)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      points.push_back({pi, pj});</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    }</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  }</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">return</span> points;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;std::vector&lt;std::vector&lt;T&gt;&gt; clusterize(</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    std::vector&lt;std::array&lt;const T*, 2&gt;&gt;&amp; pairs) {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  std::vector&lt;std::vector&lt;T&gt;&gt; <a class="code" href="namespacedqmcpp_1_1common.html#a023a9da2117a745aa1aed3239fa363c5">clusters</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span> (pairs.size() == 0)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="namespacedqmcpp_1_1common.html#a023a9da2117a745aa1aed3239fa363c5">clusters</a>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keyword">auto</span> pend = pairs.end();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">do</span> {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    std::vector&lt;const T*&gt; current_cluster = {pairs.at(0).at(0),</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                                             pairs.at(0).at(1)};</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = pairs.begin() + 1; it != pend; ++it) {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="keyword">const</span> T* p1 = it-&gt;at(0);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      <span class="keyword">const</span> T* p2 = it-&gt;at(1);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      <span class="keyword">auto</span> pos1 = <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a1a50f0959e175ad85bbe7f4c8db8b539">std::find</a>(current_cluster.begin(), current_cluster.end(), p1);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <span class="keyword">auto</span> pos2 = <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a1a50f0959e175ad85bbe7f4c8db8b539">std::find</a>(current_cluster.begin(), current_cluster.end(), p2);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">bool</span> match1 = pos1 != current_cluster.end();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">bool</span> match2 = pos2 != current_cluster.end();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      <span class="keywordflow">if</span> (match1 || match2) {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="comment">// some of point connected with current cluster</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordflow">if</span> (!match1) {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;          current_cluster.push_back(p1);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">if</span> (!match2) {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;          current_cluster.push_back(p2);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; p : current_cluster) {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      pend = std::remove_if(pairs.begin(), pend,</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                            [&amp;p](<span class="keyword">const</span> std::array&lt;const T*, 2&gt;&amp; pts) {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                              return pts.at(0) == p || pts.at(1) == p;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                            });</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="namespacedqmcpp_1_1common.html#a023a9da2117a745aa1aed3239fa363c5">clusters</a>.push_back(dqmcpp::common::map&lt;const T*, T&gt;(</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        current_cluster, [](<span class="keyword">const</span> T* e) -&gt; T { <span class="keywordflow">return</span> *e; }));</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  } <span class="keywordflow">while</span> (pairs.begin() != pend);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="namespacedqmcpp_1_1common.html#a023a9da2117a745aa1aed3239fa363c5">clusters</a>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;}  <span class="comment">// namespace</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="keyword">namespace </span>dqmcpp {</div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1common.html">   84</a></span>&#160;<span class="keyword">namespace </span>common {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> It, <span class="keyword">typename</span> BinaryOp&gt;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;std::vector&lt;std::vector&lt;typename It::value_type&gt;&gt;</div>
+<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1common.html#a8958f88825caa1fc86e79187b940466e">  100</a></span>&#160;<a class="code" href="namespacedqmcpp_1_1common.html#a8958f88825caa1fc86e79187b940466e">clusters</a>(It begin, It end, <span class="keyword">const</span> <span class="keywordtype">double</span> maxdistance, BinaryOp distance_fn) {</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  <span class="keyword">auto</span> p = get_pairs(begin, end, maxdistance, distance_fn);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  <span class="keywordflow">return</span> clusterize(p);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> BinaryOp&gt;</div>
+<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1common.html#a023a9da2117a745aa1aed3239fa363c5">  117</a></span>&#160;std::vector&lt;std::vector&lt;T&gt;&gt; <a class="code" href="namespacedqmcpp_1_1common.html#a8958f88825caa1fc86e79187b940466e">clusters</a>(<span class="keyword">const</span> std::vector&lt;T&gt;&amp; data,</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                                     <span class="keyword">const</span> <span class="keywordtype">double</span> maxdistance,</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                                     BinaryOp distance_fn) {</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="namespacedqmcpp_1_1common.html#a8958f88825caa1fc86e79187b940466e">clusters</a>(data.begin(), data.end(), maxdistance, distance_fn);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;}</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;}  <span class="comment">// namespace common</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="preprocessor">#define COMMONCLUSTERS_HH</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="anamespacedqmcpp_html"><div class="ttname"><a href="namespacedqmcpp.html">dqmcpp</a></div><div class="ttdoc">File contains list specific templates.</div><div class="ttdef"><b>Definition:</b> <a href="Colors_8cc_source.html#l00010">Colors.cc:10</a></div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1common_html_a023a9da2117a745aa1aed3239fa363c5"><div class="ttname"><a href="namespacedqmcpp_1_1common.html#a023a9da2117a745aa1aed3239fa363c5">dqmcpp::common::clusters</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; T &gt; &gt; clusters(const std::vector&lt; T &gt; &amp;data, const double maxdistance, BinaryOp distance_fn)</div><div class="ttdoc">Groups input vector to &quot;clusters&quot; based on distance between elements.</div><div class="ttdef"><b>Definition:</b> <a href="clusters_8hh_source.html#l00117">clusters.hh:117</a></div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1ECALChannels_html_a1a50f0959e175ad85bbe7f4c8db8b539"><div class="ttname"><a href="namespacedqmcpp_1_1ECALChannels.html#a1a50f0959e175ad85bbe7f4c8db8b539">dqmcpp::ECALChannels::find</a></div><div class="ttdeci">ECALChannelsList::const_iterator find(const ECAL::Channel &amp;c)</div><div class="ttdoc">Find first matching channel in database. Returns nullptr if not found.</div><div class="ttdef"><b>Definition:</b> <a href="ECALChannels_8cc_source.html#l00022">ECALChannels.cc:22</a></div></div>
+<div class="ttc" id="afunctional_8hh_html"><div class="ttname"><a href="functional_8hh.html">functional.hh</a></div><div class="ttdoc">C++ helpers for functional programming.</div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1common_html_a8958f88825caa1fc86e79187b940466e"><div class="ttname"><a href="namespacedqmcpp_1_1common.html#a8958f88825caa1fc86e79187b940466e">dqmcpp::common::clusters</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; typename It::value_type &gt; &gt; clusters(It begin, It end, const double maxdistance, BinaryOp distance_fn)</div><div class="ttdoc">Groups input vector to &quot;clusters&quot; based on distance between elements.</div><div class="ttdef"><b>Definition:</b> <a href="clusters_8hh_source.html#l00100">clusters.hh:100</a></div></div>
+<div class="ttc" id="alists_8hh_html"><div class="ttname"><a href="lists_8hh.html">lists.hh</a></div><div class="ttdoc">Operating with STL containers.</div></div>
+<div class="ttc" id="amath_8hh_html"><div class="ttname"><a href="math_8hh.html">math.hh</a></div><div class="ttdoc">Math templated functions.</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

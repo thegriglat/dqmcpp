@@ -1,0 +1,11 @@
+<map id="common/io.cc" name="common/io.cc">
+<area shape="rect" id="node1" title="I/O implementation." alt="" coords="121,5,234,32"/>
+<area shape="rect" id="node2" href="$io_8hh.html" title="I/O and OS functions." alt="" coords="9,80,63,107"/>
+<area shape="rect" id="node4" href="$string_8hh.html" title="String functions." alt="" coords="87,80,166,107"/>
+<area shape="rect" id="node8" title=" " alt="" coords="190,80,266,107"/>
+<area shape="rect" id="node9" title=" " alt="" coords="291,80,376,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,155,64,181"/>
+<area shape="rect" id="node5" title=" " alt="" coords="88,155,165,181"/>
+<area shape="rect" id="node6" title=" " alt="" coords="190,155,277,181"/>
+<area shape="rect" id="node7" title=" " alt="" coords="301,155,363,181"/>
+</map>

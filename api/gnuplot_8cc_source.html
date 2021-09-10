@@ -70,93 +70,101 @@ $(function() {
 <div class="title">gnuplot.cc</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;gnuplot.hh&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;../common/common.hh&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="common_8hh.html">common.hh</a>&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;pstream.h&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacedqmcpp.html">dqmcpp</a> {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span>common {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span>gnuplot {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;std::string exec(<span class="keyword">const</span> std::string&amp; content) {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  redi::pstream gnuplot(<span class="stringliteral">&quot;gnuplot&quot;</span>, redi::pstreams::pstdout |</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                                       redi::pstreams::pstdin |</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                                       redi::pstreams::pstderr);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  gnuplot &lt;&lt; content &lt;&lt; std::endl &lt;&lt; redi::peof;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  std::stringstream ss;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  ss &lt;&lt; gnuplot.err().rdbuf();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  gnuplot.close();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="keywordflow">return</span> ss.str();</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;};</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;Fit gauss(<span class="keywordtype">double</span> a, <span class="keywordtype">double</span> mu, <span class="keywordtype">double</span> sigma) {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">return</span> Fit(<span class="stringliteral">&quot;a/(sigma*sqrt(2.*pi))*exp(-(x-mu)**2./(2.*sigma**2))&quot;</span>,</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;             {FitParameter(<span class="stringliteral">&quot;a&quot;</span>, a), FitParameter(<span class="stringliteral">&quot;mu&quot;</span>, mu),</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;              FitParameter(<span class="stringliteral">&quot;sigma&quot;</span>, sigma)});</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;Fit fit(<span class="keyword">const</span> std::vector&lt;double&gt;&amp; x,</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keyword">const</span> std::vector&lt;double&gt;&amp; y,</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keyword">const</span> Fit&amp; fit) {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordflow">if</span> (x.size() != y.size()) {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    cerr &lt;&lt; <span class="stringliteral">&quot;fit: x and y values have different size !&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">return</span> fit;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  }</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  stringstream ss;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  ss &lt;&lt; <span class="stringliteral">&quot;$map1 &lt;&lt; EOD&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; x.size(); ++i) {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; xi = x.at(i);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; yi = y.at(i);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    ss &lt;&lt; xi &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; yi &lt;&lt; endl;</div>
+<a href="gnuplot_8cc.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="gnuplot_8hh.html">gnuplot.hh</a>&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;../common/common.hh&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="common_8hh.html">common.hh</a>&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;pstream.h&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">namespace </span>dqmcpp {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span>common {</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1common_1_1gnuplot.html">   19</a></span>&#160;<span class="keyword">namespace </span>gnuplot {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1common_1_1gnuplot.html#aab6162f2787e2094922b293433a3171b">   27</a></span>&#160;std::string <a class="code" href="namespacedqmcpp_1_1common_1_1gnuplot.html#aab6162f2787e2094922b293433a3171b">exec</a>(<span class="keyword">const</span> std::string&amp; content) {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  redi::pstream gnuplot(<span class="stringliteral">&quot;gnuplot&quot;</span>, redi::pstreams::pstdout |</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                                       redi::pstreams::pstdin |</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                                       redi::pstreams::pstderr);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  gnuplot &lt;&lt; content &lt;&lt; std::endl &lt;&lt; redi::peof;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  std::stringstream ss;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  ss &lt;&lt; gnuplot.err().rdbuf();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  gnuplot.close();</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="keywordflow">return</span> ss.str();</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;};</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1common_1_1gnuplot.html#a293e76eb2384d5a666b0a18bc21c168c">   47</a></span>&#160;<a class="code" href="structdqmcpp_1_1common_1_1gnuplot_1_1Fit.html">Fit</a> <a class="code" href="namespacedqmcpp_1_1common_1_1gnuplot.html#a293e76eb2384d5a666b0a18bc21c168c">gauss</a>(<span class="keywordtype">double</span> a, <span class="keywordtype">double</span> mu, <span class="keywordtype">double</span> sigma) {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="structdqmcpp_1_1common_1_1gnuplot_1_1Fit.html">Fit</a>(<span class="stringliteral">&quot;a/(sigma*sqrt(2.*pi))*exp(-(x-mu)**2./(2.*sigma**2))&quot;</span>,</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;             {<a class="code" href="structdqmcpp_1_1common_1_1gnuplot_1_1FitParameter.html">FitParameter</a>(<span class="stringliteral">&quot;a&quot;</span>, a), <a class="code" href="structdqmcpp_1_1common_1_1gnuplot_1_1FitParameter.html">FitParameter</a>(<span class="stringliteral">&quot;mu&quot;</span>, mu),</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;              <a class="code" href="structdqmcpp_1_1common_1_1gnuplot_1_1FitParameter.html">FitParameter</a>(<span class="stringliteral">&quot;sigma&quot;</span>, sigma)});</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1common_1_1gnuplot.html#afaf72b8b0fc7b945e4f708b61c671331">   61</a></span>&#160;<a class="code" href="structdqmcpp_1_1common_1_1gnuplot_1_1Fit.html">Fit</a> <a class="code" href="namespacedqmcpp_1_1common_1_1gnuplot.html#afaf72b8b0fc7b945e4f708b61c671331">fit</a>(<span class="keyword">const</span> std::vector&lt;double&gt;&amp; x,</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keyword">const</span> std::vector&lt;double&gt;&amp; y,</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1common_1_1gnuplot_1_1Fit.html">Fit</a>&amp; <a class="code" href="namespacedqmcpp_1_1common_1_1gnuplot.html#afaf72b8b0fc7b945e4f708b61c671331">fit</a>) {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordflow">if</span> (x.size() != y.size()) {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    cerr &lt;&lt; <span class="stringliteral">&quot;fit: x and y values have different size !&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="namespacedqmcpp_1_1common_1_1gnuplot.html#afaf72b8b0fc7b945e4f708b61c671331">fit</a>;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  ss &lt;&lt; <span class="stringliteral">&quot;EOD&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  ss &lt;&lt; <span class="stringliteral">&quot;set fit quiet&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  ss &lt;&lt; <span class="stringliteral">&quot;set fit logfile &#39;/dev/null&#39;&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  ss &lt;&lt; <span class="stringliteral">&quot;f(x) = &quot;</span> &lt;&lt; fit.equation &lt;&lt; endl;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  vector&lt;string&gt; paramnames;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; param : fit.parameters) {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    ss &lt;&lt; param.name &lt;&lt; <span class="stringliteral">&quot; = &quot;</span> &lt;&lt; param.value &lt;&lt; endl;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    paramnames.push_back(param.name);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  ss &lt;&lt; <span class="stringliteral">&quot;fit f(x) &#39;$map1&#39; using 1:2 via &quot;</span> &lt;&lt; common::join(paramnames, <span class="stringliteral">&quot;,&quot;</span>)</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;     &lt;&lt; endl;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  ss &lt;&lt; <span class="stringliteral">&quot;print &quot;</span> &lt;&lt; common::join(paramnames, <span class="stringliteral">&quot;,&quot;</span>) &lt;&lt; endl;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="comment">// fit [-6:6] gauss(x) &#39;$map1&#39; using (column(0)/2 - 25):(($1 != 0)?$1 : 1/0)</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  <span class="comment">// via a, sigma, mu</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> script = ss.str();</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> gnuplotOutput = exec(script);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  <span class="comment">// new fit to be returned</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  Fit newFit(fit);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keyword">auto</span> values = common::split(gnuplotOutput);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; newFit.parameters.size(); ++i) {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    newFit.parameters.at(i).value = std::atof(values.at(i).c_str());</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  }</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  <span class="keywordflow">return</span> newFit;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="structdqmcpp_1_1common_1_1gnuplot_1_1Fit.html#ae272eb18306072424a05939bccf87108">  100</a></span>&#160;<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1common_1_1gnuplot_1_1FitParameter.html">FitParameter</a>&amp; <a class="code" href="structdqmcpp_1_1common_1_1gnuplot_1_1Fit.html#ae272eb18306072424a05939bccf87108">Fit::getParameter</a>(<span class="keyword">const</span> std::string&amp; name)<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  <span class="keyword">auto</span> idx = dqmcpp::common::index(</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      parameters, [&amp;name](<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1common_1_1gnuplot_1_1FitParameter.html">FitParameter</a>&amp; e) { <span class="keywordflow">return</span> e.name == name; });</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  <span class="keywordflow">if</span> (idx &gt;= 0)</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">return</span> parameters.at(idx);</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  <span class="keywordflow">throw</span> <span class="stringliteral">&quot;Cannot find fit parameter with name &quot;</span> + name;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;}</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;}  <span class="comment">// namespace gnuplot</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}  <span class="comment">// namespace common</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  stringstream ss;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  ss &lt;&lt; <span class="stringliteral">&quot;$map1 &lt;&lt; EOD&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; x.size(); ++i) {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; xi = x.at(i);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; yi = y.at(i);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    ss &lt;&lt; xi &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; yi &lt;&lt; endl;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  ss &lt;&lt; <span class="stringliteral">&quot;EOD&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  ss &lt;&lt; <span class="stringliteral">&quot;set fit quiet&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  ss &lt;&lt; <span class="stringliteral">&quot;set fit logfile &#39;/dev/null&#39;&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  ss &lt;&lt; <span class="stringliteral">&quot;f(x) = &quot;</span> &lt;&lt; <a class="code" href="namespacedqmcpp_1_1common_1_1gnuplot.html#afaf72b8b0fc7b945e4f708b61c671331">fit</a>.equation &lt;&lt; endl;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  vector&lt;string&gt; paramnames;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; param : <a class="code" href="namespacedqmcpp_1_1common_1_1gnuplot.html#afaf72b8b0fc7b945e4f708b61c671331">fit</a>.parameters) {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    ss &lt;&lt; param.name &lt;&lt; <span class="stringliteral">&quot; = &quot;</span> &lt;&lt; param.value &lt;&lt; endl;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    paramnames.push_back(param.name);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  }</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  ss &lt;&lt; <span class="stringliteral">&quot;fit f(x) &#39;$map1&#39; using 1:2 via &quot;</span> &lt;&lt; <a class="code" href="namespacedqmcpp_1_1common.html#a946810112cf0f652474dcb7717137f6d">common::join</a>(paramnames, <span class="stringliteral">&quot;,&quot;</span>)</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;     &lt;&lt; endl;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  ss &lt;&lt; <span class="stringliteral">&quot;print &quot;</span> &lt;&lt; <a class="code" href="namespacedqmcpp_1_1common.html#a946810112cf0f652474dcb7717137f6d">common::join</a>(paramnames, <span class="stringliteral">&quot;,&quot;</span>) &lt;&lt; endl;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  <span class="comment">// fit [-6:6] gauss(x) &#39;$map1&#39; using (column(0)/2 - 25):(($1 != 0)?$1 : 1/0)</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  <span class="comment">// via a, sigma, mu</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> script = ss.str();</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> gnuplotOutput = <a class="code" href="namespacedqmcpp_1_1common_1_1gnuplot.html#aab6162f2787e2094922b293433a3171b">exec</a>(script);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <span class="comment">// new fit to be returned</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <a class="code" href="structdqmcpp_1_1common_1_1gnuplot_1_1Fit.html">Fit</a> newFit(<a class="code" href="namespacedqmcpp_1_1common_1_1gnuplot.html#afaf72b8b0fc7b945e4f708b61c671331">fit</a>);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <span class="keyword">auto</span> values = <a class="code" href="namespacedqmcpp_1_1common.html#a985ed2c82a029d3c14379eb2d3ef418f">common::split</a>(gnuplotOutput);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; newFit.parameters.size(); ++i) {</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    newFit.parameters.at(i).value = std::atof(values.at(i).c_str());</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  }</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  <span class="keywordflow">return</span> newFit;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;}</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="structdqmcpp_1_1common_1_1gnuplot_1_1Fit.html#ae272eb18306072424a05939bccf87108">  107</a></span>&#160;<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1common_1_1gnuplot_1_1FitParameter.html">FitParameter</a>&amp; <a class="code" href="structdqmcpp_1_1common_1_1gnuplot_1_1Fit.html#ae272eb18306072424a05939bccf87108">Fit::getParameter</a>(<span class="keyword">const</span> std::string&amp; name)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  <span class="keyword">auto</span> idx = <a class="code" href="namespacedqmcpp_1_1common.html#ac7bf0aeec3b74c83a5c0a0de954e3816">dqmcpp::common::index</a>(</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      parameters, [&amp;name](<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1common_1_1gnuplot_1_1FitParameter.html">FitParameter</a>&amp; e) { <span class="keywordflow">return</span> e.name == name; });</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  <span class="keywordflow">if</span> (idx &gt;= 0)</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">return</span> parameters.at(idx);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <span class="keywordflow">throw</span> <span class="stringliteral">&quot;Cannot find fit parameter with name &quot;</span> + name;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}  <span class="comment">// namespace gnuplot</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}  <span class="comment">// namespace common</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="anamespacedqmcpp_1_1common_html_ac7bf0aeec3b74c83a5c0a0de954e3816"><div class="ttname"><a href="namespacedqmcpp_1_1common.html#ac7bf0aeec3b74c83a5c0a0de954e3816">dqmcpp::common::index</a></div><div class="ttdeci">int index(Iterator begin, Iterator end, BinaryOp index_fn)</div><div class="ttdoc">Returns index of first matched element in list.</div><div class="ttdef"><b>Definition:</b> <a href="lists_8hh_source.html#l00030">lists.hh:30</a></div></div>
 <div class="ttc" id="acommon_8hh_html"><div class="ttname"><a href="common_8hh.html">common.hh</a></div><div class="ttdoc">Common functions, aggregation header for all.</div></div>
-<div class="ttc" id="astructdqmcpp_1_1common_1_1gnuplot_1_1FitParameter_html"><div class="ttname"><a href="structdqmcpp_1_1common_1_1gnuplot_1_1FitParameter.html">dqmcpp::common::gnuplot::FitParameter</a></div><div class="ttdoc">Struct to keep fit parameter, name and value.</div><div class="ttdef"><b>Definition:</b> <a href="gnuplot_8hh_source.html#l00031">gnuplot.hh:31</a></div></div>
-<div class="ttc" id="astructdqmcpp_1_1common_1_1gnuplot_1_1Fit_html_ae272eb18306072424a05939bccf87108"><div class="ttname"><a href="structdqmcpp_1_1common_1_1gnuplot_1_1Fit.html#ae272eb18306072424a05939bccf87108">dqmcpp::common::gnuplot::Fit::getParameter</a></div><div class="ttdeci">const FitParameter &amp; getParameter(const std::string &amp;name) const</div><div class="ttdoc">Retrieve fitted parameters after fit()</div><div class="ttdef"><b>Definition:</b> <a href="gnuplot_8cc_source.html#l00100">gnuplot.cc:100</a></div></div>
-<div class="ttc" id="anamespacedqmcpp_html"><div class="ttname"><a href="namespacedqmcpp.html">dqmcpp</a></div><div class="ttdoc">File contains list specific templates.</div><div class="ttdef"><b>Definition:</b> <a href="Colors_8cc_source.html#l00010">Colors.cc:10</a></div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1common_1_1gnuplot_html_a293e76eb2384d5a666b0a18bc21c168c"><div class="ttname"><a href="namespacedqmcpp_1_1common_1_1gnuplot.html#a293e76eb2384d5a666b0a18bc21c168c">dqmcpp::common::gnuplot::gauss</a></div><div class="ttdeci">Fit gauss(double a, double mu, double sigma)</div><div class="ttdoc">Returns gauss fit function for gnuplot.</div><div class="ttdef"><b>Definition:</b> <a href="gnuplot_8cc_source.html#l00047">gnuplot.cc:47</a></div></div>
+<div class="ttc" id="agnuplot_8hh_html"><div class="ttname"><a href="gnuplot_8hh.html">gnuplot.hh</a></div><div class="ttdoc">Gnuplot functions.</div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1common_1_1gnuplot_html_aab6162f2787e2094922b293433a3171b"><div class="ttname"><a href="namespacedqmcpp_1_1common_1_1gnuplot.html#aab6162f2787e2094922b293433a3171b">dqmcpp::common::gnuplot::exec</a></div><div class="ttdeci">std::string exec(const std::string &amp;content)</div><div class="ttdoc">Execute gnuplot instructions.</div><div class="ttdef"><b>Definition:</b> <a href="gnuplot_8cc_source.html#l00027">gnuplot.cc:27</a></div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1common_html_a946810112cf0f652474dcb7717137f6d"><div class="ttname"><a href="namespacedqmcpp_1_1common.html#a946810112cf0f652474dcb7717137f6d">dqmcpp::common::join</a></div><div class="ttdeci">std::string join(const std::vector&lt; std::string &gt; &amp;list, const std::string &amp;delimiter)</div><div class="ttdoc">Join vector of strings with delimiter.</div><div class="ttdef"><b>Definition:</b> <a href="string_8cc_source.html#l00030">string.cc:30</a></div></div>
+<div class="ttc" id="astructdqmcpp_1_1common_1_1gnuplot_1_1FitParameter_html"><div class="ttname"><a href="structdqmcpp_1_1common_1_1gnuplot_1_1FitParameter.html">dqmcpp::common::gnuplot::FitParameter</a></div><div class="ttdoc">Struct to keep fit parameter, name and value.</div><div class="ttdef"><b>Definition:</b> <a href="gnuplot_8hh_source.html#l00041">gnuplot.hh:41</a></div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1common_html_a985ed2c82a029d3c14379eb2d3ef418f"><div class="ttname"><a href="namespacedqmcpp_1_1common.html#a985ed2c82a029d3c14379eb2d3ef418f">dqmcpp::common::split</a></div><div class="ttdeci">std::vector&lt; std::string &gt; split(const std::string &amp;str, const std::string &amp;delimiter)</div><div class="ttdoc">Split std::string by delimiter.</div><div class="ttdef"><b>Definition:</b> <a href="string_8cc_source.html#l00014">string.cc:14</a></div></div>
+<div class="ttc" id="astructdqmcpp_1_1common_1_1gnuplot_1_1Fit_html_ae272eb18306072424a05939bccf87108"><div class="ttname"><a href="structdqmcpp_1_1common_1_1gnuplot_1_1Fit.html#ae272eb18306072424a05939bccf87108">dqmcpp::common::gnuplot::Fit::getParameter</a></div><div class="ttdeci">const FitParameter &amp; getParameter(const std::string &amp;name) const</div><div class="ttdoc">Retrieve fitted parameters after fit()</div><div class="ttdef"><b>Definition:</b> <a href="gnuplot_8cc_source.html#l00107">gnuplot.cc:107</a></div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1common_1_1gnuplot_html_afaf72b8b0fc7b945e4f708b61c671331"><div class="ttname"><a href="namespacedqmcpp_1_1common_1_1gnuplot.html#afaf72b8b0fc7b945e4f708b61c671331">dqmcpp::common::gnuplot::fit</a></div><div class="ttdeci">Fit fit(const std::vector&lt; double &gt; &amp;x, const std::vector&lt; double &gt; &amp;y, const Fit &amp;fit)</div><div class="ttdoc">Fit [x,y] points with provided fit function.</div><div class="ttdef"><b>Definition:</b> <a href="gnuplot_8cc_source.html#l00061">gnuplot.cc:61</a></div></div>
+<div class="ttc" id="astructdqmcpp_1_1common_1_1gnuplot_1_1Fit_html"><div class="ttname"><a href="structdqmcpp_1_1common_1_1gnuplot_1_1Fit.html">dqmcpp::common::gnuplot::Fit</a></div><div class="ttdoc">Class to match equation and FitParameter. It's used as input object for fitting.</div><div class="ttdef"><b>Definition:</b> <a href="gnuplot_8hh_source.html#l00055">gnuplot.hh:55</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

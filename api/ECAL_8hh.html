@@ -118,8 +118,8 @@ This graph shows which files directly or indirectly include this file:</div>
 <area shape="rect" href="findDataset_8cc.html" title="Find and output Offline DQM dataset for given list of runs." alt="" coords="891,162,1026,189"/>
 <area shape="rect" href="onlineRuns_8cc.html" title="Get run numbers from online DQM." alt="" coords="1051,162,1181,189"/>
 <area shape="rect" href="ECALChannels_8cc.html" title="ECAL channels database functions." alt="" coords="1243,251,1466,278"/>
-<area shape="rect" href="ecalchannels__db_8hh_source.html" title=" " alt="" coords="1393,155,1589,196"/>
-<area shape="rect" href="ecalchannels__db_8cc_source.html" title=" " alt="" coords="1490,244,1686,285"/>
+<area shape="rect" href="ecalchannels__db_8hh.html" title="Channel database functions." alt="" coords="1393,155,1589,196"/>
+<area shape="rect" href="ecalchannels__db_8cc.html" title=" " alt="" coords="1490,244,1686,285"/>
 <area shape="rect" href="GnuplotECALWriter_8cc.html" title="GnuplotECALWriter implementation." alt="" coords="1613,162,1824,189"/>
 </map>
 </div>
@@ -135,7 +135,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Two-dimensional point.  <a href="structdqmcpp_1_1ECAL_1_1Point2D.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdqmcpp_1_1ECAL_1_1Channel.html">dqmcpp::ECAL::Channel</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">ECAL <a class="el" href="structdqmcpp_1_1ECAL_1_1Channel.html" title="ECAL Channel struct.">Channel</a> struct.  <a href="structdqmcpp_1_1ECAL_1_1Channel.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespacedqmcpp_1_1ECAL.html" title="Namespace for ECAL specific data types.">ECAL</a> <a class="el" href="structdqmcpp_1_1ECAL_1_1Channel.html" title="ECAL Channel struct.">Channel</a> struct.  <a href="structdqmcpp_1_1ECAL_1_1Channel.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdqmcpp_1_1ECAL_1_1TT.html">dqmcpp::ECAL::TT</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structdqmcpp_1_1ECAL_1_1TT.html" title="TT class.">TT</a> class.  <a href="structdqmcpp_1_1ECAL_1_1TT.html#details">More...</a><br /></td></tr>
@@ -158,8 +158,8 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:namespacedqmcpp"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedqmcpp.html">dqmcpp</a></td></tr>
-<tr class="memdesc:namespacedqmcpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">File contains list specific templates. <br /></td></tr>
+<tr class="memitem:namespacedqmcpp_1_1ECAL"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedqmcpp_1_1ECAL.html">dqmcpp::ECAL</a></td></tr>
+<tr class="memdesc:namespacedqmcpp_1_1ECAL"><td class="mdescLeft">&#160;</td><td class="mdescRight">Namespace for <a class="el" href="namespacedqmcpp_1_1ECAL.html" title="Namespace for ECAL specific data types.">ECAL</a> specific data types. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -210,20 +210,20 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ac171899862a90daf497cb9515ba49e2e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; RunTTData &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ECAL_8hh.html#ac171899862a90daf497cb9515ba49e2e">dqmcpp::ECAL::filterZeroTT</a> (std::vector&lt; RunTTData &gt; &amp;rundata)</td></tr>
-<tr class="memdesc:ac171899862a90daf497cb9515ba49e2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes <a class="el" href="structdqmcpp_1_1ECAL_1_1TT.html" title="TT class.">TT</a> with all values == 0.  <a href="ECAL_8hh.html#ac171899862a90daf497cb9515ba49e2e">More...</a><br /></td></tr>
+<tr class="memitem:ac171899862a90daf497cb9515ba49e2e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; RunTTData &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedqmcpp_1_1ECAL.html#ac171899862a90daf497cb9515ba49e2e">dqmcpp::ECAL::filterZeroTT</a> (std::vector&lt; RunTTData &gt; &amp;rundata)</td></tr>
+<tr class="memdesc:ac171899862a90daf497cb9515ba49e2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes <a class="el" href="structdqmcpp_1_1ECAL_1_1TT.html" title="TT class.">TT</a> with all values == 0.  <a href="namespacedqmcpp_1_1ECAL.html#ac171899862a90daf497cb9515ba49e2e">More...</a><br /></td></tr>
 <tr class="separator:ac171899862a90daf497cb9515ba49e2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbdeb997703b90d065decdda431328a2"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">TTData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ECAL_8cc.html#acbdeb997703b90d065decdda431328a2">dqmcpp::ECAL::channel2TT</a> (const std::vector&lt; ECAL::ChannelData &gt; &amp;channelData)</td></tr>
-<tr class="memdesc:acbdeb997703b90d065decdda431328a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convects list of channels to list of <a class="el" href="structdqmcpp_1_1ECAL_1_1TT.html" title="TT class.">TT</a>.  <a href="ECAL_8cc.html#acbdeb997703b90d065decdda431328a2">More...</a><br /></td></tr>
+<tr class="memitem:acbdeb997703b90d065decdda431328a2"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">TTData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedqmcpp_1_1ECAL.html#acbdeb997703b90d065decdda431328a2">dqmcpp::ECAL::channel2TT</a> (const std::vector&lt; ECAL::ChannelData &gt; &amp;channelData)</td></tr>
+<tr class="memdesc:acbdeb997703b90d065decdda431328a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convects list of channels to list of <a class="el" href="structdqmcpp_1_1ECAL_1_1TT.html" title="TT class.">TT</a>.  <a href="namespacedqmcpp_1_1ECAL.html#acbdeb997703b90d065decdda431328a2">More...</a><br /></td></tr>
 <tr class="separator:acbdeb997703b90d065decdda431328a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51fafee02962f137b18d52368912a9b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ECAL_8cc.html#a51fafee02962f137b18d52368912a9b8">dqmcpp::ECAL::Point2D2Channel</a> (const <a class="el" href="structdqmcpp_1_1ECAL_1_1Point2D.html">Point2D</a> &amp;p, const int iz)</td></tr>
-<tr class="memdesc:a51fafee02962f137b18d52368912a9b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts <a class="el" href="structdqmcpp_1_1ECAL_1_1Point2D.html" title="Two-dimensional point.">Point2D</a> to channel with given iz.  <a href="ECAL_8cc.html#a51fafee02962f137b18d52368912a9b8">More...</a><br /></td></tr>
+<tr class="memitem:a51fafee02962f137b18d52368912a9b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedqmcpp_1_1ECAL.html#a51fafee02962f137b18d52368912a9b8">dqmcpp::ECAL::Point2D2Channel</a> (const <a class="el" href="structdqmcpp_1_1ECAL_1_1Point2D.html">Point2D</a> &amp;p, const int iz)</td></tr>
+<tr class="memdesc:a51fafee02962f137b18d52368912a9b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts <a class="el" href="structdqmcpp_1_1ECAL_1_1Point2D.html" title="Two-dimensional point.">Point2D</a> to channel with given iz.  <a href="namespacedqmcpp_1_1ECAL.html#a51fafee02962f137b18d52368912a9b8">More...</a><br /></td></tr>
 <tr class="separator:a51fafee02962f137b18d52368912a9b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac3fb18a1e1231aa345e7d5b68650cbb7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">ChannelData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ECAL_8cc.html#ac3fb18a1e1231aa345e7d5b68650cbb7">dqmcpp::ECAL::Data2D2Channel</a> (const <a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">Data2D</a> &amp;d2d, const int iz=0)</td></tr>
-<tr class="memdesc:ac3fb18a1e1231aa345e7d5b68650cbb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts Data2D to channel with given iz.  <a href="ECAL_8cc.html#ac3fb18a1e1231aa345e7d5b68650cbb7">More...</a><br /></td></tr>
+<tr class="memitem:ac3fb18a1e1231aa345e7d5b68650cbb7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">ChannelData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedqmcpp_1_1ECAL.html#ac3fb18a1e1231aa345e7d5b68650cbb7">dqmcpp::ECAL::Data2D2Channel</a> (const <a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">Data2D</a> &amp;d2d, const int iz=0)</td></tr>
+<tr class="memdesc:ac3fb18a1e1231aa345e7d5b68650cbb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts Data2D to channel with given iz.  <a href="namespacedqmcpp_1_1ECAL.html#ac3fb18a1e1231aa345e7d5b68650cbb7">More...</a><br /></td></tr>
 <tr class="separator:ac3fb18a1e1231aa345e7d5b68650cbb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a674b3d82620a22e78961886889c2ec"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">ChannelData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ECAL_8cc.html#a3a674b3d82620a22e78961886889c2ec">dqmcpp::ECAL::Data2D2ChannelData</a> (const std::vector&lt; <a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">Data2D</a> &gt; &amp;d2d, const int iz=0)</td></tr>
-<tr class="memdesc:a3a674b3d82620a22e78961886889c2ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data2D to channelData.  <a href="ECAL_8cc.html#a3a674b3d82620a22e78961886889c2ec">More...</a><br /></td></tr>
+<tr class="memitem:a3a674b3d82620a22e78961886889c2ec"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">ChannelData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacedqmcpp_1_1ECAL.html#a3a674b3d82620a22e78961886889c2ec">dqmcpp::ECAL::Data2D2ChannelData</a> (const std::vector&lt; <a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">Data2D</a> &gt; &amp;d2d, const int iz=0)</td></tr>
+<tr class="memdesc:a3a674b3d82620a22e78961886889c2ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data2D to channelData.  <a href="namespacedqmcpp_1_1ECAL.html#a3a674b3d82620a22e78961886889c2ec">More...</a><br /></td></tr>
 <tr class="separator:a3a674b3d82620a22e78961886889c2ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
@@ -243,184 +243,7 @@ constexpr unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>dqm
 <dl class="section author"><dt>Author</dt><dd>Grigory Latyshev (<a href="#" onclick="location.href='mai'+'lto:'+'the'+'gr'+'igl'+'at'+'@gm'+'ai'+'l.c'+'om'; return false;">thegr<span style="display: none;">.nosp@m.</span>igla<span style="display: none;">.nosp@m.</span>t@gma<span style="display: none;">.nosp@m.</span>il.c<span style="display: none;">.nosp@m.</span>om</a>) </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="ECAL_8hh_source.html">ECAL.hh</a>.</p>
-</div><h2 class="groupheader">Function Documentation</h2>
-<a id="acbdeb997703b90d065decdda431328a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acbdeb997703b90d065decdda431328a2">&#9670;&nbsp;</a></span>channel2TT()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">TTData</a> &gt; dqmcpp::ECAL::channel2TT </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">ECAL::ChannelData</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>channelData</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Convects list of channels to list of TT. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">channelData</td><td>ECAL::ChannelData input vector </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;TTData&gt; </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="ECAL_8cc_source.html#l00048">48</a> of file <a class="el" href="ECAL_8cc_source.html">ECAL.cc</a>.</p>
-
-</div>
-</div>
-<a id="ac3fb18a1e1231aa345e7d5b68650cbb7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3fb18a1e1231aa345e7d5b68650cbb7">&#9670;&nbsp;</a></span>Data2D2Channel()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">ChannelData</a> dqmcpp::ECAL::Data2D2Channel </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">Data2D</a> &amp;&#160;</td>
-          <td class="paramname"><em>d2d</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>iz</em> = <code>0</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Converts Data2D to channel with given iz. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">d2d</td><td>Data2D input </td></tr>
-    <tr><td class="paramname">iz</td><td>(0, +1, -1) for (EB, EE+, EE-) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>ChannelData </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="ECAL_8cc_source.html#l00116">116</a> of file <a class="el" href="ECAL_8cc_source.html">ECAL.cc</a>.</p>
-
-</div>
-</div>
-<a id="a3a674b3d82620a22e78961886889c2ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a674b3d82620a22e78961886889c2ec">&#9670;&nbsp;</a></span>Data2D2ChannelData()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">ChannelData</a> &gt; dqmcpp::ECAL::Data2D2ChannelData </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="structdqmcpp_1_1ECAL_1_1Data.html">Data2D</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>d2d</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>iz</em> = <code>0</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Data2D to channelData. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">d2d</td><td>Data2D input vector </td></tr>
-    <tr><td class="paramname">iz</td><td>(0, +1, -1) for (EB, EE+, EE-) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;ChannelData&gt; </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="ECAL_8cc_source.html#l00120">120</a> of file <a class="el" href="ECAL_8cc_source.html">ECAL.cc</a>.</p>
-
-</div>
-</div>
-<a id="ac171899862a90daf497cb9515ba49e2e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac171899862a90daf497cb9515ba49e2e">&#9670;&nbsp;</a></span>filterZeroTT()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;RunTTData&gt; dqmcpp::ECAL::filterZeroTT </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="structdqmcpp_1_1ECAL_1_1RunData.html">RunTTData</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>rundata</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Removes TT with all values == 0. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">rundata</td><td>RunTTData input vector </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;RunTTData&gt; </dd></dl>
-
-</div>
-</div>
-<a id="a51fafee02962f137b18d52368912a9b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a51fafee02962f137b18d52368912a9b8">&#9670;&nbsp;</a></span>Point2D2Channel()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a> dqmcpp::ECAL::Point2D2Channel </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structdqmcpp_1_1ECAL_1_1Point2D.html">Point2D</a> &amp;&#160;</td>
-          <td class="paramname"><em>p</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const int&#160;</td>
-          <td class="paramname"><em>iz</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Converts Point2D to channel with given iz. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">p</td><td>Point2D input </td></tr>
-    <tr><td class="paramname">iz</td><td>(0, +1, -1) for (EB, EE+, EE-) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Channel </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="ECAL_8cc_source.html#l00108">108</a> of file <a class="el" href="ECAL_8cc_source.html">ECAL.cc</a>.</p>
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
