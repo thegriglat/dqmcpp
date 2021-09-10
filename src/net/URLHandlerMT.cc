@@ -27,8 +27,9 @@ std::vector<std::string> get(const std::vector<std::string>& urls) {
   std::vector<std::thread> threads;
   std::vector<std::vector<std::string>> content;
   // prepare content vector
-  for (auto& c : urlchunks)
-    content.push_back(std::vector<std::string>(c.size()));
+  std::transform(
+      urlchunks.begin(), urlchunks.end(), std::back_inserter(content),
+      [](const auto& c) { return std::vector<std::string>(c.size()); });
 
   for (unsigned int i = 0; i < urlchunks.size(); ++i) {
     threads.push_back(
@@ -42,8 +43,8 @@ std::vector<std::string> get(const std::vector<std::string>& urls) {
   result.reserve(urls.size());
   // unroll
   for (auto& s0 : content)
-    for (auto& s : s0)
-      result.push_back(s);
+    std::transform(s0.begin(), s0.end(), std::back_inserter(result),
+                   [](const auto& e) { return e; });
 
   return result;
 }

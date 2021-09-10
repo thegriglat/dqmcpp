@@ -125,9 +125,8 @@ vector<vector<T>> groups(const vector<T>& list,
 template <typename T>
 vector<T> getLast(const vector<vector<T>>& groups) {
   vector<T> result;
-  for (auto& grs : groups) {
-    result.push_back(grs.back());
-  }
+  std::transform(groups.begin(), groups.end(), std::back_inserter(result),
+                 [](const auto& grs) { return grs.back(); });
   return result;
 }
 
@@ -222,17 +221,17 @@ std::vector<dqmcpp::ECAL::Run> runs_online(void) {
 
   auto json_content = dqmcpp::common::parseJSON(content);
   const auto& j = json_content.GetArray()[1]["items"].GetArray();
-  vector<ECAL::Run> runs;
+  vector<ECAL::Run> _runs;
   if (j.Size() == 0)
-    return runs;
+    return _runs;
   const auto& j1 = j[1]["items"].GetArray();
   for (rapidjson::Value::ConstValueIterator itr = j1.Begin(); itr != j1.End();
        ++itr) {
     const std::string runstr = (*itr)["run"].GetString();
     auto run = std::atoi(runstr.c_str());
-    runs.push_back(ECAL::Run(run, "online"));
+    _runs.push_back(ECAL::Run(run, "online"));
   }
-  return runs;
+  return _runs;
 }
 
 }  // namespace DQMURL

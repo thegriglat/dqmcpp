@@ -28,10 +28,8 @@ Gnuplot2DWriter::Gnuplot2DWriter(const Data2D& data) : _data(&data) {
   }
   _xlabels.reserve(__xlabels.size());
   _ylabels.reserve(__ylabels.size());
-  for (auto& e : __xlabels)
-    _xlabels.push_back(e);
-  for (auto& e : __ylabels)
-    _ylabels.push_back(e);
+  std::copy(__xlabels.begin(), __xlabels.end(), std::back_inserter(_xlabels));
+  std::copy(__ylabels.begin(), __ylabels.end(), std::back_inserter(_ylabels));
   std::sort(_xlabels.begin(), _xlabels.end());
   std::sort(_ylabels.begin(), _ylabels.end());
 }

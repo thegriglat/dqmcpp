@@ -50,9 +50,10 @@ std::vector<TTData> channel2TT(
   vector<TTData> ttdata;
   ttdata.reserve(channelData.size());
   // get list of TT from channels
-  for (auto& channel : channelData) {
-    ttdata.emplace_back(TT(channel.base), channel.value);
-  }
+  std::transform(channelData.begin(), channelData.end(),
+                 std::back_inserter(ttdata), [](const auto& channel) {
+                   return TTData(TT(channel.base), channel.value);
+                 });
   // make TT unique
   std::sort(ttdata.begin(), ttdata.end(),
             [](const TTData& a, const TTData& b) { return a.base < b.base; });
@@ -120,9 +121,8 @@ std::vector<ChannelData> Data2D2ChannelData(const std::vector<Data2D>& d2d,
                                             const int iz) {
   std::vector<ChannelData> chd;
   chd.reserve(d2d.size());
-  for (auto& d : d2d) {
-    chd.push_back(Data2D2Channel(d, iz));
-  }
+  std::transform(d2d.begin(), d2d.end(), std::back_inserter(chd),
+                 [iz](const auto& d) { return Data2D2Channel(d, iz); });
   return chd;
 }
 

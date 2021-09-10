@@ -4,6 +4,7 @@
  * @author Grigory Latyshev (thegriglat@gmail.com)
  * @brief Namespace to get Plugin* by name
  */
+#include <algorithm>
 #include <list>
 #include <map>
 #include <memory>
@@ -67,9 +68,8 @@ class PluginFactory {
   std::unique_ptr<Plugin> GetPlugin(std::string name);
   inline std::vector<std::string> list() const {
     std::vector<std::string> l;
-    for (auto& pair : registry_) {
-      l.push_back(pair.first);
-    }
+    std::transform(registry_.begin(), registry_.end(), std::back_inserter(l),
+                   [](const auto& pair) { return pair.first; });
     return l;
   }
 
