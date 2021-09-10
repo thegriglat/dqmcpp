@@ -1,7 +1,7 @@
 <map id="common/logging.hh" name="common/logging.hh">
-<area shape="rect" id="node1" title="Logging/debugging macro." alt="" coords="339,5,489,32"/>
+<area shape="rect" id="node1" title="Logging/debugging macro." alt="" coords="336,5,487,32"/>
 <area shape="rect" id="node2" href="$ECALChannels_8cc.html" title="ECAL channels database functions." alt="" coords="5,80,228,107"/>
-<area shape="rect" id="node3" href="$URLHandler_8cc.html" title="URLHander implementation." alt="" coords="252,80,395,107"/>
-<area shape="rect" id="node4" href="$JSONReader_8cc.html" title="JSONReader code." alt="" coords="419,80,590,107"/>
-<area shape="rect" id="node5" href="$GnuplotECALWriter_8cc.html" title="GnuplotECALWriter implementation." alt="" coords="615,80,827,107"/>
+<area shape="rect" id="node3" href="$URLHandler_8cc.html" title="URLHander implementation." alt="" coords="251,80,393,107"/>
+<area shape="rect" id="node4" href="$JSONReader_8cc.html" title="JSONReader code." alt="" coords="417,80,587,107"/>
+<area shape="rect" id="node5" href="$GnuplotECALWriter_8cc.html" title="GnuplotECALWriter implementation." alt="" coords="611,80,822,107"/>
 </map>
