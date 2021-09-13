@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structdqmcpp_1_1filters_1_1Vlasov_1_1VlasovTable_1_1Item.html" title="Vlasov&#39;s item, like std::pair but with named fields." alt="" coords="5,5,176,47"/>
+<area shape="rect" id="node1" href="$classdqmcpp_1_1filters_1_1Vlasov_1_1VlasovTable.html" title=" " alt="" coords="5,39,177,80"/>
+<area shape="rect" id="node2" href="$classdqmcpp_1_1filters_1_1Vlasov_1_1Channel.html" title="Filter channels by Vlasov table." alt="" coords="225,5,397,47"/>
+<area shape="rect" id="node3" href="$classdqmcpp_1_1filters_1_1Vlasov_1_1FEDCCU.html" title="Filter CCU (or TT for EB) by Vlasov table." alt="" coords="225,71,397,112"/>
 </map>

@@ -1,9 +1,9 @@
 <map id="readers/JSONReader.cc" name="readers/JSONReader.cc">
 <area shape="rect" id="node1" title="JSONReader code." alt="" coords="513,5,684,32"/>
-<area shape="rect" id="node2" href="$JSONReader_8hh.html" title="Reading JSON data from DQM." alt="" coords="81,80,199,107"/>
+<area shape="rect" id="node2" href="$JSONReader_8hh.html" title="Reading JSON data from DQM." alt="" coords="79,80,199,107"/>
 <area shape="rect" id="node7" title=" " alt="" coords="457,229,519,256"/>
 <area shape="rect" id="node8" title=" " alt="" coords="637,155,699,181"/>
-<area shape="rect" id="node9" href="$JSONParser_8hh.html" title="RapidJSON wrapper." alt="" coords="284,80,471,107"/>
+<area shape="rect" id="node9" href="$JSONParser_8hh.html" title="RapidJSON wrapper." alt="" coords="283,80,471,107"/>
 <area shape="rect" id="node11" href="$logging_8hh.html" title="Macroses." alt="" coords="875,80,1037,107"/>
 <area shape="rect" id="node13" href="$math_8hh.html" title="Math templated functions." alt="" coords="687,80,836,107"/>
 <area shape="rect" id="node16" href="$URLCache_8hh.html" title="Caches URL requests to filesystem." alt="" coords="415,155,561,181"/>

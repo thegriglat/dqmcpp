@@ -1,6 +1,6 @@
 <map id="common/JSONParser.hh" name="common/JSONParser.hh">
-<area shape="rect" id="node1" title="RapidJSON wrapper." alt="" coords="203,5,377,32"/>
-<area shape="rect" id="node2" href="$JSONParser_8cc.html" title="RapidJSON wrapper." alt="" coords="5,80,177,107"/>
-<area shape="rect" id="node3" href="$DQMURLProvider_8cc.html" title="DQMURLProvider source." alt="" coords="202,80,378,107"/>
-<area shape="rect" id="node4" href="$JSONReader_8cc.html" title="JSONReader code." alt="" coords="402,80,573,107"/>
+<area shape="rect" id="node1" title="RapidJSON wrapper." alt="" coords="205,5,381,32"/>
+<area shape="rect" id="node2" href="$JSONParser_8cc.html" title="RapidJSON wrapper." alt="" coords="5,80,180,107"/>
+<area shape="rect" id="node3" href="$DQMURLProvider_8cc.html" title="DQMURLProvider source." alt="" coords="204,80,381,107"/>
+<area shape="rect" id="node4" href="$JSONReader_8cc.html" title="JSONReader code." alt="" coords="406,80,577,107"/>
 </map>
