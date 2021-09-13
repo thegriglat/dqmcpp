@@ -62,16 +62,16 @@ class Channel : public VlasovTable {
  * @brief Filter CCU (or TT for EB) by Vlasov table
  *
  */
-class FEDCCU : public VlasovTable {
+class CCU : public VlasovTable {
  public:
   /**
    * @brief Return True if CCU in Vlasov's table
    *
-   * @param fedccu (fed, ccu) pair
+   * @param ccu CCU to check. TT == CCU for ECAL EB
    * @return true
    * @return false
    */
-  bool operator()(const std::pair<int, int>& fedccu) const;
+  bool operator()(const ECAL::CCU& ccu) const;
 };
 
 }  // namespace Vlasov

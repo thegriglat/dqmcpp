@@ -34,10 +34,19 @@ bool Channel::operator()(const ECAL::Channel& channel) const {
   });
 }
 
-bool FEDCCU::operator()(const std::pair<int, int>& fedccu) const {
-  return std::any_of(_table.begin(), _table.end(), [fedccu](const Item& item) {
-    return item.fed == fedccu.first && item.ccu == fedccu.second;
-  });
+bool CCU::operator()(const ECAL::CCU& ccu) const {
+  const auto channels = ECALChannels::list();
+  const auto any_channel_in_ccu = std::find_if(
+      channels.begin, channels.end, [ccu](const ECALChannels::ChannelInfo& ci) {
+        return ci.ccu == ccu.ccu && ci.tcc == ccu.tcc && ci.det_iz() == ccu.iz;
+      });
+  if (any_channel_in_ccu == channels.end)
+    return false;
+  return std::any_of(_table.begin(), _table.end(),
+                     [any_channel_in_ccu](const Item& item) {
+                       return item.ccu == any_channel_in_ccu->ccu &&
+                              item.fed == any_channel_in_ccu->fed;
+                     });
 }
 
 }  // namespace Vlasov
