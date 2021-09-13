@@ -57,7 +57,6 @@ std::vector<ECAL::ChannelData> getChannelStatus(const ECAL::Run& run,
 
 namespace dqmcpp {
 namespace filters {
-namespace ChannelStatus {
 
 ChannelStatus::ChannelStatus(const ECAL::Run& run) {
   _data.clear();
@@ -68,13 +67,18 @@ ChannelStatus::ChannelStatus(const ECAL::Run& run) {
 }
 
 bool ChannelStatus::operator()(const ECAL::Channel& channel,
-                               const unsigned int minStatus) const {
+                               const int minStatus) const {
   return std::any_of(_data.begin(), _data.end(),
                      [&channel, minStatus](const ECAL::ChannelData& cd) {
                        return cd.base == channel && cd.value >= minStatus;
                      });
 };
 
-}  // namespace ChannelStatus
+bool ChannelStatus::operator()(const ECAL::Channel& channel) const {
+  return std::any_of(
+      _data.begin(), _data.end(),
+      [&channel](const ECAL::ChannelData& cd) { return cd.base == channel; });
+};
+
 }  // namespace filters
 }  // namespace dqmcpp

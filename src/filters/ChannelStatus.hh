@@ -12,7 +12,6 @@
 
 namespace dqmcpp {
 namespace filters {
-namespace ChannelStatus {
 
 class ChannelStatus {
  private:
@@ -20,18 +19,18 @@ class ChannelStatus {
 
  public:
   /**
-   * @brief Construct a new Channel Status object
+   * @brief Construct a new Channel Status filter object
    *
-   * @param run
+   * @param run Reference run as ECAL::Run
    */
   ChannelStatus(const ECAL::Run& run);
   /**
-   * @brief Construct a new Channel Status object
+   * @brief Construct a new Channel Status filter object
    *
-   * @param run
-   * @param dataset
+   * @param run Reference run number
+   * @param dataset Dataset for reference runnumber
    */
-  ChannelStatus(const unsigned int run, const std::string& dataset)
+  ChannelStatus(const int run, const std::string& dataset)
       : ChannelStatus(ECAL::Run(run, dataset)){};
   /**
    * @brief Return true if channel is marked with status >= minStatus
@@ -41,11 +40,17 @@ class ChannelStatus {
    * @return true
    * @return false
    */
-  bool operator()(const ECAL::Channel& channel,
-                  const unsigned int minStatus = -1) const;
+  bool operator()(const ECAL::Channel& channel, const int minStatus) const;
+  /**
+   * @brief Return true if channel is marked with **any** status
+   *
+   * @param channel Channel to check
+   * @return true
+   * @return false
+   */
+  bool operator()(const ECAL::Channel& channel) const;
 };
 
-}  // namespace ChannelStatus
 }  // namespace filters
 }  // namespace dqmcpp
 
