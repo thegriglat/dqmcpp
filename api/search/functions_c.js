@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['rms_358',['rms',['../namespacedqmcpp_1_1common.html#a5418153492ef40b7acdf8cccf96ded8a',1,'dqmcpp::common::rms(Iterator begin, Iterator end, BinaryOp op)'],['../namespacedqmcpp_1_1common.html#a94ea0cf55d40488d14b852c25aa27d98',1,'dqmcpp::common::rms(const Collection &amp;list, BinaryOp op)'],['../namespacedqmcpp_1_1common.html#a35a967d8b842700f9f1afe1e37aaf9d1',1,'dqmcpp::common::rms(const Collection &amp;list)']]],
-  ['rtrim_359',['rtrim',['../namespacedqmcpp_1_1common.html#a862f62f832338b2eff2fe48b1771440b',1,'dqmcpp::common']]],
-  ['runs_360',['runs',['../classdqmcpp_1_1readers_1_1RunListReader.html#a7beeb41f0597fdd965584c1a262d57fe',1,'dqmcpp::readers::RunListReader::runs()'],['../namespacedqmcpp_1_1net_1_1DQMURL.html#a94e583379aa599a89bf2221b19d0f4ba',1,'dqmcpp::net::DQMURL::runs()']]],
-  ['runs_5fonline_361',['runs_online',['../namespacedqmcpp_1_1net_1_1DQMURL.html#ae1f617f9cc5b1ed93ab8713f7002490d',1,'dqmcpp::net::DQMURL']]]
+  ['palette_5fstr_369',['palette_str',['../classdqmcpp_1_1writers_1_1Gnuplot2D.html#af8b9a6313c4dca59c7747f02bd6fb117',1,'dqmcpp::writers::Gnuplot2D']]],
+  ['parse_370',['parse',['../namespacedqmcpp_1_1readers_1_1JSONReader.html#aa150dc20ca199e60edfef3d5443110a5',1,'dqmcpp::readers::JSONReader']]],
+  ['parse1d_371',['parse1D',['../namespacedqmcpp_1_1readers_1_1JSONReader.html#a484e3e67fe233e0b6b3b252d49ed3fbd',1,'dqmcpp::readers::JSONReader']]],
+  ['parse2d_372',['parse2D',['../namespacedqmcpp_1_1readers_1_1JSONReader.html#a3cb736141b55fa3ab9390b5e3a344b5d',1,'dqmcpp::readers::JSONReader']]],
+  ['parsejson_373',['parseJSON',['../namespacedqmcpp_1_1common.html#a46edc9f4c044988bd5ac65a5ac26794c',1,'dqmcpp::common']]],
+  ['point2d2channel_374',['Point2D2Channel',['../namespacedqmcpp_1_1ECAL.html#a51fafee02962f137b18d52368912a9b8',1,'dqmcpp::ECAL']]],
+  ['process_375',['Process',['../classdqmcpp_1_1plugins_1_1Plugin.html#a69ab63a9052d4117e206a2ac27b66e4d',1,'dqmcpp::plugins::Plugin']]]
 ];

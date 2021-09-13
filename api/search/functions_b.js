@@ -1,10 +1,4 @@
 var searchData=
 [
-  ['palette_5fstr_351',['palette_str',['../classdqmcpp_1_1writers_1_1Gnuplot2D.html#af8b9a6313c4dca59c7747f02bd6fb117',1,'dqmcpp::writers::Gnuplot2D']]],
-  ['parse_352',['parse',['../namespacedqmcpp_1_1readers_1_1JSONReader.html#aa150dc20ca199e60edfef3d5443110a5',1,'dqmcpp::readers::JSONReader']]],
-  ['parse1d_353',['parse1D',['../namespacedqmcpp_1_1readers_1_1JSONReader.html#a484e3e67fe233e0b6b3b252d49ed3fbd',1,'dqmcpp::readers::JSONReader']]],
-  ['parse2d_354',['parse2D',['../namespacedqmcpp_1_1readers_1_1JSONReader.html#a3cb736141b55fa3ab9390b5e3a344b5d',1,'dqmcpp::readers::JSONReader']]],
-  ['parsejson_355',['parseJSON',['../namespacedqmcpp_1_1common.html#a46edc9f4c044988bd5ac65a5ac26794c',1,'dqmcpp::common']]],
-  ['point2d2channel_356',['Point2D2Channel',['../namespacedqmcpp_1_1ECAL.html#a51fafee02962f137b18d52368912a9b8',1,'dqmcpp::ECAL']]],
-  ['process_357',['Process',['../classdqmcpp_1_1plugins_1_1Plugin.html#a69ab63a9052d4117e206a2ac27b66e4d',1,'dqmcpp::plugins::Plugin']]]
+  ['operator_28_29_368',['operator()',['../classdqmcpp_1_1filters_1_1Vlasov_1_1Channel.html#a0dcdf37cb9fb1f80c4f7f155589cf064',1,'dqmcpp::filters::Vlasov::Channel::operator()()'],['../classdqmcpp_1_1filters_1_1Vlasov_1_1FEDCCU.html#ac77f347a421f7a2f7f6885efbe07cbd7',1,'dqmcpp::filters::Vlasov::FEDCCU::operator()()']]]
 ];
