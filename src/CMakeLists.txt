@@ -38,6 +38,7 @@ set (libdqmcpplibs
   colors
   ecalchannels
   cxxopts
+  filters
 )
 
 set (ldqm_sources)
