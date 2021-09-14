@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['ccu_4',['CCU',['../structdqmcpp_1_1ECAL_1_1CCU.html',1,'dqmcpp::ECAL::CCU'],['../classdqmcpp_1_1filters_1_1Vlasov_1_1CCU.html',1,'dqmcpp::filters::Vlasov::CCU']]],
-  ['channel_5',['Channel',['../structdqmcpp_1_1ECAL_1_1Channel.html',1,'dqmcpp::ECAL::Channel'],['../classdqmcpp_1_1filters_1_1Vlasov_1_1Channel.html',1,'dqmcpp::filters::Vlasov::Channel']]],
+  ['ccu_4',['CCU',['../structdqmcpp_1_1ECAL_1_1CCU.html',1,'dqmcpp::ECAL']]],
+  ['channel_5',['Channel',['../structdqmcpp_1_1ECAL_1_1Channel.html',1,'dqmcpp::ECAL']]],
   ['channel2tt_6',['channel2TT',['../namespacedqmcpp_1_1ECAL.html#acbdeb997703b90d065decdda431328a2',1,'dqmcpp::ECAL']]],
   ['channelinfo_7',['ChannelInfo',['../structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html',1,'dqmcpp::ECALChannels']]],
   ['channeliteratorpair_8',['ChannelIteratorPair',['../structdqmcpp_1_1ECALChannels_1_1ChannelIteratorPair.html',1,'dqmcpp::ECALChannels']]],

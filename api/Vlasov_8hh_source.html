@@ -80,48 +80,32 @@ $(function() {
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span>dqmcpp {</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">namespace </span>filters {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">namespace </span>Vlasov {</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classdqmcpp_1_1filters_1_1Vlasov_1_1VlasovTable.html">   25</a></span>&#160;<span class="keyword">class </span><a class="code" href="classdqmcpp_1_1filters_1_1Vlasov_1_1VlasovTable.html">VlasovTable</a> {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keywordtype">void</span> init();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="structdqmcpp_1_1filters_1_1Vlasov_1_1VlasovTable_1_1Item.html">   34</a></span>&#160;  <span class="keyword">struct </span><a class="code" href="structdqmcpp_1_1filters_1_1Vlasov_1_1VlasovTable_1_1Item.html">Item</a> {</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">int</span> fed;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">int</span> ccu;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  };</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  std::vector&lt;Item&gt; _table;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="classdqmcpp_1_1filters_1_1Vlasov_1_1VlasovTable.html">VlasovTable</a>() { init(); };</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  ~<a class="code" href="classdqmcpp_1_1filters_1_1Vlasov_1_1VlasovTable.html">VlasovTable</a>(){};</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;};</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classdqmcpp_1_1filters_1_1Vlasov_1_1Channel.html">   49</a></span>&#160;<span class="keyword">class </span><a class="code" href="classdqmcpp_1_1filters_1_1Vlasov_1_1Channel.html">Channel</a> : <span class="keyword">public</span> <a class="code" href="classdqmcpp_1_1filters_1_1Vlasov_1_1VlasovTable.html">VlasovTable</a> {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="classdqmcpp_1_1filters_1_1Vlasov_1_1Channel.html#a0dcdf37cb9fb1f80c4f7f155589cf064">operator()</a>(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">ECAL::Channel</a>&amp; channel) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;};</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="classdqmcpp_1_1filters_1_1Vlasov_1_1CCU.html">   65</a></span>&#160;<span class="keyword">class </span><a class="code" href="classdqmcpp_1_1filters_1_1Vlasov_1_1CCU.html">CCU</a> : <span class="keyword">public</span> <a class="code" href="classdqmcpp_1_1filters_1_1Vlasov_1_1VlasovTable.html">VlasovTable</a> {</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="classdqmcpp_1_1filters_1_1Vlasov_1_1CCU.html#a55091cc527270736d0cac489184729df">operator()</a>(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1CCU.html">ECAL::CCU</a>&amp; ccu) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;};</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;}  <span class="comment">// namespace Vlasov</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}  <span class="comment">// namespace filters</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">#define VLASOVFILTER_HH</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aclassdqmcpp_1_1filters_1_1Vlasov_1_1CCU_html"><div class="ttname"><a href="classdqmcpp_1_1filters_1_1Vlasov_1_1CCU.html">dqmcpp::filters::Vlasov::CCU</a></div><div class="ttdoc">Filter CCU (or TT for EB) by Vlasov table.</div><div class="ttdef"><b>Definition:</b> <a href="Vlasov_8hh_source.html#l00065">Vlasov.hh:65</a></div></div>
-<div class="ttc" id="aclassdqmcpp_1_1filters_1_1Vlasov_1_1CCU_html_a55091cc527270736d0cac489184729df"><div class="ttname"><a href="classdqmcpp_1_1filters_1_1Vlasov_1_1CCU.html#a55091cc527270736d0cac489184729df">dqmcpp::filters::Vlasov::CCU::operator()</a></div><div class="ttdeci">bool operator()(const ECAL::CCU &amp;ccu) const</div><div class="ttdoc">Return True if CCU in Vlasov's table.</div><div class="ttdef"><b>Definition:</b> <a href="Vlasov_8cc_source.html#l00037">Vlasov.cc:37</a></div></div>
-<div class="ttc" id="aclassdqmcpp_1_1filters_1_1Vlasov_1_1Channel_html"><div class="ttname"><a href="classdqmcpp_1_1filters_1_1Vlasov_1_1Channel.html">dqmcpp::filters::Vlasov::Channel</a></div><div class="ttdoc">Filter channels by Vlasov table.</div><div class="ttdef"><b>Definition:</b> <a href="Vlasov_8hh_source.html#l00049">Vlasov.hh:49</a></div></div>
-<div class="ttc" id="aclassdqmcpp_1_1filters_1_1Vlasov_1_1Channel_html_a0dcdf37cb9fb1f80c4f7f155589cf064"><div class="ttname"><a href="classdqmcpp_1_1filters_1_1Vlasov_1_1Channel.html#a0dcdf37cb9fb1f80c4f7f155589cf064">dqmcpp::filters::Vlasov::Channel::operator()</a></div><div class="ttdeci">bool operator()(const ECAL::Channel &amp;channel) const</div><div class="ttdoc">return True if channel in Vlasov's table</div><div class="ttdef"><b>Definition:</b> <a href="Vlasov_8cc_source.html#l00030">Vlasov.cc:30</a></div></div>
-<div class="ttc" id="aclassdqmcpp_1_1filters_1_1Vlasov_1_1VlasovTable_html"><div class="ttname"><a href="classdqmcpp_1_1filters_1_1Vlasov_1_1VlasovTable.html">dqmcpp::filters::Vlasov::VlasovTable</a></div><div class="ttdef"><b>Definition:</b> <a href="Vlasov_8hh_source.html#l00025">Vlasov.hh:25</a></div></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classdqmcpp_1_1filters_1_1Vlasov.html">   19</a></span>&#160;<span class="keyword">class </span><a class="code" href="classdqmcpp_1_1filters_1_1Vlasov.html">Vlasov</a> {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="structdqmcpp_1_1filters_1_1Vlasov_1_1Item.html">   25</a></span>&#160;  <span class="keyword">struct </span><a class="code" href="structdqmcpp_1_1filters_1_1Vlasov_1_1Item.html">Item</a> {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">int</span> fed;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">int</span> ccu;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  };</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  std::vector&lt;Item&gt; _table;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <a class="code" href="classdqmcpp_1_1filters_1_1Vlasov.html">Vlasov</a>();</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  ~<a class="code" href="classdqmcpp_1_1filters_1_1Vlasov.html">Vlasov</a>(){};</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="classdqmcpp_1_1filters_1_1Vlasov.html#a8a8edc1e052dc2bfb2df86f7639750ec">operator()</a>(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">ECAL::Channel</a>&amp; channel) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordtype">bool</span> <a class="code" href="classdqmcpp_1_1filters_1_1Vlasov.html#a8a8edc1e052dc2bfb2df86f7639750ec">operator()</a>(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1CCU.html">ECAL::CCU</a>&amp; ccu) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;};</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}  <span class="comment">// namespace filters</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#define VLASOVFILTER_HH</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aclassdqmcpp_1_1filters_1_1Vlasov_html"><div class="ttname"><a href="classdqmcpp_1_1filters_1_1Vlasov.html">dqmcpp::filters::Vlasov</a></div><div class="ttdef"><b>Definition:</b> <a href="Vlasov_8hh_source.html#l00019">Vlasov.hh:19</a></div></div>
+<div class="ttc" id="aclassdqmcpp_1_1filters_1_1Vlasov_html_a8a8edc1e052dc2bfb2df86f7639750ec"><div class="ttname"><a href="classdqmcpp_1_1filters_1_1Vlasov.html#a8a8edc1e052dc2bfb2df86f7639750ec">dqmcpp::filters::Vlasov::operator()</a></div><div class="ttdeci">bool operator()(const ECAL::Channel &amp;channel) const</div><div class="ttdoc">return True if channel in Vlasov's table</div><div class="ttdef"><b>Definition:</b> <a href="Vlasov_8cc_source.html#l00029">Vlasov.cc:29</a></div></div>
 <div class="ttc" id="astructdqmcpp_1_1ECAL_1_1CCU_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1CCU.html">dqmcpp::ECAL::CCU</a></div><div class="ttdoc">CCU class.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00120">ECAL.hh:120</a></div></div>
 <div class="ttc" id="astructdqmcpp_1_1ECAL_1_1Channel_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1Channel.html">dqmcpp::ECAL::Channel</a></div><div class="ttdoc">ECAL Channel struct.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00048">ECAL.hh:48</a></div></div>
-<div class="ttc" id="astructdqmcpp_1_1filters_1_1Vlasov_1_1VlasovTable_1_1Item_html"><div class="ttname"><a href="structdqmcpp_1_1filters_1_1Vlasov_1_1VlasovTable_1_1Item.html">dqmcpp::filters::Vlasov::VlasovTable::Item</a></div><div class="ttdoc">Vlasov's item, like std::pair but with named fields.</div><div class="ttdef"><b>Definition:</b> <a href="Vlasov_8hh_source.html#l00034">Vlasov.hh:34</a></div></div>
+<div class="ttc" id="astructdqmcpp_1_1filters_1_1Vlasov_1_1Item_html"><div class="ttname"><a href="structdqmcpp_1_1filters_1_1Vlasov_1_1Item.html">dqmcpp::filters::Vlasov::Item</a></div><div class="ttdoc">Vlasov's item, like std::pair but with named fields.</div><div class="ttdef"><b>Definition:</b> <a href="Vlasov_8hh_source.html#l00025">Vlasov.hh:25</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
