@@ -12,9 +12,8 @@ namespace {}
 
 namespace dqmcpp {
 namespace filters {
-namespace Vlasov {
 
-void VlasovTable::init() {
+Vlasov::Vlasov() {
   _table.clear();
   // dumped 13.09.2021
   _table = {{610, 12}, {611, 13}, {612, 61}, {612, 7},  {613, 1},  {615, 17},
@@ -27,14 +26,14 @@ void VlasovTable::init() {
             {652, 23}, {654, 12}, {654, 14}, {654, 19}, {654, 20}};
 }
 
-bool Channel::operator()(const ECAL::Channel& channel) const {
+bool Vlasov::operator()(const ECAL::Channel& channel) const {
   const auto info = ECALChannels::find(channel);
   return std::any_of(_table.begin(), _table.end(), [info](const Item& item) {
     return item.ccu == info->ccu && item.fed == info->fed;
   });
 }
 
-bool CCU::operator()(const ECAL::CCU& ccu) const {
+bool Vlasov::operator()(const ECAL::CCU& ccu) const {
   const auto channels = ECALChannels::list();
   const auto any_channel_in_ccu = std::find_if(
       channels.begin, channels.end, [ccu](const ECALChannels::ChannelInfo& ci) {
@@ -49,6 +48,5 @@ bool CCU::operator()(const ECAL::CCU& ccu) const {
                      });
 }
 
-}  // namespace Vlasov
 }  // namespace filters
 }  // namespace dqmcpp
