@@ -15,7 +15,10 @@
 namespace dqmcpp {
 
 namespace filters {
-
+/**
+ * @brief Filter for Vlasov's table
+ *
+ */
 class Vlasov {
  private:
   /**

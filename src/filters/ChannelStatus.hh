@@ -14,6 +14,10 @@
 namespace dqmcpp {
 namespace filters {
 
+/**
+ * @brief Channel status filter
+ *
+ */
 class ChannelStatus {
  private:
   std::vector<ECAL::ChannelData> _data;
