@@ -100,28 +100,6 @@ std::vector<ECAL::ChannelData> getCS(const ECAL::Run& run, const int iz) {
 namespace dqmcpp {
 namespace plugins {
 
-std::vector<ECAL::ChannelData> ChannelStatus::getChannelStatus(
-    const ECAL::Run& run) {
-  std::vector<ECAL::ChannelData> cd;
-  for (int iz = -1; iz <= 1; ++iz) {
-    const auto _tmp = getCS(run, iz);
-    cd.insert(cd.end(), _tmp.begin(), _tmp.end());
-  }
-  return cd;
-}
-
-int ChannelStatus::getChannelStatus(const ECAL::Run& run,
-                                    const ECAL::Channel& channel) {
-  const auto _d = getCS(run, channel.iz);
-  auto it = std::find_if(
-      _d.begin(), _d.end(),
-      [&channel](const ECAL::ChannelData& cd) { return cd.base == channel; });
-  if (it == _d.end()) {
-    return 0;
-  }
-  return it->value;
-}
-
 void ChannelStatus::Process() {
   writers::ProgressBar progress(runListReader->runs().size());
   vector<pair<int, ChannelDataTT>> channeldata;

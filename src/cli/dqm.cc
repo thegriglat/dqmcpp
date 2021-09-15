@@ -25,9 +25,10 @@ int main(int argc, char** argv) {
 
   cliopts.add_options()("h,help", "Print usage")(
       "p,plugin", "List of plugins to run | all",
-      cxxopts::value<std::vector<std::string>>())(
-      "r,runfile", "Runlist file | '-' for stdin",
-      cxxopts::value<std::string>());
+      cxxopts::value<
+          std::vector<std::string>>())("r,runfile",
+                                       "Runlist file | '-' for stdin",
+                                       cxxopts::value<std::string>());
   cliopts.parse_positional({"runfile", "plugin"});
   cliopts.positional_help("runlist plugins|all");
   cliopts.show_positional_help();

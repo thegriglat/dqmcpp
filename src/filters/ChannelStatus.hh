@@ -54,6 +54,19 @@ class ChannelStatus {
    * @return false
    */
   bool operator()(const ECAL::Channel& channel) const;
+  /**
+   * @brief Get Channel status for all channels
+   *
+   * @return std::vector<ECAL::ChannelData>
+   */
+  inline std::vector<ECAL::ChannelData> get() const { return _data; }
+  /**
+   * @brief Get status for given channel
+   *
+   * @param channel Channel to get status
+   * @return double
+   */
+  double operator[](const ECAL::Channel& channel) const;
 };
 
 }  // namespace filters

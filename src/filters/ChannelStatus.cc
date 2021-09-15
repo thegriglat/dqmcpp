@@ -80,5 +80,14 @@ bool ChannelStatus::operator()(const ECAL::Channel& channel) const {
       [&channel](const ECAL::ChannelData& cd) { return cd.base == channel; });
 };
 
+double ChannelStatus::operator[](const ECAL::Channel& channel) const {
+  const auto it = std::find_if(
+      _data.begin(), _data.end(),
+      [&channel](const ECAL::ChannelData& cd) { return cd.base == channel; });
+  if (it == _data.end())
+    return -1;
+  return it->value;
+}
+
 }  // namespace filters
 }  // namespace dqmcpp

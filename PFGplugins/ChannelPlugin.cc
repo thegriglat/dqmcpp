@@ -11,9 +11,9 @@
 #include <map>
 #include <set>
 #include <string>
-#include "ChannelStatus.hh"
 #include "common/common.hh"
 #include "ecalchannels/ECALChannels.hh"
+#include "filters/ChannelStatus.hh"
 #include "net/URLCache.hh"
 #include "readers/JSONReader.hh"
 #include "writers/Gnuplot2DWriter.hh"
@@ -102,8 +102,9 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
     progress.increment();
   }
   progress.setMaxValue(progress.getMaxValue() + badchannels.size());
+  const filters::ChannelStatus lastRunStatus(lastrun);
   for (auto& b : badchannels) {
-    channelstatus[b] = plugins::ChannelStatus::getChannelStatus(lastrun, b);
+    channelstatus[b] = lastRunStatus[b];
     progress.increment();
   }
   progress.setMaxValue(progress.getMaxValue() + rundata.size());
@@ -112,8 +113,7 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
     const auto xlabel = std::to_string(rd.run.runnumber);
     for (auto& b : badchannels) {
       const auto ylabel = getYlabel(b, channelstatus.at(b));
-      const auto channel_status =
-          plugins::ChannelStatus::getChannelStatus(rd.run, b);
+      const auto channel_status = filters::ChannelStatus(rd.run)[b];
       if (channel_status > MAXSTATUS4BOX) {
         boxes.emplace_back(xlabel, ylabel);
       }
