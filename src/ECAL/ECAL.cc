@@ -32,6 +32,18 @@ TT::TT(const Channel& channel) {
   tcc = info->tcc;
 }
 
+int TT::fed() const {
+  const auto be = ECALChannels::list();
+  const auto it = std::find_if(
+      be.begin, be.end, [this](const ECALChannels::ChannelInfo& ci) {
+        return ci.tcc == this->tcc && ci.tower == this->tt &&
+               ci.det_iz() == this->iz;
+      });
+  if (it == be.end)
+    return -1;
+  return it->fed;
+}
+
 CCU::CCU(const Channel& channel) {
   const auto info = ECALChannels::find(channel);
   if (!info) {
@@ -43,6 +55,18 @@ CCU::CCU(const Channel& channel) {
     iz = info->iz;
   ccu = info->ccu;
   tcc = info->tcc;
+}
+
+int CCU::fed() const {
+  const auto be = ECALChannels::list();
+  const auto it = std::find_if(
+      be.begin, be.end, [this](const ECALChannels::ChannelInfo& ci) {
+        return ci.tcc == this->tcc && ci.ccu == this->ccu &&
+               ci.det_iz() == this->iz;
+      });
+  if (it == be.end)
+    return -1;
+  return it->fed;
 }
 
 std::vector<TTData> channel2TT(

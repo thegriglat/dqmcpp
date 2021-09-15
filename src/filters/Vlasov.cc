@@ -28,23 +28,19 @@ Vlasov::Vlasov() {
 
 bool Vlasov::operator()(const ECAL::Channel& channel) const {
   const auto info = ECALChannels::find(channel);
+  if (!info)
+    return false;
   return std::any_of(_table.begin(), _table.end(), [info](const Item& item) {
     return item.ccu == info->ccu && item.fed == info->fed;
   });
 }
 
 bool Vlasov::operator()(const ECAL::CCU& ccu) const {
-  const auto channels = ECALChannels::list();
-  const auto any_channel_in_ccu = std::find_if(
-      channels.begin, channels.end, [ccu](const ECALChannels::ChannelInfo& ci) {
-        return ci.ccu == ccu.ccu && ci.tcc == ccu.tcc && ci.det_iz() == ccu.iz;
-      });
-  if (any_channel_in_ccu == channels.end)
-    return false;
+  const int _ccu = ccu.ccu;
+  const int _fed = ccu.fed();
   return std::any_of(_table.begin(), _table.end(),
-                     [any_channel_in_ccu](const Item& item) {
-                       return item.ccu == any_channel_in_ccu->ccu &&
-                              item.fed == any_channel_in_ccu->fed;
+                     [_ccu, _fed](const Item& item) {
+                       return item.ccu == _ccu && item.fed == _fed;
                      });
 }
 

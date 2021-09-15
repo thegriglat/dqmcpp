@@ -66,14 +66,7 @@ namespace filters {
 
 bool MaskedTT(const ECAL::TT& TT) {
   const int tower = TT.tt;
-  const auto be = ECALChannels::list();
-  const auto it = std::find_if(
-      be.begin, be.end, [&TT](const ECALChannels::ChannelInfo& ci) {
-        return ci.tcc == TT.tcc && ci.tower == TT.tt && ci.det_iz() == TT.iz;
-      });
-  if (it == be.end)
-    return false;
-  const int fed = it->fed;
+  const int fed = TT.fed();
   return MaskedTT(fed, tower);
 };
 

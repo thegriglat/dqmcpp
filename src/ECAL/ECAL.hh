@@ -19,6 +19,10 @@ namespace ECAL {
 constexpr unsigned int NEBChannels = 61200;
 constexpr unsigned int NEEChannels = 14648;
 constexpr unsigned int NTotalChannels = NEBChannels + NEEChannels;
+/**
+ * @brief Enum class to separate TT and CCU
+ *
+ */
 enum class ECALElement : int { TT, CCU };
 
 /**
@@ -98,6 +102,12 @@ struct TT {
   TT(const int tt, const int tcc, const int iz) : tt(tt), tcc(tcc), iz(iz){};
   TT(const Channel& channel);
   TT(const std::array<int, 4>& vec4) : tt(vec4[0]), tcc(vec4[1]), iz(vec4[2]){};
+  /**
+   * @brief Get FED#, -1 if not found
+   *
+   * @return int
+   */
+  int fed() const;
   operator std::string() const;
   /**
    * @brief Returns TT as (tt, tcc, iz, tt or ccu as int)
@@ -128,6 +138,12 @@ struct CCU {
   CCU(const Channel& channel);
   CCU(const std::array<int, 4>& vec4)
       : ccu(vec4[0]), tcc(vec4[1]), iz(vec4[2]){};
+  /**
+   * @brief Get FED#, -1 if not found
+   *
+   * @return int
+   */
+  int fed() const;
   operator std::string() const;
   /**
    * @brief Returns CCU as (ccu, tcc, iz, tt or ccu as int)
@@ -168,6 +184,18 @@ class TTCCU {
    * @return false
    */
   inline bool isCCU() const { return data.at(3) == (int)ECALElement::CCU; }
+  /**
+   * @brief Get FED #, -1 if not found
+   *
+   * @return int
+   */
+  inline int fed() const {
+    if (isTT())
+      return TT(data).fed();
+    if (isCCU())
+      return CCU(data).fed();
+    return -1;
+  }
   inline operator std::string() const {
     if (isTT())
       return std::string(TT(data));
