@@ -7,6 +7,8 @@
 #ifndef FILTERS_HH
 #define FILTERS_HH
 
+#include "ChannelStatus.hh"
+#include "MaskedTT.hh"
 #include "Vlasov.hh"
 
 namespace dqmcpp {
