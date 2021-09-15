@@ -1,9 +1,11 @@
 <map id="filters/filters.hh" name="filters/filters.hh">
-<area shape="rect" id="node1" title="All predefined filters filters." alt="" coords="44,5,164,32"/>
-<area shape="rect" id="node2" href="$Vlasov_8hh.html" title="Filter channel by Vlasov&#39;s table https://twiki.cern.ch/twiki/bin/view/Main/EcalTTcurrentStatus." alt="" coords="61,80,147,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,229,61,256"/>
-<area shape="rect" id="node4" title=" " alt="" coords="86,229,149,256"/>
-<area shape="rect" id="node5" href="$ECAL_8hh.html" title="ECAL data structure namespace." alt="" coords="142,155,266,181"/>
-<area shape="rect" id="node6" title=" " alt="" coords="173,229,249,256"/>
-<area shape="rect" id="node7" title=" " alt="" coords="273,229,332,256"/>
+<area shape="rect" id="node1" title="All predefined filters filters." alt="" coords="159,5,279,32"/>
+<area shape="rect" id="node2" href="$ChannelStatus_8hh.html" title="Channel status filter." alt="" coords="5,80,141,107"/>
+<area shape="rect" id="node8" href="$MaskedTT_8hh.html" title="Masked TT filter from CMS_ECAL_CONF.fe_daq_bad_tt_dat table." alt="" coords="165,80,272,107"/>
+<area shape="rect" id="node9" href="$Vlasov_8hh.html" title="Filter channel by Vlasov&#39;s table https://twiki.cern.ch/twiki/bin/view/Main/EcalTTcurrentStatus." alt="" coords="296,80,381,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="65,229,124,256"/>
+<area shape="rect" id="node4" href="$ECAL_8hh.html" title="ECAL data structure namespace." alt="" coords="153,155,277,181"/>
+<area shape="rect" id="node5" title=" " alt="" coords="253,229,309,256"/>
+<area shape="rect" id="node6" title=" " alt="" coords="153,229,229,256"/>
+<area shape="rect" id="node7" title=" " alt="" coords="334,229,397,256"/>
 </map>
