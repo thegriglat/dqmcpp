@@ -132,32 +132,23 @@ $(function() {
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
 <div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1filters.html#af27f60fe36540037d34abba7d779bf33">   67</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacedqmcpp_1_1filters.html#af27f60fe36540037d34abba7d779bf33">MaskedTT</a>(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1TT.html">ECAL::TT</a>&amp; TT) {</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">int</span> tower = TT.tt;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> be = <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">ECALChannels::list</a>();</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> it = std::find_if(</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      be.begin, be.end, [&amp;TT](<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">ECALChannels::ChannelInfo</a>&amp; ci) {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        return ci.tcc == TT.tcc &amp;&amp; ci.tower == TT.tt &amp;&amp; ci.det_iz() == TT.iz;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      });</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keywordflow">if</span> (it == be.end)</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">int</span> fed = it-&gt;fed;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="namespacedqmcpp_1_1filters.html#af27f60fe36540037d34abba7d779bf33">MaskedTT</a>(fed, tower);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;};</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">int</span> fed = TT.fed();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="namespacedqmcpp_1_1filters.html#af27f60fe36540037d34abba7d779bf33">MaskedTT</a>(fed, tower);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;};</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1filters.html#accc2f66de44bed1f685cc17fff648033">   73</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacedqmcpp_1_1filters.html#af27f60fe36540037d34abba7d779bf33">MaskedTT</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> fed, <span class="keyword">const</span> <span class="keywordtype">int</span> tower) {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keywordflow">return</span> std::any_of(__maskedtt.begin(), __maskedtt.end(),</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                     [fed, tower](<span class="keyword">const</span> FEDTT&amp; item) {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                       return item.fed == fed &amp;&amp; item.tt == tower;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                     });</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1filters.html#accc2f66de44bed1f685cc17fff648033">   80</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespacedqmcpp_1_1filters.html#af27f60fe36540037d34abba7d779bf33">MaskedTT</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> fed, <span class="keyword">const</span> <span class="keywordtype">int</span> tower) {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="keywordflow">return</span> std::any_of(__maskedtt.begin(), __maskedtt.end(),</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                     [fed, tower](<span class="keyword">const</span> FEDTT&amp; item) {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                       return item.fed == fed &amp;&amp; item.tt == tower;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                     });</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}  <span class="comment">// namespace filters</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}  <span class="comment">// namespace filters</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="anamespacedqmcpp_1_1filters_html_af27f60fe36540037d34abba7d779bf33"><div class="ttname"><a href="namespacedqmcpp_1_1filters.html#af27f60fe36540037d34abba7d779bf33">dqmcpp::filters::MaskedTT</a></div><div class="ttdeci">bool MaskedTT(const ECAL::TT &amp;TT)</div><div class="ttdoc">Check if TT is masked in CMS_ECAL_CONF.fe_daq_bad_tt_dat table.</div><div class="ttdef"><b>Definition:</b> <a href="MaskedTT_8cc_source.html#l00067">MaskedTT.cc:67</a></div></div>
-<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1TT_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1TT.html">dqmcpp::ECAL::TT</a></div><div class="ttdoc">TT class.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00092">ECAL.hh:92</a></div></div>
-<div class="ttc" id="anamespacedqmcpp_1_1ECALChannels_html_a447860cb7aa0ce2286fd9ad7ae5082c8"><div class="ttname"><a href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">dqmcpp::ECALChannels::list</a></div><div class="ttdeci">ChannelIteratorPair list()</div><div class="ttdoc">Returns begin() and end() iterator pair.</div><div class="ttdef"><b>Definition:</b> <a href="ECALChannels_8cc_source.html#l00026">ECALChannels.cc:26</a></div></div>
+<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1TT_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1TT.html">dqmcpp::ECAL::TT</a></div><div class="ttdoc">TT class.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00096">ECAL.hh:96</a></div></div>
 <div class="ttc" id="aMaskedTT_8hh_html"><div class="ttname"><a href="MaskedTT_8hh.html">MaskedTT.hh</a></div><div class="ttdoc">Masked TT filter from CMS_ECAL_CONF.fe_daq_bad_tt_dat table.</div></div>
-<div class="ttc" id="astructdqmcpp_1_1ECALChannels_1_1ChannelInfo_html"><div class="ttname"><a href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">dqmcpp::ECALChannels::ChannelInfo</a></div><div class="ttdoc">Static channel list structure Dumped from DQM a long long time ago ...</div><div class="ttdef"><b>Definition:</b> <a href="ECALChannels_8hh_source.html#l00023">ECALChannels.hh:23</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

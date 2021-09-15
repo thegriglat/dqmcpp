@@ -100,236 +100,263 @@ $(function() {
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  tcc = info-&gt;tcc;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;}</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;CCU::CCU(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a>&amp; channel) {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> info = <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a1a50f0959e175ad85bbe7f4c8db8b539">ECALChannels::find</a>(channel);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span> (!info) {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    std::cerr &lt;&lt; std::endl &lt;&lt; <span class="stringliteral">&quot;Cannot find channel!&quot;</span> &lt;&lt; channel &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    exit(1);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  }</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  iz = 0;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">if</span> (info-&gt;ix != -999)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    iz = info-&gt;iz;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  ccu = info-&gt;ccu;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  tcc = info-&gt;tcc;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1ECAL.html#acbdeb997703b90d065decdda431328a2">   48</a></span>&#160;std::vector&lt;TTData&gt; <a class="code" href="namespacedqmcpp_1_1ECAL.html#acbdeb997703b90d065decdda431328a2">channel2TT</a>(</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">const</span> std::vector&lt;ECAL::ChannelData&gt;&amp; channelData) {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  vector&lt;TTData&gt; ttdata;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  ttdata.reserve(channelData.size());</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="comment">// get list of TT from channels</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  std::transform(channelData.begin(), channelData.end(),</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                 std::back_inserter(ttdata), [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; channel) {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                   return TTData(TT(channel.base), channel.value);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                 });</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="comment">// make TT unique</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  std::sort(ttdata.begin(), ttdata.end(),</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            [](<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Data.html">TTData</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Data.html">TTData</a>&amp; b) { return a.base &lt; b.base; });</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  ttdata.erase(std::unique(ttdata.begin(), ttdata.end(),</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                           [](<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Data.html">TTData</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Data.html">TTData</a>&amp; b) {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                             return a.base == b.base;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                           }),</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;               ttdata.end());</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordflow">return</span> ttdata;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;vector&lt;RunTTData&gt; filterZeroTT(vector&lt;RunTTData&gt;&amp; rundata) {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keywordflow">if</span> (rundata.size() == 0)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">return</span> vector&lt;RunTTData&gt;();</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keyword">auto</span>&amp; ttlist = rundata.at(0).data;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  vector&lt;array&lt;int, 3&gt;&gt; tt_to_remove;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; tt : ttlist) {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">bool</span> all_is_zero = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; rd : rundata) {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <span class="comment">// find</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      <span class="keyword">auto</span> it =</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;          std::find_if(rd.data.begin(), rd.data.end(),</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                       [tt](<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Data.html">TTData</a>&amp; e) { return tt.base == e.base; });</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      <span class="keywordflow">if</span> (it == rd.data.end()) {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="comment">// tt not found;</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      };</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      <span class="keywordflow">if</span> (!<a class="code" href="namespacedqmcpp_1_1common.html#acd9ef9ea6ccb002f491bf7ce5b3460b3">common::isZero</a>(it-&gt;value)) {</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        all_is_zero = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      }</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    }</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">if</span> (all_is_zero) {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      tt_to_remove.push_back({tt.base.tt, tt.base.iz, tt.base.tcc});</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    }</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  }</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; ttremove : tt_to_remove) {</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; run : rundata) {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      <span class="keyword">auto</span> it = std::find_if(</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;          run.data.begin(), run.data.end(), [ttremove](<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Data.html">TTData</a>&amp; e) {</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            return ttremove[0] == e.base.tt &amp;&amp; ttremove[1] == e.base.iz &amp;&amp;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                   ttremove[2] == e.base.tcc;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;          });</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      <span class="keywordflow">if</span> (it == run.data.end())</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      run.data.erase(it);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    }</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  }</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  <span class="keywordflow">return</span> rundata;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;};</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1ECAL.html#a51fafee02962f137b18d52368912a9b8">  108</a></span>&#160;<a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a> <a class="code" href="namespacedqmcpp_1_1ECAL.html#a51fafee02962f137b18d52368912a9b8">Point2D2Channel</a>(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Point2D.html">Point2D</a>&amp; p, <span class="keyword">const</span> <span class="keywordtype">int</span> iz) {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">int</span> x = std::trunc(p.x);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">int</span> y = std::trunc(p.y);</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">int</span> iphi = std::abs(x) + 1;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">int</span> ieta = y + 1 * <a class="code" href="namespacedqmcpp_1_1common.html#a02feb89a3c6f699e6205ccc8f1eb9dd3">common::sign</a>(p.y);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a>(iphi, ieta, iz);</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
-<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1ECAL.html#ac3fb18a1e1231aa345e7d5b68650cbb7">  116</a></span>&#160;<a class="code" href="structdqmcpp_1_1ECAL_1_1Data.html">ChannelData</a> <a class="code" href="namespacedqmcpp_1_1ECAL.html#ac3fb18a1e1231aa345e7d5b68650cbb7">Data2D2Channel</a>(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Data.html">Data2D</a>&amp; d2d, <span class="keyword">const</span> <span class="keywordtype">int</span> iz) {</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Data.html">ChannelData</a>(<a class="code" href="namespacedqmcpp_1_1ECAL.html#a51fafee02962f137b18d52368912a9b8">Point2D2Channel</a>(d2d.base, iz), d2d.value);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;}</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
-<div class="line"><a name="l00120"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1ECAL.html#a3a674b3d82620a22e78961886889c2ec">  120</a></span>&#160;std::vector&lt;ChannelData&gt; <a class="code" href="namespacedqmcpp_1_1ECAL.html#a3a674b3d82620a22e78961886889c2ec">Data2D2ChannelData</a>(<span class="keyword">const</span> std::vector&lt;Data2D&gt;&amp; d2d,</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                                            <span class="keyword">const</span> <span class="keywordtype">int</span> iz) {</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;  std::vector&lt;ChannelData&gt; chd;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  chd.reserve(d2d.size());</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;  std::transform(d2d.begin(), d2d.end(), std::back_inserter(chd),</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                 [iz](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; d) { return Data2D2Channel(d, iz); });</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  <span class="keywordflow">return</span> chd;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;}</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="line"><a name="l00129"></a><span class="lineno"><a class="line" href="structdqmcpp_1_1ECAL_1_1Channel.html#ab9e688417c8cb7be44a3ff1c9dfebd32">  129</a></span>&#160;std::array&lt;int, 3&gt; <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html#ab9e688417c8cb7be44a3ff1c9dfebd32">Channel::asArray</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  std::array&lt;int, 3&gt; tmp = {ix_iphi, iy_ieta, iz};</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  <span class="keywordflow">return</span> tmp;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;}</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="comment">// operators</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Point1D.html">Point1D</a>&amp; c) {</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;  os &lt;&lt; <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; c.x &lt;&lt; <span class="stringliteral">&quot;]&quot;</span>;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;  <span class="keywordflow">return</span> os;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;}</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Point2D.html">Point2D</a>&amp; c) {</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;  os &lt;&lt; <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; c.x &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; c.y &lt;&lt; <span class="stringliteral">&quot;]&quot;</span>;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;  <span class="keywordflow">return</span> os;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;}</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="keywordtype">bool</span> operator&lt;(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a>&amp; b) {</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;  <span class="keywordflow">if</span> (a.iz == b.iz) {</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordflow">if</span> (a.ix_iphi == b.ix_iphi) {</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;      <span class="keywordflow">return</span> a.iy_ieta &lt; b.iy_ieta;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    } <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;      <span class="keywordflow">return</span> a.ix_iphi &lt; b.ix_iphi;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  } <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordflow">return</span> a.iz &lt; b.iz;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;}</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a>&amp; c) {</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;  os &lt;&lt; std::string(c);</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;  <span class="keywordflow">return</span> os;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;}</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;Channel::operator std::string()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  <span class="keyword">auto</span> it = <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a1a50f0959e175ad85bbe7f4c8db8b539">ECALChannels::find</a>(*<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;  <span class="keyword">const</span> std::string det = (it != <span class="keyword">nullptr</span>) ? it-&gt;det() : <span class="stringliteral">&quot;UNKNOWN&quot;</span>;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="namespacedqmcpp_1_1common.html#a6c857a0df9dcadf95fca7cd1c5b0a8ca">common::string_format</a>(<span class="stringliteral">&quot;%s [%+03d,%+03d]&quot;</span>, det.c_str(), ix_iphi,</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                               iy_ieta);</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;}</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a>&amp; b) {</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  <span class="keywordflow">return</span> a.ix_iphi == b.ix_iphi &amp;&amp; a.iy_ieta == b.iy_ieta &amp;&amp; a.iz == b.iz;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;}</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160; </div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1TT.html">TT</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1TT.html">TT</a>&amp; b) {</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;  <span class="keywordflow">return</span> a.tt == b.tt &amp;&amp; a.iz == b.iz &amp;&amp; a.tcc == b.tcc;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;}</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="keywordtype">bool</span> operator&lt;(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1TT.html">TT</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1TT.html">TT</a>&amp; b) {</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;  <span class="keywordflow">if</span> (a.iz == b.iz) {</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordflow">if</span> (a.tcc == b.tcc) {</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;      <span class="keywordflow">return</span> a.tt &lt; b.tt;</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;      <span class="keywordflow">return</span> a.tcc &lt; b.tcc;</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    }</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <span class="keywordflow">return</span> a.iz &lt; b.iz;</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;  }</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;}</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1TT.html">TT</a>&amp; elem) {</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;  os &lt;&lt; std::string(elem);</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  <span class="keywordflow">return</span> os;</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;}</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;TT::operator std::string()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> _l = <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">ECALChannels::list</a>();</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  <span class="keyword">auto</span> it = std::find_if(</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;      _l.begin, _l.end, [<span class="keyword">this</span>](<span class="keyword">const</span> ECALChannels::ChannelInfo&amp; ci) {</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        return ci.tower == tt &amp;&amp; ci.tcc == tcc &amp;&amp; ci.det_iz() == iz;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;      });</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;  <span class="keyword">const</span> std::string det = (it != _l.end) ? it-&gt;det() : <span class="stringliteral">&quot;unknown&quot;</span>;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="namespacedqmcpp_1_1common.html#a6c857a0df9dcadf95fca7cd1c5b0a8ca">common::string_format</a>(<span class="stringliteral">&quot;%s TCC%02d TT%02d&quot;</span>, det.c_str(), tcc, tt);</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;}</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160; </div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1CCU.html">CCU</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1CCU.html">CCU</a>&amp; b) {</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;  <span class="keywordflow">return</span> a.ccu == b.ccu &amp;&amp; a.iz == b.iz &amp;&amp; a.tcc == b.tcc;</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;}</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160; </div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="keywordtype">bool</span> operator&lt;(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1CCU.html">CCU</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1CCU.html">CCU</a>&amp; b) {</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;  <span class="keywordflow">if</span> (a.iz == b.iz) {</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <span class="keywordflow">if</span> (a.tcc == b.tcc) {</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;      <span class="keywordflow">return</span> a.ccu &lt; b.ccu;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;      <span class="keywordflow">return</span> a.tcc &lt; b.tcc;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    }</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <span class="keywordflow">return</span> a.iz &lt; b.iz;</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;  }</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;}</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160; </div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1CCU.html">CCU</a>&amp; elem) {</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;  os &lt;&lt; std::string(elem);</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;  <span class="keywordflow">return</span> os;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;}</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160; </div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;CCU::operator std::string()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> _l = <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">ECALChannels::list</a>();</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;  <span class="keyword">auto</span> it = std::find_if(</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;      _l.begin, _l.end, [<span class="keyword">this</span>](<span class="keyword">const</span> ECALChannels::ChannelInfo&amp; ci) {</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        return ci.ccu == ccu &amp;&amp; ci.tcc == tcc &amp;&amp; ci.det_iz() == iz;</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;      });</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;  <span class="keyword">const</span> std::string det = (it != _l.end) ? it-&gt;det() : <span class="stringliteral">&quot;unknown&quot;</span>;</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="namespacedqmcpp_1_1common.html#a6c857a0df9dcadf95fca7cd1c5b0a8ca">common::string_format</a>(<span class="stringliteral">&quot;%s TCC%02d CCU%02d&quot;</span>, det.c_str(), tcc, ccu);</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;}</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160; </div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Run.html">Run</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Run.html">Run</a>&amp; b) {</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;  <span class="keywordflow">return</span> a.dataset == b.dataset &amp;&amp; a.runnumber == b.runnumber;</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;}</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160; </div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Run.html">Run</a>&amp; run) {</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;  os &lt;&lt; run.runnumber &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; run.dataset;</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;  <span class="keywordflow">return</span> os;</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="structdqmcpp_1_1ECAL_1_1TT.html#a2f8068408827a397bb34a3db4db5ba65">   35</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1TT.html#a2f8068408827a397bb34a3db4db5ba65">TT::fed</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> be = <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">ECALChannels::list</a>();</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> it = std::find_if(</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      be.begin, be.end, [<span class="keyword">this</span>](<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">ECALChannels::ChannelInfo</a>&amp; ci) {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        return ci.tcc == this-&gt;tcc &amp;&amp; ci.tower == this-&gt;tt &amp;&amp;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;               ci.det_iz() == this-&gt;iz;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      });</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">if</span> (it == be.end)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keywordflow">return</span> it-&gt;fed;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;CCU::CCU(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a>&amp; channel) {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> info = <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a1a50f0959e175ad85bbe7f4c8db8b539">ECALChannels::find</a>(channel);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">if</span> (!info) {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    std::cerr &lt;&lt; std::endl &lt;&lt; <span class="stringliteral">&quot;Cannot find channel!&quot;</span> &lt;&lt; channel &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    exit(1);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  }</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  iz = 0;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordflow">if</span> (info-&gt;ix != -999)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    iz = info-&gt;iz;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  ccu = info-&gt;ccu;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  tcc = info-&gt;tcc;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="structdqmcpp_1_1ECAL_1_1CCU.html#a6e9bc3966168b5eb2d5a643aeeff2900">   60</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1CCU.html#a6e9bc3966168b5eb2d5a643aeeff2900">CCU::fed</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> be = <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">ECALChannels::list</a>();</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> it = std::find_if(</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      be.begin, be.end, [<span class="keyword">this</span>](<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">ECALChannels::ChannelInfo</a>&amp; ci) {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        return ci.tcc == this-&gt;tcc &amp;&amp; ci.ccu == this-&gt;ccu &amp;&amp;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;               ci.det_iz() == this-&gt;iz;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      });</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keywordflow">if</span> (it == be.end)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keywordflow">return</span> it-&gt;fed;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1ECAL.html#acbdeb997703b90d065decdda431328a2">   72</a></span>&#160;std::vector&lt;TTData&gt; <a class="code" href="namespacedqmcpp_1_1ECAL.html#acbdeb997703b90d065decdda431328a2">channel2TT</a>(</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">const</span> std::vector&lt;ECAL::ChannelData&gt;&amp; channelData) {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  vector&lt;TTData&gt; ttdata;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  ttdata.reserve(channelData.size());</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="comment">// get list of TT from channels</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  std::transform(channelData.begin(), channelData.end(),</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                 std::back_inserter(ttdata), [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; channel) {</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                   return TTData(TT(channel.base), channel.value);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                 });</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="comment">// make TT unique</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  std::sort(ttdata.begin(), ttdata.end(),</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            [](<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Data.html">TTData</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Data.html">TTData</a>&amp; b) { return a.base &lt; b.base; });</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  ttdata.erase(std::unique(ttdata.begin(), ttdata.end(),</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                           [](<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Data.html">TTData</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Data.html">TTData</a>&amp; b) {</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                             return a.base == b.base;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                           }),</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;               ttdata.end());</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  <span class="keywordflow">return</span> ttdata;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;vector&lt;RunTTData&gt; filterZeroTT(vector&lt;RunTTData&gt;&amp; rundata) {</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <span class="keywordflow">if</span> (rundata.size() == 0)</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordflow">return</span> vector&lt;RunTTData&gt;();</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keyword">auto</span>&amp; ttlist = rundata.at(0).data;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  vector&lt;array&lt;int, 3&gt;&gt; tt_to_remove;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; tt : ttlist) {</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">bool</span> all_is_zero = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; rd : rundata) {</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      <span class="comment">// find</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      <span class="keyword">auto</span> it =</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;          std::find_if(rd.data.begin(), rd.data.end(),</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                       [tt](<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Data.html">TTData</a>&amp; e) { return tt.base == e.base; });</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      <span class="keywordflow">if</span> (it == rd.data.end()) {</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="comment">// tt not found;</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      };</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;      <span class="keywordflow">if</span> (!<a class="code" href="namespacedqmcpp_1_1common.html#acd9ef9ea6ccb002f491bf7ce5b3460b3">common::isZero</a>(it-&gt;value)) {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        all_is_zero = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;      }</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    }</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordflow">if</span> (all_is_zero) {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;      tt_to_remove.push_back({tt.base.tt, tt.base.iz, tt.base.tcc});</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    }</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  }</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; ttremove : tt_to_remove) {</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; run : rundata) {</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;      <span class="keyword">auto</span> it = std::find_if(</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;          run.data.begin(), run.data.end(), [ttremove](<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Data.html">TTData</a>&amp; e) {</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            return ttremove[0] == e.base.tt &amp;&amp; ttremove[1] == e.base.iz &amp;&amp;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                   ttremove[2] == e.base.tcc;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;          });</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      <span class="keywordflow">if</span> (it == run.data.end())</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;      run.data.erase(it);</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    }</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  }</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <span class="keywordflow">return</span> rundata;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;};</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1ECAL.html#a51fafee02962f137b18d52368912a9b8">  132</a></span>&#160;<a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a> <a class="code" href="namespacedqmcpp_1_1ECAL.html#a51fafee02962f137b18d52368912a9b8">Point2D2Channel</a>(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Point2D.html">Point2D</a>&amp; p, <span class="keyword">const</span> <span class="keywordtype">int</span> iz) {</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">int</span> x = std::trunc(p.x);</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">int</span> y = std::trunc(p.y);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">int</span> iphi = std::abs(x) + 1;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">int</span> ieta = y + 1 * <a class="code" href="namespacedqmcpp_1_1common.html#a02feb89a3c6f699e6205ccc8f1eb9dd3">common::sign</a>(p.y);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a>(iphi, ieta, iz);</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;}</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
+<div class="line"><a name="l00140"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1ECAL.html#ac3fb18a1e1231aa345e7d5b68650cbb7">  140</a></span>&#160;<a class="code" href="structdqmcpp_1_1ECAL_1_1Data.html">ChannelData</a> <a class="code" href="namespacedqmcpp_1_1ECAL.html#ac3fb18a1e1231aa345e7d5b68650cbb7">Data2D2Channel</a>(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Data.html">Data2D</a>&amp; d2d, <span class="keyword">const</span> <span class="keywordtype">int</span> iz) {</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Data.html">ChannelData</a>(<a class="code" href="namespacedqmcpp_1_1ECAL.html#a51fafee02962f137b18d52368912a9b8">Point2D2Channel</a>(d2d.base, iz), d2d.value);</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;}</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
+<div class="line"><a name="l00144"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1ECAL.html#a3a674b3d82620a22e78961886889c2ec">  144</a></span>&#160;std::vector&lt;ChannelData&gt; <a class="code" href="namespacedqmcpp_1_1ECAL.html#a3a674b3d82620a22e78961886889c2ec">Data2D2ChannelData</a>(<span class="keyword">const</span> std::vector&lt;Data2D&gt;&amp; d2d,</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                                            <span class="keyword">const</span> <span class="keywordtype">int</span> iz) {</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;  std::vector&lt;ChannelData&gt; chd;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;  chd.reserve(d2d.size());</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  std::transform(d2d.begin(), d2d.end(), std::back_inserter(chd),</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                 [iz](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; d) { return Data2D2Channel(d, iz); });</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  <span class="keywordflow">return</span> chd;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;}</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
+<div class="line"><a name="l00153"></a><span class="lineno"><a class="line" href="structdqmcpp_1_1ECAL_1_1Channel.html#ab9e688417c8cb7be44a3ff1c9dfebd32">  153</a></span>&#160;std::array&lt;int, 3&gt; <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html#ab9e688417c8cb7be44a3ff1c9dfebd32">Channel::asArray</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;  std::array&lt;int, 3&gt; tmp = {ix_iphi, iy_ieta, iz};</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  <span class="keywordflow">return</span> tmp;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;}</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="comment">// operators</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Point1D.html">Point1D</a>&amp; c) {</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  os &lt;&lt; <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; c.x &lt;&lt; <span class="stringliteral">&quot;]&quot;</span>;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  <span class="keywordflow">return</span> os;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;}</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Point2D.html">Point2D</a>&amp; c) {</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;  os &lt;&lt; <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; c.x &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; c.y &lt;&lt; <span class="stringliteral">&quot;]&quot;</span>;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  <span class="keywordflow">return</span> os;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;}</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="keywordtype">bool</span> operator&lt;(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a>&amp; b) {</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;  <span class="keywordflow">if</span> (a.iz == b.iz) {</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordflow">if</span> (a.ix_iphi == b.ix_iphi) {</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;      <span class="keywordflow">return</span> a.iy_ieta &lt; b.iy_ieta;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    } <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;      <span class="keywordflow">return</span> a.ix_iphi &lt; b.ix_iphi;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  } <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordflow">return</span> a.iz &lt; b.iz;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;}</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160; </div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a>&amp; c) {</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  os &lt;&lt; std::string(c);</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;  <span class="keywordflow">return</span> os;</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;}</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160; </div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;Channel::operator std::string()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  <span class="keyword">auto</span> it = <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a1a50f0959e175ad85bbe7f4c8db8b539">ECALChannels::find</a>(*<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;  <span class="keyword">const</span> std::string det = (it != <span class="keyword">nullptr</span>) ? it-&gt;det() : <span class="stringliteral">&quot;UNKNOWN&quot;</span>;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="namespacedqmcpp_1_1common.html#a6c857a0df9dcadf95fca7cd1c5b0a8ca">common::string_format</a>(<span class="stringliteral">&quot;%s [%+03d,%+03d]&quot;</span>, det.c_str(), ix_iphi,</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                               iy_ieta);</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;}</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160; </div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">Channel</a>&amp; b) {</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;  <span class="keywordflow">return</span> a.ix_iphi == b.ix_iphi &amp;&amp; a.iy_ieta == b.iy_ieta &amp;&amp; a.iz == b.iz;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;}</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1TT.html">TT</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1TT.html">TT</a>&amp; b) {</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  <span class="keywordflow">return</span> a.tt == b.tt &amp;&amp; a.iz == b.iz &amp;&amp; a.tcc == b.tcc;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;}</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="keywordtype">bool</span> operator&lt;(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1TT.html">TT</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1TT.html">TT</a>&amp; b) {</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  <span class="keywordflow">if</span> (a.iz == b.iz) {</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keywordflow">if</span> (a.tcc == b.tcc) {</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;      <span class="keywordflow">return</span> a.tt &lt; b.tt;</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;      <span class="keywordflow">return</span> a.tcc &lt; b.tcc;</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    }</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    <span class="keywordflow">return</span> a.iz &lt; b.iz;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;  }</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;}</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160; </div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1TT.html">TT</a>&amp; elem) {</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;  os &lt;&lt; std::string(elem);</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;  <span class="keywordflow">return</span> os;</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;}</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160; </div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;TT::operator std::string()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> _l = <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">ECALChannels::list</a>();</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;  <span class="keyword">auto</span> it = std::find_if(</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;      _l.begin, _l.end, [<span class="keyword">this</span>](<span class="keyword">const</span> ECALChannels::ChannelInfo&amp; ci) {</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        return ci.tower == tt &amp;&amp; ci.tcc == tcc &amp;&amp; ci.det_iz() == iz;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;      });</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;  <span class="keyword">const</span> std::string det = (it != _l.end) ? it-&gt;det() : <span class="stringliteral">&quot;unknown&quot;</span>;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="namespacedqmcpp_1_1common.html#a6c857a0df9dcadf95fca7cd1c5b0a8ca">common::string_format</a>(<span class="stringliteral">&quot;%s TCC%02d TT%02d&quot;</span>, det.c_str(), tcc, tt);</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;}</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160; </div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;<span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1CCU.html">CCU</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1CCU.html">CCU</a>&amp; b) {</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;  <span class="keywordflow">return</span> a.ccu == b.ccu &amp;&amp; a.iz == b.iz &amp;&amp; a.tcc == b.tcc;</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;}</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="keywordtype">bool</span> operator&lt;(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1CCU.html">CCU</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1CCU.html">CCU</a>&amp; b) {</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  <span class="keywordflow">if</span> (a.iz == b.iz) {</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <span class="keywordflow">if</span> (a.tcc == b.tcc) {</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;      <span class="keywordflow">return</span> a.ccu &lt; b.ccu;</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;      <span class="keywordflow">return</span> a.tcc &lt; b.tcc;</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    }</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;  } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    <span class="keywordflow">return</span> a.iz &lt; b.iz;</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;  }</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;}</div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160; </div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;};  <span class="comment">// namespace ECAL</span></div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;};  <span class="comment">// namespace dqmcpp</span></div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1CCU.html">CCU</a>&amp; elem) {</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  os &lt;&lt; std::string(elem);</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;  <span class="keywordflow">return</span> os;</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;}</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160; </div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;CCU::operator std::string()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> _l = <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">ECALChannels::list</a>();</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;  <span class="keyword">auto</span> it = std::find_if(</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;      _l.begin, _l.end, [<span class="keyword">this</span>](<span class="keyword">const</span> ECALChannels::ChannelInfo&amp; ci) {</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        return ci.ccu == ccu &amp;&amp; ci.tcc == tcc &amp;&amp; ci.det_iz() == iz;</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;      });</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;  <span class="keyword">const</span> std::string det = (it != _l.end) ? it-&gt;det() : <span class="stringliteral">&quot;unknown&quot;</span>;</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="namespacedqmcpp_1_1common.html#a6c857a0df9dcadf95fca7cd1c5b0a8ca">common::string_format</a>(<span class="stringliteral">&quot;%s TCC%02d CCU%02d&quot;</span>, det.c_str(), tcc, ccu);</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;}</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160; </div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Run.html">Run</a>&amp; a, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Run.html">Run</a>&amp; b) {</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;  <span class="keywordflow">return</span> a.dataset == b.dataset &amp;&amp; a.runnumber == b.runnumber;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;}</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160; </div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Run.html">Run</a>&amp; run) {</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;  os &lt;&lt; run.runnumber &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; run.dataset;</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;  <span class="keywordflow">return</span> os;</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;}</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160; </div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;};  <span class="comment">// namespace ECAL</span></div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;};  <span class="comment">// namespace dqmcpp</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="anamespacedqmcpp_1_1common_html_a02feb89a3c6f699e6205ccc8f1eb9dd3"><div class="ttname"><a href="namespacedqmcpp_1_1common.html#a02feb89a3c6f699e6205ccc8f1eb9dd3">dqmcpp::common::sign</a></div><div class="ttdeci">int sign(const T &amp;value)</div><div class="ttdoc">Return sign of value.</div><div class="ttdef"><b>Definition:</b> <a href="math_8hh_source.html#l00068">math.hh:68</a></div></div>
 <div class="ttc" id="anamespacedqmcpp_1_1ECAL_html"><div class="ttname"><a href="namespacedqmcpp_1_1ECAL.html">dqmcpp::ECAL</a></div><div class="ttdoc">Namespace for ECAL specific data types.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8cc_source.html#l00020">ECAL.cc:20</a></div></div>
-<div class="ttc" id="anamespacedqmcpp_1_1ECAL_html_acbdeb997703b90d065decdda431328a2"><div class="ttname"><a href="namespacedqmcpp_1_1ECAL.html#acbdeb997703b90d065decdda431328a2">dqmcpp::ECAL::channel2TT</a></div><div class="ttdeci">std::vector&lt; TTData &gt; channel2TT(const std::vector&lt; ECAL::ChannelData &gt; &amp;channelData)</div><div class="ttdoc">Convects list of channels to list of TT.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8cc_source.html#l00048">ECAL.cc:48</a></div></div>
-<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1Channel_html_ab9e688417c8cb7be44a3ff1c9dfebd32"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1Channel.html#ab9e688417c8cb7be44a3ff1c9dfebd32">dqmcpp::ECAL::Channel::asArray</a></div><div class="ttdeci">std::array&lt; int, 3 &gt; asArray() const</div><div class="ttdoc">Returns channel as (ix, iy, iz)</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8cc_source.html#l00129">ECAL.cc:129</a></div></div>
-<div class="ttc" id="anamespacedqmcpp_1_1ECAL_html_a51fafee02962f137b18d52368912a9b8"><div class="ttname"><a href="namespacedqmcpp_1_1ECAL.html#a51fafee02962f137b18d52368912a9b8">dqmcpp::ECAL::Point2D2Channel</a></div><div class="ttdeci">Channel Point2D2Channel(const Point2D &amp;p, const int iz)</div><div class="ttdoc">Converts Point2D to channel with given iz.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8cc_source.html#l00108">ECAL.cc:108</a></div></div>
-<div class="ttc" id="anamespacedqmcpp_1_1ECAL_html_ac3fb18a1e1231aa345e7d5b68650cbb7"><div class="ttname"><a href="namespacedqmcpp_1_1ECAL.html#ac3fb18a1e1231aa345e7d5b68650cbb7">dqmcpp::ECAL::Data2D2Channel</a></div><div class="ttdeci">ChannelData Data2D2Channel(const Data2D &amp;d2d, const int iz)</div><div class="ttdoc">Converts Data2D to channel with given iz.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8cc_source.html#l00116">ECAL.cc:116</a></div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1ECAL_html_acbdeb997703b90d065decdda431328a2"><div class="ttname"><a href="namespacedqmcpp_1_1ECAL.html#acbdeb997703b90d065decdda431328a2">dqmcpp::ECAL::channel2TT</a></div><div class="ttdeci">std::vector&lt; TTData &gt; channel2TT(const std::vector&lt; ECAL::ChannelData &gt; &amp;channelData)</div><div class="ttdoc">Convects list of channels to list of TT.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8cc_source.html#l00072">ECAL.cc:72</a></div></div>
+<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1Channel_html_ab9e688417c8cb7be44a3ff1c9dfebd32"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1Channel.html#ab9e688417c8cb7be44a3ff1c9dfebd32">dqmcpp::ECAL::Channel::asArray</a></div><div class="ttdeci">std::array&lt; int, 3 &gt; asArray() const</div><div class="ttdoc">Returns channel as (ix, iy, iz)</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8cc_source.html#l00153">ECAL.cc:153</a></div></div>
+<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1CCU_html_a6e9bc3966168b5eb2d5a643aeeff2900"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1CCU.html#a6e9bc3966168b5eb2d5a643aeeff2900">dqmcpp::ECAL::CCU::fed</a></div><div class="ttdeci">int fed() const</div><div class="ttdoc">Get FED#, -1 if not found.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8cc_source.html#l00060">ECAL.cc:60</a></div></div>
+<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1TT_html_a2f8068408827a397bb34a3db4db5ba65"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1TT.html#a2f8068408827a397bb34a3db4db5ba65">dqmcpp::ECAL::TT::fed</a></div><div class="ttdeci">int fed() const</div><div class="ttdoc">Get FED#, -1 if not found.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8cc_source.html#l00035">ECAL.cc:35</a></div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1ECAL_html_a51fafee02962f137b18d52368912a9b8"><div class="ttname"><a href="namespacedqmcpp_1_1ECAL.html#a51fafee02962f137b18d52368912a9b8">dqmcpp::ECAL::Point2D2Channel</a></div><div class="ttdeci">Channel Point2D2Channel(const Point2D &amp;p, const int iz)</div><div class="ttdoc">Converts Point2D to channel with given iz.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8cc_source.html#l00132">ECAL.cc:132</a></div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1ECAL_html_ac3fb18a1e1231aa345e7d5b68650cbb7"><div class="ttname"><a href="namespacedqmcpp_1_1ECAL.html#ac3fb18a1e1231aa345e7d5b68650cbb7">dqmcpp::ECAL::Data2D2Channel</a></div><div class="ttdeci">ChannelData Data2D2Channel(const Data2D &amp;d2d, const int iz)</div><div class="ttdoc">Converts Data2D to channel with given iz.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8cc_source.html#l00140">ECAL.cc:140</a></div></div>
 <div class="ttc" id="anamespacedqmcpp_1_1common_html_acd9ef9ea6ccb002f491bf7ce5b3460b3"><div class="ttname"><a href="namespacedqmcpp_1_1common.html#acd9ef9ea6ccb002f491bf7ce5b3460b3">dqmcpp::common::isZero</a></div><div class="ttdeci">bool isZero(const T &amp;value)</div><div class="ttdoc">Return true if value is zero. Useful for comparing float/double with 0.</div><div class="ttdef"><b>Definition:</b> <a href="math_8hh_source.html#l00246">math.hh:246</a></div></div>
-<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1Point2D_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1Point2D.html">dqmcpp::ECAL::Point2D</a></div><div class="ttdoc">Two-dimensional point.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00038">ECAL.hh:38</a></div></div>
-<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1TT_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1TT.html">dqmcpp::ECAL::TT</a></div><div class="ttdoc">TT class.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00092">ECAL.hh:92</a></div></div>
+<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1Point2D_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1Point2D.html">dqmcpp::ECAL::Point2D</a></div><div class="ttdoc">Two-dimensional point.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00042">ECAL.hh:42</a></div></div>
+<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1TT_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1TT.html">dqmcpp::ECAL::TT</a></div><div class="ttdoc">TT class.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00096">ECAL.hh:96</a></div></div>
 <div class="ttc" id="anamespacedqmcpp_1_1ECALChannels_html_a1a50f0959e175ad85bbe7f4c8db8b539"><div class="ttname"><a href="namespacedqmcpp_1_1ECALChannels.html#a1a50f0959e175ad85bbe7f4c8db8b539">dqmcpp::ECALChannels::find</a></div><div class="ttdeci">ECALChannelsList::const_iterator find(const ECAL::Channel &amp;c)</div><div class="ttdoc">Find first matching channel in database. Returns nullptr if not found.</div><div class="ttdef"><b>Definition:</b> <a href="ECALChannels_8cc_source.html#l00022">ECALChannels.cc:22</a></div></div>
 <div class="ttc" id="anamespacedqmcpp_1_1common_html_a6c857a0df9dcadf95fca7cd1c5b0a8ca"><div class="ttname"><a href="namespacedqmcpp_1_1common.html#a6c857a0df9dcadf95fca7cd1c5b0a8ca">dqmcpp::common::string_format</a></div><div class="ttdeci">std::string string_format(const std::string &amp;format, Args... args)</div><div class="ttdoc">Format string by pattern like printf function.</div><div class="ttdef"><b>Definition:</b> <a href="string_8hh_source.html#l00071">string.hh:71</a></div></div>
 <div class="ttc" id="anamespacedqmcpp_1_1ECALChannels_html_a447860cb7aa0ce2286fd9ad7ae5082c8"><div class="ttname"><a href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">dqmcpp::ECALChannels::list</a></div><div class="ttdeci">ChannelIteratorPair list()</div><div class="ttdoc">Returns begin() and end() iterator pair.</div><div class="ttdef"><b>Definition:</b> <a href="ECALChannels_8cc_source.html#l00026">ECALChannels.cc:26</a></div></div>
-<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1CCU_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1CCU.html">dqmcpp::ECAL::CCU</a></div><div class="ttdoc">CCU class.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00120">ECAL.hh:120</a></div></div>
-<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1Run_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1Run.html">dqmcpp::ECAL::Run</a></div><div class="ttdoc">Run class.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00184">ECAL.hh:184</a></div></div>
-<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1Point1D_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1Point1D.html">dqmcpp::ECAL::Point1D</a></div><div class="ttdoc">One-dimensional point.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00028">ECAL.hh:28</a></div></div>
-<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1Data_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1Data.html">dqmcpp::ECAL::Data</a></div><div class="ttdoc">Templated data class.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00211">ECAL.hh:211</a></div></div>
+<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1CCU_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1CCU.html">dqmcpp::ECAL::CCU</a></div><div class="ttdoc">CCU class.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00130">ECAL.hh:130</a></div></div>
+<div class="ttc" id="astructdqmcpp_1_1ECALChannels_1_1ChannelInfo_html"><div class="ttname"><a href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">dqmcpp::ECALChannels::ChannelInfo</a></div><div class="ttdoc">Static channel list structure Dumped from DQM a long long time ago ...</div><div class="ttdef"><b>Definition:</b> <a href="ECALChannels_8hh_source.html#l00023">ECALChannels.hh:23</a></div></div>
+<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1Run_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1Run.html">dqmcpp::ECAL::Run</a></div><div class="ttdoc">Run class.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00212">ECAL.hh:212</a></div></div>
+<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1Point1D_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1Point1D.html">dqmcpp::ECAL::Point1D</a></div><div class="ttdoc">One-dimensional point.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00032">ECAL.hh:32</a></div></div>
+<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1Data_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1Data.html">dqmcpp::ECAL::Data</a></div><div class="ttdoc">Templated data class.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00239">ECAL.hh:239</a></div></div>
 <div class="ttc" id="aECAL_8hh_html"><div class="ttname"><a href="ECAL_8hh.html">ECAL.hh</a></div><div class="ttdoc">ECAL data structure namespace.</div></div>
-<div class="ttc" id="anamespacedqmcpp_1_1ECAL_html_a3a674b3d82620a22e78961886889c2ec"><div class="ttname"><a href="namespacedqmcpp_1_1ECAL.html#a3a674b3d82620a22e78961886889c2ec">dqmcpp::ECAL::Data2D2ChannelData</a></div><div class="ttdeci">std::vector&lt; ChannelData &gt; Data2D2ChannelData(const std::vector&lt; Data2D &gt; &amp;d2d, const int iz)</div><div class="ttdoc">Data2D to channelData.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8cc_source.html#l00120">ECAL.cc:120</a></div></div>
-<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1Channel_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1Channel.html">dqmcpp::ECAL::Channel</a></div><div class="ttdoc">ECAL Channel struct.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00048">ECAL.hh:48</a></div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1ECAL_html_a3a674b3d82620a22e78961886889c2ec"><div class="ttname"><a href="namespacedqmcpp_1_1ECAL.html#a3a674b3d82620a22e78961886889c2ec">dqmcpp::ECAL::Data2D2ChannelData</a></div><div class="ttdeci">std::vector&lt; ChannelData &gt; Data2D2ChannelData(const std::vector&lt; Data2D &gt; &amp;d2d, const int iz)</div><div class="ttdoc">Data2D to channelData.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8cc_source.html#l00144">ECAL.cc:144</a></div></div>
+<div class="ttc" id="astructdqmcpp_1_1ECAL_1_1Channel_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1Channel.html">dqmcpp::ECAL::Channel</a></div><div class="ttdoc">ECAL Channel struct.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00052">ECAL.hh:52</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

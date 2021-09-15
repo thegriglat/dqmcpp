@@ -59,7 +59,8 @@ var menudata={children:[
 {text:"r",url:"namespacemembers_func.html#index_r"},
 {text:"s",url:"namespacemembers_func.html#index_s"},
 {text:"t",url:"namespacemembers_func.html#index_t"},
-{text:"z",url:"namespacemembers_func.html#index_z"}]}]}]},
+{text:"z",url:"namespacemembers_func.html#index_z"}]},
+{text:"Enumerations",url:"namespacemembers_enum.html"}]}]},
 {text:"Classes",url:"annotated.html",children:[
 {text:"Class List",url:"annotated.html"},
 {text:"Class Index",url:"classes.html"},
