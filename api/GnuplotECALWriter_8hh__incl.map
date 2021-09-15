@@ -1,5 +1,5 @@
 <map id="writers/GnuplotECALWriter.hh" name="writers/GnuplotECALWriter.hh">
-<area shape="rect" id="node1" title="Write ECAL plots in gnuplot format." alt="" coords="64,5,277,32"/>
+<area shape="rect" id="node1" title="Write ECAL plots in gnuplot format." alt="" coords="63,5,278,32"/>
 <area shape="rect" id="node2" href="$ECAL_8hh.html" title="ECAL data structure namespace." alt="" coords="21,155,145,181"/>
 <area shape="rect" id="node7" href="$Gnuplot2D_8hh.html" title="Base class for gnuplot output." alt="" coords="202,80,313,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="5,229,61,256"/>

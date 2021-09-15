@@ -1,5 +1,5 @@
 <map id="filters/filters.hh" name="filters/filters.hh">
-<area shape="rect" id="node1" title="All predefined filters filters." alt="" coords="159,5,279,32"/>
+<area shape="rect" id="node1" title="All predefined filters filters." alt="" coords="157,5,280,32"/>
 <area shape="rect" id="node2" href="$ChannelStatus_8hh.html" title="Channel status filter." alt="" coords="5,80,141,107"/>
 <area shape="rect" id="node8" href="$MaskedTT_8hh.html" title="Masked TT filter from CMS_ECAL_CONF.fe_daq_bad_tt_dat table." alt="" coords="165,80,272,107"/>
 <area shape="rect" id="node9" href="$Vlasov_8hh.html" title="Filter channel by Vlasov&#39;s table https://twiki.cern.ch/twiki/bin/view/Main/EcalTTcurrentStatus." alt="" coords="296,80,381,107"/>
