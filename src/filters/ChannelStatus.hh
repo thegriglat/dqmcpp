@@ -6,6 +6,7 @@
  */
 
 #ifndef CHANNELSTATUSFILTER_HH
+#define CHANNELSTATUSFILTER_HH
 
 #include <string>
 #include "../ECAL/ECAL.hh"
