@@ -164,14 +164,18 @@ int count(const Collection& list,
  * @brief Split input list to chunks with given size n
  *
  * @tparam T
- * @param list
- * @param n
+ * @param list input vector
+ * @param n max size of chunk. set to 0 to 1 chunk
  * @return std::vector<std::vector<T>>
  */
 template <typename T>
 std::vector<std::vector<T>> chunks(const std::vector<T>& list,
                                    const unsigned int n) {
   std::vector<std::vector<T>> res;
+  if (n == 0) {
+    res.push_back(list);
+    return res;
+  }
   const auto size = list.size();
   unsigned int i = 0;
   for (i = 0; i < size / n; ++i) {
