@@ -1,11 +1,11 @@
 <map id="filters/ChannelStatus.cc" name="filters/ChannelStatus.cc">
-<area shape="rect" id="node1" title="Channel status filter." alt="" coords="181,5,357,32"/>
+<area shape="rect" id="node1" title="Channel status filter." alt="" coords="182,5,357,32"/>
 <area shape="rect" id="node2" href="$ChannelStatus_8hh.html" title="Channel status filter." alt="" coords="29,80,165,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="55,229,113,256"/>
 <area shape="rect" id="node4" href="$ECAL_8hh.html" title="ECAL data structure namespace." alt="" coords="185,155,309,181"/>
-<area shape="rect" id="node8" title=" " alt="" coords="665,80,751,107"/>
+<area shape="rect" id="node8" title=" " alt="" coords="664,80,749,107"/>
 <area shape="rect" id="node9" href="$DQMURLProvider_8hh.html" title="Provide simple functions for DQM urls." alt="" coords="241,80,431,107"/>
-<area shape="rect" id="node10" href="$JSONReader_8hh.html" title="Reading JSON data from DQM." alt="" coords="455,80,641,107"/>
+<area shape="rect" id="node10" href="$JSONReader_8hh.html" title="Reading JSON data from DQM." alt="" coords="456,80,640,107"/>
 <area shape="rect" id="node5" title=" " alt="" coords="137,229,193,256"/>
 <area shape="rect" id="node6" title=" " alt="" coords="218,229,294,256"/>
 <area shape="rect" id="node7" title=" " alt="" coords="318,229,381,256"/>

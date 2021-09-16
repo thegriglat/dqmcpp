@@ -1,7 +1,7 @@
 <map id="net/URLHandler.hh" name="net/URLHandler.hh">
-<area shape="rect" id="node1" title="Helper class for cURL." alt="" coords="249,5,393,32"/>
+<area shape="rect" id="node1" title="Helper class for cURL." alt="" coords="250,5,393,32"/>
 <area shape="rect" id="node2" href="$DQMSession_8cc.html" title="DQM session manager&#39;s code." alt="" coords="5,80,152,107"/>
 <area shape="rect" id="node3" href="$URLCache_8cc.html" title="URLCache implementation." alt="" coords="176,80,307,107"/>
-<area shape="rect" id="node4" href="$URLHandler_8cc.html" title="URLHander implementation." alt="" coords="331,80,474,107"/>
-<area shape="rect" id="node5" href="$URLHandlerMT_8cc.html" title="Multithreaded cURL requests." alt="" coords="499,80,659,107"/>
+<area shape="rect" id="node4" href="$URLHandler_8cc.html" title="URLHander implementation." alt="" coords="331,80,472,107"/>
+<area shape="rect" id="node5" href="$URLHandlerMT_8cc.html" title="Multithreaded cURL requests." alt="" coords="497,80,658,107"/>
 </map>
