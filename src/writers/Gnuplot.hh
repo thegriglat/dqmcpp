@@ -39,6 +39,7 @@ class Gnuplot {
   Axis _yaxis = {"*", "*"};
   std::string _output = "output";
   std::string _title = "";
+  unsigned int _chunkSize = 50;
 
  public:
   /**
@@ -133,6 +134,20 @@ class Gnuplot {
    * @return Axis
    */
   inline Axis getY() const { return _yaxis; };
+  /**
+   * @brief Set max size of X axis
+   *
+   * @param chunkSize Max number of items on X axis
+   */
+  inline void setChunkSize(const unsigned int chunkSize) {
+    _chunkSize = chunkSize;
+  }
+  /**
+   * @brief Get max size of X axis
+   *
+   * @return unsigned int
+   */
+  inline unsigned int getChunkSize() const { return _chunkSize; }
 };
 
 }  // namespace writers
