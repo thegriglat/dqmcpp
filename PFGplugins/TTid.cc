@@ -48,6 +48,10 @@ vector<string> get_urls(const ECAL::Run& run, const int iz) {
 void plot(const vector<ECAL::RunTTCCUData>& rundata) {
   writers::Gnuplot2DWriter::Data2D data;
   double _max = -1;
+  const auto xlabels = common::map<ECAL::RunTTCCUData, std::string>(
+      rundata, [](const ECAL::RunTTCCUData& rtcd) {
+        return to_string(rtcd.run.runnumber);
+      });
   for (auto& rd : rundata) {
     const string xlabel = to_string(rd.run.runnumber);
     for (auto& d : rd.data) {
@@ -57,6 +61,7 @@ void plot(const vector<ECAL::RunTTCCUData>& rundata) {
     }
   }
   writers::Gnuplot2DWriter writer(data);
+  writer.setXlabels(xlabels);
   writer.setOutput("TTid.png");
   writer.setPalette(colors::PaletteSets::Heatmap);
   if (_max > 0)
