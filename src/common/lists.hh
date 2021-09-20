@@ -177,15 +177,13 @@ std::vector<std::vector<T>> chunks(const std::vector<T>& list,
     return res;
   }
   const auto size = list.size();
-  unsigned int i = 0;
+  res.reserve(size / n + 1);
+  size_t i = 0;
   for (i = 0; i < size / n; ++i) {
-    const std::vector<T> slice(list.begin() + i * n,
-                               list.begin() + (i + 1) * n);
-    res.push_back(slice);
+    res.emplace_back(list.begin() + i * n, list.begin() + (i + 1) * n);
   }
   // add tail
-  const std::vector<T> slicetail(list.begin() + (i)*n, list.end());
-  res.push_back(slicetail);
+  res.emplace_back(list.begin() + (i)*n, list.end());
   return res;
 }
 
