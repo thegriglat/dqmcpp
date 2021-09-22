@@ -6,7 +6,6 @@
  */
 #include "Vlasov.hh"
 #include <algorithm>
-#include "../ecalchannels/ECALChannels.hh"
 
 namespace {}
 
@@ -27,11 +26,9 @@ Vlasov::Vlasov() {
 }
 
 bool Vlasov::operator()(const ECAL::Channel& channel) const {
-  const auto info = ECALChannels::find(channel);
-  if (!info)
-    return false;
-  return std::any_of(_table.begin(), _table.end(), [info](const Item& item) {
-    return item.ccu == info->ccu && item.fed == info->fed;
+  const auto info = channel.info();
+  return std::any_of(_table.begin(), _table.end(), [&info](const Item& item) {
+    return item.ccu == info.ccu && item.fed == info.fed;
   });
 }
 

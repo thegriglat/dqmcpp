@@ -10,7 +10,6 @@
 #include "colors/Colors.hh"
 #include "common/clusters.hh"
 #include "common/common.hh"
-#include "ecalchannels/ECALChannels.hh"
 #include "writers/Gnuplot2DWriter.hh"
 
 REGISTER_PLUGIN(NoiseClusters);
@@ -65,8 +64,8 @@ void dqmcpp::plugins::NoiseClusters::Process() {
         _maxsize = std::max((int)cluster.size(), _maxsize);
         std::set<int> ttlist;
         for (auto& chd : cluster) {
-          const auto info = ECALChannels::find(chd.base);
-          ttlist.insert(info->ccu);
+          const auto info = chd.base.info();
+          ttlist.insert(info.ccu);
         }
         std::vector<int> ttsorted(ttlist.begin(), ttlist.end());
         std::sort(ttsorted.begin(), ttsorted.end());

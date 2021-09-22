@@ -11,7 +11,6 @@
 #include "common/clusters.hh"
 #include "common/common.hh"
 #include "common/gnuplot.hh"
-#include "ecalchannels/ECALChannels.hh"
 #include "net/DQMURLProvider.hh"
 #include "readers/JSONReader.hh"
 #include "writers/Gnuplot2DWriter.hh"
@@ -50,15 +49,11 @@ int channelDistance(const dqmcpp::ECAL::ChannelData& a,
 }
 
 int getChannelTT(const ECAL::ChannelData& cd) {
-  auto cinfo = ECALChannels::find(cd.base);
-  if (!cinfo) {
-    cerr << "Cannot find channel " << cd << endl;
-    exit(1);
-  }
+  auto cinfo = cd.base.info();
   if (cd.base.isEB())
-    return cinfo->tower;
+    return cinfo.tower;
   else
-    return cinfo->ccu;
+    return cinfo.ccu;
 }
 
 void dump(const dqmcpp::writers::Gnuplot2DWriter& writer,
@@ -149,9 +144,9 @@ void ChannelStatus::Process() {
     writers::Gnuplot2DWriter::Data2D data;
     for (auto& pair : channeldata) {
       const auto ch = pair.second;
-      auto info = ECALChannels::find(ch.base);
+      auto info = ch.base.info();
       string xlabel = to_string(pair.first);
-      string det = (info) ? info->det() : "NONE?";
+      string det = info.det();
       string ylabel = std::string(ch.base);
       data.insert({{xlabel, ylabel}, ch.value});
     }
@@ -170,9 +165,9 @@ void ChannelStatus::Process() {
     writers::Gnuplot2DWriter::Data2D data;
     for (auto& pair : ttdata) {
       const auto ch = pair.second;
-      auto info = ECALChannels::find(ch.base);
+      auto info = ch.base.info();
       string xlabel = to_string(pair.first);
-      string det = (info) ? info->det() : "NONE?";
+      string det = info.det();
       auto tt = getChannelTT(ch);
       const string ttccu = (ch.base.isEB()) ? "TT" : "CCU";
       string ylabel =

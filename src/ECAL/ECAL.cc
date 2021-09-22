@@ -20,16 +20,12 @@ namespace dqmcpp {
 namespace ECAL {
 
 TT::TT(const Channel& channel) {
-  const auto info = ECALChannels::find(channel);
-  if (!info) {
-    std::cerr << std::endl << "Cannot find channel!" << channel << std::endl;
-    exit(1);
-  }
+  const auto info = channel.info();
   iz = 0;
-  if (info->ix != -999)
-    iz = info->iz;
-  tt = info->tower;
-  tcc = info->tcc;
+  if (info.ix != -999)
+    iz = info.iz;
+  tt = info.tower;
+  tcc = info.tcc;
 }
 
 int TT::fed() const {
@@ -45,16 +41,12 @@ int TT::fed() const {
 }
 
 CCU::CCU(const Channel& channel) {
-  const auto info = ECALChannels::find(channel);
-  if (!info) {
-    std::cerr << std::endl << "Cannot find channel!" << channel << std::endl;
-    exit(1);
-  }
+  const auto info = channel.info();
   iz = 0;
-  if (info->ix != -999)
-    iz = info->iz;
-  ccu = info->ccu;
-  tcc = info->tcc;
+  if (info.ix != -999)
+    iz = info.iz;
+  ccu = info.ccu;
+  tcc = info.tcc;
 }
 
 int CCU::fed() const {
@@ -67,6 +59,15 @@ int CCU::fed() const {
   if (it == be.end)
     return -1;
   return it->fed;
+}
+
+ECALChannels::ChannelInfo Channel::info() const {
+  auto cinfo = ECALChannels::find(*this);
+  if (cinfo)
+    return *cinfo;
+  cout << "BAD CHANNEL. Check x = " << ix_iphi << " y = " << iy_ieta
+       << " z = " << iz << endl;
+  exit(1);
 }
 
 std::vector<TTData> channel2TT(
@@ -183,9 +184,8 @@ std::ostream& operator<<(std::ostream& os, const Channel& c) {
 }
 
 Channel::operator std::string() const {
-  auto it = ECALChannels::find(*this);
-  const std::string det = (it != nullptr) ? it->det() : "UNKNOWN";
-  return common::string_format("%s [%+03d,%+03d]", det.c_str(), ix_iphi,
+  auto i = info();
+  return common::string_format("%s [%+03d,%+03d]", i.det().c_str(), ix_iphi,
                                iy_ieta);
 }
 

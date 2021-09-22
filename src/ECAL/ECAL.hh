@@ -8,6 +8,7 @@
 #include <ostream>
 #include <string>
 #include <vector>
+#include "../ecalchannels/ChannelInfo.hh"
 
 namespace dqmcpp {
 /**
@@ -56,6 +57,12 @@ struct Channel {
   int iz;
   Channel(const int x, const int y, const int z)
       : ix_iphi(x), iy_ieta(y), iz(z){};
+  /**
+   * @brief Get Channel info from in-memory database
+   *
+   * @return ECALChannels::ChannelInfo
+   */
+  ECALChannels::ChannelInfo info() const;
   /**
    * @brief True if channel in ECAL Barrel
    *
