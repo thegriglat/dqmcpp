@@ -67,7 +67,7 @@ vector<TPOccupancyL1::RunL1Data> TPOccupancyL1::getRunData(void) {
   const auto runs = runListReader->runs();
   const auto contents = net::URLCache::get(common::map<ECAL::Run, string>(
       runs, [](const ECAL::Run& run) { return geturl(run); }));
-  for (unsigned i = 0; i < contents.size(); ++i) {
+  for (size_t i = 0; i < contents.size(); ++i) {
     progress.setLabel(to_string(runs.at(i).runnumber));
     const auto content = readers::JSONReader::parse2D(contents.at(i));
     rundata.emplace_back(runs.at(i), content);

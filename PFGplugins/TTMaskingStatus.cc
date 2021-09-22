@@ -34,8 +34,7 @@ struct URLType {
   URLType(const std::string& _s, bool eb) : url(_s), isEB(eb){};
 };
 
-std::vector<URLType> urls(const unsigned int runnumber,
-                          const std::string& dataset) {
+std::vector<URLType> urls(const int runnumber, const std::string& dataset) {
   std::vector<URLType> urls;
   for (int i = -1; i < 2; ++i) {
     if (i == 0) {

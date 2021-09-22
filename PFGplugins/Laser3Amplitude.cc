@@ -185,7 +185,7 @@ vector<Laser3Amplitude::RunL1Data> Laser3Amplitude::getRunData(const int sm,
       runListReader->runs(),
       [getter, sm](const ECAL::Run& run) { return getter(run, sm); }));
 
-  for (unsigned int i = 0; i < contents.size(); ++i) {
+  for (size_t i = 0; i < contents.size(); ++i) {
     const auto cont = readers::JSONReader::parse(contents.at(i));
     rundata.emplace_back(runListReader->runs().at(i), cont);
   }

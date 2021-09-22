@@ -72,7 +72,7 @@ void dqmcpp::plugins::RecHitOccupancyDiff::Process() {
   const auto runs = runListReader->runs();
   writers::ProgressBar pb(runs.size() * 2);
   // eb is 0, 1 is ee
-  for (unsigned int i = 0; i < 2; ++i) {
+  for (int i = 0; i < 2; ++i) {
     vector<ECAL::RunData1D> rundata;
     const string det = (i == 0) ? "EB" : "EE";
     for (auto& run : runs) {

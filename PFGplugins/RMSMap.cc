@@ -23,7 +23,7 @@ REGISTER_PLUGIN(RMSMap)
 namespace dqmcpp {
 namespace plugins {
 
-std::vector<std::string> RMSMap::urls(const unsigned int runnumber,
+std::vector<std::string> RMSMap::urls(const int runnumber,
                                       const std::string& dataset) {
   std::vector<std::string> urls;
   for (int i = -18; i < 19; ++i) {

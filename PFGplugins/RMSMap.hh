@@ -11,7 +11,7 @@ namespace plugins {
 
 class RMSMap : public Plugin {
  private:
-  std::vector<std::string> urls(const unsigned int runnumber,
+  std::vector<std::string> urls(const int runnumber,
                                 const std::string& dataset);
   std::vector<ECAL::RunChannelData> analyze(
       const std::vector<ECAL::RunChannelData>& rundata);

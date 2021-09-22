@@ -61,7 +61,7 @@ void Timing::Process() {
         runListReader->runs(),
         [iz](const ECAL::Run& run) { return get_url(run, iz); }));
 
-    for (unsigned int i = 0; i < contents.size(); ++i) {
+    for (size_t i = 0; i < contents.size(); ++i) {
       const auto content = readers::JSONReader::parse1D(contents.at(i));
       const auto default_a = (iz == 0) ? 1e4 : 1e3;
       const auto gauss_fit = common::gnuplot::gauss(default_a, 0.1, 1.0);
