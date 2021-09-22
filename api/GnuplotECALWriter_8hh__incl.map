@@ -1,12 +1,13 @@
 <map id="writers/GnuplotECALWriter.hh" name="writers/GnuplotECALWriter.hh">
-<area shape="rect" id="node1" title="Write ECAL plots in gnuplot format." alt="" coords="64,5,277,32"/>
-<area shape="rect" id="node2" href="$ECAL_8hh.html" title="ECAL data structure namespace." alt="" coords="21,155,145,181"/>
-<area shape="rect" id="node7" href="$Gnuplot2D_8hh.html" title="Base class for gnuplot output." alt="" coords="202,80,313,107"/>
+<area shape="rect" id="node1" title="Write ECAL plots in gnuplot format." alt="" coords="260,5,473,32"/>
+<area shape="rect" id="node2" href="$ECAL_8hh.html" title="ECAL data structure namespace." alt="" coords="217,155,341,181"/>
+<area shape="rect" id="node8" href="$Gnuplot2D_8hh.html" title="Base class for gnuplot output." alt="" coords="398,80,509,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="5,229,61,256"/>
 <area shape="rect" id="node4" title=" " alt="" coords="86,229,162,256"/>
-<area shape="rect" id="node5" title=" " alt="" coords="335,229,393,256"/>
-<area shape="rect" id="node6" title=" " alt="" coords="226,229,289,256"/>
-<area shape="rect" id="node8" title=" " alt="" coords="169,155,220,181"/>
-<area shape="rect" id="node9" href="$Colors_8hh.html" title="Colors and palettes declarations ." alt="" coords="295,155,433,181"/>
-<area shape="rect" id="node10" href="$Gnuplot_8hh.html" title="Gnuplot, ... class." alt="" coords="457,155,551,181"/>
+<area shape="rect" id="node5" title=" " alt="" coords="531,229,589,256"/>
+<area shape="rect" id="node6" title=" " alt="" coords="433,229,495,256"/>
+<area shape="rect" id="node7" href="$ChannelInfo_8hh_source.html" title=" " alt="" coords="187,229,408,256"/>
+<area shape="rect" id="node9" title=" " alt="" coords="365,155,416,181"/>
+<area shape="rect" id="node10" href="$Colors_8hh.html" title="Colors and palettes declarations ." alt="" coords="491,155,629,181"/>
+<area shape="rect" id="node11" href="$Gnuplot_8hh.html" title="Gnuplot, ... class." alt="" coords="653,155,747,181"/>
 </map>

@@ -86,6 +86,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9e6bb173e2a67c2a41f738bf9e4a51ca"><td class="memItemLeft" align="right" valign="top"><a id="a9e6bb173e2a67c2a41f738bf9e4a51ca"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Channel</b> (const int x, const int y, const int z)</td></tr>
 <tr class="separator:a9e6bb173e2a67c2a41f738bf9e4a51ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaf5021a8582a13e6153e85a9609693d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">ECALChannels::ChannelInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdqmcpp_1_1ECAL_1_1Channel.html#aaaf5021a8582a13e6153e85a9609693d">info</a> () const</td></tr>
+<tr class="memdesc:aaaf5021a8582a13e6153e85a9609693d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get <a class="el" href="structdqmcpp_1_1ECAL_1_1Channel.html" title="ECAL Channel struct.">Channel</a> info from in-memory database.  <a href="structdqmcpp_1_1ECAL_1_1Channel.html#aaaf5021a8582a13e6153e85a9609693d">More...</a><br /></td></tr>
+<tr class="separator:aaaf5021a8582a13e6153e85a9609693d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9103e122744b5713a6fc184760fa4ae"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdqmcpp_1_1ECAL_1_1Channel.html#ad9103e122744b5713a6fc184760fa4ae">isEB</a> () const</td></tr>
 <tr class="memdesc:ad9103e122744b5713a6fc184760fa4ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if channel in <a class="el" href="namespacedqmcpp_1_1ECAL.html" title="Namespace for ECAL specific data types.">ECAL</a> Barrel.  <a href="structdqmcpp_1_1ECAL_1_1Channel.html#ad9103e122744b5713a6fc184760fa4ae">More...</a><br /></td></tr>
 <tr class="separator:ad9103e122744b5713a6fc184760fa4ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -129,7 +132,7 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="namespacedqmcpp_1_1ECAL.html" title="Namespace for ECAL specific data types.">ECAL</a> <a class="el" href="structdqmcpp_1_1ECAL_1_1Channel.html" title="ECAL Channel struct.">Channel</a> struct. </p>
 
-<p class="definition">Definition at line <a class="el" href="ECAL_8hh_source.html#l00052">52</a> of file <a class="el" href="ECAL_8hh_source.html">ECAL.hh</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ECAL_8hh_source.html#l00053">53</a> of file <a class="el" href="ECAL_8hh_source.html">ECAL.hh</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ab9e688417c8cb7be44a3ff1c9dfebd32"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab9e688417c8cb7be44a3ff1c9dfebd32">&#9670;&nbsp;</a></span>asArray()</h2>
@@ -149,7 +152,29 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 <p>Returns channel as (ix, iy, iz) </p>
 <dl class="section return"><dt>Returns</dt><dd>std::array&lt;int, 3&gt; </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ECAL_8cc_source.html#l00153">153</a> of file <a class="el" href="ECAL_8cc_source.html">ECAL.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ECAL_8cc_source.html#l00154">154</a> of file <a class="el" href="ECAL_8cc_source.html">ECAL.cc</a>.</p>
+
+</div>
+</div>
+<a id="aaaf5021a8582a13e6153e85a9609693d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaaf5021a8582a13e6153e85a9609693d">&#9670;&nbsp;</a></span>info()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">ECALChannels::ChannelInfo</a> dqmcpp::ECAL::Channel::info </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get <a class="el" href="structdqmcpp_1_1ECAL_1_1Channel.html" title="ECAL Channel struct.">Channel</a> info from in-memory database. </p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html" title="Static channel list structure Dumped from DQM a long long time ago ...">ECALChannels::ChannelInfo</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ECAL_8cc_source.html#l00064">64</a> of file <a class="el" href="ECAL_8cc_source.html">ECAL.cc</a>.</p>
 
 </div>
 </div>
@@ -181,7 +206,7 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 <dd>
 false </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ECAL_8hh_source.html#l00065">65</a> of file <a class="el" href="ECAL_8hh_source.html">ECAL.hh</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ECAL_8hh_source.html#l00072">72</a> of file <a class="el" href="ECAL_8hh_source.html">ECAL.hh</a>.</p>
 
 </div>
 </div>
@@ -213,7 +238,7 @@ false </dd></dl>
 <dd>
 false </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ECAL_8hh_source.html#l00079">79</a> of file <a class="el" href="ECAL_8hh_source.html">ECAL.hh</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ECAL_8hh_source.html#l00086">86</a> of file <a class="el" href="ECAL_8hh_source.html">ECAL.hh</a>.</p>
 
 </div>
 </div>
@@ -245,7 +270,7 @@ false </dd></dl>
 <dd>
 false </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ECAL_8hh_source.html#l00072">72</a> of file <a class="el" href="ECAL_8hh_source.html">ECAL.hh</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ECAL_8hh_source.html#l00079">79</a> of file <a class="el" href="ECAL_8hh_source.html">ECAL.hh</a>.</p>
 
 </div>
 </div>

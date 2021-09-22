@@ -103,13 +103,13 @@ $(function() {
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;      cerr &lt;&lt; <span class="stringliteral">&quot;Bad run &#39;&quot;</span> &lt;&lt; line &lt;&lt; <span class="stringliteral">&quot;&#39;&quot;</span> &lt;&lt; endl;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      <span class="keywordflow">continue</span>;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    }</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">auto</span> <a class="code" href="namespacedqmcpp_1_1net_1_1DQMURL.html#a94e583379aa599a89bf2221b19d0f4ba">runs</a> = <a class="code" href="namespacedqmcpp_1_1net_1_1DQMURL.html#a94e583379aa599a89bf2221b19d0f4ba">net::DQMURL::runs</a>(run, mask);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">auto</span> <a class="code" href="namespacedqmcpp_1_1net_1_1DQMURL.html#a97aa2dd8e209ea8d02f859ef4fc59c6f">runs</a> = <a class="code" href="namespacedqmcpp_1_1net_1_1DQMURL.html#a97aa2dd8e209ea8d02f859ef4fc59c6f">net::DQMURL::runs</a>(run, mask);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    std::set&lt;int&gt; distinct_runs;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; r : <a class="code" href="namespacedqmcpp_1_1net_1_1DQMURL.html#a94e583379aa599a89bf2221b19d0f4ba">runs</a>)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; r : <a class="code" href="namespacedqmcpp_1_1net_1_1DQMURL.html#a97aa2dd8e209ea8d02f859ef4fc59c6f">runs</a>)</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      distinct_runs.insert(r.runnumber);</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; runnumber : distinct_runs) {</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keywordtype">int</span> i = 0;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; rund : <a class="code" href="namespacedqmcpp_1_1net_1_1DQMURL.html#a94e583379aa599a89bf2221b19d0f4ba">runs</a>) {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; rund : <a class="code" href="namespacedqmcpp_1_1net_1_1DQMURL.html#a97aa2dd8e209ea8d02f859ef4fc59c6f">runs</a>) {</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">if</span> (rund.runnumber == runnumber) {</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;          <span class="keywordflow">if</span> (i &gt; 0)</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            cout &lt;&lt; <span class="stringliteral">&quot;# &quot;</span>;</div>
@@ -122,7 +122,7 @@ $(function() {
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="anamespacedqmcpp_1_1net_1_1DQMURL_html_a94e583379aa599a89bf2221b19d0f4ba"><div class="ttname"><a href="namespacedqmcpp_1_1net_1_1DQMURL.html#a94e583379aa599a89bf2221b19d0f4ba">dqmcpp::net::DQMURL::runs</a></div><div class="ttdeci">std::vector&lt; ECAL::Run &gt; runs(const unsigned int runnumber, const std::string &amp;mask, const bool useLast)</div><div class="ttdoc">Get list of datasets for given run and mask.</div><div class="ttdef"><b>Definition:</b> <a href="DQMURLProvider_8cc_source.html#l00148">DQMURLProvider.cc:148</a></div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1net_1_1DQMURL_html_a97aa2dd8e209ea8d02f859ef4fc59c6f"><div class="ttname"><a href="namespacedqmcpp_1_1net_1_1DQMURL.html#a97aa2dd8e209ea8d02f859ef4fc59c6f">dqmcpp::net::DQMURL::runs</a></div><div class="ttdeci">std::vector&lt; ECAL::Run &gt; runs(const int runnumber, const std::string &amp;mask, const bool useLast)</div><div class="ttdoc">Get list of datasets for given run and mask.</div><div class="ttdef"><b>Definition:</b> <a href="DQMURLProvider_8cc_source.html#l00148">DQMURLProvider.cc:148</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

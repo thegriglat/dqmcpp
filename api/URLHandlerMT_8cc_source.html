@@ -83,7 +83,7 @@ $(function() {
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordtype">void</span> download(<span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; urls,</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;              std::vector&lt;std::string&gt;&amp; content) {</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <a class="code" href="classdqmcpp_1_1net_1_1URLHandler.html">dqmcpp::net::URLHandler</a> hdlr;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; urls.size(); ++i) {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; urls.size(); ++i) {</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; url = urls.at(i);</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    content.at(i) = hdlr.<a class="code" href="classdqmcpp_1_1net_1_1URLHandler.html#a01573814e2ba867bcbf5f5ea52aac205">get</a>(url);</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  }</div>
@@ -104,7 +104,7 @@ $(function() {
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      urlchunks.begin(), urlchunks.end(), std::back_inserter(content),</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; c) { return std::vector&lt;std::string&gt;(c.size()); });</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; urlchunks.size(); ++i) {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; urlchunks.size(); ++i) {</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    threads.push_back(</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        std::thread(download, urlchunks.at(i), std::ref(content.at(i))));</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  }</div>

@@ -3,10 +3,11 @@
 <area shape="rect" id="node2" title=" " alt="" coords="5,80,71,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="95,80,175,107"/>
 <area shape="rect" id="node4" title=" " alt="" coords="199,80,242,107"/>
-<area shape="rect" id="node5" title=" " alt="" coords="475,229,534,256"/>
+<area shape="rect" id="node5" title=" " alt="" coords="569,229,627,256"/>
 <area shape="rect" id="node6" href="$DQMURLProvider_8hh.html" title="Provide simple functions for DQM urls." alt="" coords="267,80,457,107"/>
-<area shape="rect" id="node7" title=" " alt="" coords="207,229,269,256"/>
-<area shape="rect" id="node8" href="$ECAL_8hh.html" title="ECAL data structure namespace." alt="" coords="292,155,416,181"/>
-<area shape="rect" id="node9" title=" " alt="" coords="294,229,350,256"/>
-<area shape="rect" id="node10" title=" " alt="" coords="375,229,451,256"/>
+<area shape="rect" id="node7" title=" " alt="" coords="55,229,117,256"/>
+<area shape="rect" id="node8" href="$ECAL_8hh.html" title="ECAL data structure namespace." alt="" coords="221,155,345,181"/>
+<area shape="rect" id="node9" title=" " alt="" coords="142,229,198,256"/>
+<area shape="rect" id="node10" title=" " alt="" coords="223,229,299,256"/>
+<area shape="rect" id="node11" href="$ChannelInfo_8hh_source.html" title=" " alt="" coords="323,229,545,256"/>
 </map>

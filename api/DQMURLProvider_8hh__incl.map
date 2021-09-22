@@ -1,8 +1,9 @@
 <map id="net/DQMURLProvider.hh" name="net/DQMURLProvider.hh">
-<area shape="rect" id="node1" title="Provide simple functions for DQM urls." alt="" coords="9,5,188,32"/>
+<area shape="rect" id="node1" title="Provide simple functions for DQM urls." alt="" coords="15,5,193,32"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,155,64,181"/>
 <area shape="rect" id="node3" title=" " alt="" coords="89,155,151,181"/>
-<area shape="rect" id="node4" href="$ECAL_8hh.html" title="ECAL data structure namespace." alt="" coords="137,80,261,107"/>
+<area shape="rect" id="node4" href="$ECAL_8hh.html" title="ECAL data structure namespace." alt="" coords="142,80,266,107"/>
 <area shape="rect" id="node5" title=" " alt="" coords="176,155,232,181"/>
 <area shape="rect" id="node6" title=" " alt="" coords="257,155,333,181"/>
+<area shape="rect" id="node7" href="$ChannelInfo_8hh_source.html" title=" " alt="" coords="357,155,579,181"/>
 </map>
