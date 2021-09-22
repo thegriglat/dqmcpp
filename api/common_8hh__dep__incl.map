@@ -1,12 +1,11 @@
 <map id="common/common.hh" name="common/common.hh">
-<area shape="rect" id="node1" title="Common functions, aggregation header for all." alt="" coords="683,5,843,32"/>
+<area shape="rect" id="node1" title="Common functions, aggregation header for all." alt="" coords="524,5,684,32"/>
 <area shape="rect" id="node2" href="$dqm_8cc.html" title="Main file for running plugins." alt="" coords="5,80,93,107"/>
 <area shape="rect" id="node3" href="$gnuplot_8cc.html" title="Gnuplot.hh implementation." alt="" coords="118,80,269,107"/>
 <area shape="rect" id="node4" href="$ECAL_8cc.html" title="Various functions to convert ECAL data." alt="" coords="293,80,403,107"/>
-<area shape="rect" id="node5" href="$ECALChannels_8cc.html" title="ECAL channels database functions." alt="" coords="427,80,650,107"/>
-<area shape="rect" id="node6" href="$DQMURLProvider_8cc.html" title="DQMURLProvider source." alt="" coords="675,80,851,107"/>
-<area shape="rect" id="node7" href="$URLCache_8cc.html" title="URLCache implementation." alt="" coords="875,80,1005,107"/>
-<area shape="rect" id="node8" href="$RunListReader_8cc.html" title="RunListReader code." alt="" coords="1029,80,1216,107"/>
-<area shape="rect" id="node9" href="$Gnuplot1DWriter_8cc.html" title=" " alt="" coords="1240,80,1437,107"/>
-<area shape="rect" id="node10" href="$Gnuplot2DWriter_8cc.html" title="Gnuplot2DWriter implementation." alt="" coords="1461,80,1659,107"/>
+<area shape="rect" id="node5" href="$DQMURLProvider_8cc.html" title="DQMURLProvider source." alt="" coords="428,80,604,107"/>
+<area shape="rect" id="node6" href="$URLCache_8cc.html" title="URLCache implementation." alt="" coords="628,80,759,107"/>
+<area shape="rect" id="node7" href="$RunListReader_8cc.html" title="RunListReader code." alt="" coords="783,80,969,107"/>
+<area shape="rect" id="node8" href="$Gnuplot1DWriter_8cc.html" title=" " alt="" coords="993,80,1191,107"/>
+<area shape="rect" id="node9" href="$Gnuplot2DWriter_8cc.html" title="Gnuplot2DWriter implementation." alt="" coords="1215,80,1412,107"/>
 </map>

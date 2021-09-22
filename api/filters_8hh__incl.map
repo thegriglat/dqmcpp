@@ -1,12 +1,13 @@
 <map id="filters/filters.hh" name="filters/filters.hh">
-<area shape="rect" id="node1" title="All predefined filters filters." alt="" coords="299,5,419,32"/>
-<area shape="rect" id="node2" href="$ChannelStatus_8hh.html" title="Channel status filter." alt="" coords="145,80,281,107"/>
-<area shape="rect" id="node9" href="$MaskedTT_8hh.html" title="Masked TT filter from CMS_ECAL_CONF.fe_daq_bad_tt_dat table." alt="" coords="305,80,412,107"/>
-<area shape="rect" id="node10" href="$Vlasov_8hh.html" title="Filter channel by Vlasov&#39;s table https://twiki.cern.ch/twiki/bin/view/Main/EcalTTcurrentStatus." alt="" coords="436,80,521,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,229,64,256"/>
-<area shape="rect" id="node4" href="$ECAL_8hh.html" title="ECAL data structure namespace." alt="" coords="302,155,426,181"/>
-<area shape="rect" id="node5" title=" " alt="" coords="435,229,491,256"/>
-<area shape="rect" id="node6" title=" " alt="" coords="334,229,410,256"/>
-<area shape="rect" id="node7" title=" " alt="" coords="515,229,578,256"/>
-<area shape="rect" id="node8" href="$ChannelInfo_8hh_source.html" title=" " alt="" coords="88,229,309,256"/>
+<area shape="rect" id="node1" title="All predefined filters filters." alt="" coords="283,5,403,32"/>
+<area shape="rect" id="node2" href="$ChannelStatus_8hh.html" title="Channel status filter." alt="" coords="129,80,265,107"/>
+<area shape="rect" id="node10" href="$MaskedTT_8hh.html" title="Masked TT filter from CMS_ECAL_CONF.fe_daq_bad_tt_dat table." alt="" coords="289,80,396,107"/>
+<area shape="rect" id="node11" href="$Vlasov_8hh.html" title="Filter channel by Vlasov&#39;s table https://twiki.cern.ch/twiki/bin/view/Main/EcalTTcurrentStatus." alt="" coords="420,80,505,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,304,64,331"/>
+<area shape="rect" id="node4" href="$ECAL_8hh.html" title="ECAL data structure namespace." alt="" coords="286,155,410,181"/>
+<area shape="rect" id="node5" title=" " alt="" coords="419,229,475,256"/>
+<area shape="rect" id="node6" title=" " alt="" coords="318,229,394,256"/>
+<area shape="rect" id="node7" title=" " alt="" coords="499,229,562,256"/>
+<area shape="rect" id="node8" href="$ChannelInfo_8hh_source.html" title=" " alt="" coords="72,229,293,256"/>
+<area shape="rect" id="node9" title=" " alt="" coords="149,304,216,331"/>
 </map>

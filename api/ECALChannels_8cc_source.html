@@ -72,69 +72,27 @@ $(function() {
 <div class="contents">
 <a href="ECALChannels_8cc.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="ECALChannels_8hh.html">ECALChannels.hh</a>&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;array&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;../common/common.hh&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;../common/logging.hh&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;../common/string.hh&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="ecalchannels__db_8hh.html">ecalchannels_db.hh</a>&quot;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">namespace </span>dqmcpp {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">namespace </span>ECALChannels {</div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1ECALChannels.html#a1a50f0959e175ad85bbe7f4c8db8b539">   22</a></span>&#160;ECALChannelsList::const_iterator <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a1a50f0959e175ad85bbe7f4c8db8b539">find</a>(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">ECAL::Channel</a>&amp; c) {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a1a50f0959e175ad85bbe7f4c8db8b539">ChannelsDB::find</a>(c.ix_iphi, c.iy_ieta, c.iz);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;};</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">   26</a></span>&#160;<a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelIteratorPair.html">ChannelIteratorPair</a> <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>() {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keyword">auto</span> l = <a class="code" href="namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html#af2c63f2b23fb04dc03fc0fc0eac14e79">ChannelsDB::channels</a>();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="keywordflow">return</span> {.begin = l-&gt;begin(), .end = l-&gt;end()};</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keywordtype">int</span> ChannelInfo::sm()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="keywordflow">if</span> (fed &gt;= 610 &amp;&amp; fed &lt;= 627)</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">return</span> 610 - 1 - fed;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  <span class="keywordflow">if</span> (fed &gt;= 628 &amp;&amp; fed &lt;= 645)</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">return</span> fed - 628 + 1;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span> (fed &gt;= 601 &amp;&amp; fed &lt;= 609)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> (fed &lt;= 603) ? (594 - fed) : (603 - fed);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">if</span> (fed &gt;= 646 &amp;&amp; fed &lt;= 654)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">return</span> (fed &lt;= 648) ? (fed - 639) : (fed - 648);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">int</span> ChannelInfo::det_iz()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">if</span> (fed &gt;= 610 &amp;&amp; fed &lt;= 645)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordflow">if</span> (iz &gt; 0)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;std::string ChannelInfo::part()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keywordflow">if</span> (det_iz() == 0)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">return</span> <span class="stringliteral">&quot;EB&quot;</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">return</span> <span class="stringliteral">&quot;EE&quot;</span>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;std::string ChannelInfo::det()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="namespacedqmcpp_1_1common.html#a6c857a0df9dcadf95fca7cd1c5b0a8ca">common::string_format</a>(<span class="stringliteral">&quot;%s%+03d&quot;</span>, part().c_str(), sm());</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}  <span class="comment">// namespace ECALChannels</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="ecalchannels__db_8hh.html">ecalchannels_db.hh</a>&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span>dqmcpp {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span>ECALChannels {</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1ECALChannels.html#a1a50f0959e175ad85bbe7f4c8db8b539">   13</a></span>&#160;ECALChannelsList::const_iterator <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a1a50f0959e175ad85bbe7f4c8db8b539">find</a>(<span class="keyword">const</span> <a class="code" href="structdqmcpp_1_1ECAL_1_1Channel.html">ECAL::Channel</a>&amp; c) {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a1a50f0959e175ad85bbe7f4c8db8b539">ChannelsDB::find</a>(c.ix_iphi, c.iy_ieta, c.iz);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;};</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">   17</a></span>&#160;<a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelIteratorPair.html">ChannelIteratorPair</a> <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>() {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <span class="keyword">auto</span> l = <a class="code" href="namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html#af2c63f2b23fb04dc03fc0fc0eac14e79">ChannelsDB::channels</a>();</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <span class="keywordflow">return</span> {.begin = l-&gt;begin(), .end = l-&gt;end()};</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;}  <span class="comment">// namespace ECALChannels</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="anamespacedqmcpp_1_1ECALChannels_1_1ChannelsDB_html_af2c63f2b23fb04dc03fc0fc0eac14e79"><div class="ttname"><a href="namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html#af2c63f2b23fb04dc03fc0fc0eac14e79">dqmcpp::ECALChannels::ChannelsDB::channels</a></div><div class="ttdeci">const ECALChannelsList * channels()</div><div class="ttdoc">Raw pointer to channel database.</div><div class="ttdef"><b>Definition:</b> <a href="ecalchannels__db_8cc_source.html#l00060">ecalchannels_db.cc:60</a></div></div>
-<div class="ttc" id="anamespacedqmcpp_1_1ECALChannels_html_a1a50f0959e175ad85bbe7f4c8db8b539"><div class="ttname"><a href="namespacedqmcpp_1_1ECALChannels.html#a1a50f0959e175ad85bbe7f4c8db8b539">dqmcpp::ECALChannels::find</a></div><div class="ttdeci">ECALChannelsList::const_iterator find(const ECAL::Channel &amp;c)</div><div class="ttdoc">Find first matching channel in database. Returns nullptr if not found.</div><div class="ttdef"><b>Definition:</b> <a href="ECALChannels_8cc_source.html#l00022">ECALChannels.cc:22</a></div></div>
-<div class="ttc" id="anamespacedqmcpp_1_1common_html_a6c857a0df9dcadf95fca7cd1c5b0a8ca"><div class="ttname"><a href="namespacedqmcpp_1_1common.html#a6c857a0df9dcadf95fca7cd1c5b0a8ca">dqmcpp::common::string_format</a></div><div class="ttdeci">std::string string_format(const std::string &amp;format, Args... args)</div><div class="ttdoc">Format string by pattern like printf function.</div><div class="ttdef"><b>Definition:</b> <a href="string_8hh_source.html#l00071">string.hh:71</a></div></div>
-<div class="ttc" id="anamespacedqmcpp_1_1ECALChannels_html_a447860cb7aa0ce2286fd9ad7ae5082c8"><div class="ttname"><a href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">dqmcpp::ECALChannels::list</a></div><div class="ttdeci">ChannelIteratorPair list()</div><div class="ttdoc">Returns begin() and end() iterator pair.</div><div class="ttdef"><b>Definition:</b> <a href="ECALChannels_8cc_source.html#l00026">ECALChannels.cc:26</a></div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1ECALChannels_html_a1a50f0959e175ad85bbe7f4c8db8b539"><div class="ttname"><a href="namespacedqmcpp_1_1ECALChannels.html#a1a50f0959e175ad85bbe7f4c8db8b539">dqmcpp::ECALChannels::find</a></div><div class="ttdeci">ECALChannelsList::const_iterator find(const ECAL::Channel &amp;c)</div><div class="ttdoc">Find first matching channel in database. Returns nullptr if not found.</div><div class="ttdef"><b>Definition:</b> <a href="ECALChannels_8cc_source.html#l00013">ECALChannels.cc:13</a></div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1ECALChannels_html_a447860cb7aa0ce2286fd9ad7ae5082c8"><div class="ttname"><a href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">dqmcpp::ECALChannels::list</a></div><div class="ttdeci">ChannelIteratorPair list()</div><div class="ttdoc">Returns begin() and end() iterator pair.</div><div class="ttdef"><b>Definition:</b> <a href="ECALChannels_8cc_source.html#l00017">ECALChannels.cc:17</a></div></div>
 <div class="ttc" id="astructdqmcpp_1_1ECALChannels_1_1ChannelIteratorPair_html"><div class="ttname"><a href="structdqmcpp_1_1ECALChannels_1_1ChannelIteratorPair.html">dqmcpp::ECALChannels::ChannelIteratorPair</a></div><div class="ttdoc">Iterator structure to use in std:: algorithm function.</div><div class="ttdef"><b>Definition:</b> <a href="ECALChannels_8hh_source.html#l00026">ECALChannels.hh:26</a></div></div>
 <div class="ttc" id="aECALChannels_8hh_html"><div class="ttname"><a href="ECALChannels_8hh.html">ECALChannels.hh</a></div><div class="ttdoc">Access to ECAL channels database.</div></div>
 <div class="ttc" id="astructdqmcpp_1_1ECAL_1_1Channel_html"><div class="ttname"><a href="structdqmcpp_1_1ECAL_1_1Channel.html">dqmcpp::ECAL::Channel</a></div><div class="ttdoc">ECAL Channel struct.</div><div class="ttdef"><b>Definition:</b> <a href="ECAL_8hh_source.html#l00053">ECAL.hh:53</a></div></div>

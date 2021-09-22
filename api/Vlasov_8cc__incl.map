@@ -1,11 +1,12 @@
 <map id="filters/Vlasov.cc" name="filters/Vlasov.cc">
 <area shape="rect" id="node1" title="Vlasov table implementation." alt="" coords="103,5,227,32"/>
 <area shape="rect" id="node2" href="$Vlasov_8hh.html" title="Filter channel by Vlasov&#39;s table https://twiki.cern.ch/twiki/bin/view/Main/EcalTTcurrentStatus." alt="" coords="68,80,153,107"/>
-<area shape="rect" id="node9" title=" " alt="" coords="177,80,263,107"/>
+<area shape="rect" id="node10" title=" " alt="" coords="177,80,263,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="5,229,61,256"/>
 <area shape="rect" id="node4" title=" " alt="" coords="86,229,149,256"/>
 <area shape="rect" id="node5" href="$ECAL_8hh.html" title="ECAL data structure namespace." alt="" coords="149,155,273,181"/>
 <area shape="rect" id="node6" title=" " alt="" coords="173,229,249,256"/>
-<area shape="rect" id="node7" title=" " alt="" coords="273,229,332,256"/>
-<area shape="rect" id="node8" href="$ChannelInfo_8hh_source.html" title=" " alt="" coords="356,229,577,256"/>
+<area shape="rect" id="node7" title=" " alt="" coords="288,304,347,331"/>
+<area shape="rect" id="node8" href="$ChannelInfo_8hh_source.html" title=" " alt="" coords="324,229,545,256"/>
+<area shape="rect" id="node9" title=" " alt="" coords="401,304,468,331"/>
 </map>
