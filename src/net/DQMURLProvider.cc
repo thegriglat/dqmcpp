@@ -136,7 +136,7 @@ namespace dqmcpp {
 namespace net {
 namespace DQMURL {
 
-std::string dqmurl(const unsigned int run,
+std::string dqmurl(const int run,
                    const std::string& dataset,
                    const std::string& plotname) {
   const std::string ds = (dataset == "online") ? ONLINEDQMDS : dataset;
@@ -145,7 +145,7 @@ std::string dqmurl(const unsigned int run,
   return s;
 }
 
-std::vector<ECAL::Run> runs(const unsigned int runnumber,
+std::vector<ECAL::Run> runs(const int runnumber,
                             const std::string& mask,
                             const bool useLast) {
   auto session = DQMSession::get();

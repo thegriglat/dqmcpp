@@ -26,7 +26,7 @@ namespace DQMURL {
  * url() method.
  * @return std::string
  */
-std::string dqmurl(const unsigned int run,
+std::string dqmurl(const int run,
                    const std::string& dataset,
                    const std::string& plotname);
 std::string dqmurl(const ECAL::Run& run, const std::string& plotname);
@@ -38,7 +38,7 @@ std::string dqmurl(const ECAL::Run& run, const std::string& plotname);
  * @param useLast if True will return only last version of simular datasets
  * @return std::vector<std::string>
  */
-std::vector<dqmcpp::ECAL::Run> runs(const unsigned int run,
+std::vector<dqmcpp::ECAL::Run> runs(const int run,
                                     const std::string& mask,
                                     const bool useLast = true);
 
