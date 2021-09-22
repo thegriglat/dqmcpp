@@ -1,5 +1,8 @@
 #ifndef CHANNELINFO_HH
 
+#include <cstdint>
+#include <string>
+
 namespace dqmcpp {
 namespace ECALChannels {
 
@@ -35,9 +38,29 @@ struct ChannelInfo {
   uint8_t ietagct;  // 4..17
   uint8_t iphigct;  // 0..17
   // std::string crate;
+  /**
+   * @brief Get Channel detector like EB+03
+   *
+   * @return std::string
+   */
   std::string det() const;
+  /**
+   * @brief Get Channel detector's iz. EB == 0; EE- == -1; EE+ == +1
+   *
+   * @return int
+   */
   int det_iz() const;
+  /**
+   * @brief Get Channel detector: EB or EE
+   *
+   * @return std::string
+   */
   std::string part() const;
+  /**
+   * @brief Get supermodule
+   *
+   * @return int
+   */
   int sm() const;
 };
 
