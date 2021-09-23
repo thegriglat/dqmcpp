@@ -64,31 +64,9 @@ std::ostream& operator<<(std::ostream& os,
 
 std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   // prepare default map
-
-  double* all = new double[gw.nrows() * gw.ncolumns()];
   auto index = [&gw](const int x, const int y) {
     return gw.ncolumns() * x + y;
   };
-  for (unsigned int i = 0; i < gw.ncolumns() * gw.nrows(); ++i) {
-    all[i] = DEFAULT_VALUE;
-  }
-  for (auto& pair : *(gw._data)) {
-    const auto& xl = pair.first.first;
-    const auto& yl = pair.first.second;
-    const auto value = pair.second;
-    const auto ix = common::index(gw._xlabels, xl);
-    const auto iy = common::index(gw._ylabels, yl);
-    all[index(ix, iy)] = value;
-  }
-  // print x labels
-  /*
-  auto scale = (double)gw.ncolumns() / gw.nrows();
-  while (scale < 1)
-    scale *= 10;
-  scale = std::min(9.0, scale);
-  int pagescale = std::max(9.0 / scale, 3.0);
-  int ticksfontsize = pagescale;
-  */
   double scale = 1;
   if (gw.nrows() != 0)
     scale = static_cast<double>(gw.ncolumns()) / gw.nrows();
@@ -118,6 +96,21 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   const auto xlabel_chunks = common::chunks(gw._xlabels, gw.getChunkSize());
   for (size_t nch = 0; nch < xlabel_chunks.size(); ++nch) {
     const auto xl_chunk = xlabel_chunks.at(nch);
+    std::vector<double> all(xl_chunk.size() * gw.ncolumns());
+    std::fill(all.begin(), all.end(), DEFAULT_VALUE);
+    // can use std::for_each here
+    common::foreach_mt(gw._data->begin(), gw._data->end(),
+                       [&xl_chunk, &gw, &index, &all](const auto pair) {
+                         const auto& xl = pair.first.first;
+                         if (!common::has(xl_chunk, xl)) {
+                           return;
+                         }
+                         const auto& yl = pair.first.second;
+                         const auto value = pair.second;
+                         const auto ix = common::index(xl_chunk, xl);
+                         const auto iy = common::index(gw._ylabels, yl);
+                         all[index(ix, iy)] = value;
+                       });
     if (xl_chunk.size() == 0) {
       std::cout << "No x labels to plot. Chunk #" << nch << std::endl;
       continue;
@@ -155,12 +148,11 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
       for (auto& e : xl_chunk)
         os << e << " ";
       os << std::endl;
-      for (unsigned int iy = 0; iy < gw.ncolumns(); ++iy) {
+      for (size_t iy = 0; iy < gw.ncolumns(); ++iy) {
         const auto ylabel = gw._ylabels.at(iy);
         os << "\"" << ylabel << "\" ";
-        for (unsigned int ix = 0; ix < xl_chunk.size(); ++ix) {
-          const auto x_index = ix + nch * gw.getChunkSize();
-          os << all[index(x_index, iy)] << " ";
+        for (size_t ix = 0; ix < xl_chunk.size(); ++ix) {
+          os << all[index(ix, iy)] << " ";
         }
         os << std::endl;
       }
@@ -183,7 +175,6 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
       os << "print 'no data to plot'" << std::endl;
     }
   }
-  delete[] all;
   return os;
 }
 
