@@ -1,9 +1,8 @@
 <map id="common/ThreadPool.hh" name="common/ThreadPool.hh">
-<area shape="rect" id="node1" title="ThreadPool class, stealed from StackOverflow )" alt="" coords="516,5,692,32"/>
-<area shape="rect" id="node2" href="$lists_8hh.html" title="Operating with STL containers." alt="" coords="539,80,669,107"/>
+<area shape="rect" id="node1" title="ThreadPool class, stealed from StackOverflow )" alt="" coords="425,5,601,32"/>
+<area shape="rect" id="node2" href="$lists_8hh.html" title="Operating with STL containers." alt="" coords="448,80,579,107"/>
 <area shape="rect" id="node3" href="$clusters_8hh.html" title="Clusterising function." alt="" coords="345,155,500,181"/>
 <area shape="rect" id="node4" href="$common_8hh.html" title="Common functions, aggregation header for all." alt="" coords="524,155,684,181"/>
-<area shape="rect" id="node13" href="$URLHandlerMT_8cc.html" title="Multithreaded cURL requests." alt="" coords="709,155,870,181"/>
 <area shape="rect" id="node5" href="$dqm_8cc.html" title="Main file for running plugins." alt="" coords="5,229,93,256"/>
 <area shape="rect" id="node6" href="$gnuplot_8cc.html" title="Gnuplot.hh implementation." alt="" coords="118,229,269,256"/>
 <area shape="rect" id="node7" href="$ECAL_8cc.html" title="Various functions to convert ECAL data." alt="" coords="293,229,403,256"/>

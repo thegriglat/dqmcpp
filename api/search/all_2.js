@@ -35,6 +35,5 @@ var searchData=
   ['plugins_52',['plugins',['../namespacedqmcpp_1_1plugins.html',1,'dqmcpp']]],
   ['readers_53',['readers',['../namespacedqmcpp_1_1readers.html',1,'dqmcpp']]],
   ['urlcache_54',['URLCache',['../namespacedqmcpp_1_1net_1_1URLCache.html',1,'dqmcpp::net']]],
-  ['urlhandlermt_55',['URLHandlerMT',['../namespacedqmcpp_1_1net_1_1URLHandlerMT.html',1,'dqmcpp::net']]],
-  ['writers_56',['writers',['../namespacedqmcpp_1_1writers.html',1,'dqmcpp']]]
+  ['writers_55',['writers',['../namespacedqmcpp_1_1writers.html',1,'dqmcpp']]]
 ];
