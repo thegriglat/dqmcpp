@@ -74,6 +74,9 @@ struct URLMTInfo {
   std::string url;
 };
 
+/** Commented as cause fail with signal 11 on heavy usage **/
+
+/*
 std::vector<std::string> _getMT(const std::vector<std::string>& urls) {
   std::vector<std::string> contents(urls.size());
   std::vector<std::pair<std::string, std::string>> to_cache;
@@ -96,6 +99,16 @@ std::vector<std::string> _getMT(const std::vector<std::string>& urls) {
   }
   return contents;
 }
+*/
+
+std::vector<std::string> _getST(const std::vector<std::string>& urls) {
+  std::vector<std::string> contents;
+  contents.reserve(urls.size());
+  std::transform(
+      urls.begin(), urls.end(), std::back_inserter(contents),
+      [](const std::string& url) { return dqmcpp::net::URLCache::get(url); });
+  return contents;
+}
 
 }  // namespace
 
@@ -112,8 +125,7 @@ std::string URLCache::get(const std::string& url) {
 }
 
 std::vector<std::string> URLCache::get(const std::vector<std::string>& urls) {
-  // TODO
-  return _getMT(urls);
+  return _getST(urls);
 }
 
 }  // namespace net
