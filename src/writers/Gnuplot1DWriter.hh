@@ -21,7 +21,16 @@ namespace writers {
  */
 class Gnuplot1DWriter : public Gnuplot {
  public:
-  using Data1D = std::vector<std::pair<std::string, double>>;
+  /**
+   * @brief std::string alias for 1D axis
+   *
+   */
+  using Data1DAxis = std::string;
+  /**
+   * @brief Alias for 1D data vector
+   *
+   */
+  using Data1D = std::vector<std::pair<Data1DAxis, double>>;
 
  private:
   Data1D _data;

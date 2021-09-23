@@ -14,6 +14,10 @@
 namespace dqmcpp {
 namespace writers {
 
+/**
+ * @brief Alias for Vector of dqmcpp::colors::PaletteColor
+ *
+ */
 using Palette = std::vector<dqmcpp::colors::PaletteColor>;
 
 /**
@@ -28,7 +32,16 @@ class Gnuplot2D : public Gnuplot {
   std::string logscale = "";
 
  public:
-  using Data2D = std::map<std::pair<std::string, std::string>, double>;
+  /**
+   * @brief Alias for axis pair
+   *
+   */
+  using Data2DAxis = std::pair<std::string, std::string>;
+  /**
+   * @brief Alias for map
+   *
+   */
+  using Data2D = std::map<Data2DAxis, double>;
   /**
    * @brief Set Z axis
    *

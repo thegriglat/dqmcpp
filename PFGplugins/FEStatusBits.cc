@@ -113,7 +113,7 @@ void plot(const std::vector<RunTTInfo>& rundata,
                                            ttdata.sm, ttdata.tt);
       // if data has this tt -- +status
       // else insert
-      std::pair<string, string> data_key = {runlabel, ttlabel};
+      writers::Gnuplot2D::Data2DAxis data_key = {runlabel, ttlabel};
       auto it = data.find(data_key);
       if (it == data.end()) {
         // not found

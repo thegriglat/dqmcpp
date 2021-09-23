@@ -156,7 +156,7 @@ void TTF4Occupancy::Process() {
   }
 
   // plot
-  std::map<std::pair<std::string, std::string>, double> data;
+  std::map<writers::Gnuplot2D::Data2DAxis, double> data;
   for (auto& r : occupancy_tt) {
     std::string xlabel = std::to_string(r.run.runnumber);
     for (auto& tt : r.data) {
