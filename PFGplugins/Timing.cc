@@ -35,13 +35,12 @@ std::string det(const int iz) {
 
 std::string get_url(const ECAL::Run& run, const int iz) {
   const array<std::string, 3> a = {
-      net::DQMURL::dqmurl(run.runnumber, run.dataset,
+      net::DQMURL::dqmurl(run,
                           "EcalEndcap/EESummaryClient/EETMT EE - "
                           "timing mean 1D summary"),
       net::DQMURL::dqmurl(
-          run.runnumber, run.dataset,
-          "EcalBarrel/EBSummaryClient/EBTMT timing mean 1D summary"),
-      net::DQMURL::dqmurl(run.runnumber, run.dataset,
+          run, "EcalBarrel/EBSummaryClient/EBTMT timing mean 1D summary"),
+      net::DQMURL::dqmurl(run,
                           "EcalEndcap/EESummaryClient/EETMT EE + "
                           "timing mean 1D summary")};
   return a.at(iz + 1);
