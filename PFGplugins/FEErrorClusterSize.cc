@@ -120,8 +120,11 @@ void FEErrorClusterSize::Process() {
       auto data2d = readers::JSONReader::parse2D(
           readers::JSONReader::get(url.url), false);
       auto it = std::remove_if(
-          data2d.begin(), data2d.end(),
-          [](const ECAL::Data2D& d2d) { return std::abs(d2d.value) == 1.0; });
+          data2d.begin(), data2d.end(), [](const ECAL::Data2D& d2d) {
+            // 1.0 -- good channel
+            // 2.0 -- no data (yellow)
+            return std::abs(d2d.value) == 1.0 || std::abs(d2d.value) == 2.0;
+          });
       data2d.erase(it, data2d.end());
       const auto clusters = common::clusters(data2d, 25, d2distance);
       for (auto& cluster : clusters) {
