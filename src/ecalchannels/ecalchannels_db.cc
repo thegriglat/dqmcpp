@@ -1,9 +1,9 @@
 /**
  * @file ecalchannels_db.cc
  * @author Grigory Latyshev (thegriglat@gmail.com)
- * @brief 
- * 
- * 
+ * @brief
+ *
+ *
  */
 #include "ecalchannels_db.hh"
 
@@ -78,9 +78,9 @@ const ChannelInfo* find(const int ix_iphi, const int iy_ieta, const int iz) {
     key.ieta = -999;
     key.iz = iz;
   }
-  ChannelInfo* ptr = (ChannelInfo*)std::bsearch(&key, (void*)(&(_channels[0])),
-                                                _channels.size(),
-                                                sizeof(_channels[0]), sortChC);
+  ChannelInfo* ptr = static_cast<ChannelInfo*>(
+      std::bsearch(&key, (void*)(&(_channels[0])), _channels.size(),
+                   sizeof(_channels[0]), sortChC));
   if (ptr)
     return ptr;
   return nullptr;
