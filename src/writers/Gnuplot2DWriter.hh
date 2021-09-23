@@ -49,6 +49,11 @@ class Gnuplot2DWriter : public Gnuplot2D {
 
  public:
   Gnuplot2DWriter(const Data2D& data);
+  /**
+   * @brief Set Y label sorting function
+   *
+   * @param sort_function Sorting function (string, string) -> bool
+   */
   void setSortYFn(std::function<bool(const std::string&, const std::string&)>
                       sort_function);
   /**
