@@ -34,7 +34,7 @@ std::string det(const int iz) {
 }
 
 std::string get_url(const ECAL::Run& run, const int iz) {
-  static const array<std::string, 3> a = {
+  const array<std::string, 3> a = {
       net::DQMURL::dqmurl(run.runnumber, run.dataset,
                           "EcalEndcap/EESummaryClient/EETMT EE - "
                           "timing mean 1D summary"),
