@@ -9,9 +9,6 @@
 // for cached requests (usual case)
 #include "net/URLCache.hh"
 
-// for parallel requests
-#include "net/URLHandlerMT.hh"
-
 // do registration
 REGISTER_PLUGIN(RequestEx, requests)
 
@@ -73,18 +70,10 @@ void RequestEx::Process() {
                                      "https://github.com"};
     auto content = net::URLCache::get(urls);
 
-    auto content_mt = net::URLHandlerMT::get(urls);
-
     cout << "Size of contents: " << content.size() << endl;
     for (size_t i = 0; i < content.size(); ++i) {
       cout << "  size in bytes of content[" << i
            << "]  = " << content.at(i).size() << endl;
-    }
-
-    cout << "Size of contents (mt): " << content_mt.size() << endl;
-    for (size_t i = 0; i < content_mt.size(); ++i) {
-      cout << "  size in bytes of content_mt[" << i
-           << "]  = " << content_mt.at(i).size() << endl;
     }
   }
 }

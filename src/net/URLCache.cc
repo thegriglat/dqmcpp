@@ -8,7 +8,6 @@
 #include <functional>
 #include "../common/common.hh"
 #include "URLHandler.hh"
-#include "URLHandlerMT.hh"
 
 namespace {
 
@@ -75,6 +74,29 @@ struct URLMTInfo {
   std::string url;
 };
 
+std::vector<std::string> _getMT(const std::vector<std::string>& urls) {
+  std::vector<std::string> contents(urls.size());
+  std::vector<std::pair<std::string, std::string>> to_cache;
+  common::foreach_mt(urls.begin(), urls.end(),
+                     [&urls, &contents, &to_cache](const std::string& url) {
+                       // in theory should be thread safe
+                       const auto index = common::index(urls, url);
+                       if (has(url)) {
+                         contents.at(index) = getFromCache(url);
+                         return;
+                       }
+                       net::URLHandler hldr;
+                       const auto content = hldr.get(url);
+                       contents.at(index) = content;
+                       to_cache.push_back({url, content});
+                     });
+  // sync flush to disk
+  for (auto& pair : to_cache) {
+    add(pair.first, pair.second);
+  }
+  return contents;
+}
+
 }  // namespace
 
 namespace dqmcpp {
@@ -91,31 +113,7 @@ std::string URLCache::get(const std::string& url) {
 
 std::vector<std::string> URLCache::get(const std::vector<std::string>& urls) {
   // TODO
-  using namespace std;
-  vector<URLMTInfo> urlsinfo;
-  urlsinfo.reserve(urls.size());
-  for (size_t i = 0; i < urls.size(); ++i) {
-    urlsinfo.push_back({has(urls.at(i)), urls.at(i)});
-  }
-  const auto info2download = common::filter(
-      urlsinfo, [](const URLMTInfo& info) { return !info.cached; });
-  const auto urls2download = common::map<URLMTInfo, std::string>(
-      info2download, [](const URLMTInfo& info) { return info.url; });
-  const auto contents = net::URLHandlerMT::get(urls2download);
-  std::vector<string> returncontent;
-  returncontent.reserve(urls.size());
-  for (auto& e : urlsinfo) {
-    if (e.cached) {
-      returncontent.push_back(getFromCache(e.url));
-      continue;
-    }
-    const auto index = common::index(urls2download, e.url);
-    // if (index != -1) {
-    returncontent.push_back(contents.at(index));
-    add(e.url, contents.at(index));
-    // }
-  }
-  return returncontent;
+  return _getMT(urls);
 }
 
 }  // namespace net
