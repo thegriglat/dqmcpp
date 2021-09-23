@@ -33,7 +33,10 @@ enum class ECALElement : int { TT, CCU };
 struct Point1D {
   double x;
   Point1D(const double x) : x(x){};
-  friend std::ostream& operator<<(std::ostream& os, const Point1D& c);
+  inline friend std::ostream& operator<<(std::ostream& os, const Point1D& c) {
+    os << "[" << c.x << "]";
+    return os;
+  }
 };
 
 /**
@@ -43,7 +46,10 @@ struct Point1D {
 struct Point2D : public Point1D {
   double y;
   Point2D(const double x, const double y) : Point1D(x), y(y){};
-  friend std::ostream& operator<<(std::ostream& os, const Point2D& c);
+  inline friend std::ostream& operator<<(std::ostream& os, const Point2D& c) {
+    os << "[" << c.x << ", " << c.y << "]";
+    return os;
+  }
 };
 
 /**
@@ -89,11 +95,40 @@ struct Channel {
    *
    * @return std::array<int, 3>
    */
-  std::array<int, 3> asArray() const;
+  inline std::array<int, 3> asArray() const {
+    std::array<int, 3> tmp = {ix_iphi, iy_ieta, iz};
+    return tmp;
+  }
+  /**
+   * @brief Convert channel to std::string
+   *
+   * @return std::string
+   */
   operator std::string() const;
-  friend bool operator<(const Channel& a, const Channel& b);
-  friend bool operator==(const Channel& a, const Channel& b);
-  friend std::ostream& operator<<(std::ostream& os, const Channel& c);
+  /**
+   * @brief Compare operator, used in sorting
+   *
+   * @param a
+   * @param b
+   * @return true
+   * @return false
+   */
+  inline friend bool operator<(const Channel& a, const Channel& b) {
+    if (a.iz == b.iz) {
+      if (a.ix_iphi == b.ix_iphi) {
+        return a.iy_ieta < b.iy_ieta;
+      } else
+        return a.ix_iphi < b.ix_iphi;
+    }
+    return a.iz < b.iz;
+  }
+  inline friend bool operator==(const Channel& a, const Channel& b) {
+    return a.ix_iphi == b.ix_iphi && a.iy_ieta == b.iy_ieta && a.iz == b.iz;
+  }
+  inline friend std::ostream& operator<<(std::ostream& os, const Channel& c) {
+    os << std::string(c);
+    return os;
+  }
 };
 
 /**
@@ -115,6 +150,11 @@ struct TT {
    * @return int
    */
   int fed() const;
+  /**
+   * @brief Convert TT to std::string
+   *
+   * @return std::string
+   */
   operator std::string() const;
   /**
    * @brief Returns TT as (tt, tcc, iz, tt or ccu as int)
@@ -125,9 +165,23 @@ struct TT {
     std::array<int, 4> tmp = {tt, tcc, iz, (int)ECALElement::TT};
     return tmp;
   }
-  friend bool operator==(const TT& a, const TT& b);
-  friend bool operator<(const TT& a, const TT& b);
-  friend std::ostream& operator<<(std::ostream& os, const TT& elem);
+  inline friend bool operator==(const TT& a, const TT& b) {
+    return a.tt == b.tt && a.iz == b.iz && a.tcc == b.tcc;
+  }
+  inline friend bool operator<(const TT& a, const TT& b) {
+    if (a.iz == b.iz) {
+      if (a.tcc == b.tcc) {
+        return a.tt < b.tt;
+      } else {
+        return a.tcc < b.tcc;
+      }
+    }
+    return a.iz < b.iz;
+  }
+  inline friend std::ostream& operator<<(std::ostream& os, const TT& elem) {
+    os << std::string(elem);
+    return os;
+  }
 };
 
 /**
@@ -151,6 +205,11 @@ struct CCU {
    * @return int
    */
   int fed() const;
+  /**
+   * @brief Convert to std::string
+   *
+   * @return std::string
+   */
   operator std::string() const;
   /**
    * @brief Returns CCU as (ccu, tcc, iz, tt or ccu as int)
@@ -161,9 +220,23 @@ struct CCU {
     std::array<int, 4> tmp = {ccu, tcc, iz, (int)ECALElement::CCU};
     return tmp;
   }
-  friend bool operator==(const CCU& a, const CCU& b);
-  friend bool operator<(const CCU& a, const CCU& b);
-  friend std::ostream& operator<<(std::ostream& os, const CCU& elem);
+  inline friend bool operator==(const CCU& a, const CCU& b) {
+    return a.ccu == b.ccu && a.iz == b.iz && a.tcc == b.tcc;
+  }
+  inline friend bool operator<(const CCU& a, const CCU& b) {
+    if (a.iz == b.iz) {
+      if (a.tcc == b.tcc) {
+        return a.ccu < b.ccu;
+      } else {
+        return a.tcc < b.tcc;
+      }
+    }
+    return a.iz < b.iz;
+  }
+  inline friend std::ostream& operator<<(std::ostream& os, const CCU& elem) {
+    os << std::string(elem);
+    return os;
+  }
 };
 
 /**
@@ -203,6 +276,11 @@ class TTCCU {
       return CCU(data).fed();
     return -1;
   }
+  /**
+   * @brief Convert to std::string
+   *
+   * @return std::string
+   */
   inline operator std::string() const {
     if (isTT())
       return std::string(TT(data));
@@ -221,8 +299,13 @@ struct Run {
   std::string dataset;
   Run(int _run, const std::string& _dataset)
       : runnumber(_run), dataset(_dataset){};
-  friend bool operator==(const Run& a, const Run& b);
-  friend std::ostream& operator<<(std::ostream& os, const Run& run);
+  inline friend bool operator==(const Run& a, const Run& b) {
+    return a.runnumber == b.runnumber && a.dataset == b.dataset;
+  }
+  inline friend std::ostream& operator<<(std::ostream& os, const Run& run) {
+    os << run.runnumber << " " << run.dataset;
+    return os;
+  }
 };
 
 /**
