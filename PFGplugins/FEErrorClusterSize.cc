@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -90,6 +91,11 @@ void plot(const std::vector<RunFEData>& rundata) {
   writer.setTitle("FEErrorClusterSize");
   writer.setZ(0, maxcount);
   writer.setZTick(1);
+  writer.setSortYFn([](const std::string& a, const std::string& b) {
+    int ai = atoi(a.c_str());
+    int bi = atoi(b.c_str());
+    return ai < bi;
+  });
   ofstream out("FEErrorClusterSize.plt");
   out << writer;
   out.close();
