@@ -144,9 +144,9 @@ $(function() {
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    key.ieta = -999;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    key.iz = iz;</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  }</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">ChannelInfo</a>* ptr = (<a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">ChannelInfo</a>*)std::bsearch(&amp;key, (<span class="keywordtype">void</span>*)(&amp;(_channels[0])),</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                                                _channels.size(),</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                                                <span class="keyword">sizeof</span>(_channels[0]), sortChC);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">ChannelInfo</a>* ptr = <span class="keyword">static_cast&lt;</span><a class="code" href="structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html">ChannelInfo</a>*<span class="keyword">&gt;</span>(</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      std::bsearch(&amp;key, (<span class="keywordtype">void</span>*)(&amp;(_channels[0])), _channels.size(),</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                   <span class="keyword">sizeof</span>(_channels[0]), sortChC));</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keywordflow">if</span> (ptr)</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">return</span> ptr;</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>

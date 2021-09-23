@@ -115,73 +115,76 @@ $(function() {
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;       {35, 95}, {35, 97}, {40, 97}, {40, 100}, {50, 100}}};</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keyword">auto</span> r = generateLines(points);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="comment">// inner lines</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; e : generateLines(</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;           {{{35, 3}, {35, 15}, {40, 15}, {40, 30}, {45, 30}, {45, 40}}}</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keyword">auto</span> q = generateLines(</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      {{{35, 3}, {35, 15}, {40, 15}, {40, 30}, {45, 30}, {45, 40}}}</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;           ))</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    r.push_back(e);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; e : generateLines({{{7, 25},</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                                 {10, 25},</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                                 {10, 30},</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                                 {20, 30},</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                                 {20, 35},</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                                 {30, 35},</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                                 {30, 40},</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                                 {35, 40},</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                                 {35, 45},</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                                 {40, 45}}}))</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    r.push_back(e);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; e : generateLines(</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;           {{{0, 60}, {10, 60}, {10, 55}, {35, 55}, {35, 50}, {39, 50}}}))</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    r.push_back(e);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; e : generateLines({{{20, 87},</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                                 {20, 85},</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                                 {25, 85},</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                                 {25, 75},</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                                 {30, 75},</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                                 {30, 70},</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                 {35, 70},</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                                 {35, 65},</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                                 {40, 65},</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                                 {40, 60},</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                                 {45, 60}}}))</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    r.push_back(e);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; e :</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;       generateLines({{{50, 39}, {45, 39}, {45, 40}, {43, 40}, {43, 41},</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                       {42, 41}, {42, 42}, {41, 42}, {41, 43}, {40, 43},</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                       {40, 45}, {39, 45}, {39, 55}, {40, 55}, {40, 57},</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                       {41, 57}, {41, 58}, {42, 58}, {42, 59}, {43, 59},</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                       {43, 60}, {45, 60}, {45, 61}, {50, 61}</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;       }}))</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    r.push_back(e);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  mirrorX(r);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  r.push_back({50, 100, 50, 61});</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <span class="keywordflow">return</span> r;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;}</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1writers.html#af1d885de857dd08265db283f5cfbccee">   95</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacedqmcpp_1_1writers.html#af1d885de857dd08265db283f5cfbccee">drawEESM</a>(std::ostream&amp; os, <span class="keyword">const</span> <span class="keywordtype">int</span> iz) {</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  <span class="comment">// radius</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">int</span> r = 35;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> pi = 3.14159265359;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> phi = 2 * pi / 9.0;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  <span class="comment">// p is calculated so &quot;+5&quot; label (i == 5) will be at the center</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">double</span> p = 1.5 * pi / phi - 5.;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt; 10; ++i) {</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> angle = p * phi + i * phi;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> x = r * std::cos(angle) + 50;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> y = r * std::sin(angle) + 50;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    os &lt;&lt; <span class="stringliteral">&quot;set label front \&quot;&quot;</span> &lt;&lt; ((iz &gt; 0) ? <span class="stringliteral">&quot;+&quot;</span> : <span class="stringliteral">&quot;-&quot;</span>) &lt;&lt; std::setw(2)</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;       &lt;&lt; std::setfill(<span class="charliteral">&#39;0&#39;</span>) &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot;\&quot; at &quot;</span> &lt;&lt; x &lt;&lt; <span class="stringliteral">&quot;,&quot;</span> &lt;&lt; y &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  }</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;}</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;}  <span class="comment">// namespace writers</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  );</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  std::copy(q.begin(), q.end(), std::back_inserter(r));</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  q = generateLines({{{7, 25},</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                      {10, 25},</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                      {10, 30},</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                      {20, 30},</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                      {20, 35},</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                      {30, 35},</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                      {30, 40},</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                      {35, 40},</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                      {35, 45},</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                      {40, 45}}});</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  std::copy(q.begin(), q.end(), std::back_inserter(r));</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  q = generateLines(</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      {{{0, 60}, {10, 60}, {10, 55}, {35, 55}, {35, 50}, {39, 50}}});</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  std::copy(q.begin(), q.end(), std::back_inserter(r));</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  q = generateLines({{{20, 87},</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                      {20, 85},</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                      {25, 85},</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                      {25, 75},</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                      {30, 75},</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                      {30, 70},</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                      {35, 70},</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                      {35, 65},</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                      {40, 65},</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                      {40, 60},</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                      {45, 60}}});</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  std::copy(q.begin(), q.end(), std::back_inserter(r));</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  q = generateLines(</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      {{{50, 39}, {45, 39}, {45, 40}, {43, 40}, {43, 41}, {42, 41}, {42, 42},</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        {41, 42}, {41, 43}, {40, 43}, {40, 45}, {39, 45}, {39, 55}, {40, 55},</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        {40, 57}, {41, 57}, {41, 58}, {42, 58}, {42, 59}, {43, 59}, {43, 60},</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        {45, 60}, {45, 61}, {50, 61}</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      }});</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  std::copy(q.begin(), q.end(), std::back_inserter(r));</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  mirrorX(r);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  r.push_back({50, 100, 50, 61});</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keywordflow">return</span> r;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;}</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1writers.html#af1d885de857dd08265db283f5cfbccee">   98</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacedqmcpp_1_1writers.html#af1d885de857dd08265db283f5cfbccee">drawEESM</a>(std::ostream&amp; os, <span class="keyword">const</span> <span class="keywordtype">int</span> iz) {</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  <span class="comment">// radius</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">int</span> r = 35;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> pi = 3.14159265359;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> phi = 2 * pi / 9.0;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  <span class="comment">// p is calculated so &quot;+5&quot; label (i == 5) will be at the center</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">double</span> p = 1.5 * pi / phi - 5.;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt; 10; ++i) {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> angle = p * phi + i * phi;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> x = r * std::cos(angle) + 50;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> y = r * std::sin(angle) + 50;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    os &lt;&lt; <span class="stringliteral">&quot;set label front \&quot;&quot;</span> &lt;&lt; ((iz &gt; 0) ? <span class="stringliteral">&quot;+&quot;</span> : <span class="stringliteral">&quot;-&quot;</span>) &lt;&lt; std::setw(2)</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;       &lt;&lt; std::setfill(<span class="charliteral">&#39;0&#39;</span>) &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot;\&quot; at &quot;</span> &lt;&lt; x &lt;&lt; <span class="stringliteral">&quot;,&quot;</span> &lt;&lt; y &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  }</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}  <span class="comment">// namespace writers</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
 <div class="ttc" id="aGnuplotECALWriterLines_8hh_html"><div class="ttname"><a href="GnuplotECALWriterLines_8hh.html">GnuplotECALWriterLines.hh</a></div><div class="ttdoc">Helper class for drawing ECAL.</div></div>
 <div class="ttc" id="anamespacedqmcpp_1_1writers_html_a7aa30b0b23cde618e7a243eadc542853"><div class="ttname"><a href="namespacedqmcpp_1_1writers.html#a7aa30b0b23cde618e7a243eadc542853">dqmcpp::writers::EndcapLines</a></div><div class="ttdeci">std::vector&lt; std::array&lt; int, 4 &gt; &gt; EndcapLines()</div><div class="ttdoc">Returns list of points for EE lines.</div><div class="ttdef"><b>Definition:</b> <a href="GnuplotECALWriterLines_8cc_source.html#l00039">GnuplotECALWriterLines.cc:39</a></div></div>
-<div class="ttc" id="anamespacedqmcpp_1_1writers_html_af1d885de857dd08265db283f5cfbccee"><div class="ttname"><a href="namespacedqmcpp_1_1writers.html#af1d885de857dd08265db283f5cfbccee">dqmcpp::writers::drawEESM</a></div><div class="ttdeci">void drawEESM(std::ostream &amp;os, const int iz)</div><div class="ttdoc">Draw gnuplot EE SM labels.</div><div class="ttdef"><b>Definition:</b> <a href="GnuplotECALWriterLines_8cc_source.html#l00095">GnuplotECALWriterLines.cc:95</a></div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1writers_html_af1d885de857dd08265db283f5cfbccee"><div class="ttname"><a href="namespacedqmcpp_1_1writers.html#af1d885de857dd08265db283f5cfbccee">dqmcpp::writers::drawEESM</a></div><div class="ttdeci">void drawEESM(std::ostream &amp;os, const int iz)</div><div class="ttdoc">Draw gnuplot EE SM labels.</div><div class="ttdef"><b>Definition:</b> <a href="GnuplotECALWriterLines_8cc_source.html#l00098">GnuplotECALWriterLines.cc:98</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
