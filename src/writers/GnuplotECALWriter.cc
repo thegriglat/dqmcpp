@@ -67,14 +67,14 @@ void writeBarrel(std::ostream& os,
    * Then we just update needed values
    * The same for endcap
    */
-  Point* points = new Point[361 * 86 * 2];
+  std::array<Point, 361 * 86 * 2> points;
   auto index = [](int x, int y) { return 85 * 2 * x + y + 85; };
 
   for (int x = 1; x < 361; ++x) {
     for (int y = -85; y < 86; ++y) {
-      points[index(x, y)].x = x;
-      points[index(x, y)].y = y;
-      points[index(x, y)].value = -1;
+      points.at(index(x, y)).x = x;
+      points.at(index(x, y)).y = y;
+      points.at(index(x, y)).value = -1;
     }
   }
   for (auto& e : barrel) {
@@ -85,11 +85,10 @@ void writeBarrel(std::ostream& os,
   }
   for (int x = 1; x < 361; ++x) {
     for (int y = -85; y < 86; ++y) {
-      os << x - 0.5 << " " << y << " " << points[index(x, y)].value
+      os << x - 0.5 << " " << y << " " << points.at(index(x, y)).value
          << std::endl;
     }
   }
-  delete[] points;
   os << "EOD" << std::endl;
   os << "set output \"eb_" << gw.getOutput() << "_" << rd.run.runnumber
      << ".png\"" << std::endl;
@@ -115,13 +114,13 @@ void writeEndcap(std::ostream& os,
   drawEELines(os);
   drawEESM(os, iz);
   os << "$map" << numdata << " << EOD" << std::endl;
-  Point* points = new Point[101 * 101];
+  std::array<Point, 101 * 101> points;
   auto index = [](int x, int y) { return 100 * x + y; };
   for (int x = 0; x < 101; ++x) {
     for (int y = 0; y < 101; ++y) {
-      points[index(x, y)].x = x;
-      points[index(x, y)].y = y;
-      points[index(x, y)].value = -1;
+      points.at(index(x, y)).x = x;
+      points.at(index(x, y)).y = y;
+      points.at(index(x, y)).value = -1;
     }
   }
   for (auto& e : endcap) {
@@ -132,9 +131,8 @@ void writeEndcap(std::ostream& os,
   }
   for (int x = 1; x < 101; ++x)
     for (int y = 1; y < 101; ++y)
-      os << x - 0.5 << " " << y - 0.5 << " " << points[index(x, y)].value
+      os << x - 0.5 << " " << y - 0.5 << " " << points.at(index(x, y)).value
          << std::endl;
-  delete[] points;
   os << "EOD" << std::endl;
   const std::string filename = (iz == 1) ? "eeplus" : "eeminus";
   os << "set output \"" << filename << "_" << gw.getOutput() << "_"
