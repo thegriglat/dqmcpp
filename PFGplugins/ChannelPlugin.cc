@@ -91,7 +91,7 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
   writers::Gnuplot2DWriter::Data2D data;
   std::vector<std::pair<std::string, std::string>> boxes;
   const auto& lastrun = rundata.back().run;
-  writers::ProgressBar progress(rundata.size());
+  writers::ProgressBar progress(rundata.size() * 2);
   progress.setLabel("plot: status");
   std::set<ECAL::Channel> badchannels;
   std::map<ECAL::Channel, int> channelstatus;
@@ -101,19 +101,18 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
     }
     progress.increment();
   }
-  progress.setMaxValue(progress.getMaxValue() + badchannels.size());
+  progress.setLabel("last status");
   const filters::ChannelStatus lastRunStatus(lastrun);
   for (auto& b : badchannels) {
     channelstatus[b] = lastRunStatus[b];
-    progress.increment();
   }
-  progress.setMaxValue(progress.getMaxValue() + rundata.size());
-  progress.setLabel("plot: boxes");
   for (auto& rd : rundata) {
+    progress.setLabel("status: " + to_string(rd.run.runnumber));
     const auto xlabel = std::to_string(rd.run.runnumber);
+    const auto status = filters::ChannelStatus(rd.run);
     for (auto& b : badchannels) {
       const auto ylabel = getYlabel(b, channelstatus.at(b));
-      const auto channel_status = filters::ChannelStatus(rd.run)[b];
+      const auto channel_status = status[b];
       if (channel_status > MAXSTATUS4BOX) {
         boxes.emplace_back(xlabel, ylabel);
       }
@@ -125,6 +124,8 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
     }
     progress.increment();
   }
+  progress.finish();
+  cout << "Output to gnuplot ..." << endl;
   std::ofstream out(filename + ".plt");
   writers::Gnuplot2DWriter writer(data);
   writer.setTitle(title);
