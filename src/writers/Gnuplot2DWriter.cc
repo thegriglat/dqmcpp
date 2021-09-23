@@ -14,6 +14,9 @@
 
 #define DEFAULT_VALUE (0)
 
+using namespace std;
+using namespace dqmcpp;
+
 namespace dqmcpp {
 namespace writers {
 
@@ -64,6 +67,13 @@ std::ostream& operator<<(std::ostream& os,
 
 std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   // prepare default map
+  using MapPair = std::pair<std::pair<std::string, std::string>, double>;
+  // copy data to vector to partition it later
+  vector<MapPair> alldata;
+  alldata.reserve(gw._data->size());
+  std::transform(gw._data->begin(), gw._data->end(),
+                 std::back_inserter(alldata),
+                 [](const auto pair) { return pair; });
   auto index = [&gw](const int x, const int y) {
     return gw.ncolumns() * x + y;
   };
@@ -94,23 +104,32 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   os << "set cbtics " << gw.getZTick() << std::endl;
   os << "set xtics rotate 90" << std::endl;
   const auto xlabel_chunks = common::chunks(gw._xlabels, gw.getChunkSize());
+  const auto ylabels = gw._ylabels;
+  // cache y indices
+  std::map<std::string, int> yindexes;
+  for (auto y : ylabels) {
+    yindexes[y] = common::index(ylabels, y);
+  }
   for (size_t nch = 0; nch < xlabel_chunks.size(); ++nch) {
     const auto xl_chunk = xlabel_chunks.at(nch);
     std::vector<double> all(xl_chunk.size() * gw.ncolumns());
     std::fill(all.begin(), all.end(), DEFAULT_VALUE);
-    // can use std::for_each here
-    common::foreach_mt(gw._data->begin(), gw._data->end(),
-                       [&xl_chunk, &gw, &index, &all](const auto pair) {
-                         const auto& xl = pair.first.first;
-                         if (!common::has(xl_chunk, xl)) {
-                           return;
-                         }
-                         const auto& yl = pair.first.second;
-                         const auto value = pair.second;
-                         const auto ix = common::index(xl_chunk, xl);
-                         const auto iy = common::index(gw._ylabels, yl);
-                         all[index(ix, iy)] = value;
-                       });
+    const auto endit = std::partition(
+        alldata.begin(), alldata.end(), [&xl_chunk](const auto pair) {
+          return common::has(xl_chunk, pair.first.first);
+        });
+    // cache x indices
+    std::map<std::string, int> xindexes;
+    for (auto x : xl_chunk) {
+      xindexes[x] = common::index(xl_chunk, x);
+    }
+    for (auto it = alldata.begin(); it != endit; ++it) {
+      const auto& xl = it->first.first;
+      const auto& yl = it->first.second;
+      const auto ix = xindexes[xl];
+      const auto iy = yindexes[yl];
+      all.at(index(ix, iy)) = it->second;
+    }
     if (xl_chunk.size() == 0) {
       std::cout << "No x labels to plot. Chunk #" << nch << std::endl;
       continue;
