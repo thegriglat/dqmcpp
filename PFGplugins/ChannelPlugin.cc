@@ -50,7 +50,7 @@ std::vector<ECAL::RunChannelData> ChannelPlugin::analyze(
     std::function<bool(double)> checkfn) {
   std::map<ECAL::Channel, int> badchannels_map;
   writers::ProgressBar progress(rundata.size() * 2);
-  progress.setLabel("analyzing...");
+  progress.setLabel("analyze ...");
   for (auto& e : rundata) {
     progress.increment();
     for (auto& channeldata : e.data) {
@@ -65,7 +65,7 @@ std::vector<ECAL::RunChannelData> ChannelPlugin::analyze(
     if (pair.second > 1)
       badchannels.insert(pair.first);
   }
-  progress.setLabel("copying ...");
+  progress.setLabel("copy ...");
   std::vector<ECAL::RunChannelData> rd;
   rd.reserve(rundata.size());
   for (auto& e : rundata) {
@@ -92,7 +92,7 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
   std::vector<std::pair<std::string, std::string>> boxes;
   const auto& lastrun = rundata.back().run;
   writers::ProgressBar progress(rundata.size() * 2);
-  progress.setLabel("plot: status");
+  progress.setLabel("find bad ...");
   std::set<ECAL::Channel> badchannels;
   std::map<ECAL::Channel, int> channelstatus;
   for (auto& rd : rundata) {
@@ -101,13 +101,12 @@ void ChannelPlugin::plot(const std::vector<ECAL::RunChannelData>& rundata,
     }
     progress.increment();
   }
-  progress.setLabel("last status");
   const filters::ChannelStatus lastRunStatus(lastrun);
   for (auto& b : badchannels) {
     channelstatus[b] = lastRunStatus[b];
   }
   for (auto& rd : rundata) {
-    progress.setLabel("status: " + to_string(rd.run.runnumber));
+    progress.setLabel(to_string(rd.run.runnumber));
     const auto xlabel = std::to_string(rd.run.runnumber);
     const auto status = filters::ChannelStatus(rd.run);
     for (auto& b : badchannels) {
