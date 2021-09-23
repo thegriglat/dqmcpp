@@ -54,14 +54,12 @@ namespace plugins {
 void Timing::Process() {
   writers::ProgressBar progress(3 * runListReader->runs().size());
   for (int iz = -1; iz <= 1; ++iz) {
-    progress.setLabel(det(iz));
     vector<ECAL::RunData<double>> rundata;
-    const auto contents = net::URLCache::get(common::map<ECAL::Run, string>(
-        runListReader->runs(),
-        [iz](const ECAL::Run& run) { return get_url(run, iz); }));
+    for (auto& run : runListReader->runs()) {
+      progress.setLabel(to_string(run.runnumber) + ": " + det(iz));
 
-    for (size_t i = 0; i < contents.size(); ++i) {
-      const auto content = readers::JSONReader::parse1D(contents.at(i));
+      const auto content =
+          readers::JSONReader::parse1D(net::URLCache::get(get_url(run, iz)));
       const auto default_a = (iz == 0) ? 1e4 : 1e3;
       const auto gauss_fit = common::gnuplot::gauss(default_a, 0.1, 1.0);
       const auto fit_result = common::gnuplot::fit(
@@ -71,7 +69,7 @@ void Timing::Process() {
           },
           gauss_fit);
       const auto mu = fit_result.getParameter("mu").value;
-      rundata.push_back(ECAL::RunData<double>(runListReader->runs().at(i), mu));
+      rundata.push_back(ECAL::RunData<double>(run, mu));
       progress.increment();
     }
     // plot
