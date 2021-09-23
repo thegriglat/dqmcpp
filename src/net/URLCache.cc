@@ -42,7 +42,8 @@ std::string hash(const std::string& text) {
 }
 std::string cFileName(const std::string& url) {
   auto dirpath = getCacheDir() + "/" + dirname(removeProtocol(url));
-  mkdir_p(dirpath);
+  if (!file_exists(dirpath))
+    mkdir_p(dirpath);
   return dirpath + "/" + hash(url);
 }
 std::string getFromCache(const std::string& url) {
