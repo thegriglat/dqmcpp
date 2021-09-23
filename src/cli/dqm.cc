@@ -38,7 +38,9 @@ int main(int argc, char** argv) {
     cout << cliopts.help() << endl;
     cout << "Plugins: " << endl;
     for (auto& name : factory.list()) {
-      std::cout << "  " << name << std::endl;
+      std::cout << std::endl << "=== " << name << " ===" << std::endl;
+      const auto plugin = factory.GetPlugin(name);
+      std::cout << plugin->descrtiption() << std::endl;
     }
   };
 

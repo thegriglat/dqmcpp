@@ -47,6 +47,13 @@ class Plugin {
   inline void setRunListReader(dqmcpp::readers::RunListReader* runlistreader) {
     runListReader = runlistreader;
   }
+
+  /**
+   * @brief Return plugin's description to show in help
+   *
+   * @return std::string
+   */
+  virtual std::string descrtiption() const;
 };
 
 /*

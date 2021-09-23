@@ -7,9 +7,14 @@
 #include <iostream>
 
 using namespace dqmcpp::plugins;
+using namespace std;
 
 namespace dqmcpp {
 namespace plugins {
+
+std::string Plugin::descrtiption() const {
+  return "Empty description";
+}
 
 PluginFactory& PluginFactory::Instance() {
   static PluginFactory instance;
