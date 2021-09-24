@@ -1,3 +1,9 @@
+/**
+ * @file ChannelInfo.cc
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief ChannelInfo struct functions
+ *
+ */
 #include "ChannelInfo.hh"
 #include <string>
 #include "../common/string.hh"

@@ -1,5 +1,10 @@
 #ifndef CHANNELINFO_HH
-
+/**
+ * @file ChannelInfo.hh
+ * @author Grigory Latyshev (thegriglat@gmail.com)
+ * @brief ChannelInfo struct definition
+ *
+ */
 #include <cstdint>
 #include <string>
 
