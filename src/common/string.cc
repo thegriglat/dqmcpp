@@ -30,6 +30,8 @@ std::vector<std::string> split(const std::string& str,
 std::string join(const std::vector<std::string>& list,
                  const std::string& delimiter) {
   std::string result;
+  if (list.size() == 0)
+    return result;
   for (auto it = list.begin(); it != list.end() - 1; ++it) {
     result.append(*it);
     result.append(delimiter);
