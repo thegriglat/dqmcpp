@@ -20,7 +20,7 @@ using namespace dqmcpp;
 namespace dqmcpp {
 namespace writers {
 
-Gnuplot2DWriter::Gnuplot2DWriter(const Data2D& data) : _data(&data) {
+Gnuplot2DWriter::Gnuplot2DWriter(const Data2D& data) : _data(data) {
   std::set<std::string> __xlabels;
   std::set<std::string> __ylabels;
   for (auto& elem : data) {
@@ -70,9 +70,8 @@ std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw) {
   using MapPair = std::pair<std::pair<std::string, std::string>, double>;
   // copy data to vector to partition it later
   vector<MapPair> alldata;
-  alldata.reserve(gw._data->size());
-  std::transform(gw._data->begin(), gw._data->end(),
-                 std::back_inserter(alldata),
+  alldata.reserve(gw._data.size());
+  std::transform(gw._data.begin(), gw._data.end(), std::back_inserter(alldata),
                  [](const auto pair) { return pair; });
   auto index = [&gw](const int x, const int y) {
     return gw.ncolumns() * x + y;
