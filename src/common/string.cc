@@ -11,19 +11,19 @@
 
 namespace dqmcpp {
 namespace common {
+
 std::vector<std::string> split(const std::string& str,
                                const std::string& delimiter) {
-  size_t pos;
+  if (str.find(delimiter) == std::string::npos)
+    return {str};
+  size_t pos = 0;
+  size_t delimiter_pos = 0;
   std::vector<std::string> tokens;
-  std::string line = str;
-  if (line.find(delimiter) == std::string::npos)
-    return {line};
   do {
-    pos = line.find(delimiter);
-    std::string token = line.substr(0, pos);
-    line.erase(0, pos + delimiter.length());
-    tokens.push_back(token);
-  } while (pos != std::string::npos);
+    delimiter_pos = str.find(delimiter, pos);
+    tokens.push_back(str.substr(pos, delimiter_pos - pos));
+    pos = delimiter_pos + delimiter.size();
+  } while (delimiter_pos != std::string::npos);
   return tokens;
 }
 
