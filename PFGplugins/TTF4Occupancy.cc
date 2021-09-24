@@ -166,7 +166,9 @@ void TTF4Occupancy::Process() {
   }
   writers::Gnuplot2DWriter writer(data);
   ofstream out("ttf4_occupancy.plt");
+  const auto xlabels = common::map<ECAL::RunTTData, std::string>(occupancy_tt,[](const ECAL::RunTTData&ttd) -> std::string {return to_string(ttd.run.runnumber);});
   writer.setZ(0, 1);
+  writer.setXlabels(xlabels);
   writer.setZTick(0.1);
   writer.setOutput("ttf4_occupancy.png");
   writer.setTitle("TTF4 Occupancy");
