@@ -1,11 +1,9 @@
 var searchData=
 [
-  ['data2d2channel_347',['Data2D2Channel',['../namespacedqmcpp_1_1ECAL.html#ac3fb18a1e1231aa345e7d5b68650cbb7',1,'dqmcpp::ECAL']]],
-  ['data2d2channeldata_348',['Data2D2ChannelData',['../namespacedqmcpp_1_1ECAL.html#a3a674b3d82620a22e78961886889c2ec',1,'dqmcpp::ECAL']]],
-  ['descrtiption_349',['descrtiption',['../classdqmcpp_1_1plugins_1_1Plugin.html#a1171e20a2b8e891aa9ec1401b002851b',1,'dqmcpp::plugins::Plugin']]],
-  ['det_350',['det',['../structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html#a79dab6f28335993ddb720ee9ed8b24de',1,'dqmcpp::ECALChannels::ChannelInfo']]],
-  ['det_5fiz_351',['det_iz',['../structdqmcpp_1_1ECALChannels_1_1ChannelInfo.html#a8d9238066f15f53b6b22f18684f19ad7',1,'dqmcpp::ECALChannels::ChannelInfo']]],
-  ['dirname_352',['dirname',['../namespacedqmcpp_1_1common.html#a32a587626a9dc7a9b6ef3a93f2588447',1,'dqmcpp::common']]],
-  ['dqmurl_353',['dqmurl',['../namespacedqmcpp_1_1net_1_1DQMURL.html#ae4f352a70101c60ff4ca6495efe4dd52',1,'dqmcpp::net::DQMURL']]],
-  ['draweesm_354',['drawEESM',['../namespacedqmcpp_1_1writers.html#af1d885de857dd08265db283f5cfbccee',1,'dqmcpp::writers']]]
+  ['channel2tt_335',['channel2TT',['../namespacedqmcpp_1_1ECAL.html#acbdeb997703b90d065decdda431328a2',1,'dqmcpp::ECAL']]],
+  ['channels_336',['channels',['../namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html#af2c63f2b23fb04dc03fc0fc0eac14e79',1,'dqmcpp::ECALChannels::ChannelsDB']]],
+  ['channelstatus_337',['ChannelStatus',['../classdqmcpp_1_1filters_1_1ChannelStatus.html#aec3acb3ec2fac324c7b1f57f084b835a',1,'dqmcpp::filters::ChannelStatus::ChannelStatus(const ECAL::Run &amp;run)'],['../classdqmcpp_1_1filters_1_1ChannelStatus.html#ab50de6cfd1b0f916db0c118549d5c668',1,'dqmcpp::filters::ChannelStatus::ChannelStatus(const int run, const std::string &amp;dataset)']]],
+  ['chunks_338',['chunks',['../namespacedqmcpp_1_1common.html#a4398a86716e96b19738d02fe13565821',1,'dqmcpp::common']]],
+  ['clusters_339',['clusters',['../namespacedqmcpp_1_1common.html#a8958f88825caa1fc86e79187b940466e',1,'dqmcpp::common::clusters(It begin, It end, const double maxdistance, BinaryOp distance_fn)'],['../namespacedqmcpp_1_1common.html#a023a9da2117a745aa1aed3239fa363c5',1,'dqmcpp::common::clusters(const std::vector&lt; T &gt; &amp;data, const double maxdistance, BinaryOp distance_fn)']]],
+  ['count_340',['count',['../namespacedqmcpp_1_1common.html#a2c628483f494e10854a5e318911c4493',1,'dqmcpp::common::count(It begin, It end, BinaryOp op)'],['../namespacedqmcpp_1_1common.html#a38a487744ded80aa07e81dff0f5d8e69',1,'dqmcpp::common::count(const Collection &amp;list, std::function&lt; bool(const typename Collection::value_type &amp;)&gt; op)'],['../namespacedqmcpp_1_1common.html#a97f910904718cead84077d67930ec9b8',1,'dqmcpp::common::count(const Collection &amp;list, const typename Collection::value_type &amp;element)']]]
 ];

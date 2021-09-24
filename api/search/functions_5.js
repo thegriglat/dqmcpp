@@ -1,16 +1,13 @@
 var searchData=
 [
-  ['gauss_369',['gauss',['../namespacedqmcpp_1_1common_1_1gnuplot.html#a293e76eb2384d5a666b0a18bc21c168c',1,'dqmcpp::common::gnuplot']]],
-  ['get_370',['get',['../classdqmcpp_1_1net_1_1URLHandler.html#a01573814e2ba867bcbf5f5ea52aac205',1,'dqmcpp::net::URLHandler::get()'],['../namespacedqmcpp_1_1readers_1_1JSONReader.html#a7010eed216af6d5e2b77154a85665ca0',1,'dqmcpp::readers::JSONReader::get()'],['../namespacedqmcpp_1_1net_1_1URLCache.html#a40910c8b435442844694ebc3afa4f2f5',1,'dqmcpp::net::URLCache::get(const std::vector&lt; std::string &gt; &amp;urls)'],['../namespacedqmcpp_1_1net_1_1URLCache.html#a994539220f0513f3c9c96f4d204202da',1,'dqmcpp::net::URLCache::get(const std::string &amp;url)'],['../namespacedqmcpp_1_1net_1_1DQMSession.html#afc88c0aaf5d814d673e295658288a3ff',1,'dqmcpp::net::DQMSession::get()'],['../classdqmcpp_1_1filters_1_1ChannelStatus.html#a5660027d0ca791496b85eb68557494da',1,'dqmcpp::filters::ChannelStatus::get()']]],
-  ['getchunksize_371',['getChunkSize',['../classdqmcpp_1_1writers_1_1Gnuplot.html#a416598f2a69f0ef3cd8dc03a736dad14',1,'dqmcpp::writers::Gnuplot']]],
-  ['getlogscale_372',['getLogscale',['../classdqmcpp_1_1writers_1_1Gnuplot2D.html#ac84a8f7f4d4352b95f3e5c6fdbbb0717',1,'dqmcpp::writers::Gnuplot2D']]],
-  ['getmaxvalue_373',['getMaxValue',['../classdqmcpp_1_1writers_1_1ProgressBar.html#a89bf93efa1b4f4a639a3241acf74d2ea',1,'dqmcpp::writers::ProgressBar']]],
-  ['getoutput_374',['getOutput',['../classdqmcpp_1_1writers_1_1Gnuplot.html#a144e7edd46f62ab9ac6eefeebcc1e85d',1,'dqmcpp::writers::Gnuplot']]],
-  ['getpalette_375',['getPalette',['../classdqmcpp_1_1writers_1_1Gnuplot2D.html#a3091d0900936fd4968ac9422ceb6d5a3',1,'dqmcpp::writers::Gnuplot2D']]],
-  ['getparameter_376',['getParameter',['../structdqmcpp_1_1common_1_1gnuplot_1_1Fit.html#ae272eb18306072424a05939bccf87108',1,'dqmcpp::common::gnuplot::Fit']]],
-  ['gettitle_377',['getTitle',['../classdqmcpp_1_1writers_1_1Gnuplot.html#a9c48fb46879fd5d416b6fc4a999017b1',1,'dqmcpp::writers::Gnuplot']]],
-  ['getx_378',['getX',['../classdqmcpp_1_1writers_1_1Gnuplot.html#a7c12da31cb58e87f6dc4558f35f805f0',1,'dqmcpp::writers::Gnuplot']]],
-  ['gety_379',['getY',['../classdqmcpp_1_1writers_1_1Gnuplot.html#a846010659b6feb56be557376526a959d',1,'dqmcpp::writers::Gnuplot']]],
-  ['getz_380',['getZ',['../classdqmcpp_1_1writers_1_1Gnuplot2D.html#ab20afdf8f47e2044638679386cb426ff',1,'dqmcpp::writers::Gnuplot2D']]],
-  ['getztick_381',['getZTick',['../classdqmcpp_1_1writers_1_1Gnuplot2D.html#aca56b6fd83c057bb05996a1deb8afca8',1,'dqmcpp::writers::Gnuplot2D']]]
+  ['fed_353',['fed',['../structdqmcpp_1_1ECAL_1_1TT.html#a2f8068408827a397bb34a3db4db5ba65',1,'dqmcpp::ECAL::TT::fed()'],['../structdqmcpp_1_1ECAL_1_1CCU.html#a6e9bc3966168b5eb2d5a643aeeff2900',1,'dqmcpp::ECAL::CCU::fed()'],['../classdqmcpp_1_1ECAL_1_1TTCCU.html#acf20f72f18f57356c8e5b64f7411bed8',1,'dqmcpp::ECAL::TTCCU::fed()']]],
+  ['file_5fexists_354',['file_exists',['../namespacedqmcpp_1_1common.html#aaccf7b39192cf3d35d93e17bb6819106',1,'dqmcpp::common']]],
+  ['filter_355',['filter',['../namespacedqmcpp_1_1common.html#a5affaedf7756725522be39a45680593a',1,'dqmcpp::common::filter()'],['../namespacedqmcpp_1_1filters.html#af439c69e98d0fd8a773f4de23290b7fa',1,'dqmcpp::filters::filter()']]],
+  ['filternot_356',['filterNot',['../namespacedqmcpp_1_1common.html#ab8cbd02db83d9f48691783b7b61bafcf',1,'dqmcpp::common']]],
+  ['filterzerott_357',['filterZeroTT',['../namespacedqmcpp_1_1ECAL.html#ac171899862a90daf497cb9515ba49e2e',1,'dqmcpp::ECAL']]],
+  ['find_358',['find',['../namespacedqmcpp_1_1ECALChannels.html#a1a50f0959e175ad85bbe7f4c8db8b539',1,'dqmcpp::ECALChannels::find()'],['../namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html#a5d121c5b1b4f1920edb55d60012ed38f',1,'dqmcpp::ECALChannels::ChannelsDB::find(const int ix_iphi, const int iy_ieta, const int iz)'],['../namespacedqmcpp_1_1ECALChannels_1_1ChannelsDB.html#af7fd7e2c890e9188a47f8e74e233cd82',1,'dqmcpp::ECALChannels::ChannelsDB::find(const ECAL::Channel &amp;c)']]],
+  ['finish_359',['finish',['../classdqmcpp_1_1writers_1_1ProgressBar.html#ababbecb4c3734f57ee27dccf283b61bb',1,'dqmcpp::writers::ProgressBar']]],
+  ['fit_360',['fit',['../namespacedqmcpp_1_1common_1_1gnuplot.html#afaf72b8b0fc7b945e4f708b61c671331',1,'dqmcpp::common::gnuplot::fit(const std::vector&lt; double &gt; &amp;x, const std::vector&lt; double &gt; &amp;y, const Fit &amp;fit)'],['../namespacedqmcpp_1_1common_1_1gnuplot.html#aee28be3bab2eb349ad1cd69748a0f61e',1,'dqmcpp::common::gnuplot::fit(const std::vector&lt; T &gt; &amp;list, BinaryOp op, const Fit &amp;initial_fit)']]],
+  ['for_5feach_361',['for_each',['../namespacedqmcpp_1_1common.html#a4d7d02b404cfee2aaec34a6bd0fec828',1,'dqmcpp::common']]],
+  ['foreach_5fmt_362',['foreach_mt',['../namespacedqmcpp_1_1common.html#aea16a2ed0a88989a90cc82631ed1895c',1,'dqmcpp::common']]]
 ];

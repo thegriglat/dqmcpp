@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['urlhandler_438',['URLHandler',['../classdqmcpp_1_1net_1_1URLHandler.html#abec70b0722c789e2896e8f2002df4ef8',1,'dqmcpp::net::URLHandler']]]
+  ['trim_431',['trim',['../namespacedqmcpp_1_1common.html#a521e4e6cdcad7106745d16e1f9679c1c',1,'dqmcpp::common']]]
 ];
