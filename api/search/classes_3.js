@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['fit_231',['Fit',['../structdqmcpp_1_1common_1_1gnuplot_1_1Fit.html',1,'dqmcpp::common::gnuplot']]],
-  ['fitparameter_232',['FitParameter',['../structdqmcpp_1_1common_1_1gnuplot_1_1FitParameter.html',1,'dqmcpp::common::gnuplot']]]
+  ['fit_237',['Fit',['../structdqmcpp_1_1common_1_1gnuplot_1_1Fit.html',1,'dqmcpp::common::gnuplot']]],
+  ['fitparameter_238',['FitParameter',['../structdqmcpp_1_1common_1_1gnuplot_1_1FitParameter.html',1,'dqmcpp::common::gnuplot']]]
 ];
