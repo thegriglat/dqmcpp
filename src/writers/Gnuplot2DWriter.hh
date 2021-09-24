@@ -8,6 +8,8 @@
 #include <map>
 #include <ostream>
 #include <vector>
+#include "../ECAL/ECAL.hh"
+#include "../common/common.hh"
 #include "Gnuplot2D.hh"
 
 namespace dqmcpp {
@@ -62,6 +64,40 @@ class Gnuplot2DWriter : public Gnuplot2D {
    * @param xlabels
    */
   void setXlabels(const std::vector<std::string>& xlabels);
+
+  /**
+   * @brief Explicitly set x labels vector from run's vector
+   *
+   * @param runlist ECAL::Run vector
+   */
+  void setXlabels(const std::vector<ECAL::Run>& runlist);
+
+  /**
+   * @brief Explicitly set x labels vector for any type
+   *
+   * @tparam T
+   * @tparam BinaryOp
+   * @param list input vector
+   * @param op convert function (T)->std::string
+   */
+  template <typename T, typename BinaryOp>
+  void setXlabels(const std::vector<T>& list, BinaryOp op) {
+    setXlabels(common::map<T, std::string>(list, op));
+  }
+
+  /**
+   * @brief Explicitly set x labels vector for ECAL::RunData<T> type
+   *
+   * @tparam T ECAL::RunData template parameter
+   * @param rdlist input vector
+   */
+  template <typename T>
+  void setXlabels(const std::vector<ECAL::RunData<T>>& rdlist) {
+    setXlabels(rdlist, [](const ECAL::RunData<T>& rd) {
+      return std::to_string(rd.run.runnumber);
+    });
+  }
+
   /**
    * @brief Add box in cell [xlabel, ylabel] with draw 'pattern'
    *
