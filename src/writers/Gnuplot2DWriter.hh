@@ -37,7 +37,7 @@ class Gnuplot2DWriter : public Gnuplot2D {
   };
 
  private:
-  const Data2D _data;
+  Data2D _data;
   std::vector<std::string> _xlabels;
   std::vector<std::string> _ylabels;
   std::function<bool(const std::string&, const std::string&)> sortfn =
@@ -120,6 +120,12 @@ class Gnuplot2DWriter : public Gnuplot2D {
     addBox(labels.first, labels.second, pattern);
   }
 
+  /**
+   * @brief Use Y axis data for items greater than xaxis_label;
+   *
+   * @param xaxis_label Lower bound for plotting data
+   */
+  void setYaxisSince(const std::string& xaxis_label);
   friend std::ostream& operator<<(std::ostream& os, const Gnuplot2DWriter& gw);
 };
 

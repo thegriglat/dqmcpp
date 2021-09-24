@@ -37,6 +37,26 @@ Gnuplot2DWriter::Gnuplot2DWriter(const Data2D& data) : _data(data) {
   std::sort(_ylabels.begin(), _ylabels.end());
 }
 
+void Gnuplot2DWriter::setYaxisSince(const std::string& xaxis_label) {
+  std::set<std::string> ykeep;
+  // which y label to keep
+  for (auto& pair : _data) {
+    if (pair.first.first > xaxis_label)
+      ykeep.insert(pair.first.second);
+  }
+  // get pairs
+  std::set<std::pair<std::string, std::string>> pair2delete;
+  for (auto& elem : _data) {
+    if (!common::has(ykeep, elem.first.second))
+      pair2delete.insert(elem.first);
+  }
+  for (auto& pair : pair2delete)
+    _data.erase(_data.find(pair));
+  _ylabels.clear();
+  std::copy(ykeep.begin(), ykeep.end(), back_inserter(_ylabels));
+  std::sort(_ylabels.begin(), _ylabels.end(), sortfn);
+}
+
 void Gnuplot2DWriter::setSortYFn(
     std::function<bool(const std::string&, const std::string&)> sort_function) {
   sortfn = sort_function;
