@@ -9,14 +9,15 @@
 
 #include <algorithm>
 
+#include "../common/lists.hh"
 #include "../common/math.hh"
 #include "ecalchannels_db.cppt"
 
-#define SORTBY(A, B, X, C)         \
-  if (A.X == B.X) {                \
-    C;                             \
-  } else {                         \
-    return ((A.X < B.X) ? 1 : -1); \
+#define SORTBY(A, B, X, C) \
+  if (A.X == B.X) {        \
+    C;                     \
+  } else {                 \
+    return (A.X < B.X);    \
   }
 
 namespace {
@@ -30,24 +31,17 @@ int sortCh(const dqmcpp::ECALChannels::ChannelInfo& a,
   ix
   iy
   */
-  SORTBY(
-      a, b, iz,
-      SORTBY(a, b, iphi,
-             SORTBY(a, b, ieta, SORTBY(a, b, ix, SORTBY(a, b, iy, return 0)))));
-}
-
-int sortChC(const void* a, const void* b) {
-  dqmcpp::ECALChannels::ChannelInfo* ac = (dqmcpp::ECALChannels::ChannelInfo*)a;
-  dqmcpp::ECALChannels::ChannelInfo* bc = (dqmcpp::ECALChannels::ChannelInfo*)b;
-  return sortCh(*ac, *bc);
+  SORTBY(a, b, iz,
+         SORTBY(a, b, iphi,
+                SORTBY(a, b, ieta,
+                       SORTBY(a, b, ix, SORTBY(a, b, iy, return false)))));
 }
 
 bool isInit = false;
 void Init() {
   if (isInit)
     return;
-  std::qsort((void*)(&(_channels[0])), _channels.size(), sizeof(_channels[0]),
-             sortChC);
+  std::sort(_channels.begin(), _channels.end(), sortCh);
   isInit = true;
 }
 }  // namespace
@@ -78,10 +72,9 @@ const ChannelInfo* find(const int ix_iphi, const int iy_ieta, const int iz) {
     key.ieta = -999;
     key.iz = iz;
   }
-  ChannelInfo* ptr = static_cast<ChannelInfo*>(
-      std::bsearch(&key, (void*)(&(_channels[0])), _channels.size(),
-                   sizeof(_channels[0]), sortChC));
-  if (ptr)
+  auto ptr =
+      common::binary_search(_channels.begin(), _channels.end(), key, sortCh);
+  if (ptr != _channels.end())
     return ptr;
   return nullptr;
 }
