@@ -204,6 +204,48 @@ void foreach_mt(It begin, It end, BinaryOp op) {
   };
 }
 
+/**
+ * @brief Templated binary search. Return iterator to value or end iterator
+ *
+ * @tparam It Iterator
+ * @tparam Op Compare function
+ * @param begin begin iterator
+ * @param end end iterator
+ * @param value value to find
+ * @param cmp compare function
+ * @return It
+ */
+template <typename It, typename T, typename Op>
+It binary_search(It begin, It end, const T& value, Op cmp) {
+  while (begin <= end) {
+    It mid = begin + std::distance(begin, end) / 2;
+    // == is !(a < b) && !(b < a)
+    if (!cmp(*mid, value) && !cmp(value, *mid))
+      return mid;
+    else if (cmp(*mid, value))
+      begin = mid + 1;
+    else
+      end = mid - 1;
+  }
+  return end;
+}
+
+/**
+ * @brief Templated binary search. Return iterator to value or end iterator.
+ * operator<() must be defined.
+ *
+ * @tparam It iterator
+ * @tparam T value type
+ * @param begin begin iterator
+ * @param end end iterator
+ * @param value  value to find
+ * @return It
+ */
+template <typename It, typename T>
+It binary_search(It begin, It end, const T& value) {
+  return binary_search(begin, end, value, std::less<T>{});
+}
+
 }  // namespace common
 }  // namespace dqmcpp
 
