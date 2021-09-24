@@ -96,39 +96,41 @@ $(function() {
 <div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1common.html#a946810112cf0f652474dcb7717137f6d">   30</a></span>&#160;std::string <a class="code" href="namespacedqmcpp_1_1common.html#a946810112cf0f652474dcb7717137f6d">join</a>(<span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>,</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                 <span class="keyword">const</span> std::string&amp; delimiter) {</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  std::string result;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.begin(); it != <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.end() - 1; ++it) {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    result.append(*it);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    result.append(delimiter);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  }</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  result.append(<a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.back());</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1common.html#a862f62f832338b2eff2fe48b1771440b">   41</a></span>&#160;std::string <a class="code" href="namespacedqmcpp_1_1common.html#a862f62f832338b2eff2fe48b1771440b">rtrim</a>(<span class="keyword">const</span> std::string&amp; str) {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keyword">auto</span> s = str;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  s.erase(std::find_if(s.rbegin(), s.rend(),</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                       [](<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> ch) { return !std::isspace(ch); })</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;              .base(),</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;          s.end());</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">return</span> s;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1common.html#a74659245058de45463ee68eae7f4599e">   50</a></span>&#160;std::string <a class="code" href="namespacedqmcpp_1_1common.html#a74659245058de45463ee68eae7f4599e">ltrim</a>(<span class="keyword">const</span> std::string&amp; str) {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="keyword">auto</span> s = str;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> ch) {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            return !std::isspace(ch);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;          }));</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">return</span> s;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}  <span class="comment">// namespace common</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="keywordflow">if</span> (<a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.size() == 0)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.begin(); it != <a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.end() - 1; ++it) {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    result.append(*it);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    result.append(delimiter);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  }</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  result.append(<a class="code" href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">list</a>.back());</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1common.html#a862f62f832338b2eff2fe48b1771440b">   43</a></span>&#160;std::string <a class="code" href="namespacedqmcpp_1_1common.html#a862f62f832338b2eff2fe48b1771440b">rtrim</a>(<span class="keyword">const</span> std::string&amp; str) {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="keyword">auto</span> s = str;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  s.erase(std::find_if(s.rbegin(), s.rend(),</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                       [](<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> ch) { return !std::isspace(ch); })</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;              .base(),</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;          s.end());</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">return</span> s;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="namespacedqmcpp_1_1common.html#a74659245058de45463ee68eae7f4599e">   52</a></span>&#160;std::string <a class="code" href="namespacedqmcpp_1_1common.html#a74659245058de45463ee68eae7f4599e">ltrim</a>(<span class="keyword">const</span> std::string&amp; str) {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keyword">auto</span> s = str;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> ch) {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            return !std::isspace(ch);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;          }));</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordflow">return</span> s;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}  <span class="comment">// namespace common</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}  <span class="comment">// namespace dqmcpp</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="anamespacedqmcpp_1_1common_html_a862f62f832338b2eff2fe48b1771440b"><div class="ttname"><a href="namespacedqmcpp_1_1common.html#a862f62f832338b2eff2fe48b1771440b">dqmcpp::common::rtrim</a></div><div class="ttdeci">std::string rtrim(const std::string &amp;str)</div><div class="ttdoc">Remove trailing whitespaces.</div><div class="ttdef"><b>Definition:</b> <a href="string_8cc_source.html#l00041">string.cc:41</a></div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1common_html_a862f62f832338b2eff2fe48b1771440b"><div class="ttname"><a href="namespacedqmcpp_1_1common.html#a862f62f832338b2eff2fe48b1771440b">dqmcpp::common::rtrim</a></div><div class="ttdeci">std::string rtrim(const std::string &amp;str)</div><div class="ttdoc">Remove trailing whitespaces.</div><div class="ttdef"><b>Definition:</b> <a href="string_8cc_source.html#l00043">string.cc:43</a></div></div>
 <div class="ttc" id="anamespacedqmcpp_1_1ECALChannels_html_a447860cb7aa0ce2286fd9ad7ae5082c8"><div class="ttname"><a href="namespacedqmcpp_1_1ECALChannels.html#a447860cb7aa0ce2286fd9ad7ae5082c8">dqmcpp::ECALChannels::list</a></div><div class="ttdeci">ChannelIteratorPair list()</div><div class="ttdoc">Returns begin() and end() iterator pair.</div><div class="ttdef"><b>Definition:</b> <a href="ECALChannels_8cc_source.html#l00017">ECALChannels.cc:17</a></div></div>
 <div class="ttc" id="anamespacedqmcpp_1_1common_html_a946810112cf0f652474dcb7717137f6d"><div class="ttname"><a href="namespacedqmcpp_1_1common.html#a946810112cf0f652474dcb7717137f6d">dqmcpp::common::join</a></div><div class="ttdeci">std::string join(const std::vector&lt; std::string &gt; &amp;list, const std::string &amp;delimiter)</div><div class="ttdoc">Join vector of strings with delimiter.</div><div class="ttdef"><b>Definition:</b> <a href="string_8cc_source.html#l00030">string.cc:30</a></div></div>
 <div class="ttc" id="anamespacedqmcpp_1_1common_html_a985ed2c82a029d3c14379eb2d3ef418f"><div class="ttname"><a href="namespacedqmcpp_1_1common.html#a985ed2c82a029d3c14379eb2d3ef418f">dqmcpp::common::split</a></div><div class="ttdeci">std::vector&lt; std::string &gt; split(const std::string &amp;str, const std::string &amp;delimiter)</div><div class="ttdoc">Split std::string by delimiter.</div><div class="ttdef"><b>Definition:</b> <a href="string_8cc_source.html#l00014">string.cc:14</a></div></div>
-<div class="ttc" id="anamespacedqmcpp_1_1common_html_a74659245058de45463ee68eae7f4599e"><div class="ttname"><a href="namespacedqmcpp_1_1common.html#a74659245058de45463ee68eae7f4599e">dqmcpp::common::ltrim</a></div><div class="ttdeci">std::string ltrim(const std::string &amp;str)</div><div class="ttdoc">Remove leading whitespaces.</div><div class="ttdef"><b>Definition:</b> <a href="string_8cc_source.html#l00050">string.cc:50</a></div></div>
+<div class="ttc" id="anamespacedqmcpp_1_1common_html_a74659245058de45463ee68eae7f4599e"><div class="ttname"><a href="namespacedqmcpp_1_1common.html#a74659245058de45463ee68eae7f4599e">dqmcpp::common::ltrim</a></div><div class="ttdeci">std::string ltrim(const std::string &amp;str)</div><div class="ttdoc">Remove leading whitespaces.</div><div class="ttdef"><b>Definition:</b> <a href="string_8cc_source.html#l00052">string.cc:52</a></div></div>
 <div class="ttc" id="astring_8hh_html"><div class="ttname"><a href="string_8hh.html">string.hh</a></div><div class="ttdoc">String functions.</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
