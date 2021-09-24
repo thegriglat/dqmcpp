@@ -40,7 +40,8 @@ class Gnuplot2DWriter : public Gnuplot2D {
   const Data2D* _data = nullptr;
   std::vector<std::string> _xlabels;
   std::vector<std::string> _ylabels;
-  std::function<bool(const std::string&, const std::string&)> sortfn = nullptr;
+  std::function<bool(const std::string&, const std::string&)> sortfn =
+      std::less<std::string>{};
   std::vector<Rectangle> boxes;
   inline unsigned int nrows() const { return _xlabels.size(); }
   inline unsigned int ncolumns() const { return _ylabels.size(); }
