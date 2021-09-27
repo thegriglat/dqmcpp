@@ -26,6 +26,7 @@ namespace plugins {
 class Plugin {
  protected:
   dqmcpp::readers::RunListReader* runListReader = nullptr;
+  std::map<std::string, std::string> cliParameters;
 
  public:
   /**
@@ -46,6 +47,16 @@ class Plugin {
    */
   inline void setRunListReader(dqmcpp::readers::RunListReader* runlistreader) {
     runListReader = runlistreader;
+  }
+
+  /**
+   * @brief Set the Cli Parameters std::map
+   * 
+   * @param cliopts 
+   */
+  inline void setCliParameters(
+      const std::map<std::string, std::string>& cliopts) {
+    cliParameters = cliopts;
   }
 
   /**

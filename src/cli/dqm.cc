@@ -23,16 +23,21 @@ int main(int argc, char** argv) {
   // === CLI PARSER ===
   cxxopts::Options cliopts("dqm", "A PFG DQM analysis tool");
 
-  cliopts.add_options()("h,help", "Print usage")(
-      "p,plugin", "List of plugins to run | all",
-      cxxopts::value<
-          std::vector<std::string>>())("r,runfile",
-                                       "Runlist file | '-' for stdin",
-                                       cxxopts::value<std::string>());
+  // CLI optionts
+  auto opts = cliopts.add_options();
+  opts("h,help", "Print usage");
+  opts("p,plugin", "List of plugins to run | all",
+       cxxopts::value<std::vector<std::string>>());
+  opts("r,runfile", "Runlist file | '-' for stdin",
+       cxxopts::value<std::string>());
+  opts("s,startrun", "Start analysis from this run",
+       cxxopts::value<std::string>());
+
+  // CLI options END
   cliopts.parse_positional({"runfile", "plugin"});
   cliopts.positional_help("runlist plugins|all");
   cliopts.show_positional_help();
-
+  cliopts.allow_unrecognised_options();
   // helper function
   auto showhelp = [&cliopts, &factory]() {
     cout << cliopts.help() << endl;
@@ -69,6 +74,10 @@ int main(int argc, char** argv) {
 
   if (common::has(plugin_names, std::string("all")))
     plugin_names = factory.list();
+  std::map<std::string, std::string> clioptmap;
+  for (auto& e : cli_result.arguments()) {
+    clioptmap[e.key()] = e.value();
+  }
   for (auto plugin_name : plugin_names) {
     std::cout << "##### RUN " << plugin_name << " #####" << std::endl;
     auto plugin = factory.GetPlugin(plugin_name);
@@ -77,6 +86,7 @@ int main(int argc, char** argv) {
     }
     readers::RunListReader rlr(infile);
     plugin->setRunListReader(&rlr);
+    plugin->setCliParameters(clioptmap);
     plugin->Process();
     std::cout << "##### END " << plugin_name << " #####" << std::endl;
   }
