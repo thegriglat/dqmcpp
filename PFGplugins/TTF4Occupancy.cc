@@ -168,6 +168,9 @@ void TTF4Occupancy::Process() {
   ofstream out("ttf4_occupancy.plt");
   writer.setZ(0, 1);
   writer.setXlabels(occupancy_tt);
+  if (cliParameters.find("startrun") != cliParameters.end()) {
+    writer.setYaxisSince(cliParameters.at("startrun"));
+  }
   writer.setZTick(0.1);
   writer.setOutput("ttf4_occupancy.png");
   writer.setTitle("TTF4 Occupancy");
