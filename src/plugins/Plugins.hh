@@ -51,8 +51,8 @@ class Plugin {
 
   /**
    * @brief Set the Cli Parameters std::map
-   * 
-   * @param cliopts 
+   *
+   * @param cliopts
    */
   inline void setCliParameters(
       const std::map<std::string, std::string>& cliopts) {
