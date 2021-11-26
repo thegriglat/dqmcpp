@@ -4,10 +4,6 @@
 	   "images":"TTid.png"
 	},
 	{
-	   "group":"RecHit",
-	   "images":"*_rechit_*.png"
-	},
-	{
 	   "group":"Timing",
 	   "images":"Timing_*.png"
 	},
@@ -38,14 +34,6 @@
 	{
 	   "group":"LowInterestTT",
 	   "images":"LowInterestTT.png"
-	},
-	{
-	   "group":"DigiOccupancy",
-	   "images":"*_digi_*.png"
-	},
-	{
-	   "group":"RMSMap",
-	   "images":"*_rms_*.png"
 	},
 	{
 	   "group":"RMSChannels",
