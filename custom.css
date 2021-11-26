@@ -41,7 +41,3 @@ figcaption {
     display: none;
 }
 
-body > p {
-    color:red;
-    text-align: right;
-}
