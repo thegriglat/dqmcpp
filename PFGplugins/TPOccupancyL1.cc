@@ -161,13 +161,14 @@ void TPOccupancyL1::Process() {
   writer.setOutput("TPOccupancyL1.png");
   writer.setTitle("TPOccupancyL1");
   writer.setZ(0, _maxvalue);
+  writer.setZTick(0.2);
   writer.setPalette({{0.0, colors::ColorSets::black},
                      {0.0, colors::ColorSets::blue},
-                     {0.5 / _maxvalue, colors::ColorSets::white},
-                     {2.0 / _maxvalue, colors::ColorSets::white},
-                     {2.0 / _maxvalue, colors::ColorSets::yellow},
-                     {4.0 / _maxvalue, colors::ColorSets::orange},
-                     {1.0, colors::ColorSets::red}});
+                     {_maxvalue*0.1, colors::ColorSets::white},
+                     {_maxvalue*0.1, colors::ColorSets::white},
+                     {_maxvalue*0.4, colors::ColorSets::yellow},
+                     {_maxvalue*0.6, colors::ColorSets::orange},
+                     {_maxvalue, colors::ColorSets::red}});
   writer.setSortYFn(sortYlabel);
   ofstream out("TPOccupancyL1.plt");
   out << writer;
