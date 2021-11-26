@@ -23,6 +23,6 @@ for d in data:
 	for imgfn in l:
 		imgfn = os.path.basename(imgfn)
 		name = imgfn.split(".")[:-1][0]
-		print ("![{0}]({1})\n".format(name, imgfn))
+		print ("[![{name}]({src})]({src})\n".format(name=name, src=imgfn))
 
 	print (" [ Up ](#)\n")
