@@ -15,7 +15,7 @@ print ("# Links\n")
 for h in heads:
 	print (" * [{0}]({1})\n ".format(h, "#" + h.lower()))
 
-print ()
+print (" * [ Up ](#)\n")
 
 for d in data:
 	print ("# {0}".format(d["group"]))
@@ -25,4 +25,3 @@ for d in data:
 		name = imgfn.split(".")[:-1][0]
 		print ("[![{name}]({src})]({src})\n".format(name=name, src=imgfn))
 
-	print (" [ Up ](#)\n")
