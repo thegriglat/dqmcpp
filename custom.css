@@ -1,0 +1,43 @@
+body {
+    padding-left: 1em;
+    padding-right: 1em;
+    align-content: middle;
+    text-align: center;
+}
+
+h1 {
+    margin-left: 20%;
+}
+
+img {
+    width:50%;
+    margin-left: 20%;
+}
+
+#links, #links ~ ul {
+    text-align: left;
+    position: fixed;
+    left: 0px !important;
+    margin-left: 1em;
+    top:  0px;
+    
+}
+
+#links ~ ul {
+    top: 50px;
+    list-style-type: none;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+figcaption {
+    display: none;
+}
+
