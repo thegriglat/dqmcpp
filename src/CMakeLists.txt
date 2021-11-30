@@ -4,6 +4,10 @@ project (DQMCpp)
 find_package(Threads REQUIRED)
 
 # 
+if (NOPROGRESS)
+message(STATUS "Progress bar disabled ")
+add_definitions(-DNOPROGRESS)
+endif()
 add_definitions("-Wall -Wextra")
 set(default_build_type "Release")
  
