@@ -18,8 +18,9 @@ for h in heads:
 print (" * [ Up ](#)\n")
 
 for d in data:
-	print ("# {0}".format(d["group"]))
 	l = sorted(glob(os.path.join(os.path.dirname(sys.argv[2]), d["images"])))
+	if l:
+		print ("# {0}".format(d["group"]))
 	for imgfn in l:
 		imgfn = os.path.basename(imgfn)
 		name = imgfn.split(".")[:-1][0]
