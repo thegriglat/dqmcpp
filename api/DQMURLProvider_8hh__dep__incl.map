@@ -2,6 +2,6 @@
 <area shape="rect" id="node1" title="Provide simple functions for DQM urls." alt="" coords="229,5,407,32"/>
 <area shape="rect" id="node2" href="$findDataset_8cc.html" title="Find and output Offline DQM dataset for given list of runs." alt="" coords="5,80,140,107"/>
 <area shape="rect" id="node3" href="$onlineRuns_8cc.html" title="Get run numbers from online DQM." alt="" coords="165,80,295,107"/>
-<area shape="rect" id="node4" href="$ChannelStatus_8cc.html" title="Channel status filter." alt="" coords="320,80,495,107"/>
-<area shape="rect" id="node5" href="$DQMURLProvider_8cc.html" title="DQMURLProvider source." alt="" coords="519,80,695,107"/>
+<area shape="rect" id="node4" href="$ChannelStatus_8cc.html" title="Channel status filter." alt="" coords="319,80,495,107"/>
+<area shape="rect" id="node5" href="$DQMURLProvider_8cc.html" title="DQMURLProvider source." alt="" coords="520,80,697,107"/>
 </map>

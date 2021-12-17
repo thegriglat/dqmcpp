@@ -1,5 +1,5 @@
 <map id="readers/RunListReader.hh" name="readers/RunListReader.hh">
-<area shape="rect" id="node1" title="Parsing input file." alt="" coords="29,5,217,32"/>
+<area shape="rect" id="node1" title="Parsing input file." alt="" coords="28,5,217,32"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,80,85,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="73,155,135,181"/>
 <area shape="rect" id="node4" href="$ECAL_8hh.html" title="ECAL data structure namespace." alt="" coords="198,80,322,107"/>

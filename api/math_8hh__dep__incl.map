@@ -1,16 +1,16 @@
 <map id="common/math.hh" name="common/math.hh">
-<area shape="rect" id="node1" title="Math templated functions." alt="" coords="906,5,1043,32"/>
-<area shape="rect" id="node2" href="$common_8hh.html" title="Common functions, aggregation header for all." alt="" coords="613,87,773,114"/>
-<area shape="rect" id="node12" href="$clusters_8hh.html" title="Clusterising function." alt="" coords="797,87,952,114"/>
-<area shape="rect" id="node13" href="$ecalchannels__db_8cc.html" title=" " alt="" coords="977,80,1173,121"/>
-<area shape="rect" id="node14" href="$JSONReader_8cc.html" title="JSONReader code." alt="" coords="1197,87,1368,114"/>
+<area shape="rect" id="node1" title="Math templated functions." alt="" coords="907,5,1045,32"/>
+<area shape="rect" id="node2" href="$common_8hh.html" title="Common functions, aggregation header for all." alt="" coords="615,87,775,114"/>
+<area shape="rect" id="node12" href="$clusters_8hh.html" title="Clusterising function." alt="" coords="799,87,953,114"/>
+<area shape="rect" id="node13" href="$ecalchannels__db_8cc.html" title=" " alt="" coords="978,80,1174,121"/>
+<area shape="rect" id="node14" href="$JSONReader_8cc.html" title="JSONReader code." alt="" coords="1199,87,1369,114"/>
 <area shape="rect" id="node3" href="$dqm_8cc.html" title="Main file for running plugins." alt="" coords="5,169,93,196"/>
 <area shape="rect" id="node4" href="$gnuplot_8cc.html" title="Gnuplot.hh implementation." alt="" coords="118,169,269,196"/>
 <area shape="rect" id="node5" href="$ECAL_8cc.html" title="Various functions to convert ECAL data." alt="" coords="293,169,403,196"/>
-<area shape="rect" id="node6" href="$DQMURLProvider_8cc.html" title="DQMURLProvider source." alt="" coords="428,169,604,196"/>
-<area shape="rect" id="node7" href="$URLCache_8cc.html" title="URLCache implementation." alt="" coords="628,169,759,196"/>
-<area shape="rect" id="node8" href="$RunListReader_8cc.html" title="RunListReader code." alt="" coords="783,169,969,196"/>
-<area shape="rect" id="node9" href="$Gnuplot1DWriter_8cc.html" title=" " alt="" coords="993,169,1191,196"/>
-<area shape="rect" id="node10" href="$Gnuplot2DWriter_8hh.html" title="Output 2D histograms." alt="" coords="1215,169,1414,196"/>
-<area shape="rect" id="node11" href="$Gnuplot2DWriter_8cc.html" title="Gnuplot2DWriter implementation." alt="" coords="1284,244,1481,271"/>
+<area shape="rect" id="node6" href="$DQMURLProvider_8cc.html" title="DQMURLProvider source." alt="" coords="427,169,605,196"/>
+<area shape="rect" id="node7" href="$URLCache_8cc.html" title="URLCache implementation." alt="" coords="629,169,760,196"/>
+<area shape="rect" id="node8" href="$RunListReader_8cc.html" title="RunListReader code." alt="" coords="784,169,971,196"/>
+<area shape="rect" id="node9" href="$Gnuplot1DWriter_8cc.html" title=" " alt="" coords="995,169,1194,196"/>
+<area shape="rect" id="node10" href="$Gnuplot2DWriter_8hh.html" title="Output 2D histograms." alt="" coords="1217,169,1417,196"/>
+<area shape="rect" id="node11" href="$Gnuplot2DWriter_8cc.html" title="Gnuplot2DWriter implementation." alt="" coords="1286,244,1485,271"/>
 </map>
