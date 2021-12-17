@@ -11,7 +11,6 @@
 
 #include "../common/common.hh"
 #include "../plugins/Plugins.hh"
-#include "../readers/JSONReader.hh"
 #include "../readers/RunListReader.hh"
 
 using namespace std;
@@ -45,7 +44,7 @@ int main(int argc, char** argv) {
     for (auto& name : factory.list()) {
       std::cout << std::endl << "=== " << name << " ===" << std::endl;
       const auto plugin = factory.GetPlugin(name);
-      std::cout << plugin->descrtiption() << std::endl;
+      std::cout << plugin->description() << std::endl;
     }
   };
 

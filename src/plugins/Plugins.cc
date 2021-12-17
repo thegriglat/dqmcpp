@@ -12,7 +12,7 @@ using namespace std;
 namespace dqmcpp {
 namespace plugins {
 
-std::string Plugin::descrtiption() const {
+std::string Plugin::description() const {
   return "Empty description";
 }
 

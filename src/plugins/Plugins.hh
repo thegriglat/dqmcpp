@@ -64,7 +64,7 @@ class Plugin {
    *
    * @return std::string
    */
-  virtual std::string descrtiption() const;
+  virtual std::string description() const;
 };
 
 /*
