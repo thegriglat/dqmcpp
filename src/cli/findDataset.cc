@@ -13,8 +13,26 @@ using namespace std;
 using namespace dqmcpp;
 
 void help(const string& progname) {
-  cout << "Usage: <runs> | " << progname << " <Dataset mask>" << endl
+  cout << "Usage: " << progname << " run|- DatasetMask" << endl
        << "  Dataset mask supports regexp." << endl;
+}
+
+void print_rund(const int run, const std::string mask) {
+  const auto runs = net::DQMURL::runs(run, mask);
+  std::set<int> distinct_runs;
+  for (auto& r : runs)
+    distinct_runs.insert(r.runnumber);
+  for (const auto& runnumber : distinct_runs) {
+    int i = 0;
+    for (const auto& rund : runs) {
+      if (rund.runnumber == runnumber) {
+        if (i > 0)
+          cout << "# ";
+        cout << rund.runnumber << " " << rund.dataset << endl;
+        ++i;
+      }
+    }
+  }
 }
 
 int main(int argc, char** argv) {
@@ -23,33 +41,29 @@ int main(int argc, char** argv) {
   for (int i = 0; i < argc; ++i) {
     args.push_back(argv[i]);
   }
-  if (argc == 2 && (args.at(1) == "-h" || args.at(1) == "--help")) {
+  if (argc <= 2) {
     help(args.at(0));
     return 0;
   }
-  const string mask = (argc == 1) ? ".*" : args.at(1);
-  string line;
-  while (std::getline(cin, line)) {
-    int run = std::atoi(line.c_str());
-    if (run == 0) {
-      cerr << "Bad run '" << line << "'" << endl;
-      continue;
-    }
-    auto runs = net::DQMURL::runs(run, mask);
-    std::set<int> distinct_runs;
-    for (auto& r : runs)
-      distinct_runs.insert(r.runnumber);
-    for (const auto& runnumber : distinct_runs) {
-      int i = 0;
-      for (const auto& rund : runs) {
-        if (rund.runnumber == runnumber) {
-          if (i > 0)
-            cout << "# ";
-          cout << rund.runnumber << " " << rund.dataset << endl;
-          ++i;
-        }
+  const string runstr = args.at(1);
+  const string mask = args.at(2);
+  if (runstr == "-") {
+    string line;
+    while (std::getline(cin, line)) {
+      const int run = std::atoi(line.c_str());
+      if (run == 0) {
+        cerr << "Bad run '" << line << "'" << endl;
+        continue;
       }
+      print_rund(run, mask);
     }
+  } else {
+    const int run = std::atoi(runstr.c_str());
+    if (run == 0) {
+      cerr << "Bad run '" << runstr << "'" << endl;
+      return 1;
+    }
+    print_rund(run, mask);
   }
   return 0;
 }
