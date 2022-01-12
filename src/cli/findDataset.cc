@@ -17,7 +17,7 @@ void help(const string& progname) {
        << "  Dataset mask supports regexp." << endl;
 }
 
-void print_rund(const int run, const std::string mask) {
+void print_rund(const int run, const std::string& mask) {
   const auto runs = net::DQMURL::runs(run, mask);
   std::set<int> distinct_runs;
   for (auto& r : runs)
